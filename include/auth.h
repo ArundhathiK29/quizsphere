@@ -29,12 +29,40 @@ enum class AuthStatus {
 };
 
 struct AuthResult {
-    AuthStatus status;
+    AuthStatus status = AuthStatus::InvalidInput;
     int userId = 0;
     UserRole role = UserRole::Student;
 };
+
+class IUserRepository;
+
 bool isValidUsername(const std::string& username);
 bool isValidRole(UserRole role);
+
+AuthStatus validateRegistration(
+    const std::string& username,
+    UserRole role
+);
+
+AuthResult registerUser(
+    IUserRepository& repository,
+    const std::string& username,
+    const std::string& password,
+    UserRole role
+);
+
+AuthResult loginUser(
+    IUserRepository& repository,
+    const std::string& username,
+    const std::string& password
+);
+
+AuthStatus setAccountEnabled(
+    IUserRepository& repository,
+    int userId,
+    bool enabled
+);
+
 } // namespace QuizSphere
 
 #endif
