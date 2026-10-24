@@ -1,94 +1,199 @@
-
+﻿#include "auth.h"
 #include "sqlite_user_repository.h"
 
-#include <cassert>
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
-int main() {
-    using namespace QuizSphere;
+using namespace QuizSphere;
 
+namespace {
+
+void require(bool condition, const std::string& message) {
+    if (!condition) {
+        throw std::runtime_error("TEST FAILED: " + message);
+    }
+}
+
+} // namespace
+
+int main() {
     const std::string databasePath =
         "quizsphere_integration_test.db";
 
     std::remove(databasePath.c_str());
 
-    {
-        SQLiteUserRepository repository(databasePath);
+    try {
+        int registeredUserId = 0;
 
-        // 1. Database opens and schema initializes.
-        assert(repository.isOpen());
+        {
+            SQLiteUserRepository repository(databasePath);
 
-        // 2. New username does not already exist.
-        bool exists = true;
-        assert(repository.usernameExists("aruu_test", exists));
-        assert(!exists);
+            require(repository.isOpen(),
+                    "Database should open and initialize");
 
-        // 3. Insert a user.
-        User user;
-        user.username = "aruu_test";
-        user.passwordHash = "test_hash_not_a_real_password";
-        user.role = UserRole::Student;
-        user.enabled = true;
+            // Test the repository's basic storage operations.
+            bool exists = false;
+            require(repository.usernameExists("aruu_test", exists),
+                    "Username lookup should succeed");
+            require(!exists, "New username should not exist");
 
-        int newUserId = 0;
-        assert(repository.createUser(user, newUserId));
-        assert(newUserId > 0);
+            User directUser;
+            directUser.username = "aruu_test";
+            directUser.passwordHash = "test_hash_not_a_real_password";
+            directUser.role = UserRole::Student;
+            directUser.enabled = true;
 
-        // 4. Username now exists.
-        assert(repository.usernameExists("aruu_test", exists));
-        assert(exists);
+            int directUserId = 0;
+            require(repository.createUser(directUser, directUserId),
+                    "Repository should insert a user");
+            require(directUserId > 0,
+                    "Inserted user should have an ID");
 
-        // 5. Duplicate username is rejected.
-        int duplicateId = 0;
-        assert(!repository.createUser(user, duplicateId));
+            int duplicateId = 0;
+            require(!repository.createUser(directUser, duplicateId),
+                    "Duplicate username must be rejected");
 
-        // 6. Retrieve the saved user.
-        User retrieved;
-        bool found = false;
+            User retrieved;
+            bool found = false;
 
-        assert(repository.findUserByUsername(
-            "aruu_test", retrieved, found
-        ));
+            require(repository.findUserByUsername(
+                        "aruu_test", retrieved, found),
+                    "User lookup should execute successfully");
+            require(found, "Inserted user should be found");
+            require(retrieved.id == directUserId,
+                    "Retrieved ID should match");
+            require(retrieved.passwordHash == directUser.passwordHash,
+                    "Stored hash field should match");
+            require(retrieved.role == UserRole::Student,
+                    "Stored role should match");
 
-        assert(found);
-        assert(retrieved.id == newUserId);
-        assert(retrieved.username == "aruu_test");
-        assert(retrieved.passwordHash == user.passwordHash);
-        assert(retrieved.role == UserRole::Student);
-        assert(retrieved.enabled);
+            require(repository.updateUserStatus(directUserId, false),
+                    "Account should be disabled");
+            require(repository.updateUserStatus(directUserId, true),
+                    "Account should be re-enabled");
 
-        // 7. Disable the account.
-        assert(repository.updateUserStatus(newUserId, false));
+            // Test registration through the real SQLite repository.
+            AuthResult registration = registerUser(
+                repository,
+                "aruu_integration",
+                "CorrectHorse9!",
+                UserRole::Student
+            );
 
-        User disabledUser;
-        found = false;
+            require(registration.status == AuthStatus::Success,
+                    "Valid registration should succeed");
+            require(registration.userId > 0,
+                    "Registration should return a valid user ID");
 
-        assert(repository.findUserByUsername(
-            "aruu_test", disabledUser, found
-        ));
+            registeredUserId = registration.userId;
 
-        assert(found);
-        assert(!disabledUser.enabled);
+            User registeredUser;
+            found = false;
 
-        // 8. Re-enable the account.
-        assert(repository.updateUserStatus(newUserId, true));
+            require(repository.findUserByUsername(
+                        "aruu_integration", registeredUser, found),
+                    "Registered user lookup should succeed");
+            require(found, "Registered user should be saved in SQLite");
+            require(registeredUser.id == registeredUserId,
+                    "Saved user ID should match registration result");
+            require(registeredUser.passwordHash != "CorrectHorse9!",
+                    "Plaintext password must not be stored");
+            require(
+                registeredUser.passwordHash.find("pbkdf2-sha256$") == 0,
+                "Stored password should use the expected hash format"
+            );
+            require(registeredUser.role == UserRole::Student,
+                    "Registered role should be preserved");
 
-        User enabledUser;
-        found = false;
+            // Duplicate registration must be rejected.
+            AuthResult duplicateRegistration = registerUser(
+                repository,
+                "aruu_integration",
+                "AnotherPass9!",
+                UserRole::Student
+            );
 
-        assert(repository.findUserByUsername(
-            "aruu_test", enabledUser, found
-        ));
+            require(
+                duplicateRegistration.status ==
+                    AuthStatus::UsernameAlreadyExists,
+                "Duplicate registration should be rejected"
+            );
 
-        assert(found);
-        assert(enabledUser.enabled);
+            // Invalid usernames and unsupported roles must be rejected.
+            require(
+                registerUser(
+                    repository, "ab", "CorrectHorse9!",
+                    UserRole::Student
+                ).status == AuthStatus::InvalidInput,
+                "Too-short username should be rejected"
+            );
+
+            require(
+                registerUser(
+                    repository, "invalid_role", "CorrectHorse9!",
+                    static_cast<UserRole>(99)
+                ).status == AuthStatus::InvalidInput,
+                "Unsupported role should be rejected"
+            );
+
+            // The authentication service must verify the actual stored hash.
+            AuthResult successfulLogin = loginUser(
+                repository, "aruu_integration", "CorrectHorse9!"
+            );
+
+            require(successfulLogin.status == AuthStatus::Success,
+                    "Correct password should authenticate");
+            require(successfulLogin.userId == registeredUserId,
+                    "Login should return the registered user ID");
+
+            require(
+                loginUser(
+                    repository, "aruu_integration", "WrongPassword9!"
+                ).status == AuthStatus::InvalidCredentials,
+                "Wrong password should be rejected"
+            );
+
+            require(
+                loginUser(
+                    repository, "missing_user", "CorrectHorse9!"
+                ).status == AuthStatus::InvalidCredentials,
+                "Unknown username should be rejected"
+            );
+        }
+
+        // Reopen the database and verify that the registration persisted.
+        {
+            SQLiteUserRepository reopenedRepository(databasePath);
+
+            require(reopenedRepository.isOpen(),
+                    "Existing database should reopen");
+
+            User persistedUser;
+            bool found = false;
+
+            require(reopenedRepository.findUserByUsername(
+                        "aruu_integration", persistedUser, found),
+                    "Persisted user lookup should succeed");
+            require(found,
+                    "Registered user should survive database reopening");
+            require(persistedUser.id == registeredUserId,
+                    "Persisted user ID should remain unchanged");
+            require(persistedUser.passwordHash != "CorrectHorse9!",
+                    "Persisted password must not be plaintext");
+        }
+
+        std::remove(databasePath.c_str());
+
+        std::cout
+            << "All SQLite repository and registration integration tests passed.\n";
+
+        return 0;
+    } catch (const std::exception& error) {
+        std::remove(databasePath.c_str());
+        std::cerr << error.what() << '\n';
+        return 1;
     }
-
-    // Repository is closed before the test database is removed.
-    std::remove(databasePath.c_str());
-
-    std::cout << "All SQLite repository integration tests passed.\n";
-    return 0;
 }
