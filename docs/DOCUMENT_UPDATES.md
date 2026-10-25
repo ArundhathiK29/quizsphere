@@ -16,7 +16,7 @@ Suggested versions: **SRS 1.0.2, SAD 1.2, STP 1.1**, all dated the same day.
 | FR-023 | The system shall let an Administrator create a user of any role, change a user's role, and remove a user. An Administrator shall not be able to disable, demote or remove their own account. | Medium | Functional / Authorization test |
 | FR-024 | On first run, when no Administrator exists, the system shall let the operator create the first Administrator. Administrator accounts shall otherwise only be created by an existing Administrator (never by self-registration, FR-001). | High | Functional / Negative test |
 | FR-025 | Usernames shall be 3-32 characters (letters, digits, `_`, `-`, `.`) and unique ignoring case; passwords shall be 8-1024 characters. | High | Unit / Negative test |
-| FR-026 | After 5 consecutive failed logins an account shall be locked for 5 minutes (LOCKED login error); a successful login resets the counter. | Medium | Unit / Negative test |
+| FR-026 | After 5 consecutive failed logins an account shall be locked for 5 minutes (ACCOUNT_LOCKED login error); a successful login resets the counter. | Medium | Unit / Negative test |
 
 **SEC-006 (append):** "Text entered in the username field is only logged if it is a well-formed username; otherwise it is logged as `<invalid>`."
 
