@@ -315,7 +315,9 @@ TEST_F(QuestionBankFixture, UT_QB_09_ImportStructureRules_EmptyWrongHeaderWrongC
 }
 
 TEST_F(QuestionBankFixture, ST_SEC_05_BankUnchangedAfterRejectedImportAndPersistFailureKeepsOriginal) {
-#if !defined(_WIN32)
+#if defined(_WIN32)
+    GTEST_SKIP() << "Read-only directories do not block file writes on Windows, so this scenario cannot be reproduced.";
+#else
     if (geteuid() == 0) {
         GTEST_SKIP() << "Permission-denial scenario cannot be reproduced as root (e.g. inside Docker as root).";
     }

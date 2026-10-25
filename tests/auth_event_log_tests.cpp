@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <filesystem>
@@ -26,6 +27,8 @@ std::string readAll(const std::string& path) {
         content.append(buffer, n);
     }
     std::fclose(file);
+    // Text-mode files get "\r\n" on Windows; compare with "\n" everywhere.
+    content.erase(std::remove(content.begin(), content.end(), '\r'), content.end());
     return content;
 }
 

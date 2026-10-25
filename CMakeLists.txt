@@ -29,6 +29,12 @@ function(quizsphere_enable_coverage target_name)
 endfunction()
 
 find_package(SQLite3 REQUIRED)
+# CMake 3.14-3.x calls the target SQLite::SQLite3; newer CMake prefers SQLite3::SQLite3.
+if(TARGET SQLite3::SQLite3)
+    set(QUIZSPHERE_SQLITE_TARGET SQLite3::SQLite3)
+else()
+    set(QUIZSPHERE_SQLITE_TARGET SQLite::SQLite3)
+endif()
 find_package(OpenSSL REQUIRED)
 
 add_library(quizsphere_core
@@ -44,7 +50,7 @@ add_library(quizsphere_core
 )
 
 target_include_directories(quizsphere_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(quizsphere_core PUBLIC SQLite::SQLite3 OpenSSL::Crypto)
+target_link_libraries(quizsphere_core PUBLIC ${QUIZSPHERE_SQLITE_TARGET} OpenSSL::Crypto)
 quizsphere_enable_warnings(quizsphere_core)
 quizsphere_enable_coverage(quizsphere_core)
 
