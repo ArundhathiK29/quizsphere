@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Build and test as a normal user: permission-based tests behave differently as root.
-RUN useradd --create-home builder
+RUN useradd --create-home builder \
+    && mkdir /workspace \
+    && chown builder:builder /workspace
 WORKDIR /workspace
 COPY --chown=builder:builder . .
 USER builder
