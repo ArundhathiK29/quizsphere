@@ -47,6 +47,10 @@ add_library(quizsphere_core
     src/auth.cpp
     src/auth_event_log.cpp
     src/sqlite_user_repository.cpp
+    src/data_access_layer.cpp
+    src/grading_module.cpp
+    src/quiz_engine.cpp
+    src/analytics_module.cpp
 )
 
 target_include_directories(quizsphere_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -88,6 +92,7 @@ if(QUIZSPHERE_BUILD_TESTS)
         tests/auth_tests.cpp
         tests/auth_event_log_tests.cpp
         tests/sqlite_user_repository_tests.cpp
+        tests/module_interfaces_tests.cpp
     )
     target_link_libraries(auth_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
     quizsphere_enable_warnings(auth_tests)

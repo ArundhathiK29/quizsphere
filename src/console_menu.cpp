@@ -37,6 +37,16 @@ std::string errorForCode(ErrorCode code, const std::string& message) {
             return "CSV structure invalid: fix header or file format.";
         case ErrorCode::CONFIRMATION_REQUIRED:
             return "Confirmation required: answer yes to continue.";
+        case ErrorCode::QUIZ_NOT_FOUND:
+            return "Quiz not found: verify the quiz id.";
+        case ErrorCode::ATTEMPT_NOT_FOUND:
+            return "Attempt not found.";
+        case ErrorCode::ATTEMPT_ALREADY_SUBMITTED:
+            return "Attempt already submitted: graded attempts cannot be changed.";
+        case ErrorCode::TIME_EXPIRED:
+            return "Time expired: the attempt was submitted automatically.";
+        case ErrorCode::NOT_IMPLEMENTED:
+            return "Not available yet: " + message;
         case ErrorCode::OK:
             return message;
     }
