@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build g++ cppcheck gcovr \
+            libgtest-dev libsqlite3-dev libssl-dev
+
+      - name: Configure (tests + coverage)
+        run: cmake -S . -B build -G Ninja -DQUIZSPHERE_BUILD_TESTS=ON -DQUIZSPHERE_COVERAGE=ON
+
+      - name: Build (warnings are errors)
+        run: cmake --build build
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Static analysis (cppcheck)
+        run: cppcheck --enable=warning,style,performance,portability --error-exitcode=1 -q -I include include src
+
+      - name: Coverage report
+        run: |
+          gcovr -r . --object-directory build --filter 'src/' --txt --xml coverage.xml
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.xml
+
+  docker:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test inside the project container
+        run: |
+          docker build -t quizsphere .
+          docker run --rm quizsphere

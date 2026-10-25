@@ -28,15 +28,23 @@ function(quizsphere_enable_coverage target_name)
     endif()
 endfunction()
 
+find_package(SQLite3 REQUIRED)
+find_package(OpenSSL REQUIRED)
+
 add_library(quizsphere_core
     src/common_types.cpp
     src/question_bank.cpp
     src/question_repository_file.cpp
     src/console_menu.cpp
     src/import_logger.cpp
+    src/password_hasher.cpp
+    src/auth.cpp
+    src/auth_event_log.cpp
+    src/sqlite_user_repository.cpp
 )
 
 target_include_directories(quizsphere_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(quizsphere_core PUBLIC SQLite::SQLite3 OpenSSL::Crypto)
 quizsphere_enable_warnings(quizsphere_core)
 quizsphere_enable_coverage(quizsphere_core)
 
@@ -50,8 +58,17 @@ if(QUIZSPHERE_DEMO_SESSION)
 endif()
 
 if(QUIZSPHERE_BUILD_TESTS)
-    find_package(GTest REQUIRED)
+    find_package(GTest QUIET)
+    if(NOT GTest_FOUND)
+        message(STATUS "System GoogleTest not found; fetching v1.14.0")
+        include(FetchContent)
+        FetchContent_Declare(googletest
+            URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz)
+        set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+        FetchContent_MakeAvailable(googletest)
+    endif()
     enable_testing()
+    include(GoogleTest)
 
     add_executable(question_bank_tests tests/question_bank_tests.cpp)
     target_link_libraries(question_bank_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
@@ -59,6 +76,17 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_coverage(question_bank_tests)
 
     add_test(NAME question_bank_tests COMMAND question_bank_tests)
+
+    add_executable(auth_tests
+        tests/password_hasher_tests.cpp
+        tests/auth_tests.cpp
+        tests/auth_event_log_tests.cpp
+        tests/sqlite_user_repository_tests.cpp
+    )
+    target_link_libraries(auth_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(auth_tests)
+    quizsphere_enable_coverage(auth_tests)
+    gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
 
     add_test(
         NAME no_fstream_outside_repository_or_logging

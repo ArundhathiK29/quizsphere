@@ -7,6 +7,7 @@ file(GLOB_RECURSE ALL_SOURCES
 set(ALLOWED
     "${PROJECT_SOURCE_DIR}/src/question_repository_file.cpp"
     "${PROJECT_SOURCE_DIR}/src/import_logger.cpp"
+    "${PROJECT_SOURCE_DIR}/src/auth_event_log.cpp"
 )
 
 foreach(file_path IN LISTS ALL_SOURCES)

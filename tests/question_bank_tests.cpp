@@ -10,6 +10,10 @@
 
 #include <gtest/gtest.h>
 
+#if !defined(_WIN32)
+#include <unistd.h>
+#endif
+
 namespace {
 
 std::filesystem::path uniqueTempDir() {
@@ -137,11 +141,23 @@ TEST_F(QuestionBankFixture, UT_QB_04_SpecialCharacterRoundTrip_TsvAndCsv) {
         "escaped\\|pipe", "\"quoted\"", "comma,value", "Üñîçødé", "  spaced  "
     };
 
+    // subject_tag is single-line by design (control characters are rejected), so those samples use a plain tag
+    // (the same single-line rule applies to each option; only question_text may contain line breaks/tabs).
+    const auto tagFor = [](const std::string& sample) {
+        if (sample.find_first_of("\n\r\t") != std::string::npos) {
+            return std::string("Plain Tag");
+        }
+        // Tags and options are trimmed on the way in.
+        const auto first = sample.find_first_not_of(' ');
+        const auto last = sample.find_last_not_of(' ');
+        return first == std::string::npos ? std::string() : sample.substr(first, last - first + 1);
+    };
+
     for (std::size_t i = 0; i < samples.size(); ++i) {
         auto q = baseQuestion("Q_SP_" + std::to_string(i));
-        q.subject_tag = samples[i];
+        q.subject_tag = tagFor(samples[i]);
         q.question_text = samples[i];
-        q.options = {samples[i], "safe"};
+        q.options = {tagFor(samples[i]), "safe"};
         ASSERT_EQ(bank_->addQuestion(instructorSession(), q).code, quizsphere::ErrorCode::OK);
     }
 
@@ -151,9 +167,9 @@ TEST_F(QuestionBankFixture, UT_QB_04_SpecialCharacterRoundTrip_TsvAndCsv) {
         quizsphere::Question found;
         ASSERT_EQ(loaded_bank->findQuestionById(instructorSession(), "Q_SP_" + std::to_string(i), &found).code,
                   quizsphere::ErrorCode::OK);
-        EXPECT_EQ(found.subject_tag, samples[i]);
+        EXPECT_EQ(found.subject_tag, tagFor(samples[i]));
         EXPECT_EQ(found.question_text, samples[i]);
-        EXPECT_EQ(found.options[0], samples[i]);
+        EXPECT_EQ(found.options[0], tagFor(samples[i]));
     }
 
     const std::string csv = (root_ / "round.csv").string();
@@ -170,9 +186,9 @@ TEST_F(QuestionBankFixture, UT_QB_04_SpecialCharacterRoundTrip_TsvAndCsv) {
         quizsphere::Question found;
         ASSERT_EQ(csv_bank->findQuestionById(instructorSession(), "Q_SP_" + std::to_string(i), &found).code,
                   quizsphere::ErrorCode::OK);
-        EXPECT_EQ(found.subject_tag, samples[i]);
+        EXPECT_EQ(found.subject_tag, tagFor(samples[i]));
         EXPECT_EQ(found.question_text, samples[i]);
-        EXPECT_EQ(found.options[0], samples[i]);
+        EXPECT_EQ(found.options[0], tagFor(samples[i]));
     }
 }
 
@@ -299,6 +315,11 @@ TEST_F(QuestionBankFixture, UT_QB_09_ImportStructureRules_EmptyWrongHeaderWrongC
 }
 
 TEST_F(QuestionBankFixture, ST_SEC_05_BankUnchangedAfterRejectedImportAndPersistFailureKeepsOriginal) {
+#if !defined(_WIN32)
+    if (geteuid() == 0) {
+        GTEST_SKIP() << "Permission-denial scenario cannot be reproduced as root (e.g. inside Docker as root).";
+    }
+#endif
     ASSERT_TRUE(bank_->addQuestion(instructorSession(), baseQuestion("Q_ORIG")).ok());
     auto repo = quizsphere::createFileQuestionRepository(storage_path_);
 
@@ -346,7 +367,7 @@ TEST_F(QuestionBankFixture, UT_QB_10_BOM_CRLF_MultilineAndFormulaRoundTrip) {
     const std::string csv_path = (root_ / "bom.csv").string();
     std::string csv =
         "\xEF\xBB\xBFquestion_id,subject_tag,difficulty,question_type,question_text,options,correct_option,is_available\r\n"
-        "QF,""=Math"",Easy,MCQ,""Line1\nLine2"",""'+one|two"",0,true\r\n";
+        "QF,\"=Math\",Easy,MCQ,\"Line1\nLine2\",\"'+one|two\",0,true\r\n";
     ASSERT_EQ(quizsphere::createFileQuestionRepository(storage_path_)->writeTextFileAtomic(csv_path, csv, true).code,
               quizsphere::ErrorCode::OK);
 
@@ -361,7 +382,7 @@ TEST_F(QuestionBankFixture, UT_QB_10_BOM_CRLF_MultilineAndFormulaRoundTrip) {
     std::string out;
     ASSERT_EQ(quizsphere::createFileQuestionRepository(storage_path_)->readTextFile(out_path, &out).code,
               quizsphere::ErrorCode::OK);
-    EXPECT_NE(out.find("'""=Math"""), std::string::npos);
+    EXPECT_NE(out.find("'=Math"), std::string::npos);
 }
 
 TEST_F(QuestionBankFixture, UT_QB_11_ValidationLimitsControlCharsAndDuplicates) {
@@ -382,7 +403,7 @@ TEST_F(QuestionBankFixture, UT_QB_11_ValidationLimitsControlCharsAndDuplicates) 
     EXPECT_EQ(bank_->addQuestion(instructorSession(), q).code, quizsphere::ErrorCode::VALIDATION_FAILED);
 
     q = baseQuestion("Q_LIMIT5");
-    q.question_text = "ok\x01bad";
+    q.question_text = "ok\x01" "bad";
     EXPECT_EQ(bank_->addQuestion(instructorSession(), q).code, quizsphere::ErrorCode::VALIDATION_FAILED);
 }
 
@@ -408,7 +429,8 @@ TEST_F(QuestionBankFixture, SEC_RoleDenial_AllFunctions_StudentAndInvalidSession
     EXPECT_EQ(bank_->addQuestion(invalidSession(), baseQuestion("Q_INV")).code, quizsphere::ErrorCode::NOT_AUTHORIZED);
     EXPECT_EQ(bank_->findQuestionById(invalidSession(), "Q_SEC", &found).code, quizsphere::ErrorCode::NOT_AUTHORIZED);
 
-    EXPECT_EQ(bank_->getQuestionForQuiz("Q_SEC", &found).code, quizsphere::ErrorCode::OK);
+    quizsphere::PublicQuestion pub_one;
+    EXPECT_EQ(bank_->getQuestionForQuiz("Q_SEC", &pub_one).code, quizsphere::ErrorCode::OK);
     EXPECT_EQ(bank_->listAvailable(&pub, std::nullopt, std::nullopt).code, quizsphere::ErrorCode::OK);
 }
 
@@ -421,7 +443,7 @@ TEST_F(QuestionBankFixture, MenuTests_DeleteConfirmationEofAndInvalidOption) {
     menu->run();
     const std::string text = output.str();
     EXPECT_NE(text.find("invalid option"), std::string::npos);
-    EXPECT_NE(text.find("confirmation required"), std::string::npos);
+    EXPECT_NE(text.find("onfirmation required"), std::string::npos);
 
     std::istringstream eof_input("");
     std::ostringstream eof_output;

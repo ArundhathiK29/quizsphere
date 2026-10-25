@@ -31,15 +31,13 @@ std::string toLower(std::string value) {
 }
 
 bool hasDisallowedControlChars(const std::string& value, bool allow_text_controls) {
-    for (unsigned char c : value) {
-        if (c < 32U || c == 127U) {
-            if (allow_text_controls && (c == '\n' || c == '\r' || c == '\t')) {
-                continue;
-            }
-            return true;
+    return std::any_of(value.begin(), value.end(), [allow_text_controls](char raw) {
+        const auto c = static_cast<unsigned char>(raw);
+        if (c >= 32U && c != 127U) {
+            return false;
         }
-    }
-    return false;
+        return !(allow_text_controls && (c == '\n' || c == '\r' || c == '\t'));
+    });
 }
 
 bool isValidSession(const Session& session) {
