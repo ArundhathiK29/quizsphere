@@ -2,8 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include <filesystem>
-#include <limits>
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <utility>
@@ -19,28 +18,41 @@ std::string trim(std::string value) {
     return value;
 }
 
-std::string errorForCode(ErrorCode code, const std::string& message) {
-    switch (code) {
+// Whole string must be digits (no sign, no suffix).
+bool parseWholeNumber(const std::string& text, std::size_t* out) {
+    if (text.empty() || text.size() > 18) {
+        return false;
+    }
+    if (!std::all_of(text.begin(), text.end(), [](char c) { return c >= '0' && c <= '9'; })) {
+        return false;
+    }
+    *out = static_cast<std::size_t>(std::stoull(text));
+    return true;
+}
+
+// One-line messages that name the problem and the fix (SAD 4.5).
+std::string describe(const Result& result) {
+    switch (result.code) {
         case ErrorCode::NOT_AUTHORIZED:
-            return "Not authorized: sign in as Instructor/Admin.";
+            return "Not authorized: sign in as Instructor or Admin.";
         case ErrorCode::VALIDATION_FAILED:
-            return "Validation failed: " + message;
+            return "Validation failed: " + result.message;
         case ErrorCode::DUPLICATE_ID:
             return "Duplicate ID: choose a unique question_id.";
         case ErrorCode::QUESTION_NOT_FOUND:
-            return "Question not found: verify the question_id.";
+            return "Question not found: check the question_id.";
         case ErrorCode::QUESTION_IN_USE:
-            return "Question in use: cannot edit/delete referenced question.";
+            return "Question in use: it is referenced by a quiz or attempt.";
         case ErrorCode::IO_ERROR:
-            return "I/O error: " + message;
+            return "I/O error: " + result.message;
         case ErrorCode::CSV_STRUCTURE_INVALID:
-            return "CSV structure invalid: fix header or file format.";
+            return "CSV rejected: " + result.message;
         case ErrorCode::CONFIRMATION_REQUIRED:
             return "Confirmation required: answer yes to continue.";
         case ErrorCode::OK:
-            return message;
+            return result.message;
     }
-    return message;
+    return result.message;
 }
 
 class BasicConsoleMenu final : public ConsoleMenu {
@@ -63,60 +75,68 @@ public:
             if (!readLine(&choice)) {
                 return;
             }
-
             if (choice == "0") {
                 return;
             }
-            if (choice == "1") {
-                handleList(false);
+
+            const bool is_action = choice.size() == 1 && choice[0] >= '1' && choice[0] <= '8';
+            if (!is_action) {
+                output_ << "Error: invalid option. Choose 0-8.\n";
                 continue;
             }
-            if (choice == "2") {
-                handleList(true);
-                continue;
-            }
-            if (choice == "3") {
-                handleAdd();
-                continue;
-            }
-            if (choice == "4") {
-                handleUpdate();
-                continue;
-            }
-            if (choice == "5") {
-                handleDelete();
-                continue;
-            }
-            if (choice == "6") {
-                handleAvailability();
-                continue;
-            }
-            if (choice == "7") {
-                handleExport();
-                continue;
-            }
-            if (choice == "8") {
-                handleImport();
+            if (!isManager()) {
+                output_ << "Error: " << describe({ErrorCode::NOT_AUTHORIZED, ""}) << '\n';
                 continue;
             }
 
-            output_ << "Error: invalid option. Choose 0-8.\n";
+            switch (choice[0]) {
+                case '1':
+                    handleList(false);
+                    break;
+                case '2':
+                    handleList(true);
+                    break;
+                case '3':
+                    handleAdd();
+                    break;
+                case '4':
+                    handleUpdate();
+                    break;
+                case '5':
+                    handleDelete();
+                    break;
+                case '6':
+                    handleAvailability();
+                    break;
+                case '7':
+                    handleExport();
+                    break;
+                default:
+                    handleImport();
+                    break;
+            }
         }
     }
 
 private:
+    [[nodiscard]] bool isManager() const {
+        return session_.role == Role::Instructor || session_.role == Role::Admin;
+    }
+
     void showMenu() {
         output_ << "\n=== QuizSphere Question Bank ===\n";
         output_ << "User: " << display_name_ << " (" << roleToString(session_.role) << ")\n";
-        output_ << "1. List all questions\n";
-        output_ << "2. List available questions\n";
-        if (session_.role == Role::Instructor || session_.role == Role::Admin) {
+        if (isManager()) {
+            output_ << "1. List all questions\n";
+            output_ << "2. List available questions\n";
             output_ << "3. Add question\n";
             output_ << "4. Edit question\n";
             output_ << "5. Delete question\n";
             output_ << "6. Enable/disable question\n";
             output_ << "7. Export questions to CSV\n";
             output_ << "8. Import questions from CSV\n";
+        } else {
+            output_ << "No question bank actions are available for your role.\n";
         }
         output_ << "0. Exit\n";
         output_ << "Choose an option: ";
@@ -131,6 +151,17 @@ private:
         return true;
     }
 
+    void printError(const Result& result) { output_ << "Error: " << describe(result) << '\n'; }
+
+    void printOutcome(const Result& result) {
+        if (result.ok()) {
+            output_ << "Success: " << result.message << '\n';
+        } else {
+            printError(result);
+        }
+    }
+
+    // Returns false if the user cancelled (bad input or end of input).
     bool readDifficultyFilter(std::optional<Difficulty>* out_filter) {
         output_ << "Difficulty filter (Easy/Medium/Hard, blank for all): ";
         std::string raw;
@@ -158,9 +189,9 @@ private:
         }
         if (subject.empty()) {
             out_filter->reset();
-            return true;
+        } else {
+            *out_filter = subject;
         }
-        *out_filter = subject;
         return true;
     }
 
@@ -170,64 +201,76 @@ private:
         if (!readLine(&answer)) {
             return false;
         }
-        answer = trim(answer);
         std::transform(answer.begin(), answer.end(), answer.begin(), [](unsigned char c) {
             return static_cast<char>(std::tolower(c));
         });
-        return answer == "yes";
+        return answer == "yes" || answer == "y";
     }
 
-    Question readQuestion(const std::optional<std::string>& fixed_id) {
-        Question q;
+    // Returns false (and prints why) if the entry was cancelled. Nothing is stored in that case.
+    bool readQuestion(const std::optional<std::string>& fixed_id, Question* q) {
         if (fixed_id.has_value()) {
-            q.question_id = trim(*fixed_id);
-            output_ << "Editing question_id: " << q.question_id << "\n";
+            q->question_id = *fixed_id;
+            output_ << "Editing question_id: " << q->question_id << '\n';
         } else {
             output_ << "question_id: ";
-            std::string id;
-            readLine(&id);
-            q.question_id = id;
+            if (!readLine(&q->question_id)) {
+                return false;
+            }
         }
 
         output_ << "subject_tag: ";
-        readLine(&q.subject_tag);
+        if (!readLine(&q->subject_tag)) {
+            return false;
+        }
 
         output_ << "difficulty (Easy/Medium/Hard): ";
-        std::string difficulty;
-        readLine(&difficulty);
-        q.difficulty = parseDifficulty(difficulty).value_or(Difficulty::Easy);
-
-        q.question_type = QuestionType::MCQ;
+        std::string difficulty_raw;
+        if (!readLine(&difficulty_raw)) {
+            return false;
+        }
+        const auto difficulty = parseDifficulty(difficulty_raw);
+        if (!difficulty.has_value()) {
+            output_ << "Error: difficulty must be Easy, Medium, or Hard. Nothing was saved.\n";
+            return false;
+        }
+        q->difficulty = *difficulty;
+        q->question_type = QuestionType::MCQ;
 
         output_ << "question_text: ";
-        readLine(&q.question_text);
+        if (!readLine(&q->question_text)) {
+            return false;
+        }
 
-        output_ << "options (pipe separated): ";
+        output_ << "options (separate with |, e.g. A|B|C; an option cannot contain |): ";
         std::string options_raw;
-        readLine(&options_raw);
-        q.options.clear();
+        if (!readLine(&options_raw)) {
+            return false;
+        }
+        q->options.clear();
         std::string current;
-        for (char c : options_raw) {
+        for (const char c : options_raw) {
             if (c == '|') {
-                q.options.push_back(trim(current));
+                q->options.push_back(trim(current));
                 current.clear();
             } else {
                 current.push_back(c);
             }
         }
-        q.options.push_back(trim(current));
+        q->options.push_back(trim(current));
 
-        output_ << "correct_option index: ";
-        std::string idx_raw;
-        readLine(&idx_raw);
-        try {
-            q.correct_option = static_cast<std::size_t>(std::stoull(idx_raw));
-        } catch (...) {
-            q.correct_option = std::numeric_limits<std::size_t>::max();
+        output_ << "correct_option index (0 = first option): ";
+        std::string index_raw;
+        if (!readLine(&index_raw)) {
+            return false;
+        }
+        if (!parseWholeNumber(index_raw, &q->correct_option)) {
+            output_ << "Error: correct option must be a whole number such as 0 or 1. Nothing was saved.\n";
+            return false;
         }
 
-        q.is_available = true;
-        return q;
+        q->is_available = true;
+        return true;
     }
 
     void printQuestions(const std::vector<Question>& questions) {
@@ -238,12 +281,11 @@ private:
         for (const auto& q : questions) {
             output_ << "- " << q.question_id << " | " << q.subject_tag << " | "
                     << difficultyToString(q.difficulty) << " | "
-                    << (q.is_available ? "available" : "disabled") << "\n";
+                    << (q.is_available ? "available" : "disabled") << '\n';
         }
     }
 
     void handleList(bool available_only) {
-        std::vector<Question> questions;
         std::optional<std::string> subject_filter;
         if (!readSubjectFilter(&subject_filter)) {
             return;
@@ -253,23 +295,23 @@ private:
             return;
         }
 
-        const Result result = question_bank_.listQuestions(
-            session_, &questions, available_only, subject_filter, difficulty_filter);
+        std::vector<Question> questions;
+        const Result result =
+            question_bank_.listQuestions(session_, &questions, available_only, subject_filter, difficulty_filter);
         if (!result.ok()) {
-            output_ << "Error: " << errorForCode(result.code, result.message) << '\n';
+            printError(result);
             return;
         }
         printQuestions(questions);
     }
 
     void handleAdd() {
-        Question q = readQuestion(std::nullopt);
-        const Result result = question_bank_.addQuestion(session_, q);
-        if (!result.ok()) {
-            output_ << "Error: " << errorForCode(result.code, result.message) << '\n';
+        Question q;
+        if (!readQuestion(std::nullopt, &q)) {
             return;
         }
-        output_ << "Success: " << result.message << '\n';
+        const Result result = question_bank_.addQuestion(session_, q);
+        printOutcome(result);
     }
 
     void handleUpdate() {
@@ -279,21 +321,19 @@ private:
             return;
         }
         Question existing;
-        const Result find_result = question_bank_.findQuestionById(session_, id, &existing);
-        if (!find_result.ok()) {
-            output_ << "Error: " << errorForCode(find_result.code, find_result.message) << '\n';
+        const Result found = question_bank_.findQuestionById(session_, id, &existing);
+        if (!found.ok()) {
+            printError(found);
             return;
         }
 
-        Question q = readQuestion(id);
+        Question q;
+        if (!readQuestion(existing.question_id, &q)) {
+            return;
+        }
         q.is_available = existing.is_available;
-
         const Result result = question_bank_.updateQuestion(session_, q);
-        if (!result.ok()) {
-            output_ << "Error: " << errorForCode(result.code, result.message) << '\n';
-            return;
-        }
-        output_ << "Success: " << result.message << '\n';
+        printOutcome(result);
     }
 
     void handleDelete() {
@@ -302,14 +342,12 @@ private:
         if (!readLine(&id)) {
             return;
         }
-
-        const bool confirmed = confirm("Delete question " + id + "?");
-        const Result result = question_bank_.deleteQuestion(session_, id, confirmed);
-        if (!result.ok()) {
-            output_ << "Error: " << errorForCode(result.code, result.message) << '\n';
+        if (!confirm("Delete question " + id + "?")) {
+            output_ << "Delete cancelled. Nothing was changed.\n";
             return;
         }
-        output_ << "Success: " << result.message << '\n';
+        const Result result = question_bank_.deleteQuestion(session_, id, true);
+        printOutcome(result);
     }
 
     void handleAvailability() {
@@ -318,34 +356,22 @@ private:
         if (!readLine(&id)) {
             return;
         }
-
         output_ << "Action (enable/disable): ";
         std::string action;
         if (!readLine(&action)) {
             return;
         }
-
-        bool enable = false;
-        if (action == "enable") {
-            enable = true;
-        } else if (action == "disable") {
-            enable = false;
-        } else {
+        if (action != "enable" && action != "disable") {
             output_ << "Error: action must be 'enable' or 'disable'.\n";
             return;
         }
-
+        const bool enable = action == "enable";
         if (!confirm(std::string(enable ? "Enable" : "Disable") + " question " + id + "?")) {
-            output_ << "Error: confirmation required.\n";
+            output_ << "Action cancelled. Nothing was changed.\n";
             return;
         }
-
         const Result result = question_bank_.setAvailability(session_, id, enable);
-        if (!result.ok()) {
-            output_ << "Error: " << errorForCode(result.code, result.message) << '\n';
-            return;
-        }
-        output_ << "Success: " << result.message << '\n';
+        printOutcome(result);
     }
 
     void handleExport() {
@@ -354,7 +380,6 @@ private:
         if (!readLine(&path)) {
             return;
         }
-
         std::optional<std::string> subject_filter;
         if (!readSubjectFilter(&subject_filter)) {
             return;
@@ -364,19 +389,15 @@ private:
             return;
         }
 
-        bool overwrite = false;
-        if (std::filesystem::exists(path)) {
-            overwrite = confirm("File exists. Overwrite?");
+        Result result = question_bank_.exportToCsv(session_, path, subject_filter, difficulty_filter, false);
+        if (result.code == ErrorCode::CONFIRMATION_REQUIRED) {
+            if (!confirm("File exists. Overwrite?")) {
+                output_ << "Export cancelled. The existing file was not changed.\n";
+                return;
+            }
+            result = question_bank_.exportToCsv(session_, path, subject_filter, difficulty_filter, true);
         }
-
-        const Result result = question_bank_.exportToCsv(
-            session_, path, subject_filter, difficulty_filter,
-            overwrite);
-        if (!result.ok()) {
-            output_ << "Error: " << errorForCode(result.code, result.message) << '\n';
-            return;
-        }
-        output_ << "Success: " << result.message << '\n';
+        printOutcome(result);
     }
 
     void handleImport() {
@@ -385,17 +406,17 @@ private:
         if (!readLine(&path)) {
             return;
         }
-
         const ImportReport report = question_bank_.importFromCsv(session_, path);
         if (!report.result.ok()) {
-            output_ << "Error: " << errorForCode(report.result.code, report.result.message) << '\n';
+            printError(report.result);
             return;
         }
-
-        output_ << "Success: imported=" << report.imported_count
-                << ", skipped=" << report.skipped_count << '\n';
+        output_ << "Success: imported=" << report.imported_count << ", skipped=" << report.skipped_count << '\n';
         for (const auto& issue : report.invalid_rows) {
-            output_ << "  row " << issue.row_number << ": " << issue.reason << '\n';
+            output_ << "  line " << issue.row_number << ": " << issue.reason << '\n';
+        }
+        if (report.log_failed) {
+            output_ << "Warning: some rejected rows could not be written to the import log.\n";
         }
     }
 

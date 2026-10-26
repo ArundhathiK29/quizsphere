@@ -53,6 +53,33 @@ docker run --rm quizsphere
 
 GitHub Actions (`.github/workflows/ci.yml`) runs the same build, tests, cppcheck, coverage report and Docker build on every push and pull request.
 
+## Question bank: CSV format, limits and rules
+
+Header (exactly, in this order):
+`question_id,subject_tag,difficulty,question_type,question_text,options,correct_option,is_available`
+
+- `difficulty`: Easy / Medium / Hard (any case). `question_type`: MCQ only.
+- `options`: one cell, options separated by `|`; write `\|` for a literal `|` and `\\` for a literal `\`.
+- `correct_option`: 0-based index of the right option (digits only). `is_available`: true/false/yes/no/1/0.
+- Fields may be quoted (commas, doubled quotes and line breaks allowed). A UTF-8 BOM and CRLF line ends are accepted.
+- Export prefixes cells that start with `=`, `+`, `-` or `@` with an apostrophe (spreadsheet formula injection);
+  import removes exactly that apostrophe, so a round trip is lossless.
+
+Import: the WHOLE file is rejected (nothing changes, `CSV_STRUCTURE_INVALID`) if it cannot be opened, is empty, is
+larger than 10 MB, or has a missing/wrong header. Every other problem (wrong column count, bad quoting, validation
+failure, duplicate id, bad number or flag) skips only that row and reports it with its line number (header = line 1).
+All valid rows are stored with one write. Rejected rows are logged to `logs/question_import.log`
+(`ISO-8601 UTC time | row N | reason`).
+
+Limits (SRS Appendix B, counted in characters): question_id 36, subject_tag 40, question_text 500, each option 200.
+Control characters are rejected everywhere except line breaks and tabs inside question_text. Subject filters ignore
+ASCII case only.
+
+Hand-offs: `QuestionRepository::isReferenced` always returns false until quizzes/attempts exist; the Quiz Engine owner must
+implement it before attempts are stored. The Quiz Engine should read questions through `listAvailable` /
+`getQuestionForQuiz`, which never expose the correct answer. Saving writes a temporary file and renames it over the
+target (never deleting the target first); it does not fsync, so a power cut can lose the latest save.
+
 ## Security design (accounts)
 
 - Passwords are stored as salted PBKDF2-HMAC-SHA256 (600,000 iterations, random 16-byte salt per password), compared in constant time.
