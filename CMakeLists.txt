@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.20)
 project(QuizSphere LANGUAGES C CXX)
 
@@ -98,6 +99,16 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(auth_tests)
     quizsphere_enable_coverage(auth_tests)
     gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(data_access_layer_tests
+        tests/data_access_layer_tests.cpp
+    )
+    target_link_libraries(data_access_layer_tests
+        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main
+    )
+    quizsphere_enable_warnings(data_access_layer_tests)
+    quizsphere_enable_coverage(data_access_layer_tests)
+    gtest_discover_tests(data_access_layer_tests DISCOVERY_TIMEOUT 120)
 
     add_test(
         NAME no_fstream_outside_repository_or_logging
