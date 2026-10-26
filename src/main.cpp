@@ -155,17 +155,6 @@ int main() {
         return 1;
     }
 
-#if defined(QUIZSPHERE_DEMO_SESSION_ENABLED)
-    std::cerr << "WARNING: QUIZSPHERE_DEMO_SESSION is ON. Demo Instructor session enabled for local development only.\n";
-    const auto session = quizsphere::createDemoSession();
-    if (!session.has_value()) {
-        std::cerr << "Startup failure: unable to create demo session.\n";
-        return 1;
-    }
-    auto menu = quizsphere::createConsoleMenu(*session, "Demo Instructor", *question_bank, std::cin, std::cout);
-    menu->run();
-    return 0;
-#else
     const std::string db_path = envOr("QUIZSPHERE_DB", "quizsphere.db");
     quizsphere::SQLiteUserRepository users(db_path);
     if (!users.isOpen()) {
@@ -211,5 +200,4 @@ int main() {
             std::cout << "Invalid option.\n";
         }
     }
-#endif
 }

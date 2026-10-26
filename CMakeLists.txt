@@ -7,7 +7,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(QUIZSPHERE_BUILD_TESTS "Build QuizSphere tests" ON)
 option(QUIZSPHERE_COVERAGE "Enable coverage flags" OFF)
-option(QUIZSPHERE_DEMO_SESSION "Enable demo session in main" OFF)
 
 function(quizsphere_enable_warnings target_name)
     if(MSVC)
@@ -58,10 +57,6 @@ add_executable(quizsphere src/main.cpp)
 target_link_libraries(quizsphere PRIVATE quizsphere_core)
 quizsphere_enable_warnings(quizsphere)
 quizsphere_enable_coverage(quizsphere)
-
-if(QUIZSPHERE_DEMO_SESSION)
-    target_compile_definitions(quizsphere PRIVATE QUIZSPHERE_DEMO_SESSION_ENABLED=1)
-endif()
 
 if(QUIZSPHERE_BUILD_TESTS)
     find_package(GTest QUIET)

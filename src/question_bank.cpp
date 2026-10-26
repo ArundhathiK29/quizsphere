@@ -2,19 +2,26 @@
 
 #include <algorithm>
 #include <cctype>
-#include <limits>
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
 #include <optional>
 #include <sstream>
 #include <unordered_set>
 #include <utility>
 
-#include "import_logger.hpp"
+#include "options_codec.hpp"
 
 namespace quizsphere {
 namespace {
 
 constexpr const char* kCsvHeader =
     "question_id,subject_tag,difficulty,question_type,question_text,options,correct_option,is_available";
+
+// A CSV larger than this is rejected before parsing (denial-of-service guard, SEC-005).
+constexpr std::size_t kMaxCsvBytes = 10U * 1024U * 1024U;
+
+// ---------------------------------------------------------------- text helpers
 
 std::string trim(std::string value) {
     const auto not_space = [](unsigned char c) { return !std::isspace(c); };
@@ -23,6 +30,7 @@ std::string trim(std::string value) {
     return value;
 }
 
+// ASCII-only lower-casing: "Math" and "math" match; accented letters are compared exactly.
 std::string toLower(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
         return static_cast<char>(std::tolower(c));
@@ -40,106 +48,50 @@ bool hasDisallowedControlChars(const std::string& value, bool allow_text_control
     });
 }
 
-bool isValidSession(const Session& session) {
-    return !trim(session.user_id).empty() && !trim(session.logged_in_at).empty();
-}
-
-bool canManage(const Session& session) {
-    return isValidSession(session) && (session.role == Role::Instructor || session.role == Role::Admin);
-}
-
-bool canReadAnswers(const Session& session) {
-    return isValidSession(session) && (session.role == Role::Instructor || session.role == Role::Admin);
-}
-
-Result notAuthorized() {
-    return {ErrorCode::NOT_AUTHORIZED, "A valid Instructor/Admin session is required."};
-}
-
-std::string encodeOptionsCell(const std::vector<std::string>& options) {
-    std::string out;
-    for (std::size_t i = 0; i < options.size(); ++i) {
-        if (i > 0) {
-            out.push_back('|');
-        }
-        for (char c : options[i]) {
-            if (c == '\\' || c == '|') {
-                out.push_back('\\');
-            }
-            out.push_back(c);
-        }
-    }
-    return out;
-}
-
-std::vector<std::string> decodeOptionsCell(const std::string& cell) {
-    std::vector<std::string> options;
-    std::string current;
-    bool escape = false;
-    for (char c : cell) {
-        if (!escape) {
-            if (c == '\\') {
-                escape = true;
-            } else if (c == '|') {
-                options.push_back(current);
-                current.clear();
-            } else {
-                current.push_back(c);
-            }
-            continue;
-        }
-
-        if (c == '\\' || c == '|') {
-            current.push_back(c);
+// Counts UTF-8 code points; returns false for invalid UTF-8.
+bool utf8Length(const std::string& s, std::size_t* count) {
+    std::size_t i = 0;
+    std::size_t n = 0;
+    while (i < s.size()) {
+        const unsigned char c = static_cast<unsigned char>(s[i]);
+        std::size_t len = 0;
+        std::uint32_t cp = 0;
+        if (c < 0x80U) {
+            len = 1;
+            cp = c;
+        } else if ((c & 0xE0U) == 0xC0U) {
+            len = 2;
+            cp = c & 0x1FU;
+        } else if ((c & 0xF0U) == 0xE0U) {
+            len = 3;
+            cp = c & 0x0FU;
+        } else if ((c & 0xF8U) == 0xF0U) {
+            len = 4;
+            cp = c & 0x07U;
         } else {
-            current.push_back('\\');
-            current.push_back(c);
+            return false;
         }
-        escape = false;
-    }
-    if (escape) {
-        current.push_back('\\');
-    }
-    options.push_back(current);
-    return options;
-}
-
-std::string csvEscape(const std::string& value) {
-    const bool needs_quotes = std::any_of(value.begin(), value.end(), [](char c) {
-        return c == ',' || c == '"' || c == '\n' || c == '\r';
-    });
-    if (!needs_quotes) {
-        return value;
-    }
-
-    std::string out = "\"";
-    for (char c : value) {
-        if (c == '"') {
-            out += "\"\"";
-        } else {
-            out.push_back(c);
+        if (i + len > s.size()) {
+            return false;
         }
+        for (std::size_t k = 1; k < len; ++k) {
+            const unsigned char cc = static_cast<unsigned char>(s[i + k]);
+            if ((cc & 0xC0U) != 0x80U) {
+                return false;
+            }
+            cp = (cp << 6U) | (cc & 0x3FU);
+        }
+        if ((len == 2 && cp < 0x80U) || (len == 3 && cp < 0x800U) || (len == 4 && cp < 0x10000U)) {
+            return false;  // overlong encoding
+        }
+        if (cp > 0x10FFFFU || (cp >= 0xD800U && cp <= 0xDFFFU)) {
+            return false;
+        }
+        i += len;
+        ++n;
     }
-    out.push_back('"');
-    return out;
-}
-
-bool startsFormula(const std::string& value) {
-    return !value.empty() && (value[0] == '=' || value[0] == '+' || value[0] == '-' || value[0] == '@');
-}
-
-std::string neutralizeFormula(const std::string& value) {
-    if (startsFormula(value)) {
-        return "'" + value;
-    }
-    return value;
-}
-
-std::string deneutralizeFormula(const std::string& value) {
-    if (value.size() >= 2 && value[0] == '\'' && startsFormula(value.substr(1))) {
-        return value.substr(1);
-    }
-    return value;
+    *count = n;
+    return true;
 }
 
 bool parseBool(const std::string& raw, bool* out) {
@@ -155,124 +107,198 @@ bool parseBool(const std::string& raw, bool* out) {
     return false;
 }
 
+// Digits only (after trimming); no sign, no suffix.
 bool parseSize(const std::string& raw, std::size_t* out) {
     const std::string value = trim(raw);
-    if (value.empty()) {
+    if (value.empty() || value.size() > 18) {
         return false;
     }
-    try {
-        std::size_t consumed = 0;
-        const auto parsed = std::stoull(value, &consumed);
-        if (consumed != value.size()) {
-            return false;
-        }
-        *out = static_cast<std::size_t>(parsed);
-        return true;
-    } catch (...) {
+    if (!std::all_of(value.begin(), value.end(), [](char c) { return c >= '0' && c <= '9'; })) {
         return false;
     }
+    *out = static_cast<std::size_t>(std::stoull(value));
+    return true;
 }
+
+// ---------------------------------------------------------------- authorisation
+// NOTE: a Session is only checked for shape here. Real authentication is the Auth
+// module's job; until it issues Sessions this check cannot detect a forged one.
+
+bool isValidSession(const Session& session) {
+    return !trim(session.user_id).empty() && !trim(session.logged_in_at).empty();
+}
+
+bool canManage(const Session& session) {
+    return isValidSession(session) && (session.role == Role::Instructor || session.role == Role::Admin);
+}
+
+Result notAuthorized() {
+    return {ErrorCode::NOT_AUTHORIZED, "A valid Instructor/Admin session is required."};
+}
+
+// ---------------------------------------------------------------- CSV writing
+
+std::string csvEscape(const std::string& value) {
+    const bool needs_quotes = std::any_of(value.begin(), value.end(), [](char c) {
+        return c == ',' || c == '"' || c == '\n' || c == '\r';
+    });
+    if (!needs_quotes) {
+        return value;
+    }
+    std::string out = "\"";
+    for (const char c : value) {
+        if (c == '"') {
+            out += "\"\"";
+        } else {
+            out.push_back(c);
+        }
+    }
+    out.push_back('"');
+    return out;
+}
+
+bool isFormulaChar(char c) {
+    return c == '=' || c == '+' || c == '-' || c == '@';
+}
+
+// True if the value is (apostrophes)* followed by a formula character. Such values get one
+// extra leading apostrophe on export and lose exactly one on import, so the round trip is
+// lossless even for values that already start with an apostrophe.
+bool needsApostrophe(const std::string& value) {
+    std::size_t i = 0;
+    while (i < value.size() && value[i] == '\'') {
+        ++i;
+    }
+    return i < value.size() && isFormulaChar(value[i]);
+}
+
+std::string neutralizeFormula(const std::string& value) {
+    return needsApostrophe(value) ? "'" + value : value;
+}
+
+std::string deneutralizeFormula(const std::string& value) {
+    if (!value.empty() && value[0] == '\'' && needsApostrophe(value.substr(1))) {
+        return value.substr(1);
+    }
+    return value;
+}
+
+// ---------------------------------------------------------------- CSV reading
 
 struct CsvRecord {
-    std::size_t row_number{0};
+    std::size_t line{0};  // physical line where the record starts (1-based)
     std::vector<std::string> fields;
-    bool malformed_quoting{false};
+    bool malformed{false};
 };
 
-std::string trimFieldForHeader(std::string field) {
-    field = trim(field);
-    if (!field.empty() && field.back() == '\r') {
-        field.pop_back();
-    }
-    return trim(field);
-}
-
-std::vector<CsvRecord> parseCsvRecords(const std::string& content) {
-    std::string data = content;
-    if (data.size() >= 3 && static_cast<unsigned char>(data[0]) == 0xEF &&
-        static_cast<unsigned char>(data[1]) == 0xBB &&
-        static_cast<unsigned char>(data[2]) == 0xBF) {
+// Parses RFC-4180 style records from the whole content: quoted fields may contain commas,
+// doubled quotes, CR and LF. Accepts CRLF/LF/CR line ends and a UTF-8 BOM. Blank lines are
+// skipped. A record with bad quoting is flagged malformed and parsing continues with the next
+// physical line, so one bad row never hides the rows after it. If one quoted field never closes,
+// every later quote in the file is part of a doubled pair, so no second unterminated field can
+// exist: the re-scan therefore costs at most one extra pass (no quadratic behaviour).
+void parseCsvRecords(std::string data, std::vector<CsvRecord>* records) {
+    records->clear();
+    if (data.size() >= 3 && static_cast<unsigned char>(data[0]) == 0xEFU &&
+        static_cast<unsigned char>(data[1]) == 0xBBU && static_cast<unsigned char>(data[2]) == 0xBFU) {
         data.erase(0, 3);
     }
 
-    std::vector<CsvRecord> records;
-    std::vector<std::string> fields;
-    std::string field;
-    bool in_quotes = false;
-    bool malformed = false;
-    std::size_t row = 1;
+    std::size_t pos = 0;
+    std::size_t line = 1;
 
-    auto commit_record = [&](bool force) {
-        if (!force && fields.empty() && field.empty() && !malformed) {
-            return;
-        }
-        fields.push_back(field);
-        records.push_back({row, fields, malformed});
-        ++row;
-        fields.clear();
-        field.clear();
-        in_quotes = false;
-        malformed = false;
-    };
+    while (pos < data.size()) {
+        std::vector<std::string> fields;
+        std::string field;
+        bool in_quotes = false;
+        bool at_field_start = true;
+        bool after_close = false;
+        bool malformed = false;
+        bool any_quoted = false;
+        bool terminated = false;
+        std::size_t extra_lines = 0;
+        std::size_t i = pos;
 
-    for (std::size_t i = 0; i < data.size(); ++i) {
-        const char c = data[i];
-        if (in_quotes) {
-            if (c == '"') {
-                if (i + 1 < data.size() && data[i + 1] == '"') {
-                    field.push_back('"');
-                    ++i;
+        for (; i < data.size(); ++i) {
+            const char c = data[i];
+            if (in_quotes) {
+                if (c == '"') {
+                    if (i + 1 < data.size() && data[i + 1] == '"') {
+                        field.push_back('"');
+                        ++i;
+                    } else {
+                        in_quotes = false;
+                        after_close = true;
+                    }
                 } else {
-                    in_quotes = false;
+                    if (c == '\n' || (c == '\r' && !(i + 1 < data.size() && data[i + 1] == '\n'))) {
+                        ++extra_lines;
+                    }
+                    field.push_back(c);
                 }
-            } else {
-                field.push_back(c);
+                continue;
             }
-            continue;
-        }
 
-        if (c == ',') {
-            fields.push_back(field);
-            field.clear();
-            continue;
-        }
-
-        if (c == '"') {
-            if (!field.empty()) {
-                malformed = true;
-                field.push_back(c);
-            } else {
-                in_quotes = true;
+            if (c == ',') {
+                fields.push_back(field);
+                field.clear();
+                at_field_start = true;
+                after_close = false;
+                continue;
             }
-            continue;
-        }
-
-        if (c == '\n') {
-            commit_record(false);
-            continue;
-        }
-
-        if (c == '\r') {
-            if (i + 1 < data.size() && data[i + 1] == '\n') {
+            if (c == '\r' || c == '\n') {
+                if (c == '\r' && i + 1 < data.size() && data[i + 1] == '\n') {
+                    ++i;
+                }
                 ++i;
+                terminated = true;
+                break;
             }
-            commit_record(false);
+            if (c == '"') {
+                if (at_field_start && !after_close) {
+                    in_quotes = true;
+                    any_quoted = true;
+                } else {
+                    malformed = true;
+                    field.push_back(c);
+                }
+                at_field_start = false;
+                continue;
+            }
+            if (after_close) {
+                malformed = true;  // text after a closing quote
+            }
+            field.push_back(c);
+            at_field_start = false;
+        }
+
+        if (in_quotes) {
+            // Unterminated quoted field: flag this record, resume at the next physical line.
+            records->push_back({line, {}, true});
+            const std::size_t newline = data.find_first_of("\r\n", pos);
+            if (newline == std::string::npos) {
+                pos = data.size();
+            } else {
+                pos = newline + 1;
+                if (data[newline] == '\r' && pos < data.size() && data[pos] == '\n') {
+                    ++pos;
+                }
+            }
+            ++line;
             continue;
         }
 
-        field.push_back(c);
+        fields.push_back(field);
+        const bool blank = fields.size() == 1 && !any_quoted && !malformed && trim(fields[0]).empty();
+        if (!blank) {
+            records->push_back({line, std::move(fields), malformed});
+        }
+        line += extra_lines + (terminated ? 1U : 0U);
+        pos = i;
     }
-
-    if (in_quotes) {
-        malformed = true;
-    }
-
-    if (!fields.empty() || !field.empty() || malformed) {
-        commit_record(true);
-    }
-
-    return records;
 }
+
+// ---------------------------------------------------------------- filters
 
 bool subjectMatches(const std::string& subject, const std::optional<std::string>& filter) {
     if (!filter.has_value()) {
@@ -282,26 +308,21 @@ bool subjectMatches(const std::string& subject, const std::optional<std::string>
 }
 
 bool difficultyMatches(Difficulty difficulty, const std::optional<Difficulty>& filter) {
-    if (!filter.has_value()) {
-        return true;
-    }
-    return difficulty == *filter;
+    return !filter.has_value() || difficulty == *filter;
 }
 
 PublicQuestion makePublic(const Question& q) {
-    return PublicQuestion{q.question_id,
-                          q.subject_tag,
-                          q.difficulty,
-                          q.question_type,
-                          q.question_text,
-                          q.options,
-                          q.is_available};
+    return PublicQuestion{q.question_id, q.subject_tag, q.difficulty, q.question_type,
+                          q.question_text, q.options, q.is_available};
 }
 
-class CoreQuestionBank : public QuestionBank {
+// ---------------------------------------------------------------- the bank
+
+class CoreQuestionBank final : public QuestionBank {
 public:
-    explicit CoreQuestionBank(std::unique_ptr<QuestionRepository> repository)
-        : repository_(std::move(repository)) {}
+    CoreQuestionBank(std::unique_ptr<QuestionRepository> repository, std::unique_ptr<ImportLogger> logger)
+        : repository_(std::move(repository)),
+          logger_(logger ? std::move(logger) : createFileImportLogger()) {}
 
     Result load() override {
         std::vector<Question> loaded;
@@ -313,16 +334,16 @@ public:
 
         std::unordered_set<std::string> ids;
         for (const auto& question : loaded) {
-            if (!validateQuestion(question).ok()) {
+            const Result validation = validateQuestion(question);
+            if (!validation.ok()) {
                 questions_.clear();
-                return {ErrorCode::IO_ERROR, "Invalid question found in storage."};
+                return {ErrorCode::IO_ERROR, "Invalid question found in storage: " + validation.message};
             }
             if (!ids.insert(question.question_id).second) {
                 questions_.clear();
                 return {ErrorCode::IO_ERROR, "Duplicate question_id found in storage."};
             }
         }
-
         questions_ = std::move(loaded);
         return {ErrorCode::OK, "Question bank loaded."};
     }
@@ -331,22 +352,20 @@ public:
         if (!canManage(session)) {
             return notAuthorized();
         }
-
-        Question normalized = normalize(question);
+        const Question normalized = normalize(question);
         const Result validation = validateQuestion(normalized);
         if (!validation.ok()) {
             return validation;
         }
-
         if (findIndexById(normalized.question_id).has_value()) {
             return {ErrorCode::DUPLICATE_ID, "Question ID already exists."};
         }
 
         questions_.push_back(normalized);
-        const Result persist = repository_->saveAll(questions_);
-        if (!persist.ok()) {
+        const Result persisted = repository_->saveAll(questions_);
+        if (!persisted.ok()) {
             questions_.pop_back();
-            return persist;
+            return persisted;
         }
         return {ErrorCode::OK, "Question added."};
     }
@@ -355,30 +374,26 @@ public:
         if (!canManage(session)) {
             return notAuthorized();
         }
-
-        Question normalized = normalize(question);
+        const Question normalized = normalize(question);
         const Result validation = validateQuestion(normalized);
         if (!validation.ok()) {
             return validation;
         }
-
         const auto index = findIndexById(normalized.question_id);
         if (!index.has_value()) {
             return {ErrorCode::QUESTION_NOT_FOUND, "Question not found."};
         }
-
         if (repository_->isReferenced(normalized.question_id)) {
-            return {ErrorCode::QUESTION_IN_USE, "Question is referenced by quiz/attempt and cannot be edited."};
+            return {ErrorCode::QUESTION_IN_USE, "Question is referenced by a quiz/attempt and cannot be edited."};
         }
 
-        const Question old = questions_[*index];
+        const Question previous = questions_[*index];
         questions_[*index] = normalized;
-        const Result persist = repository_->saveAll(questions_);
-        if (!persist.ok()) {
-            questions_[*index] = old;
-            return persist;
+        const Result persisted = repository_->saveAll(questions_);
+        if (!persisted.ok()) {
+            questions_[*index] = previous;
+            return persisted;
         }
-
         return {ErrorCode::OK, "Question updated."};
     }
 
@@ -389,25 +404,22 @@ public:
         if (!confirmed) {
             return {ErrorCode::CONFIRMATION_REQUIRED, "Confirm deletion with yes/no and retry."};
         }
-
         const std::string id = trim(question_id);
         const auto index = findIndexById(id);
         if (!index.has_value()) {
             return {ErrorCode::QUESTION_NOT_FOUND, "Question not found."};
         }
-
         if (repository_->isReferenced(id)) {
-            return {ErrorCode::QUESTION_IN_USE, "Question is referenced by quiz/attempt and cannot be deleted."};
+            return {ErrorCode::QUESTION_IN_USE, "Question is referenced by a quiz/attempt and cannot be deleted."};
         }
 
         const Question removed = questions_[*index];
         questions_.erase(questions_.begin() + static_cast<std::ptrdiff_t>(*index));
-        const Result persist = repository_->saveAll(questions_);
-        if (!persist.ok()) {
+        const Result persisted = repository_->saveAll(questions_);
+        if (!persisted.ok()) {
             questions_.insert(questions_.begin() + static_cast<std::ptrdiff_t>(*index), removed);
-            return persist;
+            return persisted;
         }
-
         return {ErrorCode::OK, "Question deleted."};
     }
 
@@ -415,7 +427,6 @@ public:
         if (!canManage(session)) {
             return notAuthorized();
         }
-
         const auto index = findIndexById(trim(question_id));
         if (!index.has_value()) {
             return {ErrorCode::QUESTION_NOT_FOUND, "Question not found."};
@@ -423,24 +434,22 @@ public:
 
         const bool previous = questions_[*index].is_available;
         questions_[*index].is_available = is_available;
-        const Result persist = repository_->saveAll(questions_);
-        if (!persist.ok()) {
+        const Result persisted = repository_->saveAll(questions_);
+        if (!persisted.ok()) {
             questions_[*index].is_available = previous;
-            return persist;
+            return persisted;
         }
         return {ErrorCode::OK, is_available ? "Question enabled." : "Question disabled."};
     }
 
     Result findQuestionById(const Session& session, const std::string& question_id, Question* question) const override {
-        if (!canReadAnswers(session)) {
+        if (!canManage(session)) {
             return notAuthorized();
         }
-
         const auto index = findIndexById(trim(question_id));
         if (!index.has_value()) {
             return {ErrorCode::QUESTION_NOT_FOUND, "Question not found."};
         }
-
         *question = questions_[*index];
         return {ErrorCode::OK, "Question found."};
     }
@@ -450,19 +459,15 @@ public:
                          bool available_only,
                          const std::optional<std::string>& subject_filter,
                          const std::optional<Difficulty>& difficulty_filter) const override {
-        if (!canReadAnswers(session)) {
+        if (!canManage(session)) {
             return notAuthorized();
         }
-
         questions->clear();
         for (const auto& q : questions_) {
             if (available_only && !q.is_available) {
                 continue;
             }
-            if (!subjectMatches(q.subject_tag, subject_filter)) {
-                continue;
-            }
-            if (!difficultyMatches(q.difficulty, difficulty_filter)) {
+            if (!subjectMatches(q.subject_tag, subject_filter) || !difficultyMatches(q.difficulty, difficulty_filter)) {
                 continue;
             }
             questions->push_back(q);
@@ -487,10 +492,7 @@ public:
             if (!q.is_available) {
                 continue;
             }
-            if (!subjectMatches(q.subject_tag, subject_filter)) {
-                continue;
-            }
-            if (!difficultyMatches(q.difficulty, difficulty_filter)) {
+            if (!subjectMatches(q.subject_tag, subject_filter) || !difficultyMatches(q.difficulty, difficulty_filter)) {
                 continue;
             }
             questions->push_back(makePublic(q));
@@ -500,53 +502,42 @@ public:
 
     ImportReport importFromCsv(const Session& session, const std::string& csv_path) override {
         if (!canManage(session)) {
-            return {{ErrorCode::NOT_AUTHORIZED, "A valid Instructor/Admin session is required."}, 0, 0, {}};
+            return {notAuthorized(), 0, 0, {}, false};
         }
 
+        // Structural failures reject the whole file and leave the bank untouched.
         std::string content;
-        const Result read = repository_->readTextFile(csv_path, &content);
-        if (!read.ok()) {
-            return {{ErrorCode::CSV_STRUCTURE_INVALID, "CSV file cannot be opened."}, 0, 0, {}};
+        if (!repository_->readTextFile(csv_path, &content).ok()) {
+            return structureInvalid("CSV file cannot be opened.");
         }
-
-        const auto records = parseCsvRecords(content);
+        if (content.size() > kMaxCsvBytes) {
+            return structureInvalid("CSV file is larger than 10 MB.");
+        }
+        std::vector<CsvRecord> records;
+        parseCsvRecords(content, &records);
         if (records.empty()) {
-            return {{ErrorCode::CSV_STRUCTURE_INVALID, "CSV file is empty or has no header."}, 0, 0, {}};
+            return structureInvalid("CSV file is empty or has no header.");
         }
-
-        const auto& header = records.front();
-        if (header.malformed_quoting || header.fields.size() != 8 ||
-            trimFieldForHeader(header.fields[0]) != "question_id" ||
-            trimFieldForHeader(header.fields[1]) != "subject_tag" ||
-            trimFieldForHeader(header.fields[2]) != "difficulty" ||
-            trimFieldForHeader(header.fields[3]) != "question_type" ||
-            trimFieldForHeader(header.fields[4]) != "question_text" ||
-            trimFieldForHeader(header.fields[5]) != "options" ||
-            trimFieldForHeader(header.fields[6]) != "correct_option" ||
-            trimFieldForHeader(header.fields[7]) != "is_available") {
-            return {{ErrorCode::CSV_STRUCTURE_INVALID, "CSV header is invalid."}, 0, 0, {}};
-        }
-
-        if (records.size() == 1) {
-            return {{ErrorCode::OK, "Import complete."}, 0, 0, {}};
+        if (!headerMatches(records.front())) {
+            return structureInvalid("CSV header is invalid. Expected: " + std::string(kCsvHeader));
         }
 
         std::vector<Question> staged;
-        std::vector<ImportIssue> invalid_rows;
-        std::unordered_set<std::string> seen_ids;
-        for (const auto& existing : questions_) {
-            seen_ids.insert(existing.question_id);
-        }
+        ImportReport report;
+                std::unordered_set<std::string> seen_ids;
+        std::transform(questions_.begin(), questions_.end(), std::inserter(seen_ids, seen_ids.end()),
+                       [](const Question& existing) { return existing.question_id; });
 
         for (std::size_t i = 1; i < records.size(); ++i) {
-            const auto& row = records[i];
-
-            auto skip = [&](const std::string& reason) {
-                invalid_rows.push_back({row.row_number, reason});
-                logRejectedImportRow(reason, row.row_number);
+            const CsvRecord& row = records[i];
+            const auto skip = [&](const std::string& reason) {
+                report.invalid_rows.push_back({row.line, reason});
+                if (!logger_->logRejectedRow(row.line, reason)) {
+                    report.log_failed = true;
+                }
             };
 
-            if (row.malformed_quoting) {
+            if (row.malformed) {
                 skip("Malformed CSV quoting.");
                 continue;
             }
@@ -555,32 +546,31 @@ public:
                 continue;
             }
 
-            Question q{};
+            Question q;
             q.question_id = deneutralizeFormula(row.fields[0]);
             q.subject_tag = deneutralizeFormula(row.fields[1]);
-            const auto difficulty = parseDifficulty(deneutralizeFormula(row.fields[2]));
-            const auto type = parseQuestionType(deneutralizeFormula(row.fields[3]));
             q.question_text = deneutralizeFormula(row.fields[4]);
             q.options = decodeOptionsCell(deneutralizeFormula(row.fields[5]));
 
+            const auto difficulty = parseDifficulty(row.fields[2]);
             if (!difficulty.has_value()) {
                 skip("Difficulty must be Easy, Medium, or Hard.");
                 continue;
             }
             q.difficulty = *difficulty;
 
+            const auto type = parseQuestionType(row.fields[3]);
             if (!type.has_value()) {
                 skip("Question type must be MCQ.");
                 continue;
             }
             q.question_type = *type;
 
-            if (!parseSize(deneutralizeFormula(row.fields[6]), &q.correct_option)) {
-                skip("correct_option must be a numeric index.");
+            if (!parseSize(row.fields[6], &q.correct_option)) {
+                skip("correct_option must be a non-negative whole number.");
                 continue;
             }
-
-            if (!parseBool(deneutralizeFormula(row.fields[7]), &q.is_available)) {
+            if (!parseBool(row.fields[7], &q.is_available)) {
                 skip("is_available must be true/false, yes/no, or 1/0.");
                 continue;
             }
@@ -591,28 +581,30 @@ public:
                 skip(validation.message);
                 continue;
             }
-
             if (!seen_ids.insert(q.question_id).second) {
                 skip("Duplicate question_id; existing IDs are not overwritten.");
                 continue;
             }
-
-            staged.push_back(q);
+            staged.push_back(std::move(q));
         }
 
+        report.skipped_count = report.invalid_rows.size();
+        report.result = {ErrorCode::OK, "Import complete."};
         if (staged.empty()) {
-            return {{ErrorCode::OK, "Import complete."}, 0, invalid_rows.size(), invalid_rows};
+            return report;
         }
 
+        // All valid rows are stored with ONE save; on failure nothing changes.
         const auto snapshot = questions_;
         questions_.insert(questions_.end(), staged.begin(), staged.end());
-        const Result persist = repository_->saveAll(questions_);
-        if (!persist.ok()) {
+        const Result persisted = repository_->saveAll(questions_);
+        if (!persisted.ok()) {
             questions_ = snapshot;
-            return {{ErrorCode::IO_ERROR, "Failed to persist imported rows."}, 0, invalid_rows.size(), invalid_rows};
+            report.result = {ErrorCode::IO_ERROR, "Failed to store imported rows: " + persisted.message};
+            return report;
         }
-
-        return {{ErrorCode::OK, "Import complete."}, staged.size(), invalid_rows.size(), invalid_rows};
+        report.imported_count = staged.size();
+        return report;
     }
 
     Result exportToCsv(const Session& session,
@@ -626,33 +618,46 @@ public:
 
         std::ostringstream out;
         out << kCsvHeader << '\n';
-
         for (const auto& q : questions_) {
-            if (!subjectMatches(q.subject_tag, subject_filter)) {
+            if (!subjectMatches(q.subject_tag, subject_filter) || !difficultyMatches(q.difficulty, difficulty_filter)) {
                 continue;
             }
-            if (!difficultyMatches(q.difficulty, difficulty_filter)) {
-                continue;
-            }
-
             out << csvEscape(neutralizeFormula(q.question_id)) << ','
                 << csvEscape(neutralizeFormula(q.subject_tag)) << ','
-                << csvEscape(neutralizeFormula(difficultyToString(q.difficulty))) << ','
-                << csvEscape(neutralizeFormula(questionTypeToString(q.question_type))) << ','
+                << difficultyToString(q.difficulty) << ','
+                << questionTypeToString(q.question_type) << ','
                 << csvEscape(neutralizeFormula(q.question_text)) << ','
                 << csvEscape(neutralizeFormula(encodeOptionsCell(q.options))) << ','
                 << q.correct_option << ','
                 << (q.is_available ? "true" : "false") << '\n';
         }
-
         if (!out.good()) {
             return {ErrorCode::IO_ERROR, "Failed to prepare CSV content."};
         }
-
         return repository_->writeTextFileAtomic(csv_path, out.str(), overwrite);
     }
 
 private:
+    static ImportReport structureInvalid(const std::string& message) {
+        ImportReport report;
+        report.result = {ErrorCode::CSV_STRUCTURE_INVALID, message};
+        return report;
+    }
+
+    static bool headerMatches(const CsvRecord& header) {
+        static const char* const kNames[8] = {"question_id", "subject_tag", "difficulty", "question_type",
+                                              "question_text", "options", "correct_option", "is_available"};
+        if (header.malformed || header.fields.size() != 8) {
+            return false;
+        }
+        for (std::size_t i = 0; i < 8; ++i) {
+            if (trim(header.fields[i]) != kNames[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     static Question normalize(const Question& original) {
         Question q = original;
         q.question_id = trim(q.question_id);
@@ -660,27 +665,37 @@ private:
         return q;
     }
 
-    Result validateQuestion(const Question& q) const {
-        if (q.question_id.empty()) {
-            return {ErrorCode::VALIDATION_FAILED, "question_id is required."};
+    // Checks one short text field: not empty, code-point length, valid UTF-8, no control characters.
+    static Result checkShortField(const std::string& value, const char* name, std::size_t max_chars) {
+        if (trim(value).empty()) {
+            return {ErrorCode::VALIDATION_FAILED, std::string(name) + " is required."};
         }
-        if (q.question_id.size() > 36) {
-            return {ErrorCode::VALIDATION_FAILED, "question_id must be 36 characters or fewer."};
+        std::size_t length = 0;
+        if (!utf8Length(value, &length)) {
+            return {ErrorCode::VALIDATION_FAILED, std::string(name) + " is not valid UTF-8 text."};
         }
-        if (hasDisallowedControlChars(q.question_id, false)) {
-            return {ErrorCode::VALIDATION_FAILED, "question_id contains disallowed control characters."};
+        if (length > max_chars) {
+            return {ErrorCode::VALIDATION_FAILED,
+                    std::string(name) + " must be " + std::to_string(max_chars) + " characters or fewer."};
         }
+        if (hasDisallowedControlChars(value, false)) {
+            return {ErrorCode::VALIDATION_FAILED, std::string(name) + " contains control characters."};
+        }
+        return {ErrorCode::OK, ""};
+    }
 
-        if (q.subject_tag.empty()) {
-            return {ErrorCode::VALIDATION_FAILED, "subject_tag is required."};
+    static Result validateQuestion(const Question& q) {
+        if (trim(q.question_id) != q.question_id || trim(q.subject_tag) != q.subject_tag) {
+            return {ErrorCode::VALIDATION_FAILED, "question_id and subject_tag must not have surrounding spaces."};
         }
-        if (q.subject_tag.size() > 40) {
-            return {ErrorCode::VALIDATION_FAILED, "subject_tag must be 40 characters or fewer."};
+        Result r = checkShortField(q.question_id, "question_id", 36);
+        if (!r.ok()) {
+            return r;
         }
-        if (hasDisallowedControlChars(q.subject_tag, false)) {
-            return {ErrorCode::VALIDATION_FAILED, "subject_tag contains disallowed control characters."};
+        r = checkShortField(q.subject_tag, "subject_tag", 40);
+        if (!r.ok()) {
+            return r;
         }
-
         if (q.question_type != QuestionType::MCQ) {
             return {ErrorCode::VALIDATION_FAILED, "Only MCQ question type is supported."};
         }
@@ -688,7 +703,11 @@ private:
         if (trim(q.question_text).empty()) {
             return {ErrorCode::VALIDATION_FAILED, "question_text is required."};
         }
-        if (q.question_text.size() > 500) {
+        std::size_t text_length = 0;
+        if (!utf8Length(q.question_text, &text_length)) {
+            return {ErrorCode::VALIDATION_FAILED, "question_text is not valid UTF-8 text."};
+        }
+        if (text_length > 500) {
             return {ErrorCode::VALIDATION_FAILED, "question_text must be 500 characters or fewer."};
         }
         if (hasDisallowedControlChars(q.question_text, true)) {
@@ -698,56 +717,43 @@ private:
         if (q.options.size() < 2) {
             return {ErrorCode::VALIDATION_FAILED, "At least two options are required."};
         }
-
         std::unordered_set<std::string> seen_options;
         for (const auto& option : q.options) {
-            const std::string trimmed = trim(option);
-            if (trimmed.empty()) {
-                return {ErrorCode::VALIDATION_FAILED, "Options must not be empty or whitespace-only."};
+            r = checkShortField(option, "Each option", 200);
+            if (!r.ok()) {
+                return {ErrorCode::VALIDATION_FAILED, "Options must be non-empty, valid text of 200 characters or fewer, without control characters."};
             }
-            if (trimmed.size() > 200) {
-                return {ErrorCode::VALIDATION_FAILED, "Each option must be 200 characters or fewer."};
-            }
-            if (hasDisallowedControlChars(option, false)) {
-                return {ErrorCode::VALIDATION_FAILED, "Options contain disallowed control characters."};
-            }
-            const std::string normalized = toLower(trimmed);
-            if (!seen_options.insert(normalized).second) {
+            if (!seen_options.insert(toLower(trim(option))).second) {
                 return {ErrorCode::VALIDATION_FAILED, "Duplicate options are not allowed."};
             }
         }
 
         if (q.correct_option >= q.options.size()) {
-            return {ErrorCode::VALIDATION_FAILED, "correct_option must reference an existing option."};
+            return {ErrorCode::VALIDATION_FAILED, "correct_option must refer to an existing option."};
         }
         if (std::to_string(q.correct_option).size() > 5) {
             return {ErrorCode::VALIDATION_FAILED, "correct_option is too large."};
         }
-
         return {ErrorCode::OK, "Valid question."};
     }
-
-    std::optional<std::size_t> findIndexById(const std::string& id) const {
-        for (std::size_t i = 0; i < questions_.size(); ++i) {
-            if (questions_[i].question_id == id) {
-                return i;
-            }
+    [[nodiscard]] std::optional<std::size_t> findIndexById(const std::string& id) const {
+        const auto it = std::find_if(questions_.begin(), questions_.end(),
+                                     [&id](const Question& q) { return q.question_id == id; });
+        if (it == questions_.end()) {
+            return std::nullopt;
         }
-        return std::nullopt;
+        return static_cast<std::size_t>(it - questions_.begin());
     }
-
     std::unique_ptr<QuestionRepository> repository_;
+    std::unique_ptr<ImportLogger> logger_;
     std::vector<Question> questions_;
 };
 
 }  // namespace
 
-std::unique_ptr<QuestionBank> createQuestionBank(std::unique_ptr<QuestionRepository> repository) {
-    return std::make_unique<CoreQuestionBank>(std::move(repository));
-}
-
-std::optional<Session> createDemoSession() {
-    return Session{"demo-instructor", Role::Instructor, "1970-01-01T00:00:00Z"};
+std::unique_ptr<QuestionBank> createQuestionBank(std::unique_ptr<QuestionRepository> repository,
+                                                 std::unique_ptr<ImportLogger> logger) {
+    return std::make_unique<CoreQuestionBank>(std::move(repository), std::move(logger));
 }
 
 std::string difficultyToString(Difficulty difficulty) {

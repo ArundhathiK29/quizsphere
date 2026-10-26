@@ -22,3 +22,13 @@ foreach(file_path IN LISTS ALL_SOURCES)
         message(FATAL_ERROR "Disallowed <fstream> include in ${file_path}")
     endif()
 endforeach()
+
+# The repository may only delete its own temporary files. Deleting the real target before the
+# rename would lose the whole question bank if the program stopped in between (SAD 3.7).
+# Every filesystem::remove(...) in the repository must name "temp".
+file(STRINGS "${PROJECT_SOURCE_DIR}/src/question_repository_file.cpp" repo_lines)
+foreach(line IN LISTS repo_lines)
+    if(line MATCHES "filesystem::remove\\(" AND NOT line MATCHES "filesystem::remove\\(temp[,)]")
+        message(FATAL_ERROR "question_repository_file.cpp deletes something other than a temp file: ${line}")
+    endif()
+endforeach()
