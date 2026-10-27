@@ -1,0 +1,25 @@
+# Build output
+build/
+cmake-build-*/
+out/
+
+# Local databases, logs and data (never commit credentials or user data)
+*.db
+*.db-journal
+*.sqlite
+*.log
+data/questions.tsv
+
+# Coverage
+*.gcno
+*.gcda
+*.gcov
+coverage/
+coverage.info
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+build-*/
