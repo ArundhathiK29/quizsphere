@@ -119,6 +119,14 @@ public:
             }
         }
 
+        // BR-5 (BL-25, UT-GRADE-02): "a negative marking scheme cannot bring a single question's
+        // score below zero." Per-item marks_awarded above keeps the raw (possibly negative) deduction
+        // for the itemised breakdown (FR-017 transparency), but the attempt's own total never goes
+        // negative overall.
+        if (computed.score < 0.0) {
+            computed.score = 0.0;
+        }
+
         attempt.answers = answers;
         attempt.submitted = true;
         attempt.score = computed.score;  // quiz_types.hpp: "filled in by the Grading Module"

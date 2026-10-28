@@ -343,4 +343,29 @@ TEST_F(GradingModuleTest, UT_GRADE_08_AutoSubmittedAttemptIsStillGradedButReport
     EXPECT_NE(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
 }
 
+TEST_F(GradingModuleTest, UT_GRADE_09_BR5_TotalScoreNeverGoesBelowZeroWhenPenaltyExceedsMarks) {
+    // negative_mark (5.0) exceeds marks_per_question (1.0): both wrong answers would raw-sum to -10.0.
+    makeQuiz(/*marks_per_question=*/1.0, /*negative_mark=*/5.0);
+    makeOpenAttempt();
+
+    // Q1 wrong (correct is 1, selected 0), Q2 wrong (correct is 0, selected 1), Q3 blank.
+    std::vector<Answer> answers = {
+        Answer{"Q1", 0, false},
+        Answer{"Q2", 1, false},
+    };
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(report.score, 0.0);  // BR-5 floor, not -10.0
+    // Itemised breakdown keeps the raw deduction for transparency (FR-017), unclamped.
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, -5.0);
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, -5.0);
+
+    const Attempt* stored = attempts_.gradedAttempt("quiz-1", "student-1");
+    ASSERT_NE(stored, nullptr);
+    EXPECT_DOUBLE_EQ(stored->score, 0.0);
+}
+
 }  // namespace
