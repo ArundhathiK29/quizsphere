@@ -200,4 +200,45 @@ TEST_F(AnalyticsModuleTest, LeaderboardWithNoGradedAttemptsIsEmptyNotAnError) {
     EXPECT_TRUE(entries.empty());
 }
 
+// UT-ANLY-01 (BL-26): percent of attempts that answered a question correctly, with known data.
+TEST_F(AnalyticsModuleTest, DifficultyIndexComputesPercentCorrectFromKnownData) {
+    // Q1's correct option is 1. Three attempts see it: two correct, one wrong.
+    attempts_.addGradedAttempt(makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 1.0,
+                                                  {Answer{"Q1", 1, false}}, {"Q1", "Q2"}));
+    attempts_.addGradedAttempt(makeGradedAttempt("a2", "quiz-1", "bob", QuizMode::Graded, 0.0,
+                                                  {Answer{"Q1", 0, false}}, {"Q1", "Q2"}));
+    attempts_.addGradedAttempt(makeGradedAttempt("a3", "quiz-1", "carol", QuizMode::Practice, 1.0,
+                                                  {Answer{"Q1", 1, false}}, {"Q1", "Q2"}));
+
+    double percent = -1.0;
+    const Result result = analytics_->difficultyIndex("Q1", &percent);
+
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(percent, 100.0 * 2.0 / 3.0);  // practice attempts DO count for item analysis
+}
+
+TEST_F(AnalyticsModuleTest, DifficultyIndexTreatsABlankAnswerAsNotCorrect) {
+    // Q1 appears in the attempt's question_order but has no Answer entry at all (skipped).
+    attempts_.addGradedAttempt(makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 0.0, {}, {"Q1", "Q2"}));
+
+    double percent = -1.0;
+    const Result result = analytics_->difficultyIndex("Q1", &percent);
+
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(percent, 0.0);
+}
+
+TEST_F(AnalyticsModuleTest, DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError) {
+    double percent = -1.0;
+    const Result result = analytics_->difficultyIndex("Q2", &percent);
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(percent, 0.0);
+}
+
+TEST_F(AnalyticsModuleTest, DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound) {
+    double percent = -1.0;
+    const Result result = analytics_->difficultyIndex("missing-question", &percent);
+    EXPECT_EQ(result.code, ErrorCode::QUESTION_NOT_FOUND);
+}
+
 }  // namespace
