@@ -351,4 +351,49 @@ TEST_F(AnalyticsModuleTest, AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards
     EXPECT_NE(text.find("  2. bob  1.00"), std::string::npos);
 }
 
+// UT-ANLY-01 (BL-26): percent of GRADED attempts that answered a question correctly, with known
+// data. Q1's correct option is 1. One correct + one wrong graded attempt = 50%; a correct PRACTICE
+// attempt must leave it at 50% (BR-4: practice never feeds analytics).
+TEST_F(AnalyticsModuleTest, DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly) {
+    attempts_.addGradedAttempt(makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 1.0,
+                                                  {Answer{"Q1", 1, false}}, {"Q1", "Q2"}));
+    attempts_.addGradedAttempt(makeGradedAttempt("a2", "quiz-1", "bob", QuizMode::Graded, 0.0,
+                                                  {Answer{"Q1", 0, false}}, {"Q1", "Q2"}));
+
+    double percent = -1.0;
+    ASSERT_TRUE(analytics_->difficultyIndex("Q1", &percent).ok());
+    EXPECT_DOUBLE_EQ(percent, 50.0);
+
+    attempts_.addGradedAttempt(makeGradedAttempt("a3", "quiz-1", "carol", QuizMode::Practice, 1.0,
+                                                  {Answer{"Q1", 1, false}}, {"Q1", "Q2"}));
+
+    percent = -1.0;
+    ASSERT_TRUE(analytics_->difficultyIndex("Q1", &percent).ok());
+    EXPECT_DOUBLE_EQ(percent, 50.0);  // unchanged: the practice attempt does not count
+}
+
+TEST_F(AnalyticsModuleTest, DifficultyIndexTreatsABlankAnswerAsIncorrect) {
+    // Q1 appears in the attempt's question_order but has no Answer entry at all (skipped).
+    attempts_.addGradedAttempt(makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 0.0, {}, {"Q1", "Q2"}));
+    attempts_.addGradedAttempt(makeGradedAttempt("a2", "quiz-1", "bob", QuizMode::Graded, 1.0,
+                                                  {Answer{"Q1", 1, false}}, {"Q1", "Q2"}));
+
+    double percent = -1.0;
+    ASSERT_TRUE(analytics_->difficultyIndex("Q1", &percent).ok());
+    EXPECT_DOUBLE_EQ(percent, 50.0);  // blank counts in the denominator, not the numerator
+}
+
+TEST_F(AnalyticsModuleTest, DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError) {
+    double percent = -1.0;
+    const Result result = analytics_->difficultyIndex("Q2", &percent);
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(percent, 0.0);
+}
+
+TEST_F(AnalyticsModuleTest, DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound) {
+    double percent = -1.0;
+    const Result result = analytics_->difficultyIndex("missing-question", &percent);
+    EXPECT_EQ(result.code, ErrorCode::QUESTION_NOT_FOUND);
+}
+
 }  // namespace
