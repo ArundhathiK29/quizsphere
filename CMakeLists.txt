@@ -99,6 +99,12 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_coverage(auth_tests)
     gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
 
+    add_executable(grading_module_tests tests/grading_module_tests.cpp)
+    target_link_libraries(grading_module_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(grading_module_tests)
+    quizsphere_enable_coverage(grading_module_tests)
+    gtest_discover_tests(grading_module_tests DISCOVERY_TIMEOUT 120)
+
     add_test(
         NAME no_fstream_outside_repository_or_logging
         COMMAND ${CMAKE_COMMAND} -DPROJECT_SOURCE_DIR=${CMAKE_SOURCE_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/check_no_fstream.cmake
