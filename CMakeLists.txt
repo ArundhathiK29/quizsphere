@@ -51,6 +51,7 @@ add_library(quizsphere_core
     src/grading_module.cpp
     src/quiz_engine.cpp
     src/analytics_module.cpp
+    src/result_view.cpp
 )
 
 target_include_directories(quizsphere_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -104,6 +105,13 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(grading_module_tests)
     quizsphere_enable_coverage(grading_module_tests)
     gtest_discover_tests(grading_module_tests DISCOVERY_TIMEOUT 120)
+
+        add_executable(result_view_tests tests/result_view_tests.cpp)
+    target_link_libraries(result_view_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(result_view_tests)
+    quizsphere_enable_coverage(result_view_tests)
+
+    add_test(NAME result_view_tests COMMAND result_view_tests)
 
     add_test(
         NAME no_fstream_outside_repository_or_logging
