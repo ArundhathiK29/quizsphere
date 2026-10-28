@@ -25,7 +25,14 @@ enum class ErrorCode {
     QUESTION_IN_USE,
     IO_ERROR,
     CSV_STRUCTURE_INVALID,
-    CONFIRMATION_REQUIRED
+    CONFIRMATION_REQUIRED,
+    // Quiz engine / grading errors (SAD 4.3)
+    QUIZ_NOT_FOUND,
+    ATTEMPT_NOT_FOUND,
+    ATTEMPT_ALREADY_SUBMITTED,
+    TIME_EXPIRED,
+    // Returned by module stubs until the owner implements them
+    NOT_IMPLEMENTED
 };
 
 struct Result {
@@ -36,5 +43,10 @@ struct Result {
 };
 
 std::string roleToString(Role role);
+
+// Used by interface stubs so unfinished modules fail loudly instead of silently succeeding.
+inline Result notImplemented(const std::string& feature) {
+    return {ErrorCode::NOT_IMPLEMENTED, feature + " is not implemented yet."};
+}
 
 }  // namespace quizsphere
