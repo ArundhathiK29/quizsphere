@@ -24,6 +24,8 @@ Session instructorSession() {
 
 // BL-10 test doubles: BL-06 (the real SQLite DAL) is not implemented yet, so grading is exercised
 // against fakes that satisfy the agreed BL-01 interfaces (data_access_layer.hpp, question_repository.hpp).
+// Test IDs below follow the SRS/Test Plan Appendix C numbering (UT-GRADE-01, -02, ...); a few tests
+// cover scenarios not listed in the sample RTM and are named descriptively without a UT-GRADE- prefix.
 
 class InMemoryQuestionRepository final : public QuestionRepository {
 public:
@@ -252,7 +254,32 @@ TEST_F(GradingModuleTest, UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers) {
     EXPECT_DOUBLE_EQ(report.itemised_breakdown[2].marks_awarded, 0.0);
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_02_NegativeMarkingSubtractsForWrongAnswersOnly) {
+TEST_F(GradingModuleTest, UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks) {
+    // negative_mark (5.0) exceeds marks_per_question (1.0): both wrong answers would raw-sum to -10.0.
+    makeQuiz(/*marks_per_question=*/1.0, /*negative_mark=*/5.0);
+    makeOpenAttempt();
+
+    // Q1 wrong (correct is 1, selected 0), Q2 wrong (correct is 0, selected 1), Q3 blank.
+    std::vector<Answer> answers = {
+        Answer{"Q1", 0, false},
+        Answer{"Q2", 1, false},
+    };
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(report.score, 0.0);  // BR-5 floor, not -10.0
+    // Itemised breakdown keeps the raw deduction for transparency (FR-017), unclamped.
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, -5.0);
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, -5.0);
+
+    const Attempt* stored = attempts_.gradedAttempt("quiz-1", "student-1");
+    ASSERT_NE(stored, nullptr);
+    EXPECT_DOUBLE_EQ(stored->score, 0.0);
+}
+
+TEST_F(GradingModuleTest, UT_GRADE_03_NegativeMarkingSubtractsForWrongAnswersOnly) {
     makeQuiz(/*marks_per_question=*/1.0, /*negative_mark=*/0.25);
     makeOpenAttempt();
 
@@ -267,7 +294,26 @@ TEST_F(GradingModuleTest, UT_GRADE_02_NegativeMarkingSubtractsForWrongAnswersOnl
     EXPECT_DOUBLE_EQ(report.max_score, 3.0);
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_03_GroupsTopicBreakdownBySubjectTag) {
+TEST_F(GradingModuleTest, UT_GRADE_04_SecondGradedAttemptRejected) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+
+    GradeReport first;
+    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
+
+    // Simulate the student starting a second (graded-mode) attempt; grading the duplicate must fail
+    // and the first attempt's result must stay unchanged (FR-015, BR-3).
+    makeOpenAttempt();
+    GradeReport second;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &second);
+    EXPECT_EQ(result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+
+    const Attempt* stored = attempts_.gradedAttempt("quiz-1", "student-1");
+    ASSERT_NE(stored, nullptr);
+    EXPECT_DOUBLE_EQ(stored->score, first.score);
+}
+
+TEST_F(GradingModuleTest, GroupsTopicBreakdownBySubjectTag) {
     makeQuiz(1.0, 0.0);
     makeOpenAttempt();
 
@@ -286,7 +332,8 @@ TEST_F(GradingModuleTest, UT_GRADE_03_GroupsTopicBreakdownBySubjectTag) {
     EXPECT_DOUBLE_EQ(report.topic_breakdown[1].marks, 0.0);
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_04_PersistsGradedAttemptAndIsRetrievableViaGetReport) {
+TEST_F(GradingModuleTest, UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport) {
+    // FR-017 / BL-23: the stored itemised result of a graded attempt (result screen).
     makeQuiz(1.0, 0.0);
     makeOpenAttempt();
 
@@ -304,31 +351,56 @@ TEST_F(GradingModuleTest, UT_GRADE_04_PersistsGradedAttemptAndIsRetrievableViaGe
     const Result fetch_result = grading_->getReport("quiz-1", "student-1", &fetched_report);
     ASSERT_TRUE(fetch_result.ok());
     EXPECT_DOUBLE_EQ(fetched_report.score, graded_report.score);
-    EXPECT_EQ(fetched_report.itemised_breakdown.size(), graded_report.itemised_breakdown.size());
+    ASSERT_EQ(fetched_report.itemised_breakdown.size(), graded_report.itemised_breakdown.size());
+    // Every question, the student's answer, the correct answer and marks awarded (FR-017).
+    for (std::size_t i = 0; i < fetched_report.itemised_breakdown.size(); ++i) {
+        EXPECT_EQ(fetched_report.itemised_breakdown[i].question_id, graded_report.itemised_breakdown[i].question_id);
+        EXPECT_EQ(fetched_report.itemised_breakdown[i].selected_option,
+                  graded_report.itemised_breakdown[i].selected_option);
+        EXPECT_EQ(fetched_report.itemised_breakdown[i].correct_option,
+                  graded_report.itemised_breakdown[i].correct_option);
+        EXPECT_DOUBLE_EQ(fetched_report.itemised_breakdown[i].marks_awarded,
+                         graded_report.itemised_breakdown[i].marks_awarded);
+    }
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_05_RegradingAnAlreadySubmittedAttemptIsRejected) {
+TEST_F(GradingModuleTest, UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI) {
+    // NFR-006 (SAD 3.9 Tampering): a direct call to re-grade a submitted attempt - bypassing any
+    // UI - must still be rejected, and the already-recorded result must stay untouched.
     makeQuiz(1.0, 0.0);
     makeOpenAttempt();
 
     GradeReport first;
     ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
 
-    // Simulate the student starting a second (graded-mode) attempt; grading the duplicate must fail.
+    // A fresh open attempt with different, more favourable answers (simulating tampering), graded
+    // directly through the module.
     makeOpenAttempt();
+    std::vector<Answer> tampered_answers = {
+        Answer{"Q1", 1, false},
+        Answer{"Q2", 0, false},  // now "correct" - was wrong (2) in the original submission
+    };
+
     GradeReport second;
-    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &second);
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", tampered_answers, &second);
+
     EXPECT_EQ(result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+    const Attempt* stored = attempts_.gradedAttempt("quiz-1", "student-1");
+    ASSERT_NE(stored, nullptr);
+    EXPECT_DOUBLE_EQ(stored->score, first.score);
+    ASSERT_EQ(stored->answers.size(), 2u);
+    EXPECT_EQ(stored->answers[1].question_id, "Q2");
+    EXPECT_EQ(stored->answers[1].selected_option, 2);  // original wrong answer, not the tampered one
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_06_UnknownQuizReturnsQuizNotFound) {
+TEST_F(GradingModuleTest, UT_GRADE_08_UnknownQuizReturnsQuizNotFound) {
     makeOpenAttempt();
     GradeReport report;
     const Result result = grading_->gradeAttempt("missing-quiz", "student-1", sampleAnswers(), &report);
     EXPECT_EQ(result.code, ErrorCode::QUIZ_NOT_FOUND);
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_07_NoOpenAttemptReturnsAttemptNotFound) {
+TEST_F(GradingModuleTest, NoOpenAttemptReturnsAttemptNotFound) {
     makeQuiz(1.0, 0.0);
     // No attempt seeded.
     GradeReport report;
@@ -336,7 +408,7 @@ TEST_F(GradingModuleTest, UT_GRADE_07_NoOpenAttemptReturnsAttemptNotFound) {
     EXPECT_EQ(result.code, ErrorCode::ATTEMPT_NOT_FOUND);
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_08_AutoSubmittedAttemptIsStillGradedButReportsTimeExpired) {
+TEST_F(GradingModuleTest, UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired) {
     makeQuiz(1.0, 0.0);
     makeOpenAttempt(/*auto_submitted=*/true);
 

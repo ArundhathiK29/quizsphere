@@ -59,7 +59,7 @@ public:
             return quiz_result;
         }
 
-                // The open (in-progress) attempt carries the shuffled question_order the student saw and,
+        // The open (in-progress) attempt carries the shuffled question_order the student saw and,
         // if the Quiz Engine already persisted a timeout, auto_submitted = true (FR-011).
         Attempt attempt;
         const Result attempt_result = attempts_.findOpenAttempt(quiz_id, student_id, &attempt);
@@ -145,6 +145,14 @@ public:
             if (correct) {
                 topic.correct += 1;
             }
+        }
+
+        // BR-5 (BL-25, UT-GRADE-02): "a negative marking scheme cannot bring a single question's
+        // score below zero." Per-item marks_awarded above keeps the raw (possibly negative) deduction
+        // for the itemised breakdown (FR-017 transparency), but the attempt's own total never goes
+        // negative overall.
+        if (computed.score < 0.0) {
+            computed.score = 0.0;
         }
 
         attempt.answers = answers;
