@@ -59,12 +59,44 @@ public:
             return quiz_result;
         }
 
-        // The open (in-progress) attempt carries the shuffled question_order the student saw and,
+                // The open (in-progress) attempt carries the shuffled question_order the student saw and,
         // if the Quiz Engine already persisted a timeout, auto_submitted = true (FR-011).
         Attempt attempt;
         const Result attempt_result = attempts_.findOpenAttempt(quiz_id, student_id, &attempt);
         if (!attempt_result.ok()) {
             return attempt_result;
+        }
+
+        // Fetch every question in this attempt once; also used below to validate answers.
+        std::unordered_map<std::string, Question> questions_by_id;
+        for (const std::string& question_id : attempt.question_order) {
+            Question question;
+            const Result question_result = question_bank_.findQuestionById(systemSession(), question_id, &question);
+            if (!question_result.ok()) {
+                return question_result;
+            }
+            questions_by_id.emplace(question_id, question);
+        }
+
+        // Validate the submitted answers before grading anything (NFR-006: tampered/malformed
+        // input is rejected by the module itself, not just hidden in a UI): no duplicate answers
+        // for the same question, no answers for a question outside this attempt, no option index
+        // that isn't kBlankAnswer or a valid index into that question's options.
+        std::unordered_map<std::string, int> answer_counts;
+        for (const Answer& answer : answers) {
+            if (++answer_counts[answer.question_id] > 1) {
+                return {ErrorCode::VALIDATION_FAILED, "Duplicate answer for question " + answer.question_id + "."};
+            }
+            const auto question_it = questions_by_id.find(answer.question_id);
+            if (question_it == questions_by_id.end()) {
+                return {ErrorCode::VALIDATION_FAILED,
+                       "Answer for question " + answer.question_id + " is not part of this attempt."};
+            }
+            if (answer.selected_option != kBlankAnswer &&
+                (answer.selected_option < 0 ||
+                 static_cast<std::size_t>(answer.selected_option) >= question_it->second.options.size())) {
+                return {ErrorCode::VALIDATION_FAILED, "Invalid option index for question " + answer.question_id + "."};
+            }
         }
 
         GradeReport computed;
@@ -73,11 +105,7 @@ public:
         std::unordered_map<std::string, std::size_t> topic_index;  // subject_tag -> topic_breakdown slot
 
         for (const std::string& question_id : attempt.question_order) {
-            Question question;
-            const Result question_result = question_bank_.findQuestionById(systemSession(), question_id, &question);
-            if (!question_result.ok()) {
-                return question_result;
-            }
+            const Question& question = questions_by_id.at(question_id);
 
             const Answer* answer = findAnswer(answers, question_id);
             const int selected_option = answer != nullptr ? answer->selected_option : kBlankAnswer;

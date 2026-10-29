@@ -103,6 +103,10 @@ public:
         return {ErrorCode::OK, "ok"};
     }
     Result saveGradedAttempt(const Attempt& attempt, const GradeReport& report) override {
+        if (fail_next_save_) {
+            fail_next_save_ = false;
+            return {ErrorCode::IO_ERROR, "Simulated database write failure."};
+        }
         const std::string k = key(attempt.quiz_id, attempt.student_id);
         if (graded_.find(k) != graded_.end()) {
             return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
@@ -143,11 +147,13 @@ public:
         const auto it = graded_.find(key(quiz_id, student_id));
         return it == graded_.end() ? nullptr : &it->second.first;
     }
+    void failNextSave() { fail_next_save_ = true; }
 
 private:
     static std::string key(const std::string& quiz_id, const std::string& student_id) {
         return quiz_id + "|" + student_id;
     }
+    bool fail_next_save_ = false;
     std::unordered_map<std::string, Attempt> open_;
     std::unordered_map<std::string, std::pair<Attempt, GradeReport>> graded_;
 };
@@ -341,6 +347,77 @@ TEST_F(GradingModuleTest, UT_GRADE_08_AutoSubmittedAttemptIsStillGradedButReport
     EXPECT_TRUE(report.auto_submitted);
     EXPECT_DOUBLE_EQ(report.score, 1.0);  // grading itself still ran normally
     EXPECT_NE(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
+}
+
+TEST_F(GradingModuleTest, DuplicateAnswerForTheSameQuestionIsRejected) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+
+    std::vector<Answer> answers = {
+        Answer{"Q1", 1, false},
+        Answer{"Q1", 0, false},  // Q1 answered twice
+    };
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    EXPECT_EQ(result.code, ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);  // nothing persisted
+}
+
+TEST_F(GradingModuleTest, AnswerForAQuestionOutsideTheAttemptIsRejected) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();  // question_order is {Q1, Q2, Q3}
+
+    std::vector<Answer> answers = {
+        Answer{"Q1", 1, false},
+        Answer{"not-in-this-attempt", 0, false},
+    };
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    EXPECT_EQ(result.code, ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
+}
+
+TEST_F(GradingModuleTest, NegativeOptionIndexOtherThanBlankIsRejected) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+
+    std::vector<Answer> answers = {Answer{"Q1", -2, false}};  // kBlankAnswer is -1; -2 is invalid
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    EXPECT_EQ(result.code, ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
+}
+
+TEST_F(GradingModuleTest, OutOfRangeOptionIndexIsRejected) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+
+    // Q1 only has 3 options (indexes 0-2); 3 is out of range.
+    std::vector<Answer> answers = {Answer{"Q1", 3, false}};
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    EXPECT_EQ(result.code, ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
+}
+
+TEST_F(GradingModuleTest, DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+    attempts_.failNextSave();
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
+
+    EXPECT_EQ(result.code, ErrorCode::IO_ERROR);
+    EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
 }
 
 }  // namespace
