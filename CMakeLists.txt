@@ -113,6 +113,13 @@ if(QUIZSPHERE_BUILD_TESTS)
 
     add_test(NAME result_view_tests COMMAND result_view_tests)
 
+        add_executable(analytics_module_tests tests/analytics_module_tests.cpp)
+    target_link_libraries(analytics_module_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(analytics_module_tests)
+    quizsphere_enable_coverage(analytics_module_tests)
+
+    add_test(NAME analytics_module_tests COMMAND analytics_module_tests)
+
     add_test(
         NAME no_fstream_outside_repository_or_logging
         COMMAND ${CMAKE_COMMAND} -DPROJECT_SOURCE_DIR=${CMAKE_SOURCE_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/check_no_fstream.cmake
