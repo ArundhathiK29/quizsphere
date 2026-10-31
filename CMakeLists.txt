@@ -111,7 +111,7 @@ if(QUIZSPHERE_BUILD_TESTS)
     gtest_discover_tests(data_access_layer_tests DISCOVERY_TIMEOUT 120)
 
     add_executable(quiz_engine_tests
-        tests/quiz_engine_tests.cpp
+    tests/quiz_engine_tests.cpp
     )
     target_link_libraries(quiz_engine_tests
         PRIVATE quizsphere_core GTest::gtest GTest::gtest_main
@@ -119,7 +119,6 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(quiz_engine_tests)
     quizsphere_enable_coverage(quiz_engine_tests)
     gtest_discover_tests(quiz_engine_tests DISCOVERY_TIMEOUT 120)
-
 
     add_test(
         NAME no_fstream_outside_repository_or_logging

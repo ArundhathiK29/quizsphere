@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cctype>
+#include <cmath>
 #include <ctime>
 #include <iomanip>
 #include <random>
@@ -71,19 +72,24 @@ std::string generateQuizId() {
 
 class QuizEngineImpl final : public QuizEngine {
 public:
-    QuizEngineImpl(QuestionBank& question_bank,
-               QuizRepository& quizzes,
-               AttemptRepository&,
-               GradingModule&)
-    : question_bank_(question_bank),
-      quizzes_(quizzes) {}
+    QuizEngineImpl(
+        QuestionBank& question_bank,
+        QuizRepository& quizzes,
+        AttemptRepository&,
+        GradingModule&)
+        : question_bank_(question_bank),
+          quizzes_(quizzes) {}
 
-    Result createQuiz(const Session& session,
-                      const QuizConfig& config,
-                      Quiz* quiz) override {
+    Result createQuiz(
+        const Session& session,
+        const QuizConfig& config,
+        Quiz* quiz) override {
+
         if (!canCreateQuiz(session)) {
-            return {ErrorCode::NOT_AUTHORIZED,
-                    "Only authenticated instructors and admins can create quizzes."};
+            return {
+                ErrorCode::NOT_AUTHORIZED,
+                "Only authenticated instructors and admins can create quizzes."
+            };
         }
 
         if (quiz == nullptr) {
@@ -97,11 +103,26 @@ public:
         }
 
         if (config.question_count <= 0) {
-            return validationError("Question count must be greater than zero.");
+            return validationError(
+                "Question count must be greater than zero.");
         }
 
         if (config.time_limit_minutes <= 0) {
-            return validationError("Time limit must be greater than zero.");
+            return validationError(
+                "Time limit must be greater than zero.");
+        }
+
+        // BL-08: validate the scoring scheme before saving the quiz.
+        if (!std::isfinite(config.scoring.marks_per_question) ||
+            config.scoring.marks_per_question <= 0.0) {
+            return validationError(
+                "Marks per question must be finite and greater than zero.");
+        }
+
+        if (!std::isfinite(config.scoring.negative_mark) ||
+            config.scoring.negative_mark < 0.0) {
+            return validationError(
+                "Negative marking must be finite and non-negative.");
         }
 
         std::vector<PublicQuestion> available_questions;
@@ -136,6 +157,8 @@ public:
         new_quiz.created_by = session.user_id;
         new_quiz.created_at = currentUtcTimestamp();
         new_quiz.time_limit_minutes = config.time_limit_minutes;
+
+        // BL-08: retain both scoring values on the quiz.
         new_quiz.scoring = config.scoring;
 
         new_quiz.question_ids.reserve(
@@ -146,6 +169,7 @@ public:
                 available_questions[static_cast<std::size_t>(i)].question_id);
         }
 
+        // The repository persists the quiz, including its scoring scheme.
         const Result save_result = quizzes_.saveQuiz(new_quiz);
 
         if (!save_result.ok()) {
@@ -153,10 +177,17 @@ public:
         }
 
         *quiz = new_quiz;
-        return {ErrorCode::OK, "Quiz created successfully."};
+
+        return {
+            ErrorCode::OK,
+            "Quiz created successfully."
+        };
     }
 
-    Result getQuiz(const std::string& quiz_id, Quiz* quiz) const override {
+    Result getQuiz(
+        const std::string& quiz_id,
+        Quiz* quiz) const override {
+
         if (quiz == nullptr || trim(quiz_id).empty()) {
             return validationError(
                 "Quiz ID and quiz output pointer must be valid.");
@@ -174,8 +205,11 @@ public:
         return quizzes_.listQuizzes(quizzes);
     }
 
-    Result startAttempt(const Session&, const std::string&, QuizMode,
-                        Attempt*) override {
+    Result startAttempt(
+        const Session&,
+        const std::string&,
+        QuizMode,
+        Attempt*) override {
         return notImplemented("QuizEngine::startAttempt");
     }
 
@@ -183,8 +217,11 @@ public:
         return notImplemented("QuizEngine::saveAnswer");
     }
 
-    Result submitAttempt(const Session&, Attempt*, bool,
-                         GradeReport*) override {
+    Result submitAttempt(
+        const Session&,
+        Attempt*,
+        bool,
+        GradeReport*) override {
         return notImplemented("QuizEngine::submitAttempt");
     }
 
@@ -200,8 +237,12 @@ std::unique_ptr<QuizEngine> createQuizEngine(
     QuizRepository& quizzes,
     AttemptRepository& attempts,
     GradingModule& grading) {
+
     return std::make_unique<QuizEngineImpl>(
-        question_bank, quizzes, attempts, grading);
+        question_bank,
+        quizzes,
+        attempts,
+        grading);
 }
 
 }  // namespace quizsphere

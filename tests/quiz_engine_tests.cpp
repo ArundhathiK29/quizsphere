@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 #include <vector>
-
+#include <limits>
 #include <gtest/gtest.h>
 
 #include "data_access_layer.hpp"
@@ -255,6 +255,78 @@ TEST_F(QuizEngineTests, CreatesQuizAndPersistsItsDetails) {
     EXPECT_EQ(stored.quiz_id, quiz.quiz_id);
     EXPECT_EQ(stored.title, quiz.title);
     EXPECT_EQ(stored.question_ids, quiz.question_ids);
+}
+
+TEST_F(QuizEngineTests, PersistsScoringSchemeWhenQuizIsRetrieved) {
+    auto config = validConfig();
+    config.scoring.marks_per_question = 4.0;
+    config.scoring.negative_mark = 1.0;
+
+    Quiz quiz;
+    ASSERT_TRUE(engine->createQuiz(instructor, config, &quiz).ok());
+
+    Quiz stored;
+    ASSERT_TRUE(engine->getQuiz(quiz.quiz_id, &stored).ok());
+
+    EXPECT_DOUBLE_EQ(stored.scoring.marks_per_question, 4.0);
+    EXPECT_DOUBLE_EQ(stored.scoring.negative_mark, 1.0);
+}
+
+TEST_F(QuizEngineTests, AllowsScoringWithoutNegativeMarking) {
+    auto config = validConfig();
+    config.scoring.marks_per_question = 2.0;
+    config.scoring.negative_mark = 0.0;
+
+    Quiz quiz;
+    const auto result = engine->createQuiz(instructor, config, &quiz);
+
+    ASSERT_TRUE(result.ok()) << result.message;
+    EXPECT_DOUBLE_EQ(quiz.scoring.marks_per_question, 2.0);
+    EXPECT_DOUBLE_EQ(quiz.scoring.negative_mark, 0.0);
+}
+
+TEST_F(QuizEngineTests, RejectsNonPositiveMarksPerQuestion) {
+    auto config = validConfig();
+    Quiz quiz;
+
+    config.scoring.marks_per_question = 0.0;
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code,
+              ErrorCode::VALIDATION_FAILED);
+
+    config.scoring.marks_per_question = -1.0;
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code,
+              ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(QuizEngineTests, RejectsNegativeNegativeMark) {
+    auto config = validConfig();
+    config.scoring.negative_mark = -0.5;
+
+    Quiz quiz;
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code,
+              ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(QuizEngineTests, RejectsNonFiniteScoringValues) {
+    auto config = validConfig();
+    Quiz quiz;
+
+    config.scoring.marks_per_question =
+        std::numeric_limits<double>::infinity();
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code,
+              ErrorCode::VALIDATION_FAILED);
+
+    config = validConfig();
+    config.scoring.marks_per_question =
+        std::numeric_limits<double>::quiet_NaN();
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code,
+              ErrorCode::VALIDATION_FAILED);
+
+    config = validConfig();
+    config.scoring.negative_mark =
+        std::numeric_limits<double>::infinity();
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code,
+              ErrorCode::VALIDATION_FAILED);
 }
 
 TEST_F(QuizEngineTests, AdminCanCreateQuiz) {
