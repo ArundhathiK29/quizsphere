@@ -2,10 +2,13 @@
 #include <sqlite3.h>
 
 #include <cstdio>
+#include <limits>
 #include <string>
 #include <vector>
 
 #include "data_access_layer.hpp"
+#include "question_repository.hpp"
+#include "question_bank.hpp"
 
 namespace quizsphere {
 namespace {
@@ -27,6 +30,14 @@ protected:
         ASSERT_NE(dal, nullptr) << error;
         ASSERT_NE(dal->quizzes, nullptr);
         ASSERT_NE(dal->attempts, nullptr);
+        auto questions = createSqliteQuestionRepository(db_path, &error);
+        ASSERT_NE(questions, nullptr) << error;
+        std::vector<Question> seed;
+        for (const std::string id : {"q1", "q2", "q3"}) {
+            seed.push_back({id, "Digital Logic", Difficulty::Easy, QuestionType::MCQ,
+                            "Choose an option", {"A", "B", "C"}, 1, true});
+        }
+        ASSERT_TRUE(questions->saveAll(seed).ok());
     }
 
     void TearDown() override {
@@ -256,6 +267,7 @@ TEST_F(DataAccessLayerTest, RejectsDuplicateGradedSubmission) {
     Attempt attempt = makeAttempt();
     attempt.submitted = true;
     attempt.submitted_at = "2026-10-26T10:10:00Z";
+    attempt.score = 2.0;
 
     const GradeReport report = makeReport();
 
@@ -333,6 +345,249 @@ TEST_F(DataAccessLayerTest, FailedGradeWriteRollsBackAttemptAndReport) {
 
     EXPECT_EQ(
         report_result.code, ErrorCode::ATTEMPT_NOT_FOUND);
+}
+
+TEST_F(DataAccessLayerTest, QuestionsCrudAndMetadataSurviveRestart) {
+    std::string error;
+    auto repo = createSqliteQuestionRepository(db_path, &error);
+    ASSERT_NE(repo, nullptr) << error;
+    auto bank = createQuestionBank(std::move(repo));
+    ASSERT_TRUE(bank->load().ok());
+    const Session instructor{"1", Role::Instructor, "2026-10-31T00:00:00Z"};
+    Question q{"new", "Math", Difficulty::Hard, QuestionType::MCQ, "Two plus two?", {"3", "4"}, 1, true};
+    ASSERT_TRUE(bank->addQuestion(instructor, q).ok());
+    q.subject_tag = "Algebra";
+    q.options = {"4", "5", "6"};
+    q.correct_option = 0;
+    ASSERT_TRUE(bank->updateQuestion(instructor, q).ok());
+    bank.reset(); dal.reset();
+    dal = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(dal, nullptr) << error;
+    bank = createQuestionBank(createSqliteQuestionRepository(db_path, &error));
+    ASSERT_TRUE(bank->load().ok());
+    Question loaded;
+    ASSERT_TRUE(bank->findQuestionById(instructor, "new", &loaded).ok());
+    EXPECT_EQ(loaded.subject_tag, "Algebra");
+    EXPECT_EQ(loaded.difficulty, Difficulty::Hard);
+    EXPECT_EQ(loaded.options, q.options);
+    EXPECT_EQ(loaded.correct_option, 0U);
+    ASSERT_TRUE(bank->deleteQuestion(instructor, "new", true).ok());
+    ASSERT_TRUE(bank->load().ok());
+    EXPECT_EQ(bank->findQuestionById(instructor, "new", &loaded).code, ErrorCode::QUESTION_NOT_FOUND);
+}
+
+TEST_F(DataAccessLayerTest, ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart) {
+    std::string error;
+    auto bank = createQuestionBank(createSqliteQuestionRepository(db_path, &error));
+    ASSERT_TRUE(bank->load().ok());
+    const Session instructor{"1", Role::Instructor, "2026-10-31T00:00:00Z"};
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    Question q;
+    ASSERT_TRUE(bank->findQuestionById(instructor, "q1", &q).ok());
+    q.question_text = "Changed";
+    EXPECT_EQ(bank->updateQuestion(instructor, q).code, ErrorCode::QUESTION_IN_USE);
+    EXPECT_EQ(bank->deleteQuestion(instructor, "q1", true).code, ErrorCode::QUESTION_IN_USE);
+    EXPECT_TRUE(bank->setAvailability(instructor, "q1", false).ok());
+    bank.reset(); dal.reset();
+    dal = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(dal, nullptr) << error;
+    bank = createQuestionBank(createSqliteQuestionRepository(db_path, &error));
+    ASSERT_TRUE(bank->load().ok());
+    ASSERT_TRUE(bank->findQuestionById(instructor, "q1", &q).ok());
+    EXPECT_EQ(q.question_text, "Choose an option");
+    EXPECT_FALSE(q.is_available);
+    Quiz quiz;
+    ASSERT_TRUE(dal->quizzes->findQuiz("quiz-1", &quiz).ok());
+    EXPECT_EQ(quiz.question_ids, makeQuiz().question_ids);
+}
+
+TEST_F(DataAccessLayerTest, DirectRepositoryCannotBypassQuestionProtection) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    std::string error;
+    auto repo = createSqliteQuestionRepository(db_path, &error);
+    std::vector<Question> questions;
+    ASSERT_TRUE(repo->loadAll(&questions).ok());
+    questions[0].options[0] = "Changed";
+    EXPECT_EQ(repo->saveAll(questions).code, ErrorCode::QUESTION_IN_USE);
+    questions.clear();
+    EXPECT_EQ(repo->saveAll(questions).code, ErrorCode::QUESTION_IN_USE);
+    EXPECT_FALSE(executeSql("DELETE FROM questions WHERE id='q1'"));
+    EXPECT_FALSE(executeSql("UPDATE question_options SET text='Changed' WHERE qid='q1'"));
+}
+
+TEST_F(DataAccessLayerTest, ClearedAnswersStayClearedAfterReopening) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    auto attempt = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    attempt.answers.erase(attempt.answers.begin());
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    Attempt loaded;
+    ASSERT_TRUE(dal->attempts->findAttempt(attempt.attempt_id, &loaded).ok());
+    ASSERT_EQ(loaded.answers.size(), 1U);
+    EXPECT_EQ(loaded.answers[0].question_id, "q1");
+    attempt.answers.clear();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    dal.reset();
+    std::string error;
+    dal = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(dal, nullptr) << error;
+    ASSERT_TRUE(dal->attempts->findAttempt(attempt.attempt_id, &loaded).ok());
+    EXPECT_TRUE(loaded.answers.empty());
+    EXPECT_EQ(loaded.question_order, attempt.question_order);
+}
+
+TEST_F(DataAccessLayerTest, UT_DAL_01_FailedAnswerSaveRestoresOriginalState) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    auto attempt = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    ASSERT_TRUE(executeSql("CREATE TRIGGER fail_answer BEFORE INSERT ON answers WHEN NEW.selected=2 BEGIN SELECT RAISE(ABORT,'forced'); END"));
+    attempt.answers[0].selected_option = 2;
+    EXPECT_FALSE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    Attempt loaded;
+    ASSERT_TRUE(dal->attempts->findAttempt(attempt.attempt_id, &loaded).ok());
+    ASSERT_EQ(loaded.answers.size(), 2U);
+    EXPECT_EQ(loaded.answers[0].selected_option, 1);
+    EXPECT_EQ(loaded.question_order, makeAttempt().question_order);
+}
+
+TEST_F(DataAccessLayerTest, FailedQuizUpdateRestoresOriginalQuestionsAndScoring) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    auto quiz = makeQuiz();
+    quiz.title = "Changed";
+    quiz.scoring = {4, 1};
+    quiz.question_ids.push_back("missing");
+    EXPECT_FALSE(dal->quizzes->saveQuiz(quiz).ok());
+    Quiz loaded;
+    ASSERT_TRUE(dal->quizzes->findQuiz(quiz.quiz_id, &loaded).ok());
+    EXPECT_EQ(loaded.title, "Digital Design");
+    EXPECT_EQ(loaded.question_ids, makeQuiz().question_ids);
+    EXPECT_DOUBLE_EQ(loaded.scoring.marks_per_question, 2);
+}
+
+TEST_F(DataAccessLayerTest, FailedQuestionOptionSaveRollsBackEveryQuestion) {
+    std::string error;
+    auto repo = createSqliteQuestionRepository(db_path, &error);
+    std::vector<Question> questions;
+    ASSERT_TRUE(repo->loadAll(&questions).ok());
+    ASSERT_TRUE(executeSql("CREATE TRIGGER fail_option BEFORE INSERT ON question_options WHEN NEW.text='FAIL' BEGIN SELECT RAISE(ABORT,'forced'); END"));
+    questions[0].subject_tag = "Changed";
+    questions[1].options[0] = "FAIL";
+    EXPECT_FALSE(repo->saveAll(questions).ok());
+    ASSERT_TRUE(repo->loadAll(&questions).ok());
+    EXPECT_EQ(questions[0].subject_tag, "Digital Logic");
+    EXPECT_EQ(questions[1].options[0], "A");
+}
+
+TEST_F(DataAccessLayerTest, SubmittedAttemptAndReportSurviveRestartAndRejectChanges) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    auto attempt = makeAttempt();
+    attempt.submitted = true;
+    attempt.submitted_at = "2026-10-31T00:10:00Z";
+    attempt.score = 2;
+    ASSERT_TRUE(dal->attempts->saveGradedAttempt(attempt, makeReport()).ok());
+    dal.reset();
+    std::string error;
+    dal = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(dal, nullptr) << error;
+    auto changed = attempt;
+    changed.submitted = false;
+    changed.submitted_at.clear();
+    changed.answers.clear();
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(changed).code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+    EXPECT_EQ(dal->attempts->saveGradedAttempt(attempt, makeReport()).code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+    GradeReport report;
+    ASSERT_TRUE(dal->attempts->findReport("quiz-1", "student-1", &report).ok());
+    EXPECT_DOUBLE_EQ(report.score, 2);
+    Attempt loaded;
+    ASSERT_TRUE(dal->attempts->findAttempt("attempt-1", &loaded).ok());
+    EXPECT_TRUE(loaded.submitted);
+    ASSERT_EQ(loaded.answers.size(), 2U);
+    EXPECT_EQ(loaded.answers[0].selected_option, 1);
+}
+
+TEST_F(DataAccessLayerTest, ForeignKeysAndLegacyReferenceChecksRejectOrphans) {
+    auto attempt = makeAttempt();
+    EXPECT_FALSE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    sqlite3* db = nullptr;
+    ASSERT_EQ(sqlite3_open(db_path.c_str(), &db), SQLITE_OK);
+    ASSERT_EQ(sqlite3_exec(db, "PRAGMA foreign_keys=ON", nullptr, nullptr, nullptr), SQLITE_OK);
+    EXPECT_NE(sqlite3_exec(db, "INSERT INTO question_options VALUES('missing',0,'A')", nullptr, nullptr, nullptr), SQLITE_OK);
+    sqlite3_close(db);
+    EXPECT_FALSE(executeSql("INSERT INTO answers VALUES('missing','q1',0,0)"));
+}
+
+TEST_F(DataAccessLayerTest, AttemptIdentityAndDuplicateAnswersCannotChange) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    auto attempt = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    attempt.student_id = "someone-else";
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(attempt).code, ErrorCode::VALIDATION_FAILED);
+    attempt = makeAttempt();
+    attempt.answers.push_back(attempt.answers[0]);
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(attempt).code, ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(DataAccessLayerTest, UT_DAL_02_FileAndSqliteQuestionStorageHaveParity) {
+    std::string error;
+    auto sqlite = createSqliteQuestionRepository(db_path, &error);
+    auto file = createFileQuestionRepository(db_path + ".tsv");
+    const std::vector<Question> original = {{"quoted';--", "Math", Difficulty::Medium,
+        QuestionType::MCQ, "What is 2+2?", {"4|four", "5\\five"}, 0, false}};
+    ASSERT_TRUE(sqlite->saveAll(original).ok());
+    ASSERT_TRUE(file->saveAll(original).ok());
+    std::vector<Question> from_sqlite, from_file;
+    ASSERT_TRUE(sqlite->loadAll(&from_sqlite).ok());
+    ASSERT_TRUE(file->loadAll(&from_file).ok());
+    ASSERT_EQ(from_sqlite.size(), 1U);
+    ASSERT_EQ(from_file.size(), 1U);
+    EXPECT_EQ(from_sqlite[0].question_id, from_file[0].question_id);
+    EXPECT_EQ(from_sqlite[0].options, from_file[0].options);
+    EXPECT_EQ(from_sqlite[0].subject_tag, from_file[0].subject_tag);
+    EXPECT_EQ(from_sqlite[0].difficulty, from_file[0].difficulty);
+    EXPECT_EQ(from_sqlite[0].question_text, from_file[0].question_text);
+    EXPECT_EQ(from_sqlite[0].correct_option, from_file[0].correct_option);
+    EXPECT_EQ(from_sqlite[0].is_available, from_file[0].is_available);
+    std::remove((db_path + ".tsv").c_str());
+}
+
+TEST_F(DataAccessLayerTest, LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled) {
+    const std::string legacy_path = db_path + ".legacy";
+    std::remove(legacy_path.c_str());
+    sqlite3* db = nullptr;
+    ASSERT_EQ(sqlite3_open(legacy_path.c_str(), &db), SQLITE_OK);
+    ASSERT_EQ(sqlite3_exec(db,
+        "CREATE TABLE quizzes(id TEXT PRIMARY KEY,title TEXT,creator TEXT,created TEXT,minutes INTEGER,marks REAL,negative REAL);"
+        "CREATE TABLE quiz_q(quiz TEXT,pos INTEGER,qid TEXT,PRIMARY KEY(quiz,pos));"
+        "INSERT INTO quizzes VALUES('legacy','Old title','1','2026-10-01T00:00:00Z',10,4,1);"
+        "INSERT INTO quiz_q VALUES('legacy',0,'legacy-question');", nullptr, nullptr, nullptr), SQLITE_OK);
+    sqlite3_close(db);
+    std::string error;
+    auto layer = createSqliteDataAccessLayer(legacy_path, &error);
+    ASSERT_NE(layer, nullptr) << error;
+    Quiz loaded;
+    ASSERT_TRUE(layer->quizzes->findQuiz("legacy", &loaded).ok());
+    EXPECT_EQ(loaded.question_ids, (std::vector<std::string>{"legacy-question"}));
+    EXPECT_DOUBLE_EQ(loaded.scoring.marks_per_question, 4);
+    layer.reset();
+    std::remove(legacy_path.c_str());
+}
+
+TEST_F(DataAccessLayerTest, RejectsInvalidScoringAtTheStorageBoundary) {
+    for (const double marks : {0.0, -1.0, std::numeric_limits<double>::infinity(),
+                               std::numeric_limits<double>::quiet_NaN()}) {
+        auto quiz = makeQuiz();
+        quiz.scoring.marks_per_question = marks;
+        EXPECT_EQ(dal->quizzes->saveQuiz(quiz).code, ErrorCode::VALIDATION_FAILED);
+    }
+    for (const double penalty : {-1.0, std::numeric_limits<double>::infinity(),
+                                std::numeric_limits<double>::quiet_NaN()}) {
+        auto quiz = makeQuiz();
+        quiz.scoring.negative_mark = penalty;
+        EXPECT_EQ(dal->quizzes->saveQuiz(quiz).code, ErrorCode::VALIDATION_FAILED);
+    }
+    std::vector<Quiz> quizzes;
+    ASSERT_TRUE(dal->quizzes->listQuizzes(&quizzes).ok());
+    EXPECT_TRUE(quizzes.empty());
 }
 
 }  // namespace
