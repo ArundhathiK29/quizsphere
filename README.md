@@ -30,10 +30,11 @@ On first launch there is no administrator, so the program asks you to create one
 
 | Environment variable | Default | Purpose |
 |----------------------|---------|---------|
-| `QUIZSPHERE_DB` | `quizsphere.db` | SQLite user database |
+| `QUIZSPHERE_DB` | `quizsphere.db` | SQLite accounts, questions, quizzes, attempts and results |
+| `QUIZSPHERE_IMPORT_QUESTIONS` | unset | One-time import of an existing questions TSV into an empty SQLite question bank |
 | `QUIZSPHERE_AUTH_LOG` | `quizsphere_auth.log` | Failed-login log (timestamp, username, reason; never passwords) |
 
-Both files are ignored by git. If you have a `.db` file from an older build, delete it: the schema changed and the program will tell you so.
+Database and log files are ignored by git. See [DAL persistence](docs/DAL_PERSISTENCE.md) for question migration, transactional saves and reference protection. If you have a `.db` file from an older build, delete it: the schema changed and the program will tell you so.
 
 ## Tests, static analysis, coverage
 
