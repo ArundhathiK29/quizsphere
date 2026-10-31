@@ -1,4 +1,3 @@
-
 #include <gtest/gtest.h>
 #include <sqlite3.h>
 
@@ -81,6 +80,7 @@ protected:
 
     bool executeSql(const char* sql) {
         sqlite3* db = nullptr;
+
         if (sqlite3_open(db_path.c_str(), &db) != SQLITE_OK) {
             if (db) sqlite3_close(db);
             return false;
@@ -150,12 +150,58 @@ TEST_F(DataAccessLayerTest, SavesAndRetrievesInProgressAttempt) {
     EXPECT_EQ(loaded.answers[1].selected_option, kBlankAnswer);
 }
 
+// NEW TEST: saving an existing open attempt updates its answers.
+TEST_F(DataAccessLayerTest, UpdatesExistingInProgressAttempt) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+
+    Attempt original = makeAttempt();
+
+    ASSERT_TRUE(
+        dal->attempts->saveInProgressAttempt(original).ok());
+
+    Attempt updated = original;
+    updated.answers = {
+        {"q2", 0, false},
+        {"q1", 2, true}
+    };
+
+    ASSERT_TRUE(
+        dal->attempts->saveInProgressAttempt(updated).ok());
+
+    Attempt loaded;
+
+    ASSERT_TRUE(
+        dal->attempts->findAttempt("attempt-1", &loaded).ok());
+
+    ASSERT_EQ(loaded.answers.size(), 2U);
+    EXPECT_EQ(loaded.answers[0].selected_option, 0);
+    EXPECT_FALSE(loaded.answers[0].flagged_for_review);
+    EXPECT_EQ(loaded.answers[1].selected_option, 2);
+    EXPECT_TRUE(loaded.answers[1].flagged_for_review);
+}
+
+// NEW TEST: a submitted attempt cannot be saved as an open attempt.
+TEST_F(DataAccessLayerTest, RejectsSavingSubmittedAttemptAsInProgress) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+
+    Attempt attempt = makeAttempt();
+    attempt.submitted = true;
+    attempt.submitted_at = "2026-10-26T10:10:00Z";
+
+    const Result result =
+        dal->attempts->saveInProgressAttempt(attempt);
+
+    EXPECT_EQ(result.code, ErrorCode::VALIDATION_FAILED);
+}
+
 TEST_F(DataAccessLayerTest, FindsOpenAttempt) {
     ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+
     ASSERT_TRUE(
         dal->attempts->saveInProgressAttempt(makeAttempt()).ok());
 
     Attempt loaded;
+
     ASSERT_TRUE(
         dal->attempts->findOpenAttempt(
             "quiz-1", "student-1", &loaded).ok());
@@ -187,15 +233,18 @@ TEST_F(DataAccessLayerTest, SavesAndRetrievesGradeReport) {
         dal->attempts->saveGradedAttempt(attempt, report).ok());
 
     GradeReport loaded;
+
     ASSERT_TRUE(
         dal->attempts->findReport(
             "quiz-1", "student-1", &loaded).ok());
 
     EXPECT_DOUBLE_EQ(loaded.score, 2.0);
     EXPECT_DOUBLE_EQ(loaded.max_score, 6.0);
+
     ASSERT_EQ(loaded.itemised_breakdown.size(), 2U);
     EXPECT_EQ(loaded.itemised_breakdown[0].question_id, "q2");
     EXPECT_TRUE(loaded.itemised_breakdown[0].correct);
+
     ASSERT_EQ(loaded.topic_breakdown.size(), 1U);
     EXPECT_EQ(
         loaded.topic_breakdown[0].subject_tag, "Digital Logic");
@@ -242,6 +291,7 @@ TEST_F(DataAccessLayerTest, FailedGradeWriteRollsBackAttemptAndReport) {
     ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
 
     const Attempt original = makeAttempt();
+
     ASSERT_TRUE(
         dal->attempts->saveInProgressAttempt(original).ok());
 
@@ -267,13 +317,16 @@ TEST_F(DataAccessLayerTest, FailedGradeWriteRollsBackAttemptAndReport) {
 
     // The attempt update must have rolled back.
     Attempt loaded;
+
     ASSERT_TRUE(
         dal->attempts->findAttempt("attempt-1", &loaded).ok());
+
     EXPECT_FALSE(loaded.submitted);
     EXPECT_TRUE(loaded.submitted_at.empty());
 
     // The report insert must also have rolled back.
     GradeReport loaded_report;
+
     const Result report_result =
         dal->attempts->findReport(
             "quiz-1", "student-1", &loaded_report);
