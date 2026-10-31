@@ -9,7 +9,8 @@ Console-based online quiz system in C++17 (SE Mini-Project, Team 12, UE24CS341A)
 | Accounts: registration, login, roles (Student / Instructor / Admin), lockout, failed-login log | Done, tested |
 | Admin operations: enable/disable, change role, remove user (authorization enforced in code) | Done, tested (no console menu yet) |
 | Question bank: add/edit/delete, enable/disable, CSV import/export, console menu | Done, tested |
-| Quiz engine, grading, leaderboard, analytics, student UI | In progress |
+| Quiz creation and per-quiz scoring | Implemented, with SQLite restart tests |
+| Attempts, grading, leaderboard, analytics, student UI | In progress |
 
 ## Build and run
 
@@ -74,3 +75,11 @@ cmake/     build-time checks (no <fstream> outside the repository/logging layer)
 ## Team
 
 Team 12 - see the project report for roles and responsibilities.
+
+## Quiz creation (BL-07 / BL-08)
+
+Instructor/Admin sessions can create quizzes through `QuizEngine::createQuiz`. Titles and subject filters are trimmed; blank titles/explicit blank subjects, invalid difficulty values, and nonpositive counts or minute limits are rejected. Only available matching questions are pooled, without duplicate IDs; an insufficient pool fails without saving a smaller quiz. Marks must be finite and strictly positive; the penalty must be finite and nonnegative (zero disables negative marking). Both scoring values and selected questions persist on the quiz and are readable by grading through `QuizRepository`.
+
+The existing quiz tests are supplemented by real SQLite tests in `tests/quiz_engine_sqlite_tests.cpp`, covering filtered selection, authorization, invalid configurations, restart persistence, referenced-question protection and attempt/answer storage. Tests are registered by CMake and run through CTest. Starting/shuffling/submitting attempts remains later-sprint Quiz Engine work.
+
+The grading-floor decision remains with Arundhathi and Chaturya: for +4 correct, -1 wrong and 0 blank, one correct and one wrong produce 4 under a per-question zero floor and 3 under an attempt-total floor. All-wrong answers can leave negative item/topic totals while the attempt total is floored to zero in PR #60. BL-08 stores the requested scoring configuration and does not select between these rules.

@@ -34,7 +34,7 @@ public:
     virtual Result submitAttempt(const Session& session, Attempt* attempt, bool timed_out, GradeReport* report) = 0;
 };
 
-// Stub for now (BL-01): every call returns NOT_IMPLEMENTED.
+// Creation/retrieval are implemented; attempt lifecycle is reserved for the later quiz-engine tasks.
 std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& question_bank,
                                              QuizRepository& quizzes,
                                              AttemptRepository& attempts,

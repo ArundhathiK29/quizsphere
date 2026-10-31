@@ -111,7 +111,8 @@ if(QUIZSPHERE_BUILD_TESTS)
     gtest_discover_tests(data_access_layer_tests DISCOVERY_TIMEOUT 120)
 
     add_executable(quiz_engine_tests
-    tests/quiz_engine_tests.cpp
+        tests/quiz_engine_tests.cpp
+        tests/quiz_engine_sqlite_tests.cpp
     )
     target_link_libraries(quiz_engine_tests
         PRIVATE quizsphere_core GTest::gtest GTest::gtest_main

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 namespace quizsphere {
 namespace {
@@ -125,16 +126,32 @@ public:
                 "Negative marking must be finite and non-negative.");
         }
 
+        if (config.difficulty_filter && (*config.difficulty_filter != Difficulty::Easy &&
+            *config.difficulty_filter != Difficulty::Medium && *config.difficulty_filter != Difficulty::Hard)) {
+            return validationError("Difficulty must be Easy, Medium, or Hard.");
+        }
+        auto subject_filter = config.subject_filter;
+        if (subject_filter) {
+            *subject_filter = trim(*subject_filter);
+            if (subject_filter->empty()) return validationError("Subject filter must not be blank.");
+        }
         std::vector<PublicQuestion> available_questions;
 
         const Result question_result = question_bank_.listAvailable(
             &available_questions,
-            config.subject_filter,
+            subject_filter,
             config.difficulty_filter);
 
         if (!question_result.ok()) {
             return question_result;
         }
+
+        std::unordered_set<std::string> selected_ids;
+        available_questions.erase(std::remove_if(available_questions.begin(), available_questions.end(),
+            [&](const PublicQuestion& question) {
+                return !question.is_available || question.question_id.empty() ||
+                       !selected_ids.insert(question.question_id).second;
+            }), available_questions.end());
 
         if (available_questions.size() <
             static_cast<std::size_t>(config.question_count)) {

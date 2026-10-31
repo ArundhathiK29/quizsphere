@@ -470,5 +470,44 @@ TEST_F(QuizEngineTests, RejectsEmptyQuizIdWhenRetrieving) {
               ErrorCode::VALIDATION_FAILED);
 }
 
+TEST_F(QuizEngineTests, RejectsMalformedFiltersAndNormalizesSubject) {
+    auto config = validConfig();
+    Quiz quiz;
+    config.subject_filter = "   ";
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code, ErrorCode::VALIDATION_FAILED);
+    config.subject_filter = "  Math  ";
+    ASSERT_TRUE(engine->createQuiz(instructor, config, &quiz).ok());
+    config.difficulty_filter = static_cast<Difficulty>(99);
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code, ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(QuizEngineTests, DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions) {
+    question_bank.available_questions.push_back(question_bank.available_questions[0]);
+    auto config = validConfig();
+    config.question_count = 4;
+    Quiz quiz;
+    EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code, ErrorCode::VALIDATION_FAILED);
+    config.question_count = 3;
+    ASSERT_TRUE(engine->createQuiz(instructor, config, &quiz).ok());
+    auto ids = quiz.question_ids;
+    std::sort(ids.begin(), ids.end());
+    EXPECT_EQ(std::unique(ids.begin(), ids.end()), ids.end());
+}
+
+TEST_F(QuizEngineTests, RejectsAllNonFiniteScoringInputsWithoutSaving) {
+    for (const double invalid : {std::numeric_limits<double>::quiet_NaN(),
+                                std::numeric_limits<double>::infinity(),
+                                -std::numeric_limits<double>::infinity()}) {
+        auto config = validConfig();
+        Quiz quiz;
+        config.scoring.marks_per_question = invalid;
+        EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code, ErrorCode::VALIDATION_FAILED);
+        config = validConfig();
+        config.scoring.negative_mark = invalid;
+        EXPECT_EQ(engine->createQuiz(instructor, config, &quiz).code, ErrorCode::VALIDATION_FAILED);
+    }
+    EXPECT_TRUE(quiz_repository.saved_quizzes.empty());
+}
+
 }  // namespace
 }  // namespace quizsphere
