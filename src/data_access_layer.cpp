@@ -67,6 +67,7 @@ public:
             "attempt TEXT REFERENCES attempts(id),pos INTEGER,tag TEXT,correct INTEGER,total INTEGER,"
             "marks REAL,PRIMARY KEY(attempt,pos));"
             "CREATE INDEX IF NOT EXISTS quiz_question_lookup ON quiz_q(qid);"
+            "CREATE INDEX IF NOT EXISTS attempt_question_lookup ON attempt_q(qid);"
             "CREATE UNIQUE INDEX IF NOT EXISTS single_graded_submission ON attempts(quiz,student) WHERE mode=1 AND submitted=1;"
             "COMMIT;";
 
@@ -95,10 +96,14 @@ public:
             {"items", "NOT EXISTS(SELECT 1 FROM attempts WHERE id=NEW.attempt)"},
             {"topics", "NOT EXISTS(SELECT 1 FROM attempts WHERE id=NEW.attempt)"}
         };
-        for (const std::string event : {"INSERT", "UPDATE", "DELETE"}) {
-            const std::string row = event == "INSERT" ? "NEW" : "OLD";
-            const std::string trigger = "CREATE TRIGGER IF NOT EXISTS protect_options_" + event + " BEFORE " + event +
+        // Options may be inserted when restoring an original legacy question referenced by an old quiz.
+        // Existing content changes are guarded by saveAll inside the same transaction.
+        if (sqlite3_exec(db, "DROP TRIGGER IF EXISTS protect_options_INSERT", nullptr, nullptr, nullptr) != SQLITE_OK) return false;
+        for (const std::string event : {"UPDATE", "DELETE"}) {
+            const std::string row = "OLD";
+            const std::string trigger = "CREATE TRIGGER IF NOT EXISTS protect_options_v2_" + event + " BEFORE " + event +
                 " ON question_options WHEN EXISTS(SELECT 1 FROM quiz_q WHERE qid=" + row +
+                ".qid) OR EXISTS(SELECT 1 FROM attempt_q WHERE qid=" + row +
                 ".qid) BEGIN SELECT RAISE(ABORT,'Question in use'); END;";
             if (sqlite3_exec(db, trigger.c_str(), nullptr, nullptr, nullptr) != SQLITE_OK) return false;
         }
@@ -111,19 +116,20 @@ public:
             }
         }
         for (const std::string table : {"answers", "attempt_q", "reports", "items", "topics"}) {
-            for (const std::string event : {"UPDATE", "DELETE"}) {
+            for (const std::string event : {"INSERT", "UPDATE", "DELETE"}) {
+                const std::string row = event == "INSERT" ? "NEW" : "OLD";
                 const std::string trigger = "CREATE TRIGGER IF NOT EXISTS finalized_" + table + "_" + event +
                     " BEFORE " + event + " ON " + table +
-                    " WHEN EXISTS(SELECT 1 FROM attempts WHERE id=OLD.attempt AND submitted=1) "
+                    " WHEN EXISTS(SELECT 1 FROM attempts WHERE id=" + row + ".attempt AND submitted=1) "
                     "BEGIN SELECT RAISE(ABORT,'Finalized data cannot change'); END;";
                 if (sqlite3_exec(db, trigger.c_str(), nullptr, nullptr, nullptr) != SQLITE_OK) return false;
             }
         }
         const char* protection =
-            "CREATE TRIGGER IF NOT EXISTS protect_question_delete BEFORE DELETE ON questions "
-            "WHEN EXISTS(SELECT 1 FROM quiz_q WHERE qid=OLD.id) BEGIN SELECT RAISE(ABORT,'Question in use'); END;"
-            "CREATE TRIGGER IF NOT EXISTS protect_question_edit BEFORE UPDATE ON questions "
-            "WHEN EXISTS(SELECT 1 FROM quiz_q WHERE qid=OLD.id) AND "
+            "CREATE TRIGGER IF NOT EXISTS protect_question_delete_v2 BEFORE DELETE ON questions "
+            "WHEN EXISTS(SELECT 1 FROM quiz_q WHERE qid=OLD.id) OR EXISTS(SELECT 1 FROM attempt_q WHERE qid=OLD.id) BEGIN SELECT RAISE(ABORT,'Question in use'); END;"
+            "CREATE TRIGGER IF NOT EXISTS protect_question_edit_v2 BEFORE UPDATE ON questions "
+            "WHEN (EXISTS(SELECT 1 FROM quiz_q WHERE qid=OLD.id) OR EXISTS(SELECT 1 FROM attempt_q WHERE qid=OLD.id)) AND "
             "(NEW.id!=OLD.id OR NEW.subject!=OLD.subject OR NEW.difficulty!=OLD.difficulty OR NEW.text!=OLD.text OR NEW.correct!=OLD.correct) "
             "BEGIN SELECT RAISE(ABORT,'Question in use'); END;"
             "CREATE TRIGGER IF NOT EXISTS protect_quiz_delete BEFORE DELETE ON quizzes "
@@ -382,7 +388,7 @@ public:
     }
 
     bool isReferenced(const std::string& id) const override {
-        Stmt s(db.db, "SELECT 1 FROM quiz_q WHERE qid=?1 LIMIT 1");
+        Stmt s(db.db, "SELECT 1 FROM quiz_q WHERE qid=?1 UNION ALL SELECT 1 FROM attempt_q WHERE qid=?1 LIMIT 1");
         if (!s.ok()) return true;  // A storage failure must not permit an unsafe edit.
         s.text(1, id);
         return sqlite3_step(s.s) != SQLITE_DONE;
@@ -423,7 +429,8 @@ public:
             s.text(1, q.question_id); s.text(2, q.subject_tag); s.num(3, static_cast<int>(q.difficulty));
             s.text(4, q.question_text); s.num(5, static_cast<int>(q.correct_option)); s.num(6, q.is_available);
             if (sqlite3_step(s.s) != SQLITE_DONE) return rollback(fail(db.db, "Save question"));
-            if (isReferenced(q.question_id)) continue;  // Existing options are immutable once pooled.
+            const auto previous = std::find_if(old.begin(), old.end(), [&](const Question& x) { return x.question_id == q.question_id; });
+            if (previous != old.end() && isReferenced(q.question_id)) continue;  // Existing options are immutable once pooled.
             Stmt clear(db.db, "DELETE FROM question_options WHERE qid=?1");
             if (!clear.ok()) return rollback(fail(db.db, "Prepare option replacement"));
             clear.text(1, q.question_id);
@@ -793,17 +800,6 @@ public:
             return r;
         }
 
-        Stmt finalize(db.db, "UPDATE attempts SET submitted=1 WHERE id=?1");
-        if (!finalize.ok()) {
-            exec(db.db, "ROLLBACK");
-            return fail(db.db, "Prepare finalization");
-        }
-        finalize.text(1, a.attempt_id);
-        if (sqlite3_step(finalize.s) != SQLITE_DONE) {
-            exec(db.db, "ROLLBACK");
-            return fail(db.db, "Finalize attempt");
-        }
-
         Stmt rep(db.db, "INSERT INTO reports VALUES(?1,?2,?3,?4)");
 
         if (!rep.ok()) {
@@ -875,6 +871,17 @@ public:
                 exec(db.db, "ROLLBACK");
                 return fail(db.db, "Save topic result");
             }
+        }
+
+        Stmt finalize(db.db, "UPDATE attempts SET submitted=1 WHERE id=?1");
+        if (!finalize.ok()) {
+            exec(db.db, "ROLLBACK");
+            return fail(db.db, "Prepare finalization");
+        }
+        finalize.text(1, a.attempt_id);
+        if (sqlite3_step(finalize.s) != SQLITE_DONE) {
+            exec(db.db, "ROLLBACK");
+            return fail(db.db, "Finalize attempt");
         }
 
         if (!exec(db.db, "COMMIT")) {

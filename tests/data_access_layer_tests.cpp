@@ -503,6 +503,8 @@ TEST_F(DataAccessLayerTest, SubmittedAttemptAndReportSurviveRestartAndRejectChan
     EXPECT_TRUE(loaded.submitted);
     ASSERT_EQ(loaded.answers.size(), 2U);
     EXPECT_EQ(loaded.answers[0].selected_option, 1);
+    EXPECT_FALSE(executeSql("INSERT INTO attempt_q VALUES('attempt-1',2,'q3')"));
+    EXPECT_FALSE(executeSql("UPDATE answers SET selected=0 WHERE attempt='attempt-1'"));
 }
 
 TEST_F(DataAccessLayerTest, ForeignKeysAndLegacyReferenceChecksRejectOrphans) {
@@ -568,6 +570,16 @@ TEST_F(DataAccessLayerTest, LegacyQuizRowsArePreservedWhenIntegrityChecksAreInst
     ASSERT_TRUE(layer->quizzes->findQuiz("legacy", &loaded).ok());
     EXPECT_EQ(loaded.question_ids, (std::vector<std::string>{"legacy-question"}));
     EXPECT_DOUBLE_EQ(loaded.scoring.marks_per_question, 4);
+    auto repo = createSqliteQuestionRepository(legacy_path, &error);
+    ASSERT_NE(repo, nullptr) << error;
+    const Question restored{"legacy-question", "Math", Difficulty::Easy, QuestionType::MCQ,
+                             "Original legacy content", {"A", "B"}, 0, true};
+    ASSERT_TRUE(repo->saveAll({restored}).ok());
+    std::vector<Question> questions;
+    ASSERT_TRUE(repo->loadAll(&questions).ok());
+    ASSERT_EQ(questions.size(), 1U);
+    EXPECT_EQ(questions[0].options, restored.options);
+    repo.reset();
     layer.reset();
     std::remove(legacy_path.c_str());
 }
@@ -588,6 +600,21 @@ TEST_F(DataAccessLayerTest, RejectsInvalidScoringAtTheStorageBoundary) {
     std::vector<Quiz> quizzes;
     ASSERT_TRUE(dal->quizzes->listQuizzes(&quizzes).ok());
     EXPECT_TRUE(quizzes.empty());
+}
+
+TEST_F(DataAccessLayerTest, HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(makeAttempt()).ok());
+    auto quiz = makeQuiz();
+    quiz.question_ids = {"q3"};
+    ASSERT_TRUE(dal->quizzes->saveQuiz(quiz).ok());
+    std::string error;
+    auto repo = createSqliteQuestionRepository(db_path, &error);
+    EXPECT_TRUE(repo->isReferenced("q1"));
+    std::vector<Question> questions;
+    ASSERT_TRUE(repo->loadAll(&questions).ok());
+    questions[0].question_text = "Changed";
+    EXPECT_EQ(repo->saveAll(questions).code, ErrorCode::QUESTION_IN_USE);
 }
 
 }  // namespace
