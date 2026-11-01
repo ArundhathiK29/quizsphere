@@ -46,7 +46,7 @@ struct DataAccessLayer {
 
 // Opens (creating if needed) the SQLite database with tables for users, questions, quizzes, attempts and answers.
 // Returns nullptr and fills `error` if the database cannot be opened.
-// NOTE: BL-01 stub - users are real, quizzes/attempts return NOT_IMPLEMENTED until BL-06 is done.
+// Questions use createSqliteQuestionRepository() with the same file path.
 std::unique_ptr<DataAccessLayer> createSqliteDataAccessLayer(const std::string& database_path, std::string* error);
 
 }  // namespace quizsphere
