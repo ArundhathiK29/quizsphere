@@ -134,13 +134,46 @@ void doRegister(quizsphere::IUserRepository& users) {
     std::cout << (result.ok() ? "Account created. You can now log in." : describe(result.status)) << '\n';
 }
 
+const char* roleLabel(quizsphere::Role role) {
+    if (role == quizsphere::Role::Admin) return "Admin";
+    if (role == quizsphere::Role::Instructor) return "Instructor";
+    return "Student";
+}
+
 void runSession(const quizsphere::Session& session, const std::string& username, quizsphere::QuestionBank& bank) {
-    if (session.role == quizsphere::Role::Student) {
-        std::cout << "Welcome, " << username << " (Student). Quiz attempts are not available in this build yet.\n";
-        return;
+    const bool is_student = session.role == quizsphere::Role::Student;
+    const bool is_admin = session.role == quizsphere::Role::Admin;
+    for (;;) {
+        std::cout << "\n=== QuizSphere: " << roleLabel(session.role) << " Menu ===\n";
+        std::cout << "User: " << username << " (" << roleLabel(session.role) << ")\n";
+        if (is_student) {
+            std::cout << "1. Attempt a quiz (coming soon)\n";
+            std::cout << "2. View my results and leaderboard (coming soon)\n";
+        } else if (is_admin) {
+            std::cout << "1. Question bank (view, import/export, enable/disable)\n";
+            std::cout << "2. Manage users (coming soon)\n";
+            std::cout << "3. System reports (coming soon)\n";
+        } else {
+            std::cout << "1. Question bank\n";
+            std::cout << "2. Create a quiz (coming soon)\n";
+            std::cout << "3. View analytics (coming soon)\n";
+        }
+        std::cout << "0. Log out\n";
+
+        std::string choice;
+        if (!readLine("Select: ", choice) || choice == "0") {
+            std::cout << "Logged out.\n";
+            return;
+        }
+        if (!is_student && choice == "1") {
+            auto menu = quizsphere::createConsoleMenu(session, username, bank, std::cin, std::cout);
+            menu->run();
+        } else if (is_student ? (choice == "1" || choice == "2") : (choice == "2" || choice == "3")) {
+            std::cout << "Not available yet: this feature is planned for a later sprint.\n";
+        } else {
+            std::cout << "Invalid option.\n";
+        }
     }
-    auto menu = quizsphere::createConsoleMenu(session, username, bank, std::cin, std::cout);
-    menu->run();
 }
 
 }  // namespace
