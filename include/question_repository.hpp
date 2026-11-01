@@ -9,6 +9,8 @@
 
 namespace quizsphere {
 
+// The ONLY storage boundary for the Question Bank (SAD 3.4). A SQLite
+// implementation can be added later without touching the business code.
 class QuestionRepository {
 public:
     virtual ~QuestionRepository() = default;
@@ -19,6 +21,8 @@ public:
     virtual Result writeTextFileAtomic(const std::string& path,
                                        const std::string& content,
                                        bool overwrite) const = 0;
+    // Quizzes/attempts do not exist yet, so the file repository always answers false.
+    // The Quiz Engine owner must implement the real check before attempts are stored.
     [[nodiscard]] virtual bool isReferenced(const std::string& question_id) const = 0;
 };
 
