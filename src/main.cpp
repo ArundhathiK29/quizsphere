@@ -146,7 +146,33 @@ void runSession(const quizsphere::Session& session, const std::string& username,
 }  // namespace
 
 int main() {
-    auto repository = quizsphere::createFileQuestionRepository();
+    std::string question_storage_error;
+    auto repository = quizsphere::createSqliteQuestionRepository(
+        envOr("QUIZSPHERE_DB", "quizsphere.db"), &question_storage_error);
+    if (!repository) {
+        std::cerr << "Startup failure: " << question_storage_error << '\n';
+        return 1;
+    }
+    const char* legacy_path = std::getenv("QUIZSPHERE_IMPORT_QUESTIONS");
+    if (legacy_path && *legacy_path) {
+        std::vector<quizsphere::Question> existing;
+        std::vector<quizsphere::Question> legacy;
+        auto legacy_repository = quizsphere::createFileQuestionRepository(legacy_path);
+        auto result = repository->loadAll(&existing);
+        if (result.ok() && !existing.empty()) {
+            result = {quizsphere::ErrorCode::VALIDATION_FAILED, "Import requires an empty SQLite question bank."};
+        }
+        if (result.ok()) result = legacy_repository->loadAll(&legacy);
+        if (result.ok()) {
+            auto validation_bank = quizsphere::createQuestionBank(quizsphere::createFileQuestionRepository(legacy_path));
+            result = validation_bank->load();
+        }
+        if (result.ok()) result = repository->saveAll(legacy);
+        if (!result.ok()) {
+            std::cerr << "Question import failed: " << result.message << '\n';
+            return 1;
+        }
+    }
     auto question_bank = quizsphere::createQuestionBank(std::move(repository));
 
     const auto load_result = question_bank->load();

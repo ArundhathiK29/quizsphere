@@ -28,4 +28,9 @@ public:
 
 std::unique_ptr<QuestionRepository> createFileQuestionRepository(std::string storage_path = "data/questions.tsv");
 
+// Uses the existing QuestionRepository contract; CSV I/O delegates to the file repository.
+// Returns nullptr and fills error when the database cannot be opened.
+std::unique_ptr<QuestionRepository> createSqliteQuestionRepository(const std::string& database_path,
+                                                                  std::string* error);
+
 }  // namespace quizsphere

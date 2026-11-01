@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.20)
 project(QuizSphere LANGUAGES C CXX)
 
@@ -46,6 +47,10 @@ add_library(quizsphere_core
     src/auth.cpp
     src/auth_event_log.cpp
     src/sqlite_user_repository.cpp
+    src/data_access_layer.cpp
+    src/grading_module.cpp
+    src/quiz_engine.cpp
+    src/analytics_module.cpp
 )
 
 target_include_directories(quizsphere_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -83,11 +88,33 @@ if(QUIZSPHERE_BUILD_TESTS)
         tests/auth_tests.cpp
         tests/auth_event_log_tests.cpp
         tests/sqlite_user_repository_tests.cpp
+        tests/module_interfaces_tests.cpp
     )
     target_link_libraries(auth_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
     quizsphere_enable_warnings(auth_tests)
     quizsphere_enable_coverage(auth_tests)
     gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(data_access_layer_tests
+        tests/data_access_layer_tests.cpp
+    )
+    target_link_libraries(data_access_layer_tests
+        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main
+    )
+    quizsphere_enable_warnings(data_access_layer_tests)
+    quizsphere_enable_coverage(data_access_layer_tests)
+    gtest_discover_tests(data_access_layer_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(quiz_engine_tests
+        tests/quiz_engine_tests.cpp
+        tests/quiz_engine_sqlite_tests.cpp
+    )
+    target_link_libraries(quiz_engine_tests
+        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main
+    )
+    quizsphere_enable_warnings(quiz_engine_tests)
+    quizsphere_enable_coverage(quiz_engine_tests)
+    gtest_discover_tests(quiz_engine_tests DISCOVERY_TIMEOUT 120)
 
     add_test(
         NAME no_fstream_outside_repository_or_logging
