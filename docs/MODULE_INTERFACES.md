@@ -10,10 +10,10 @@ the whole team reviews. Unfinished functions return `ErrorCode::NOT_IMPLEMENTED`
 | Auth | `auth.hpp`, `auth.cpp`, `password_hasher.*`, `auth_event_log.*`, `sqlite_user_repository.*` | Arundhathi (BL-03, 11-14, 27) | implemented |
 | Question Bank | `question_bank.hpp`, `question_bank.cpp`, `question_repository*` | Aryan (BL-05) | implemented |
 | Console UI | `console_menu.hpp`, `console_menu.cpp`, `main.cpp` | Aryan (BL-04) | instructor/admin menu done, student menu missing |
-| Quiz Engine | `quiz_engine.hpp`, `quiz_engine.cpp` | Ashwin (BL-07, 08) | **stub** |
+| Quiz Engine | `quiz_engine.hpp`, `quiz_engine.cpp` | Ashwin (BL-07, 08) | quiz creation and per-quiz scoring implemented; attempt lifecycle remains later-sprint work |
 | Grading | `grading_module.hpp`, `grading_module.cpp` | Chaturya (BL-10) | **stub** |
 | Analytics | `analytics_module.hpp`, `analytics_module.cpp` | see backlog | **stub** |
-| Data Access Layer | `data_access_layer.hpp`, `data_access_layer.cpp` | Ashwin (BL-06) | users real, quizzes/attempts **stub** |
+| Data Access Layer | `data_access_layer.hpp`, `data_access_layer.cpp` | Ashwin (BL-06) | users, questions, quizzes, attempts and results implemented; see DAL_PERSISTENCE.md |
 
 Shared structs live in `quiz_types.hpp` (`Quiz`, `QuizConfig`, `ScoringScheme`, `Attempt`, `Answer`, `GradeReport`,
 `ItemResult`, `TopicScore`, `LeaderboardEntry`) and `common_types.hpp` (`Role`, `Session`, `Result`, `ErrorCode`).
