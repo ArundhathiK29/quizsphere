@@ -23,6 +23,7 @@
 #include "import_logger.hpp"
 #include "question_bank.hpp"
 #include "question_repository.hpp"
+#include "data_access_layer.hpp"
 
 namespace qs = quizsphere;
 namespace fs = std::filesystem;
@@ -669,7 +670,7 @@ TEST_F(QuestionBankFixture, EXTRA_StorageFileWithCrlfLoads) {
     EXPECT_EQ(listAll(*reload()).size(), 1U);
 }
 
-TEST_F(QuestionBankFixture, ST_SEC_RoleDenialOnEveryFunction) {
+TEST_F(QuestionBankFixture, ST_SEC_02_RoleDenialOnEveryFunction) {
     ASSERT_TRUE(bank_->addQuestion(instructorSession(), baseQuestion("Q_SEC")).ok());
     const std::string before = readFile(storage_path_);
     const fs::path csv = root_ / "x.csv";
@@ -905,6 +906,68 @@ TEST_F(MenuFixture, ST_UI_ImportShowsSkippedRowsWithLineNumbers) {
     const std::string out = runMenu(instructorSession(), "8\n" + csv.string() + "\n0\n");
     EXPECT_NE(out.find("imported=1, skipped=1"), std::string::npos);
     EXPECT_NE(out.find("line 3"), std::string::npos);
+}
+TEST_F(MenuFixture, ST_ADM_02_AdminCanImportAndExportThroughMenu) {
+    const fs::path csv = root_ / "admin_import.csv";
+    writeFile(csv, kHeader + "\n" + csvRow("QA1", "Math", "Easy", "ok", "1|2", "0"));
+    const std::string imported = runMenu(adminSession(), "8\n" + csv.string() + "\n0\n");
+    EXPECT_NE(imported.find("User: Tester ("), std::string::npos);
+    EXPECT_NE(imported.find("imported=1, skipped=0"), std::string::npos);
+
+    const fs::path target = root_ / "admin_export.csv";
+    const std::string exported = runMenu(adminSession(), "7\n" + target.string() + "\n\n\n0\n");
+    EXPECT_NE(exported.find("Success: Export written."), std::string::npos);
+    EXPECT_EQ(readFile(target).rfind(kHeader, 0), 0U);
+}
+
+TEST(StorageParityTest, UT_DAL_02_FlatFileAndSqliteReturnIdenticalQuestions) {
+    const fs::path dir = fs::temp_directory_path() / "quizsphere_ut_dal_02";
+    fs::remove_all(dir);
+    fs::create_directories(dir);
+
+    qs::Question a;
+    a.question_id = "Q001";
+    a.subject_tag = "Math";
+    a.difficulty = qs::Difficulty::Easy;
+    a.question_type = qs::QuestionType::MCQ;
+    a.question_text = "What is 2+2?";
+    a.options = {"3", "4", "5"};
+    a.correct_option = 1;
+    a.is_available = true;
+    qs::Question b = a;
+    b.question_id = "Q002";
+    b.subject_tag = "Science";
+    b.difficulty = qs::Difficulty::Hard;
+    b.question_text = "Chemical symbol for gold?";
+    b.options = {"Au", "Ag"};
+    b.correct_option = 0;
+    b.is_available = false;
+    const std::vector<qs::Question> input = {a, b};
+
+    std::string error;
+    auto flat = qs::createFileQuestionRepository((dir / "flat.tsv").string());
+    auto sqlite = qs::createSqliteQuestionRepository((dir / "bank.db").string(), &error);
+    ASSERT_NE(sqlite, nullptr) << error;
+    ASSERT_TRUE(flat->saveAll(input).ok());
+    ASSERT_TRUE(sqlite->saveAll(input).ok());
+
+    std::vector<qs::Question> from_flat;
+    std::vector<qs::Question> from_sqlite;
+    ASSERT_TRUE(flat->loadAll(&from_flat).ok());
+    ASSERT_TRUE(sqlite->loadAll(&from_sqlite).ok());
+    ASSERT_EQ(from_flat.size(), from_sqlite.size());
+    for (std::size_t i = 0; i < from_flat.size(); ++i) {
+        EXPECT_EQ(from_flat[i].question_id, from_sqlite[i].question_id);
+        EXPECT_EQ(from_flat[i].subject_tag, from_sqlite[i].subject_tag);
+        EXPECT_EQ(from_flat[i].difficulty, from_sqlite[i].difficulty);
+        EXPECT_EQ(from_flat[i].question_text, from_sqlite[i].question_text);
+        EXPECT_EQ(from_flat[i].options, from_sqlite[i].options);
+        EXPECT_EQ(from_flat[i].correct_option, from_sqlite[i].correct_option);
+        EXPECT_EQ(from_flat[i].is_available, from_sqlite[i].is_available);
+    }
+    sqlite.reset();
+    flat.reset();
+    fs::remove_all(dir);
 }
 
 }  // namespace

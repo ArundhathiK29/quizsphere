@@ -58,7 +58,7 @@ std::string describe(const Result& result) {
         case ErrorCode::TIME_EXPIRED:
             return "Time expired: the attempt was submitted automatically.";
         case ErrorCode::NOT_IMPLEMENTED:
-            return "Not available yet: " + message;
+            return "Not available yet: " + result.message;
         case ErrorCode::OK:
             return result.message;
     }
@@ -148,7 +148,7 @@ private:
         } else {
             output_ << "No question bank actions are available for your role.\n";
         }
-        output_ << "0. Exit\n";
+        output_ << "0. Back\n";
         output_ << "Choose an option: ";
     }
 
