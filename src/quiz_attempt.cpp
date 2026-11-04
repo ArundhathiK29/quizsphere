@@ -13,7 +13,11 @@ namespace {
 // and bounded sampling is explicit rather than depending on std::shuffle's implementation.
 std::vector<std::size_t> optionOrder(const Attempt& attempt, const PublicQuestion& question) {
     const std::string key = attempt.attempt_id + ":" + question.question_id;
-    std::seed_seq seed(key.begin(), key.end());
+    std::vector<std::uint32_t> key_bytes(key.size());
+    std::transform(key.begin(), key.end(), key_bytes.begin(), [](unsigned char byte) {
+        return static_cast<std::uint32_t>(byte);
+    });
+    std::seed_seq seed(key_bytes.begin(), key_bytes.end());
     std::mt19937_64 random(seed);
     std::vector<std::size_t> order(question.options.size());
     std::iota(order.begin(), order.end(), 0);
