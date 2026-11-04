@@ -349,6 +349,12 @@ private:
         }
         if (supplied->submitted || current->submitted)
             return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
+        if (supplied->answers.size() != current->answers.size() ||
+            !std::equal(supplied->answers.begin(), supplied->answers.end(), current->answers.begin(),
+                [](const Answer& a, const Answer& b) {
+                    return a.question_id == b.question_id && a.selected_option == b.selected_option &&
+                           a.flagged_for_review == b.flagged_for_review;
+                })) return validationError("Answer state changed; resume the attempt and use saveAnswer.");
         return {};
     }
 

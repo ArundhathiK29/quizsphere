@@ -51,6 +51,7 @@ add_library(quizsphere_core
     src/grading_module.cpp
     src/quiz_engine.cpp
     src/quiz_attempt.cpp
+    src/quiz_console.cpp
     src/analytics_module.cpp
 )
 

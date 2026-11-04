@@ -9,6 +9,7 @@
 #include <sstream>
 
 #include "quiz_attempt.hpp"
+#include "quiz_console.hpp"
 #include "question_repository.hpp"
 
 namespace quizsphere {
@@ -135,7 +136,11 @@ TEST_F(QuizAttemptTest, ST_QE_01_DisplayedAnswersMapToOriginalOptions) {
         ASSERT_TRUE(session.question(&view).ok());
         EXPECT_EQ((std::set<std::size_t>(view.original_option_indices.begin(),view.original_option_indices.end())),
                   (std::set<std::size_t>{0,1,2,3}));
+        PublicQuestion original;
+        ASSERT_TRUE(bank->getQuestionForQuiz(view.question.question_id,&original).ok());
         for (int display=0;display<4;++display) {
+            EXPECT_EQ(view.question.options[static_cast<std::size_t>(display)],
+                      original.options[view.original_option_indices[static_cast<std::size_t>(display)]]);
             ASSERT_TRUE(session.select(display).ok());
             EXPECT_EQ(session.attempt().answers.back().selected_option,
                       static_cast<int>(view.original_option_indices[static_cast<std::size_t>(display)]));
@@ -310,6 +315,112 @@ TEST_F(QuizAttemptTest, MissingOrMalformedQuizQuestionsFailBeforeAttemptPersiste
     Attempt attempt;
     EXPECT_EQ(engine->startAttempt(student,"quiz",QuizMode::Graded,&attempt).code,ErrorCode::QUESTION_NOT_FOUND);
     EXPECT_EQ(attempts->writes,0);
+}
+
+TEST_F(QuizAttemptTest, InstructorConsoleCreatesQuizThroughExistingValidation) {
+    std::istringstream input("Console quiz\n15\n2\nMath\nEasy\n4\n1\n");
+    std::ostringstream output;
+    runQuizCreation(instructor,*engine,input,output);
+    EXPECT_NE(output.str().find("Quiz created:"),std::string::npos);
+    std::vector<Quiz> quizzes;
+    ASSERT_TRUE(dal->quizzes->listQuizzes(&quizzes).ok()); ASSERT_EQ(quizzes.size(),2U);
+    const auto created=std::find_if(quizzes.begin(),quizzes.end(),[](const Quiz& q) { return q.title=="Console quiz"; });
+    ASSERT_NE(created,quizzes.end()); EXPECT_EQ(created->question_ids.size(),2U); EXPECT_DOUBLE_EQ(created->scoring.negative_mark,1);
+}
+
+TEST_F(QuizAttemptTest, InstructorConsoleRejectsMalformedAndNonpositiveConfiguration) {
+    for (const std::string script : {"Bad\n10oops\n", "Bad\n0\n2\n\n\n4\n1\n",
+                                      "Bad\n10\n2\n\nUnknown\n"}) {
+        std::istringstream input(script); std::ostringstream output;
+        runQuizCreation(instructor,*engine,input,output);
+        EXPECT_EQ(output.str().find("Quiz created:"),std::string::npos);
+    }
+    std::vector<Quiz> quizzes;
+    ASSERT_TRUE(dal->quizzes->listQuizzes(&quizzes).ok()); EXPECT_EQ(quizzes.size(),1U);
+}
+
+TEST_F(QuizAttemptTest, StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage) {
+    std::istringstream input("quiz\np\nf\nr\nj 2\nj 1\na 1\nc\ns\nno\nr\ns\nyes\n");
+    std::ostringstream output;
+    runQuizAttempts(student,*engine,*bank,input,output);
+    const auto text=output.str();
+    EXPECT_NE(text.find("Flagged questions: 1"),std::string::npos);
+    EXPECT_NE(text.find("Correct answer:"),std::string::npos);
+    EXPECT_NE(text.find("Submission cancelled."),std::string::npos);
+    EXPECT_NE(text.find("Practice completed. No result stored."),std::string::npos);
+    EXPECT_EQ(attempts->writes,0); EXPECT_EQ(grading->calls,0);
+}
+
+TEST_F(QuizAttemptTest, StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable) {
+    grading->available=false;
+    std::istringstream input("quiz\ng\na 2\nf\ns\nyes\n0\n"); std::ostringstream output;
+    runQuizAttempts(student,*engine,*bank,input,output);
+    EXPECT_NE(output.str().find("attempt stays open"),std::string::npos);
+    Attempt stored;
+    ASSERT_TRUE(dal->attempts->findOpenAttempt("quiz",student.user_id,&stored).ok());
+    ASSERT_EQ(stored.answers.size(),1U); EXPECT_TRUE(stored.answers[0].flagged_for_review);
+    EXPECT_FALSE(stored.submitted);
+}
+
+TEST_F(QuizAttemptTest, StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble) {
+    std::istringstream input("quiz\ng\na 2\ns\nyes\n"); std::ostringstream output;
+    runQuizAttempts(student,*engine,*bank,input,output);
+    EXPECT_NE(output.str().find("Submitted. Score: 7/12"),std::string::npos);
+    std::istringstream result_input("quiz\n");
+    runQuizResult(student,*engine,*grading,result_input,output);
+    EXPECT_NE(output.str().find("Score: 7/12"),std::string::npos);
+    const Session other{"other",Role::Student,"2026-11-04T09:00:00Z"};
+    std::istringstream other_input("quiz\n"); std::ostringstream other_output;
+    runQuizResult(other,*engine,*grading,other_input,other_output);
+    EXPECT_EQ(other_output.str().find("Score:"),std::string::npos);
+}
+
+TEST_F(QuizAttemptTest, MenuCancellationInvalidCommandsAndEofNeverSubmit) {
+    std::istringstream input("quiz\ng\nj -1\na 99999999999999999999999999999999\nj 0\na 2oops\nf\ns\nno\n");
+    std::ostringstream output;
+    runQuizAttempts(student,*engine,*bank,input,output);
+    EXPECT_EQ(grading->calls,0);
+    Attempt stored;
+    ASSERT_TRUE(dal->attempts->findOpenAttempt("quiz",student.user_id,&stored).ok());
+    EXPECT_FALSE(stored.submitted);
+    ASSERT_EQ(stored.answers.size(),1U); EXPECT_EQ(stored.answers[0].selected_option,kBlankAnswer);
+}
+
+TEST_F(QuizAttemptTest, RoleSpecificConsoleFunctionsRejectOtherRoles) {
+    std::istringstream input; std::ostringstream output;
+    runQuizCreation(student,*engine,input,output);
+    runQuizAttempts(instructor,*engine,*bank,input,output);
+    runQuizResult(instructor,*engine,*grading,input,output);
+    EXPECT_NE(output.str().find("Not authorized"),std::string::npos);
+    EXPECT_EQ(attempts->writes,0);
+}
+
+TEST_F(QuizAttemptTest, StaleAttemptCopiesCannotModifySubmittedDatabaseRecords) {
+    Attempt attempt;
+    ASSERT_TRUE(engine->startAttempt(student,"quiz",QuizMode::Graded,&attempt).ok());
+    const auto stale=attempt;
+    GradeReport report;
+    ASSERT_TRUE(engine->submitAttempt(student,&attempt,false,&report).ok());
+    auto changed=stale;
+    EXPECT_EQ(engine->saveAnswer(&changed,{changed.question_order[0],0,true}).code,ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+    const Session other{"other",Role::Student,student.logged_in_at};
+    EXPECT_EQ(engine->submitAttempt(other,&changed,false,&report).code,ErrorCode::NOT_AUTHORIZED);
+}
+
+TEST_F(QuizAttemptTest, CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave) {
+    ASSERT_TRUE(sql("INSERT INTO quiz_q VALUES('quiz',4,'q0')"));
+    Attempt attempt;
+    EXPECT_EQ(engine->startAttempt(student,"quiz",QuizMode::Graded,&attempt).code,ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(attempts->writes,0);
+}
+
+TEST_F(QuizAttemptTest, TamperedOrDuplicateAnswerVectorsCannotReachGrading) {
+    Attempt attempt;
+    ASSERT_TRUE(engine->startAttempt(student,"quiz",QuizMode::Graded,&attempt).ok());
+    attempt.answers={{"outside",0,false},{"outside",0,false}};
+    GradeReport report;
+    EXPECT_EQ(engine->submitAttempt(student,&attempt,false,&report).code,ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(grading->calls,0);
 }
 
 }  // namespace

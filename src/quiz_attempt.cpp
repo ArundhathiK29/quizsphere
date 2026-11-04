@@ -37,6 +37,7 @@ Result QuizAttemptSession::start(const std::string& quiz_id, QuizMode mode) {
     Attempt candidate;
     auto result = engine_.startAttempt(student_, quiz_id, mode, &candidate);
     if (!result.ok()) return result;
+    if (candidate.question_order.empty()) return {ErrorCode::VALIDATION_FAILED, "Attempt has no questions."};
     std::vector<AttemptQuestionView> views;
     for (const auto& id : candidate.question_order) {
         AttemptQuestionView view;
