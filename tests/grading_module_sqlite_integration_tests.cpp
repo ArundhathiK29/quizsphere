@@ -38,11 +38,9 @@ Question makeQuestion(const std::string& id, const std::string& subject_tag, std
 class GradingSqliteIntegrationTest : public ::testing::Test {
 protected:
     std::string db_path = "grading_integration_test.sqlite";
-    std::string question_path = "grading_integration_test_questions.tsv";
 
     void SetUp() override {
         removeDbFiles();
-        std::remove(question_path.c_str());
 
         std::string error;
         dal_ = createSqliteDataAccessLayer(db_path, &error);
@@ -50,7 +48,13 @@ protected:
         ASSERT_NE(dal_->quizzes, nullptr);
         ASSERT_NE(dal_->attempts, nullptr);
 
-        bank_ = createQuestionBank(createFileQuestionRepository(question_path));
+        // Questions must live in the same SQLite file: quiz_q(qid) has a foreign key into
+        // questions(id), so a quiz referencing a question the file-backed repository alone
+        // knows about would fail that constraint.
+        std::string question_repo_error;
+        auto question_repository = createSqliteQuestionRepository(db_path, &question_repo_error);
+        ASSERT_NE(question_repository, nullptr) << question_repo_error;
+        bank_ = createQuestionBank(std::move(question_repository));
         ASSERT_TRUE(bank_->load().ok());
         ASSERT_TRUE(bank_->addQuestion(instructorSession(), makeQuestion("Q1", "Math", 1)).ok());
         ASSERT_TRUE(bank_->addQuestion(instructorSession(), makeQuestion("Q2", "Science", 0)).ok());
@@ -80,7 +84,6 @@ protected:
     void TearDown() override {
         dal_.reset();
         removeDbFiles();
-        std::remove(question_path.c_str());
     }
 
     void removeDbFiles() {
@@ -119,14 +122,23 @@ TEST_F(GradingSqliteIntegrationTest, GradedResultSurvivesClosingAndReopeningTheD
     GradeReport original;
     ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", answers, &original).ok());
 
-    // Simulate a restart: close the database and every in-memory object that held a handle to it,
-    // then reopen from the same file and rebuild Grading on top of the fresh DAL.
+    // Simulate a restart: close the database and every in-memory object that held a handle to it
+    // (the QuestionBank's SQLite repository included, since it shares this same file), then reopen
+    // everything from the same file and rebuild Grading on top of the fresh objects.
     grading_.reset();
     dal_.reset();
+    bank_.reset();
 
     std::string error;
     dal_ = createSqliteDataAccessLayer(db_path, &error);
     ASSERT_NE(dal_, nullptr) << error;
+
+    std::string question_repo_error;
+    auto question_repository = createSqliteQuestionRepository(db_path, &question_repo_error);
+    ASSERT_NE(question_repository, nullptr) << question_repo_error;
+    bank_ = createQuestionBank(std::move(question_repository));
+    ASSERT_TRUE(bank_->load().ok());
+
     grading_ = createGradingModule(*bank_, *dal_->quizzes, *dal_->attempts);
 
     GradeReport reloaded;
@@ -141,14 +153,12 @@ TEST_F(GradingSqliteIntegrationTest, GradedResultSurvivesClosingAndReopeningTheD
         EXPECT_DOUBLE_EQ(reloaded.itemised_breakdown[i].marks_awarded, original.itemised_breakdown[i].marks_awarded);
     }
 
-    // And re-grading after restart is still rejected (NFR-006), not silently allowed just because
-    // the process restarted. The real DAL moves a graded attempt out of the "open" table entirely,
-    // so a blind re-submit (no fresh open attempt re-seeded) surfaces as ATTEMPT_NOT_FOUND here -
-    // a different error path than the ATTEMPT_ALREADY_SUBMITTED case covered by
-    // UT_GRADE_04/UT_GRADE_07 in grading_module_tests.cpp (where a *new* open attempt exists), but
-    // an equally firm rejection either way.
+    // And re-grading after restart is still rejected (NFR-006, FR-015), not silently allowed just
+    // because the process restarted and the attempt is no longer in the "open" table. gradeAttempt
+    // checks findReport before concluding ATTEMPT_NOT_FOUND, so a blind re-submit against an
+    // already-graded attempt correctly surfaces as ATTEMPT_ALREADY_SUBMITTED here too.
     const Result regrade_result = grading_->gradeAttempt("quiz-1", "student-1", answers, &reloaded);
-    EXPECT_EQ(regrade_result.code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(regrade_result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
 
     // If a fresh open attempt DOES exist (e.g. a disallowed second Graded-mode attempt slipped
     // through), the real DAL's own saveGradedAttempt duplicate check rejects it with

@@ -64,6 +64,15 @@ public:
         Attempt attempt;
         const Result attempt_result = attempts_.findOpenAttempt(quiz_id, student_id, &attempt);
         if (!attempt_result.ok()) {
+            // No open attempt doesn't necessarily mean one was never started: once graded, the real
+            // DAL moves it out of the open table entirely. Per the documented contract (FR-015), a
+            // blind re-submit against an already-graded attempt must surface as
+            // ATTEMPT_ALREADY_SUBMITTED, not ATTEMPT_NOT_FOUND - check before concluding there was
+            // genuinely never an attempt.
+            GradeReport existing_report;
+            if (attempts_.findReport(quiz_id, student_id, &existing_report).ok()) {
+                return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
+            }
             return attempt_result;
         }
 

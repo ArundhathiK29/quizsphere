@@ -223,6 +223,22 @@ protected:
     std::unique_ptr<GradingModule> grading_;
 };
 
+TEST_F(GradingModuleTest, BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted) {
+    // Once graded, an attempt is removed from the "open" table entirely (findOpenAttempt would
+    // return ATTEMPT_NOT_FOUND on its own). A direct re-submit with no new open attempt re-seeded
+    // must still surface as ATTEMPT_ALREADY_SUBMITTED (FR-015), not ATTEMPT_NOT_FOUND - the student
+    // did attempt it, and nothing should contradict that.
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+
+    GradeReport first;
+    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
+
+    GradeReport second;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &second);
+    EXPECT_EQ(result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+}
+
 TEST_F(GradingModuleTest, UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers) {
     makeQuiz(/*marks_per_question=*/2.0, /*negative_mark=*/0.0);
     makeOpenAttempt();
