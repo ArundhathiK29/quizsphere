@@ -1,0 +1,26 @@
+Authentication verification build record
+Date: 2026-11-03 (Asia/Calcutta)
+Repository: ArundhathiK29/quizsphere
+Commit: 978a25fde52c368e156186804e95055825ee8c1d
+This file is a build summary, not a verbatim compiler transcript.
+
+Source verification: all 52 downloaded text files match the pinned commit's Git blob SHA-1 hashes; zero mismatches.
+Fresh source directory: work/auth-2026-11-03/main
+Fresh build directory: work/auth-2026-11-03/build
+Generator: MinGW Makefiles
+Compiler: GNU 15.1.0
+SQLite: 3.50.3
+OpenSSL: 3.5.1
+
+Commands (PATH includes C:/msys64/mingw64/bin and C:/mingw64/bin):
+cmake -S work/auth-2026-11-03/main -B work/auth-2026-11-03/build -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe -DCMAKE_MAKE_PROGRAM=C:/mingw64/bin/mingw32-make.exe -DCMAKE_PREFIX_PATH=C:/msys64/mingw64 -DQUIZSPHERE_BUILD_TESTS=ON
+cmake --build work/auth-2026-11-03/build --target auth_tests -j 2
+
+Outcome: configuration and compilation succeeded; process exit 0.
+Compiled current quizsphere_core and auth_tests.
+Run: auth_tests.exe --gtest_filter=Auth.*:PasswordHasher.*:AuthEventLog.*:SqliteUserRepository.*
+Outcome: 39 passed, 0 failed, 0 skipped; exit 0.
+TEMP/TMP point to isolated work/auth-2026-11-03/test-temp.
+
+Scope: auth/account suites only. This local run does not claim a full CTest run, Docker run, cppcheck run, or interactive UI walkthrough.
+No application database or account logs are included in the submission.
