@@ -61,17 +61,34 @@ public:
 
                 // The open (in-progress) attempt carries the shuffled question_order the student saw and,
         // if the Quiz Engine already persisted a timeout, auto_submitted = true (FR-011).
-        Attempt attempt;
+                Attempt attempt;
         const Result attempt_result = attempts_.findOpenAttempt(quiz_id, student_id, &attempt);
         if (!attempt_result.ok()) {
             // No open attempt doesn't necessarily mean one was never started: once graded, the real
             // DAL moves it out of the open table entirely. Per the documented contract (FR-015), a
-            // blind re-submit against an already-graded attempt must surface as
-            // ATTEMPT_ALREADY_SUBMITTED, not ATTEMPT_NOT_FOUND - check before concluding there was
-            // genuinely never an attempt.
-            GradeReport existing_report;
-            if (attempts_.findReport(quiz_id, student_id, &existing_report).ok()) {
-                return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
+            // blind re-submit against an already-graded GRADED-mode attempt must surface as
+            // ATTEMPT_ALREADY_SUBMITTED, not ATTEMPT_NOT_FOUND.
+            //
+            // Only check this for ATTEMPT_NOT_FOUND specifically - any other failure (e.g. a real
+            // IO_ERROR from the DAL) must be returned as-is, not silently reinterpreted.
+            //
+            // Use listGradedAttempts (which carries Attempt::mode) rather than findReport: findReport
+            // isn't mode-aware and returns the most recently submitted report regardless of mode, so
+            // relying on it here would wrongly block a legitimate new Practice-mode submission
+            // (Practice is explicitly repeatable, BR-4) whenever the student's last Practice attempt
+            // happened to be graded.
+            if (attempt_result.code == ErrorCode::ATTEMPT_NOT_FOUND) {
+                std::vector<Attempt> graded_for_quiz;
+                const Result list_result = attempts_.listGradedAttempts(quiz_id, &graded_for_quiz);
+                if (list_result.ok()) {
+                    const bool already_graded =
+                        std::any_of(graded_for_quiz.begin(), graded_for_quiz.end(), [&](const Attempt& a) {
+                            return a.student_id == student_id && a.mode == QuizMode::Graded;
+                        });
+                    if (already_graded) {
+                        return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
+                    }
+                }
             }
             return attempt_result;
         }

@@ -1,6 +1,7 @@
 #include "grading_module.hpp"
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -95,6 +96,9 @@ public:
         return {ErrorCode::ATTEMPT_NOT_FOUND, "Attempt not found."};
     }
     Result findOpenAttempt(const std::string& quiz_id, const std::string& student_id, Attempt* attempt) const override {
+        if (forced_find_open_error_.has_value()) {
+            return *forced_find_open_error_;
+        }
         const auto it = open_.find(key(quiz_id, student_id));
         if (it == open_.end()) {
             return {ErrorCode::ATTEMPT_NOT_FOUND, "No open attempt."};
@@ -148,12 +152,14 @@ public:
         return it == graded_.end() ? nullptr : &it->second.first;
     }
     void failNextSave() { fail_next_save_ = true; }
+    void forceFindOpenError(Result error) { forced_find_open_error_ = error; }
 
 private:
     static std::string key(const std::string& quiz_id, const std::string& student_id) {
         return quiz_id + "|" + student_id;
     }
     bool fail_next_save_ = false;
+    std::optional<Result> forced_find_open_error_;
     std::unordered_map<std::string, Attempt> open_;
     std::unordered_map<std::string, std::pair<Attempt, GradeReport>> graded_;
 };
@@ -222,22 +228,6 @@ protected:
     FakeAttemptRepository attempts_;
     std::unique_ptr<GradingModule> grading_;
 };
-
-TEST_F(GradingModuleTest, BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted) {
-    // Once graded, an attempt is removed from the "open" table entirely (findOpenAttempt would
-    // return ATTEMPT_NOT_FOUND on its own). A direct re-submit with no new open attempt re-seeded
-    // must still surface as ATTEMPT_ALREADY_SUBMITTED (FR-015), not ATTEMPT_NOT_FOUND - the student
-    // did attempt it, and nothing should contradict that.
-    makeQuiz(1.0, 0.0);
-    makeOpenAttempt();
-
-    GradeReport first;
-    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
-
-    GradeReport second;
-    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &second);
-    EXPECT_EQ(result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
-}
 
 TEST_F(GradingModuleTest, UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers) {
     makeQuiz(/*marks_per_question=*/2.0, /*negative_mark=*/0.0);
@@ -422,6 +412,59 @@ TEST_F(GradingModuleTest, OutOfRangeOptionIndexIsRejected) {
 
     EXPECT_EQ(result.code, ErrorCode::VALIDATION_FAILED);
     EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
+}
+
+TEST_F(GradingModuleTest, BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted) {
+    // Once graded, an attempt is removed from the "open" table entirely (findOpenAttempt would
+    // return ATTEMPT_NOT_FOUND on its own). A direct re-submit with no new open attempt re-seeded
+    // must still surface as ATTEMPT_ALREADY_SUBMITTED (FR-015), not ATTEMPT_NOT_FOUND - the student
+    // did attempt it, and nothing should contradict that.
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+
+    GradeReport first;
+    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
+
+    GradeReport second;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &second);
+    EXPECT_EQ(result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+}
+
+TEST_F(GradingModuleTest, PracticeModeIsNeverBlockedByTheAlreadySubmittedFallback) {
+    // BR-4: Practice attempts are repeatable. If the student's only graded record for this quiz
+    // is a Practice-mode one, a blind re-submit with no open attempt must stay ATTEMPT_NOT_FOUND -
+    // the fallback must only trigger for an already-graded GRADED-mode attempt.
+    makeQuiz(1.0, 0.0);
+    Attempt practice_attempt;
+    practice_attempt.attempt_id = "practice-1";
+    practice_attempt.quiz_id = "quiz-1";
+    practice_attempt.student_id = "student-1";
+    practice_attempt.mode = QuizMode::Practice;
+    practice_attempt.started_at = "2026-10-24T00:00:00Z";
+    practice_attempt.question_order = {"Q1", "Q2", "Q3"};
+    attempts_.seedOpenAttempt(practice_attempt);
+
+    GradeReport first;
+    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
+    EXPECT_EQ(result.code, ErrorCode::ATTEMPT_NOT_FOUND);
+}
+
+TEST_F(GradingModuleTest, ARealDalFailureIsNeverMaskedAsAlreadySubmitted) {
+    // The ALREADY_SUBMITTED fallback must only trigger for ATTEMPT_NOT_FOUND specifically - a
+    // genuine IO_ERROR (or any other failure) from findOpenAttempt must be returned as-is, even if
+    // the student happens to have an unrelated prior graded attempt for this quiz.
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+    GradeReport first;
+    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
+
+    attempts_.forceFindOpenError({ErrorCode::IO_ERROR, "Simulated database read failure."});
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
+    EXPECT_EQ(result.code, ErrorCode::IO_ERROR);
 }
 
 TEST_F(GradingModuleTest, DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten) {
