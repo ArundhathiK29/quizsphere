@@ -140,6 +140,15 @@ public:
             "BEGIN SELECT RAISE(ABORT,'Attempt in use'); END;"
             "CREATE TRIGGER IF NOT EXISTS protect_submitted_attempt BEFORE UPDATE ON attempts WHEN OLD.submitted=1 "
             "BEGIN SELECT RAISE(ABORT,'Attempt already submitted'); END;"
+            // Triggers protect new writes without making a legacy database with duplicate open rows unreadable.
+            "CREATE TRIGGER IF NOT EXISTS single_open_graded_attempt_insert BEFORE INSERT ON attempts "
+            "WHEN NEW.mode=1 AND NEW.submitted=0 AND EXISTS("
+            "SELECT 1 FROM attempts WHERE quiz=NEW.quiz AND student=NEW.student AND mode=1 AND submitted=0) "
+            "BEGIN SELECT RAISE(ABORT,'Open graded attempt already exists'); END;"
+            "CREATE TRIGGER IF NOT EXISTS single_open_graded_attempt_update BEFORE UPDATE ON attempts "
+            "WHEN NEW.mode=1 AND NEW.submitted=0 AND EXISTS("
+            "SELECT 1 FROM attempts WHERE quiz=NEW.quiz AND student=NEW.student AND mode=1 AND submitted=0 AND id IS NOT OLD.id) "
+            "BEGIN SELECT RAISE(ABORT,'Open graded attempt already exists'); END;"
             "COMMIT;";
         return sqlite3_exec(db, protection, nullptr, nullptr, nullptr) == SQLITE_OK;
     }
@@ -331,8 +340,12 @@ Result writeAttempt(sqlite3* db, const Attempt& a, bool update) {
     s.real(8, a.score);
     s.text(9, a.attempt_id);
 
-    if (sqlite3_step(s.s) != SQLITE_DONE)
+    if (sqlite3_step(s.s) != SQLITE_DONE) {
+        if (sqlite3_extended_errcode(db) == SQLITE_CONSTRAINT_TRIGGER &&
+            std::string(sqlite3_errmsg(db)) == "Open graded attempt already exists")
+            return {ErrorCode::VALIDATION_FAILED, "Another open graded attempt exists for this student and quiz."};
         return fail(db, "Save attempt");
+    }
 
     if (update && sqlite3_changes(db) == 0)
         return missing(ErrorCode::ATTEMPT_NOT_FOUND, "Attempt");
@@ -642,16 +655,18 @@ public:
             );
 
             if (!existing.ok()) {
+                const auto failure = fail(db.db, "Prepare attempt lookup");
                 exec(db.db, "ROLLBACK");
-                return fail(db.db, "Prepare attempt lookup");
+                return failure;
             }
 
             existing.text(1, a.attempt_id);
             const int rc = sqlite3_step(existing.s);
 
             if (rc != SQLITE_ROW && rc != SQLITE_DONE) {
+                const auto failure = fail(db.db, "Check existing attempt");
                 exec(db.db, "ROLLBACK");
-                return fail(db.db, "Check existing attempt");
+                return failure;
             }
 
             if (rc == SQLITE_ROW) {
@@ -680,8 +695,9 @@ public:
         }
 
         if (!exec(db.db, "COMMIT")) {
+            const auto failure = fail(db.db, "Commit attempt");
             exec(db.db, "ROLLBACK");
-            return fail(db.db, "Commit attempt");
+            return failure;
         }
 
         return {};
@@ -702,8 +718,8 @@ public:
             return {ErrorCode::VALIDATION_FAILED, "Null attempt output"};
 
         Stmt s(db.db,
-            "SELECT id FROM attempts WHERE quiz=?1 AND student=?2 "
-            "AND submitted=0 ORDER BY started DESC LIMIT 1");
+            "SELECT MIN(id), COUNT(*) FROM ("
+            "SELECT id FROM attempts WHERE quiz=?1 AND student=?2 AND mode=1 AND submitted=0 LIMIT 2)");
 
         if (!s.ok()) return fail(db.db, "Prepare open attempt lookup");
 
@@ -711,8 +727,11 @@ public:
         s.text(2, student);
 
         const int lookup_rc = sqlite3_step(s.s);
-        if (lookup_rc == SQLITE_DONE) return missing(ErrorCode::ATTEMPT_NOT_FOUND, "Open attempt");
         if (lookup_rc != SQLITE_ROW) return fail(db.db, "Read open attempt");
+        const int matches = sqlite3_column_int(s.s, 1);
+        if (matches == 0) return missing(ErrorCode::ATTEMPT_NOT_FOUND, "Open graded attempt");
+        if (matches > 1)
+            return {ErrorCode::VALIDATION_FAILED, "Multiple open graded attempts exist for this student and quiz."};
 
         return loadAttempt(db.db, s.str(0), out);
     }
@@ -740,19 +759,26 @@ public:
                 "AND mode=1 AND submitted=1 LIMIT 1");
 
             if (!d.ok()) {
+                const auto failure = fail(db.db, "Check duplicate");
                 exec(db.db, "ROLLBACK");
-                return fail(db.db, "Check duplicate");
+                return failure;
             }
 
             d.text(1, a.quiz_id);
             d.text(2, a.student_id);
 
-            if (sqlite3_step(d.s) == SQLITE_ROW) {
+            const int rc = sqlite3_step(d.s);
+            if (rc == SQLITE_ROW) {
                 exec(db.db, "ROLLBACK");
                 return {
                     ErrorCode::ATTEMPT_ALREADY_SUBMITTED,
                     "Graded attempt exists"
                 };
+            }
+            if (rc != SQLITE_DONE) {
+                const auto failure = fail(db.db, "Check duplicate");
+                exec(db.db, "ROLLBACK");
+                return failure;
             }
         }
 

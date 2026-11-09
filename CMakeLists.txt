@@ -100,8 +100,9 @@ if(QUIZSPHERE_BUILD_TESTS)
     add_executable(data_access_layer_tests
         tests/data_access_layer_tests.cpp
     )
+    find_package(Threads REQUIRED)
     target_link_libraries(data_access_layer_tests
-        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main
+        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main Threads::Threads
     )
     quizsphere_enable_warnings(data_access_layer_tests)
     quizsphere_enable_coverage(data_access_layer_tests)

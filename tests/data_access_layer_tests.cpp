@@ -2,7 +2,10 @@
 #include <sqlite3.h>
 
 #include <cstdio>
+#include <filesystem>
+#include <future>
 #include <limits>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -15,7 +18,8 @@ namespace {
 
 class DataAccessLayerTest : public ::testing::Test {
 protected:
-    std::string db_path = "dal_test_database.sqlite";
+    std::string db_path = (std::filesystem::temp_directory_path() /
+        ("quizsphere-dal-" + std::to_string(std::random_device{}()) + ".sqlite")).string();
     std::unique_ptr<DataAccessLayer> dal;
 
     void SetUp() override {
@@ -219,6 +223,141 @@ TEST_F(DataAccessLayerTest, FindsOpenAttempt) {
 
     EXPECT_EQ(loaded.attempt_id, "attempt-1");
     EXPECT_FALSE(loaded.submitted);
+}
+
+TEST_F(DataAccessLayerTest, RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    const auto first = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(first).ok());
+
+    auto second = first;
+    second.attempt_id = "second-open";
+    second.started_at = "2026-10-26T10:02:00Z";
+    second.answers.clear();
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(second).code, ErrorCode::VALIDATION_FAILED);
+
+    dal.reset();
+    std::string error;
+    dal = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(dal, nullptr) << error;
+    Attempt loaded;
+    ASSERT_TRUE(dal->attempts->findOpenAttempt(first.quiz_id, first.student_id, &loaded).ok());
+    EXPECT_EQ(loaded.attempt_id, first.attempt_id);
+    EXPECT_EQ(loaded.question_order, first.question_order);
+    ASSERT_EQ(loaded.answers.size(), first.answers.size());
+    EXPECT_EQ(loaded.answers.front().selected_option, first.answers.front().selected_option);
+    EXPECT_TRUE(loaded.answers.front().flagged_for_review);
+    EXPECT_EQ(dal->attempts->findAttempt(second.attempt_id, &loaded).code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(second).code, ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(DataAccessLayerTest, ConcurrentOpenGradedWritesHaveExactlyOneWinner) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    std::string error;
+    auto other = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(other, nullptr) << error;
+
+    const auto first = makeAttempt();
+    auto second = first;
+    second.attempt_id = "concurrent-open";
+    std::promise<void> start;
+    auto gate = start.get_future().share();
+    auto second_write = std::async(std::launch::async, [&] {
+        gate.wait();
+        return other->attempts->saveInProgressAttempt(second);
+    });
+    start.set_value();
+
+    const auto first_result = dal->attempts->saveInProgressAttempt(first);
+    const auto second_result = second_write.get();
+    ASSERT_NE(first_result.ok(), second_result.ok()) << first_result.message << " / " << second_result.message;
+    EXPECT_EQ(first_result.ok() ? second_result.code : first_result.code, ErrorCode::VALIDATION_FAILED);
+    std::vector<Attempt> attempts;
+    ASSERT_TRUE(dal->attempts->listAttemptsForStudent(first.student_id, &attempts).ok());
+    ASSERT_EQ(attempts.size(), 1U);
+    EXPECT_EQ(attempts.front().attempt_id, first_result.ok() ? first.attempt_id : second.attempt_id);
+}
+
+TEST_F(DataAccessLayerTest, AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    const auto first = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(first).ok());
+    // Seed rows that could have existed before the new constraint was installed.
+    ASSERT_TRUE(executeSql(
+        "DROP TRIGGER single_open_graded_attempt_insert;"
+        "INSERT INTO attempts SELECT 'legacy-open',quiz,student,mode,'2026-10-26T10:02:00Z',"
+        "submitted_at,submitted,auto,score FROM attempts WHERE id='attempt-1';"
+        "INSERT INTO attempt_q SELECT 'legacy-open',pos,qid FROM attempt_q WHERE attempt='attempt-1';"));
+    dal.reset();
+    std::string error;
+    dal = createSqliteDataAccessLayer(db_path, &error);
+    ASSERT_NE(dal, nullptr) << error;
+
+    Attempt loaded;
+    loaded.attempt_id = "unchanged";
+    EXPECT_EQ(dal->attempts->findOpenAttempt(first.quiz_id, first.student_id, &loaded).code,
+              ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(loaded.attempt_id, "unchanged");
+    std::vector<Attempt> attempts;
+    ASSERT_TRUE(dal->attempts->listAttemptsForStudent(first.student_id, &attempts).ok());
+    ASSERT_EQ(attempts.size(), 2U);
+    EXPECT_FALSE(attempts[0].submitted);
+    EXPECT_FALSE(attempts[1].submitted);
+    auto third = first;
+    third.attempt_id = "third-open";
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(third).code, ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(DataAccessLayerTest, LegacyPracticeRowsAreIneligibleForOpenGradedLookup) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    const auto graded = makeAttempt();
+    auto practice = graded;
+    practice.attempt_id = "legacy-practice";
+    practice.mode = QuizMode::Practice;
+    practice.started_at = "2026-10-26T10:02:00Z";
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(practice).ok());
+
+    Attempt loaded;
+    EXPECT_EQ(dal->attempts->findOpenAttempt(graded.quiz_id, graded.student_id, &loaded).code,
+              ErrorCode::ATTEMPT_NOT_FOUND);
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(graded).ok());
+    EXPECT_FALSE(executeSql("UPDATE attempts SET mode=1 WHERE id='legacy-practice';"));
+    ASSERT_TRUE(dal->attempts->findOpenAttempt(graded.quiz_id, graded.student_id, &loaded).ok());
+    EXPECT_EQ(loaded.attempt_id, graded.attempt_id);
+}
+
+TEST_F(DataAccessLayerTest, FailedOpenCreationRollsBackAndDoesNotReserveTheSlot) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    const auto first = makeAttempt();
+    ASSERT_TRUE(executeSql(
+        "CREATE TRIGGER fail_open_questions BEFORE INSERT ON attempt_q "
+        "BEGIN SELECT RAISE(ABORT,'injected question write error'); END;"));
+
+    const auto failed = dal->attempts->saveInProgressAttempt(first);
+    EXPECT_EQ(failed.code, ErrorCode::IO_ERROR);
+    EXPECT_NE(failed.message.find("injected question write error"), std::string::npos);
+    Attempt loaded;
+    EXPECT_EQ(dal->attempts->findOpenAttempt(first.quiz_id, first.student_id, &loaded).code,
+              ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(dal->attempts->findAttempt(first.attempt_id, &loaded).code, ErrorCode::ATTEMPT_NOT_FOUND);
+
+    ASSERT_TRUE(executeSql("DROP TRIGGER fail_open_questions;"));
+    auto retry = first;
+    retry.attempt_id = "retry-open";
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(retry).ok());
+    ASSERT_TRUE(dal->attempts->findOpenAttempt(retry.quiz_id, retry.student_id, &loaded).ok());
+    EXPECT_EQ(loaded.attempt_id, retry.attempt_id);
+}
+
+TEST_F(DataAccessLayerTest, OpenGradedLookupPropagatesAttemptReadFailure) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    const auto attempt = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(attempt).ok());
+    ASSERT_TRUE(executeSql("ALTER TABLE attempt_q RENAME TO unavailable_attempt_q;"));
+    Attempt loaded;
+    const auto result = dal->attempts->findOpenAttempt(attempt.quiz_id, attempt.student_id, &loaded);
+    EXPECT_EQ(result.code, ErrorCode::IO_ERROR);
+    EXPECT_TRUE(loaded.attempt_id.empty());
 }
 
 TEST_F(DataAccessLayerTest, MissingAttemptReturnsAttemptNotFound) {

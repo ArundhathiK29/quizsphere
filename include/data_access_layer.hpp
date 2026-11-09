@@ -28,7 +28,7 @@ public:
     // Persist an in-progress attempt (so the timer deadline survives a restart).
     virtual Result saveInProgressAttempt(const Attempt& attempt) = 0;
     virtual Result findAttempt(const std::string& attempt_id, Attempt* attempt) const = 0;   // ATTEMPT_NOT_FOUND
-    // The student's open (not yet submitted) attempt for a quiz, if any.
+    // The student's open graded attempt for a quiz. Ambiguous legacy rows are a validation error.
     virtual Result findOpenAttempt(const std::string& quiz_id, const std::string& student_id, Attempt* attempt) const = 0;
     // Atomically store the submitted attempt, its answers and the grade (all or nothing).
     // ATTEMPT_ALREADY_SUBMITTED if a graded attempt already exists (FR-015, NFR-006).
