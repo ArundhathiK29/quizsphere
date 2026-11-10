@@ -74,18 +74,22 @@ private:
     std::unordered_map<std::string, Quiz> quizzes_;
 };
 
+// Keyed by attempt_id (not quiz|student): the real DAL allows multiple concurrently open attempts
+// for the same quiz+student (Practice is repeatable, BR-4), and a DB-level trigger only prevents a
+// SECOND open GRADED-mode one. findOpenAttempt below mirrors that DAL contract exactly (see the
+// comment on AttemptRepository::findOpenAttempt in data_access_layer.hpp: "The student's open
+// graded attempt for a quiz"): it only ever matches Graded-mode rows, never Practice ones.
 class FakeAttemptRepository final : public AttemptRepository {
 public:
     Result saveInProgressAttempt(const Attempt& attempt) override {
-        open_[key(attempt.quiz_id, attempt.student_id)] = attempt;
+        open_[attempt.attempt_id] = attempt;
         return {ErrorCode::OK, "ok"};
     }
     Result findAttempt(const std::string& attempt_id, Attempt* attempt) const override {
-        for (const auto& entry : open_) {
-            if (entry.second.attempt_id == attempt_id) {
-                *attempt = entry.second;
-                return {ErrorCode::OK, "ok"};
-            }
+        const auto open_it = open_.find(attempt_id);
+        if (open_it != open_.end()) {
+            *attempt = open_it->second;
+            return {ErrorCode::OK, "ok"};
         }
         for (const auto& entry : graded_) {
             if (entry.second.first.attempt_id == attempt_id) {
@@ -99,24 +103,30 @@ public:
         if (forced_find_open_error_.has_value()) {
             return *forced_find_open_error_;
         }
-        const auto it = open_.find(key(quiz_id, student_id));
-        if (it == open_.end()) {
-            return {ErrorCode::ATTEMPT_NOT_FOUND, "No open attempt."};
+        for (const auto& entry : open_) {
+            const Attempt& candidate = entry.second;
+            if (candidate.quiz_id == quiz_id && candidate.student_id == student_id &&
+                candidate.mode == QuizMode::Graded) {
+                *attempt = candidate;
+                return {ErrorCode::OK, "ok"};
+            }
         }
-        *attempt = it->second;
-        return {ErrorCode::OK, "ok"};
+        return {ErrorCode::ATTEMPT_NOT_FOUND, "No open attempt."};
     }
     Result saveGradedAttempt(const Attempt& attempt, const GradeReport& report) override {
         if (fail_next_save_) {
             fail_next_save_ = false;
             return {ErrorCode::IO_ERROR, "Simulated database write failure."};
         }
+        // Mirrors the real DAL: the ATTEMPT_ALREADY_SUBMITTED duplicate check is Graded-mode only
+        // (FR-015, "one attempt per student per quiz"), so repeated Practice-mode grading never
+        // trips it.
         const std::string k = key(attempt.quiz_id, attempt.student_id);
-        if (graded_.find(k) != graded_.end()) {
+        if (attempt.mode == QuizMode::Graded && graded_.find(k) != graded_.end()) {
             return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
         }
         graded_[k] = {attempt, report};
-        open_.erase(k);
+        open_.erase(attempt.attempt_id);
         return {ErrorCode::OK, "ok"};
     }
     Result findReport(const std::string& quiz_id, const std::string& student_id, GradeReport* report) const override {
@@ -146,10 +156,14 @@ public:
         return {ErrorCode::OK, "ok"};
     }
 
-    void seedOpenAttempt(const Attempt& attempt) { open_[key(attempt.quiz_id, attempt.student_id)] = attempt; }
+    void seedOpenAttempt(const Attempt& attempt) { open_[attempt.attempt_id] = attempt; }
     const Attempt* gradedAttempt(const std::string& quiz_id, const std::string& student_id) const {
         const auto it = graded_.find(key(quiz_id, student_id));
         return it == graded_.end() ? nullptr : &it->second.first;
+    }
+    const Attempt* openAttemptById(const std::string& attempt_id) const {
+        const auto it = open_.find(attempt_id);
+        return it == open_.end() ? nullptr : &it->second;
     }
     void failNextSave() { fail_next_save_ = true; }
     void forceFindOpenError(Result error) { forced_find_open_error_ = error; }
@@ -430,11 +444,15 @@ TEST_F(GradingModuleTest, BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlread
     EXPECT_EQ(result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
 }
 
-TEST_F(GradingModuleTest, PracticeModeIsNeverBlockedByTheAlreadySubmittedFallback) {
-    // BR-4: Practice attempts are repeatable. If the student's only graded record for this quiz
-    // is a Practice-mode one, a blind re-submit with no open attempt must stay ATTEMPT_NOT_FOUND -
-    // the fallback must only trigger for an already-graded GRADED-mode attempt.
+TEST_F(GradingModuleTest, GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched) {
+    // Arundhathi's Sprint-0 follow-up: "make sure grading finalizes the intended attempt" when
+    // more than one open attempt exists for the same quiz+student. The real DAL's DB-level trigger
+    // (Ashwin, feature/ashwin-sprint1-quiz-attempts) prevents a SECOND open Graded-mode attempt
+    // from ever existing, but Practice is still repeatable (BR-4) and can be open at the same time.
+    // findOpenAttempt is mode-filtered to Graded only, so grading must target the Graded attempt
+    // specifically and never touch the coexisting Practice one.
     makeQuiz(1.0, 0.0);
+
     Attempt practice_attempt;
     practice_attempt.attempt_id = "practice-1";
     practice_attempt.quiz_id = "quiz-1";
@@ -444,8 +462,39 @@ TEST_F(GradingModuleTest, PracticeModeIsNeverBlockedByTheAlreadySubmittedFallbac
     practice_attempt.question_order = {"Q1", "Q2", "Q3"};
     attempts_.seedOpenAttempt(practice_attempt);
 
-    GradeReport first;
-    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
+    makeOpenAttempt();  // the Graded-mode attempt ("attempt-1") - the one that should get finalized
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
+
+    ASSERT_TRUE(result.ok());
+    EXPECT_NE(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);  // the Graded one was finalized
+
+    // The Practice attempt's row is completely untouched: still open, still unsubmitted, still
+    // carrying no answers or score.
+    const Attempt* still_open_practice = attempts_.openAttemptById("practice-1");
+    ASSERT_NE(still_open_practice, nullptr);
+    EXPECT_FALSE(still_open_practice->submitted);
+    EXPECT_TRUE(still_open_practice->answers.empty());
+    EXPECT_DOUBLE_EQ(still_open_practice->score, 0.0);
+}
+
+TEST_F(GradingModuleTest, PracticeModeAttemptsCannotCurrentlyBeGradedAtAll) {
+    // KNOWN LIMITATION, not yet resolved: findOpenAttempt is now deliberately scoped to Graded-mode
+    // attempts only (see the comment on AttemptRepository::findOpenAttempt in
+    // data_access_layer.hpp), so a genuinely open Practice attempt can never be found this way, and
+    // gradeAttempt() has no fallback lookup for Practice mode. This documents the current, real
+    // behavior rather than asserting it's correct - Quiz Engine/Grading need a decision on how
+    // Practice attempts get scored, since this path can't do it today.
+    makeQuiz(1.0, 0.0);
+    Attempt practice_attempt;
+    practice_attempt.attempt_id = "practice-1";
+    practice_attempt.quiz_id = "quiz-1";
+    practice_attempt.student_id = "student-1";
+    practice_attempt.mode = QuizMode::Practice;
+    practice_attempt.started_at = "2026-10-24T00:00:00Z";
+    practice_attempt.question_order = {"Q1", "Q2", "Q3"};
+    attempts_.seedOpenAttempt(practice_attempt);
 
     GradeReport report;
     const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
