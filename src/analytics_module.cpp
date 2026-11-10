@@ -66,7 +66,9 @@ public:
     }
 
 private:
-    QuestionBank& question_bank_;
+    // Stored for BL-26's difficultyIndex(), which stacks on top of this branch and is the only
+    // caller that needs it; leaderboard() above doesn't touch it.
+    [[maybe_unused]] QuestionBank& question_bank_;
     QuizRepository& quizzes_;
     AttemptRepository& attempts_;
 };
