@@ -39,6 +39,18 @@ jobs:
           name: coverage
           path: coverage.xml
 
+      # Run after the full-suite report: this resets counters for an auth-only measurement.
+      - name: Authentication line and branch coverage
+        run: |
+          python3 scripts/auth_coverage.py \
+            --source-dir . --build-dir build --output-dir auth-coverage \
+            --gcov gcov --revision "${{ github.sha }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: auth-coverage
+          path: auth-coverage
+
   docker:
     runs-on: ubuntu-24.04
     steps:
