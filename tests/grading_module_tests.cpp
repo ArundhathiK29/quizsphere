@@ -137,7 +137,10 @@ public:
         *report = it->second.second;
         return {ErrorCode::OK, "ok"};
     }
-    Result listGradedAttempts(const std::string& quiz_id, std::vector<Attempt>* attempts) const override {
+        Result listGradedAttempts(const std::string& quiz_id, std::vector<Attempt>* attempts) const override {
+        if (forced_list_graded_error_.has_value()) {
+            return *forced_list_graded_error_;
+        }
         attempts->clear();
         for (const auto& entry : graded_) {
             if (entry.second.first.quiz_id == quiz_id) {
@@ -166,7 +169,8 @@ public:
         return it == open_.end() ? nullptr : &it->second;
     }
     void failNextSave() { fail_next_save_ = true; }
-    void forceFindOpenError(Result error) { forced_find_open_error_ = error; }
+        void forceFindOpenError(Result error) { forced_find_open_error_ = error; }
+    void forceListGradedError(Result error) { forced_list_graded_error_ = error; }
 
 private:
     static std::string key(const std::string& quiz_id, const std::string& student_id) {
@@ -174,6 +178,7 @@ private:
     }
     bool fail_next_save_ = false;
     std::optional<Result> forced_find_open_error_;
+    std::optional<Result> forced_list_graded_error_;
     std::unordered_map<std::string, Attempt> open_;
     std::unordered_map<std::string, std::pair<Attempt, GradeReport>> graded_;
 };
@@ -511,6 +516,19 @@ TEST_F(GradingModuleTest, ARealDalFailureIsNeverMaskedAsAlreadySubmitted) {
     ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &first).ok());
 
     attempts_.forceFindOpenError({ErrorCode::IO_ERROR, "Simulated database read failure."});
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
+    EXPECT_EQ(result.code, ErrorCode::IO_ERROR);
+}
+
+TEST_F(GradingModuleTest, AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound) {
+    // The ALREADY_SUBMITTED fallback calls listGradedAttempts to check for a prior Graded-mode
+    // attempt. If THAT call itself fails (e.g. IO_ERROR), the failure must be returned as-is, not
+    // silently discarded and reinterpreted as the original findOpenAttempt ATTEMPT_NOT_FOUND.
+    makeQuiz(1.0, 0.0);
+    // No open attempt seeded, so findOpenAttempt returns ATTEMPT_NOT_FOUND and the fallback engages.
+    attempts_.forceListGradedError({ErrorCode::IO_ERROR, "Simulated database read failure."});
+
     GradeReport report;
     const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
     EXPECT_EQ(result.code, ErrorCode::IO_ERROR);

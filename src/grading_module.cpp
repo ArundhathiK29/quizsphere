@@ -77,17 +77,20 @@ public:
             // relying on it here would wrongly block a legitimate new Practice-mode submission
             // (Practice is explicitly repeatable, BR-4) whenever the student's last Practice attempt
             // happened to be graded.
-            if (attempt_result.code == ErrorCode::ATTEMPT_NOT_FOUND) {
+                        if (attempt_result.code == ErrorCode::ATTEMPT_NOT_FOUND) {
                 std::vector<Attempt> graded_for_quiz;
                 const Result list_result = attempts_.listGradedAttempts(quiz_id, &graded_for_quiz);
-                if (list_result.ok()) {
-                    const bool already_graded =
-                        std::any_of(graded_for_quiz.begin(), graded_for_quiz.end(), [&](const Attempt& a) {
-                            return a.student_id == student_id && a.mode == QuizMode::Graded;
-                        });
-                    if (already_graded) {
-                        return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
-                    }
+                if (!list_result.ok()) {
+                    // A real DAL failure here (e.g. IO_ERROR) must be surfaced as-is, not silently
+                    // discarded and reinterpreted as the original ATTEMPT_NOT_FOUND.
+                    return list_result;
+                }
+                const bool already_graded =
+                    std::any_of(graded_for_quiz.begin(), graded_for_quiz.end(), [&](const Attempt& a) {
+                        return a.student_id == student_id && a.mode == QuizMode::Graded;
+                    });
+                if (already_graded) {
+                    return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
                 }
             }
             return attempt_result;
