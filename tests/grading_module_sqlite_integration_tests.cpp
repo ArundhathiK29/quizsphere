@@ -98,6 +98,35 @@ protected:
     std::unique_ptr<GradingModule> grading_;
 };
 
+// Arundhathi's Sprint-0 follow-up, now verifiable against the real DAL (PR #67 merged): a
+// coexisting Practice-mode open attempt must be left completely untouched when the Graded-mode
+// attempt is finalized. Ashwin's DB trigger prevents a second open GRADED attempt, but Practice
+// stays repeatable (BR-4) and findOpenAttempt is mode-filtered to Graded only.
+TEST_F(GradingSqliteIntegrationTest, GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal) {
+    Attempt practice_attempt;
+    practice_attempt.attempt_id = "practice-attempt-1";
+    practice_attempt.quiz_id = "quiz-1";
+    practice_attempt.student_id = "student-1";
+    practice_attempt.mode = QuizMode::Practice;
+    practice_attempt.started_at = "2026-10-29T00:00:00Z";
+    practice_attempt.question_order = {"Q1", "Q2"};
+    ASSERT_TRUE(dal_->attempts->saveInProgressAttempt(practice_attempt).ok());
+
+    std::vector<Answer> answers = {
+        Answer{"Q1", 1, false},
+        Answer{"Q2", 1, false},
+    };
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+    ASSERT_TRUE(result.ok()) << result.message;
+
+    Attempt still_open_practice;
+    const Result practice_result = dal_->attempts->findAttempt("practice-attempt-1", &still_open_practice);
+    ASSERT_TRUE(practice_result.ok()) << practice_result.message;
+    EXPECT_FALSE(still_open_practice.submitted);
+    EXPECT_TRUE(still_open_practice.answers.empty());
+}
+
 TEST_F(GradingSqliteIntegrationTest, GradesAgainstTheRealDalAndQuestionBank) {
     std::vector<Answer> answers = {
         Answer{"Q1", 1, false},  // correct
