@@ -50,6 +50,8 @@ add_library(quizsphere_core
     src/data_access_layer.cpp
     src/grading_module.cpp
     src/quiz_engine.cpp
+    src/quiz_attempt.cpp
+    src/quiz_console.cpp
     src/analytics_module.cpp
 )
 
@@ -98,8 +100,9 @@ if(QUIZSPHERE_BUILD_TESTS)
     add_executable(data_access_layer_tests
         tests/data_access_layer_tests.cpp
     )
+    find_package(Threads REQUIRED)
     target_link_libraries(data_access_layer_tests
-        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main
+        PRIVATE quizsphere_core GTest::gtest GTest::gtest_main Threads::Threads
     )
     quizsphere_enable_warnings(data_access_layer_tests)
     quizsphere_enable_coverage(data_access_layer_tests)
@@ -108,6 +111,7 @@ if(QUIZSPHERE_BUILD_TESTS)
     add_executable(quiz_engine_tests
         tests/quiz_engine_tests.cpp
         tests/quiz_engine_sqlite_tests.cpp
+        tests/quiz_attempt_tests.cpp
     )
     target_link_libraries(quiz_engine_tests
         PRIVATE quizsphere_core GTest::gtest GTest::gtest_main

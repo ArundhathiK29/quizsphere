@@ -10,7 +10,8 @@ Console-based online quiz system in C++17 (SE Mini-Project, Team 12, UE24CS341A)
 | Admin operations: enable/disable, change role, remove user (authorization enforced in code) | Done, tested (no console menu yet) |
 | Question bank: add/edit/delete, enable/disable, CSV import/export, console menu | Done, tested |
 | Quiz creation and per-quiz scoring | Implemented, with SQLite restart tests |
-| Attempts, grading, leaderboard, analytics, student UI | In progress |
+| Shuffled attempts, navigation, flags, practice feedback, Student/Instructor quiz menus | Implemented; graded answers persist |
+| Production grading, detailed results, leaderboard and analytics | Awaiting grading integration / assigned follow-up work |
 
 ## Build and run
 
@@ -77,10 +78,9 @@ Limits (SRS Appendix B, counted in characters): question_id 36, subject_tag 40, 
 Control characters are rejected everywhere except line breaks and tabs inside question_text. Subject filters ignore
 ASCII case only.
 
-Hand-offs: `QuestionRepository::isReferenced` always returns false until quizzes/attempts exist; the Quiz Engine owner must
-implement it before attempts are stored. The Quiz Engine should read questions through `listAvailable` /
-`getQuestionForQuiz`, which never expose the correct answer. Saving writes a temporary file and renames it over the
-target (never deleting the target first); it does not fsync, so a power cut can lose the latest save.
+The SQLite QuestionRepository protects questions referenced by saved quizzes and attempts. Quiz Engine display views use
+`listAvailable` / `getQuestionForQuiz`, which do not expose answer keys. Legacy TSV and CSV file writes use a temporary
+file and rename; application question/attempt writes use SQLite transactions.
 
 ## Security design (accounts)
 
@@ -107,6 +107,6 @@ Team 12 - see the project report for roles and responsibilities.
 
 Instructor/Admin sessions can create quizzes through `QuizEngine::createQuiz`. Titles and subject filters are trimmed; blank titles/explicit blank subjects, invalid difficulty values, and nonpositive counts or minute limits are rejected. Only available matching questions are pooled, without duplicate IDs; an insufficient pool fails without saving a smaller quiz. Marks must be finite and strictly positive; the penalty must be finite and nonnegative (zero disables negative marking). Both scoring values and selected questions persist on the quiz and are readable by grading through `QuizRepository`.
 
-The existing quiz tests are supplemented by real SQLite tests in `tests/quiz_engine_sqlite_tests.cpp`, covering filtered selection, authorization, invalid configurations, restart persistence, referenced-question protection and attempt/answer storage. Tests are registered by CMake and run through CTest. Starting/shuffling/submitting attempts remains later-sprint Quiz Engine work.
+The existing quiz tests are supplemented by real SQLite tests in `tests/quiz_engine_sqlite_tests.cpp`, covering filtered selection, authorization, invalid configurations, restart persistence, referenced-question protection and attempt/answer storage. Tests are registered by CMake and run through CTest. Sprint 1 attempts, navigation, modes and menu entry points are described in [Sprint 1 quiz attempts](docs/SPRINT1_QUIZ_ATTEMPTS.md). Production graded submission awaits BL-10 integration.
 
 The grading-floor decision remains with Arundhathi and Chaturya: for +4 correct, -1 wrong and 0 blank, one correct and one wrong produce 4 under a per-question zero floor and 3 under an attempt-total floor. All-wrong answers can leave negative item/topic totals while the attempt total is floored to zero in PR #60. BL-08 stores the requested scoring configuration and does not select between these rules.

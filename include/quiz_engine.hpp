@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -34,10 +35,15 @@ public:
     virtual Result submitAttempt(const Session& session, Attempt* attempt, bool timed_out, GradeReport* report) = 0;
 };
 
-// Creation/retrieval are implemented; attempt lifecycle is reserved for the later quiz-engine tasks.
+// Attempt answers use ORIGINAL option indexes. Presentation mapping lives in QuizAttemptSession.
 std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& question_bank,
                                              QuizRepository& quizzes,
                                              AttemptRepository& attempts,
                                              GradingModule& grading);
+
+// Deterministic randomness for reproducible attempt-order tests.
+std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& question_bank, QuizRepository& quizzes,
+                                             AttemptRepository& attempts, GradingModule& grading,
+                                             std::uint64_t random_seed);
 
 }  // namespace quizsphere
