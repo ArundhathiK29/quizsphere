@@ -87,6 +87,7 @@ if(QUIZSPHERE_BUILD_TESTS)
     add_executable(auth_tests
         tests/password_hasher_tests.cpp
         tests/auth_tests.cpp
+        tests/auth_role_boundary_tests.cpp
         tests/auth_event_log_tests.cpp
         tests/sqlite_user_repository_tests.cpp
         tests/module_interfaces_tests.cpp
