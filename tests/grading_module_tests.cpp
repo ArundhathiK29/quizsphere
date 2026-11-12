@@ -280,7 +280,8 @@ TEST_F(GradingModuleTest, UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers) {
 }
 
 TEST_F(GradingModuleTest, UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks) {
-    // negative_mark (5.0) exceeds marks_per_question (1.0): both wrong answers would raw-sum to -10.0.
+    // negative_mark (5.0) exceeds marks_per_question (1.0): the written requirement floors each
+    // ITEM at zero, not just the attempt total - so both wrong items score exactly 0, not -5.0.
     makeQuiz(/*marks_per_question=*/1.0, /*negative_mark=*/5.0);
     makeOpenAttempt();
 
@@ -294,17 +295,39 @@ TEST_F(GradingModuleTest, UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks) {
     const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
 
     ASSERT_TRUE(result.ok());
-    EXPECT_DOUBLE_EQ(report.score, 0.0);  // BR-5 floor, not -10.0
-    // Itemised breakdown keeps the raw deduction for transparency (FR-017), unclamped.
-    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, -5.0);
-    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, -5.0);
+    EXPECT_DOUBLE_EQ(report.score, 0.0);
+    // Per-item floor (BR-5): a wrong item's own marks_awarded is floored at zero, not left raw.
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, 0.0);
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, 0.0);
 
     const Attempt* stored = attempts_.gradedAttempt("quiz-1", "student-1");
     ASSERT_NE(stored, nullptr);
     EXPECT_DOUBLE_EQ(stored->score, 0.0);
 }
 
-TEST_F(GradingModuleTest, UT_GRADE_03_NegativeMarkingSubtractsForWrongAnswersOnly) {
+TEST_F(GradingModuleTest, UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative) {
+    // Worked example from the sprint-0/sprint-1 clarification: marks_per_question=4,
+    // negative_mark=1, one correct and one wrong. A TOTAL floor would never engage here (4-1=3 is
+    // already >= 0), but the written requirement floors each item individually, so the wrong
+    // item's own contribution is 0 (not -1) and the total is 4 (not 3).
+    makeQuiz(/*marks_per_question=*/4.0, /*negative_mark=*/1.0);
+    makeOpenAttempt();
+
+    std::vector<Answer> answers = {
+        Answer{"Q1", 1, false},  // correct
+        Answer{"Q2", 1, false},  // wrong (correct is 0)
+    };
+
+    GradeReport report;
+    const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
+
+    ASSERT_TRUE(result.ok());
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, 4.0);  // correct
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, 0.0);  // wrong, floored per-item
+    EXPECT_DOUBLE_EQ(report.score, 4.0);  // not 3.0, which a total-only floor would have given
+}
+
+TEST_F(GradingModuleTest, UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero) {
     makeQuiz(/*marks_per_question=*/1.0, /*negative_mark=*/0.25);
     makeOpenAttempt();
 
@@ -312,10 +335,10 @@ TEST_F(GradingModuleTest, UT_GRADE_03_NegativeMarkingSubtractsForWrongAnswersOnl
     const Result result = grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report);
 
     ASSERT_TRUE(result.ok());
-    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, 1.0);    // correct
-    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, -0.25);  // wrong
-    EXPECT_DOUBLE_EQ(report.itemised_breakdown[2].marks_awarded, 0.0);    // blank, never penalised
-    EXPECT_DOUBLE_EQ(report.score, 0.75);
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[0].marks_awarded, 1.0);  // correct
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[1].marks_awarded, 0.0);  // wrong, floored at zero (BR-5)
+    EXPECT_DOUBLE_EQ(report.itemised_breakdown[2].marks_awarded, 0.0);  // blank, never penalised
+    EXPECT_DOUBLE_EQ(report.score, 1.0);
     EXPECT_DOUBLE_EQ(report.max_score, 3.0);
 }
 

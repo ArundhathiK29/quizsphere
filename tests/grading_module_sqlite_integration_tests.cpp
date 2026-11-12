@@ -137,7 +137,7 @@ TEST_F(GradingSqliteIntegrationTest, GradesAgainstTheRealDalAndQuestionBank) {
     const Result result = grading_->gradeAttempt("quiz-1", "student-1", answers, &report);
 
     ASSERT_TRUE(result.ok()) << result.message;
-    EXPECT_DOUBLE_EQ(report.score, 0.75);  // +1.0 correct, -0.25 wrong
+        EXPECT_DOUBLE_EQ(report.score, 1.0);  // +1.0 correct, wrong item floored to 0 per-item (BR-5)
     EXPECT_DOUBLE_EQ(report.max_score, 2.0);
     ASSERT_EQ(report.itemised_breakdown.size(), 2u);
 }
