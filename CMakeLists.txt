@@ -137,7 +137,13 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(result_view_tests)
     quizsphere_enable_coverage(result_view_tests)
 
-    add_test(NAME result_view_tests COMMAND result_view_tests)
+        add_test(NAME result_view_tests COMMAND result_view_tests)
+
+    add_executable(result_view_integration_tests tests/result_view_integration_tests.cpp)
+    target_link_libraries(result_view_integration_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(result_view_integration_tests)
+    quizsphere_enable_coverage(result_view_integration_tests)
+    add_test(NAME result_view_integration_tests COMMAND result_view_integration_tests)
 
     add_test(
         NAME no_fstream_outside_repository_or_logging

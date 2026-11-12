@@ -7,6 +7,8 @@
 #include <sstream>
 #include <string>
 
+#include "result_view.hpp"
+
 namespace quizsphere {
 namespace {
 
@@ -137,9 +139,9 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
             if (answer!="yes") { output << "Submission cancelled.\n"; continue; }
             GradeReport report;
             result=session.submit(true,&report);
-            if (result.ok()) {
+                        if (result.ok()) {
                 if (mode=="p") output << "Practice completed. No result stored.\n";
-                else output << "Submitted. Score: " << report.score << '/' << report.max_score << '\n';
+                else output << formatItemisedResult(report,bank);
                 return;
             }
             if (result.code==ErrorCode::NOT_IMPLEMENTED) {
@@ -159,7 +161,7 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
 }
 
 void runQuizResult(const Session& student, const QuizEngine& engine, const GradingModule& grading,
-                   std::istream& input, std::ostream& output) {
+                   QuestionBank& bank, std::istream& input, std::ostream& output) {
     if (student.role!=Role::Student) { output << "Not authorized: view your own results as a Student.\n"; return; }
     std::string id;
     if (!chooseQuiz(engine,input,output,&id)) return;
@@ -168,7 +170,7 @@ void runQuizResult(const Session& student, const QuizEngine& engine, const Gradi
     if (result.code==ErrorCode::NOT_IMPLEMENTED)
         output << "Results are not available yet. Your saved attempt can be resumed from Attempt a quiz.\n";
     else if (!result.ok()) outcome(result,output);
-    else output << "Score: " << report.score << '/' << report.max_score << '\n';
+    else output << formatItemisedResult(report,bank);
 }
 
 }  // namespace quizsphere
