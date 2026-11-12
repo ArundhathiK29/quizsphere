@@ -365,13 +365,13 @@ TEST_F(QuizAttemptTest, StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable
 TEST_F(QuizAttemptTest, StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble) {
     std::istringstream input("quiz\ng\na 2\ns\nyes\n"); std::ostringstream output;
     runQuizAttempts(student,*engine,*bank,input,output);
-    EXPECT_NE(output.str().find("Submitted. Score: 7/12"),std::string::npos);
+    EXPECT_NE(output.str().find("Score: 7.00 / 12.00"),std::string::npos);
     std::istringstream result_input("quiz\n");
-    runQuizResult(student,*engine,*grading,result_input,output);
-    EXPECT_NE(output.str().find("Score: 7/12"),std::string::npos);
+    runQuizResult(student,*engine,*grading,*bank,result_input,output);
+    EXPECT_NE(output.str().find("Score: 7.00 / 12.00"),std::string::npos);
     const Session other{"other",Role::Student,"2026-11-04T09:00:00Z"};
     std::istringstream other_input("quiz\n"); std::ostringstream other_output;
-    runQuizResult(other,*engine,*grading,other_input,other_output);
+        runQuizResult(other,*engine,*grading,*bank,other_input,other_output);
     EXPECT_EQ(other_output.str().find("Score:"),std::string::npos);
 }
 
@@ -390,7 +390,7 @@ TEST_F(QuizAttemptTest, RoleSpecificConsoleFunctionsRejectOtherRoles) {
     std::istringstream input; std::ostringstream output;
     runQuizCreation(student,*engine,input,output);
     runQuizAttempts(instructor,*engine,*bank,input,output);
-    runQuizResult(instructor,*engine,*grading,input,output);
+        runQuizResult(instructor,*engine,*grading,*bank,input,output);
     EXPECT_NE(output.str().find("Not authorized"),std::string::npos);
     EXPECT_EQ(attempts->writes,0);
 }

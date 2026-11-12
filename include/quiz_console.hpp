@@ -12,6 +12,6 @@ void runQuizCreation(const Session& session, QuizEngine& engine, std::istream& i
 void runQuizAttempts(const Session& session, QuizEngine& engine, QuestionBank& bank,
                      std::istream& input, std::ostream& output);
 void runQuizResult(const Session& session, const QuizEngine& engine, const GradingModule& grading,
-                   std::istream& input, std::ostream& output);
+                   QuestionBank& bank, std::istream& input, std::ostream& output);
 
 }  // namespace quizsphere
