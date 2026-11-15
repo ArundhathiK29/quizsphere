@@ -1,0 +1,36 @@
+{
+  "reviewDate": "2026-11-15",
+  "main": "0d9519ab9c93ff0ccb047ba6cee1a86893579855",
+  "pdf": {
+    "path": "docs/Team12_SE_QuizSphere.pdf",
+    "pages": 25,
+    "gitBlob": "5038982b1e9749f9a5f9532cd4126bccff550e6c",
+    "sha256": "10ff850ad48533e29d99525a4542c33b216aaf29a1f2e1d9532282b8cc215891"
+  },
+  "pendingPRs": [
+    {
+      "number": 61,
+      "sha": "d68f49146ed1ea258e6531eee3ef6e289ced8faa"
+    },
+    {
+      "number": 62,
+      "sha": "a6d408d8190c0fd2e313310d13cbd7280af79f92"
+    },
+    {
+      "number": 63,
+      "sha": "04c73a064e3d3f61e76631c8ce5383f76cef30fd"
+    },
+    {
+      "number": 68,
+      "sha": "1fb68a4ae6e455745f0d4b1b2c0da3eede168885"
+    },
+    {
+      "number": 70,
+      "sha": "0a8cf8d746e877d7104ad712f12e573469760fe7"
+    },
+    {
+      "number": 71,
+      "sha": "887b54bbe0819668accf73973995ba46e5f074da"
+    }
+  ]
+}
