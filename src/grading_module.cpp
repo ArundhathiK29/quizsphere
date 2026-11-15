@@ -59,9 +59,9 @@ public:
             return quiz_result;
         }
 
-                // The open (in-progress) attempt carries the shuffled question_order the student saw and,
+        // The open (in-progress) attempt carries the shuffled question_order the student saw and,
         // if the Quiz Engine already persisted a timeout, auto_submitted = true (FR-011).
-                Attempt attempt;
+        Attempt attempt;
         const Result attempt_result = attempts_.findOpenAttempt(quiz_id, student_id, &attempt);
         if (!attempt_result.ok()) {
             // No open attempt doesn't necessarily mean one was never started: once graded, the real
@@ -77,7 +77,7 @@ public:
             // relying on it here would wrongly block a legitimate new Practice-mode submission
             // (Practice is explicitly repeatable, BR-4) whenever the student's last Practice attempt
             // happened to be graded.
-                        if (attempt_result.code == ErrorCode::ATTEMPT_NOT_FOUND) {
+            if (attempt_result.code == ErrorCode::ATTEMPT_NOT_FOUND) {
                 std::vector<Attempt> graded_for_quiz;
                 const Result list_result = attempts_.listGradedAttempts(quiz_id, &graded_for_quiz);
                 if (!list_result.ok()) {
@@ -150,6 +150,12 @@ public:
             } else if (!blank) {
                 marks_awarded = -quiz.scoring.negative_mark;  // negative_mark is non-negative; subtract it
             }
+            // BR-5: "a negative marking scheme cannot bring a single question's score below zero" -
+            // the written requirement floors each ITEM, not just the attempt total (worked example:
+            // +4 correct / -1 wrong gives 4, not 3, because the wrong item's own floor is 0, not -1).
+            if (marks_awarded < 0.0) {
+                marks_awarded = 0.0;
+            }
 
             ItemResult item;
             item.question_id = question_id;
@@ -175,6 +181,9 @@ public:
                 topic.correct += 1;
             }
         }
+
+        // No separate total-level floor needed: every item above is already floored at zero
+        // individually (BR-5), so their sum can never be negative.
 
         attempt.answers = answers;
         attempt.submitted = true;
