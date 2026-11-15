@@ -159,5 +159,24 @@ TEST_F(AdminUserMenuTest, RoleChangeCancellationInvalidRoleMissingUserAndSelfPro
     EXPECT_EQ(user("root_admin").role, Role::Admin);
 }
 
+
+TEST_F(AdminUserMenuTest, DisablingBlocksLoginAndEnablingRestoresAccess) {
+    EXPECT_NE(run("4\nlearner\n2\nYES\n0\n").find("Account disabled: learner"), std::string::npos);
+    EXPECT_FALSE(user("learner").enabled);
+    EXPECT_EQ(loginUser(users_, "learner", kPassword).status, AuthStatus::AccountDisabled);
+    EXPECT_NE(run("4\nlearner\n1\nYES\n0\n").find("Account enabled: learner"), std::string::npos);
+    EXPECT_TRUE(loginUser(users_, "learner", kPassword).ok());
+}
+
+TEST_F(AdminUserMenuTest, StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf) {
+    EXPECT_NE(run("4\nlearner\n2\nno\n0\n").find("Cancelled."), std::string::npos);
+    EXPECT_NE(run("4\nlearner\ninvalid\n0\n").find("Invalid status."), std::string::npos);
+    run("4\nlearner\n0\n0\n");
+    run("4\nlearner\n2\n");
+    EXPECT_TRUE(user("learner").enabled);
+    EXPECT_NE(run("4\nroot_admin\n2\nYES\n0\n").find("Permission denied"), std::string::npos);
+    EXPECT_TRUE(user("root_admin").enabled);
+}
+
 }  // namespace
 }  // namespace quizsphere

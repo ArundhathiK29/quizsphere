@@ -38,6 +38,7 @@ public:
                     << "1. Find a user\n"
                     << "2. Create a user\n"
                     << "3. Change a user role\n"
+                    << "4. Enable or disable a user\n"
                     << "0. Back\n";
             std::string choice;
             if (!prompt("Select: ", choice) || choice == "0") return;
@@ -48,6 +49,8 @@ public:
                 createAccount();
             } else if (choice == "3") {
                 changeRole();
+            } else if (choice == "4") {
+                changeStatus();
             } else {
                 output_ << "Invalid option.\n";
             }
@@ -157,6 +160,23 @@ private:
         const AuthStatus status = setUserRole(users_, session_, user.id, role);
         if (status == AuthStatus::Success) {
             output_ << "Role updated: " << user.username << " -> " << roleToString(role) << ".\n";
+        } else output_ << statusMessage(status) << '\n';
+    }
+
+    void changeStatus() {
+        User user;
+        if (!findTarget(user)) return;
+        std::string choice;
+        if (!prompt("1. Enable  2. Disable (0 to cancel): ", choice) || choice.empty() || choice == "0") return;
+        if (choice != "1" && choice != "2") {
+            output_ << "Invalid status. Choose 1 or 2.\n";
+            return;
+        }
+        const bool enabled = choice == "1";
+        if (!confirm(std::string(enabled ? "enable " : "disable ") + user.username)) return;
+        const AuthStatus status = setAccountEnabled(users_, session_, user.id, enabled);
+        if (status == AuthStatus::Success) {
+            output_ << "Account " << (enabled ? "enabled: " : "disabled: ") << user.username << ".\n";
         } else output_ << statusMessage(status) << '\n';
     }
 
