@@ -19,6 +19,16 @@ public:
     // FR-017: ranked graded attempts of one quiz; practice attempts never appear (BR-4).
     virtual Result leaderboard(const std::string& quiz_id, std::vector<LeaderboardEntry>* entries) const = 0;
 
+    // FR-017 (BL-24, extended scope): students ranked by their TOTAL marks on questions tagged
+    // subject_tag, summed across every graded attempt they've made, across every quiz. Practice
+    // attempts never count (BR-4); same tie-ranking as leaderboard() above.
+    virtual Result topicLeaderboard(const std::string& subject_tag, std::vector<LeaderboardEntry>* entries) const = 0;
+
+    // FR-017 (BL-24, extended scope): students ranked by their TOTAL score summed across every
+    // graded attempt they've made, across every quiz. Practice attempts never count (BR-4); same
+    // tie-ranking as leaderboard() above.
+    virtual Result allTimeLeaderboard(std::vector<LeaderboardEntry>* entries) const = 0;
+
     // FR-019: percentage (0-100) of graded attempts that answered the question correctly.
     virtual Result difficultyIndex(const std::string& question_id, double* percent_correct) const = 0;
 

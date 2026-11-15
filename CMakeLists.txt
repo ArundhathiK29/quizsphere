@@ -52,6 +52,7 @@ add_library(quizsphere_core
     src/quiz_attempt.cpp
     src/quiz_console.cpp
     src/analytics_module.cpp
+    src/analytics_console.cpp
     src/result_view.cpp
 )
 
