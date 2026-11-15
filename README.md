@@ -7,7 +7,7 @@ Console-based online quiz system in C++17 (SE Mini-Project, Team 12, UE24CS341A)
 | Area | Status |
 |------|--------|
 | Accounts: registration, login, roles (Student / Instructor / Admin), lockout, failed-login log | Done, tested |
-| Admin operations: enable/disable, change role, remove user (authorization enforced in code) | Done, tested (no console menu yet) |
+| Admin user menu: find/create accounts, change roles, enable/disable, confirmed removal | Implemented, with authorization and persisted CLI tests |
 | Question bank: add/edit/delete, enable/disable, CSV import/export, console menu | Done, tested |
 | Quiz creation and per-quiz scoring | Implemented, with SQLite restart tests |
 | Shuffled attempts, navigation, flags, practice feedback, Student/Instructor quiz menus | Implemented; graded answers persist |
@@ -55,6 +55,13 @@ docker run --rm quizsphere
 ```
 
 GitHub Actions (`.github/workflows/ci.yml`) runs the same build, tests, cppcheck, coverage report and Docker build on every push and pull request.
+
+## Admin user management
+
+Log in as an Admin and choose **2. Manage users**. Find/create users, change roles,
+enable or disable accounts, or remove a user after typing **YES** to confirm.
+The signed-in Admin cannot change or remove their own account.
+See [Admin user management](docs/ADMIN_USER_MANAGEMENT.md) for the flow and test mapping.
 
 ## Question bank: CSV format, limits and rules
 
