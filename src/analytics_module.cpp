@@ -27,6 +27,22 @@ void rankByScore(const std::unordered_map<std::string, double>& totals, std::vec
     }
 }
 
+// Same rationale as grading_module.cpp: a trusted system session to read the answer key
+// (QuestionBank::findQuestionById requires Instructor/Admin), not acting on behalf of any user.
+const Session& systemSession() {
+    static const Session session{"system:analytics", Role::Admin, "1970-01-01T00:00:00Z"};
+    return session;
+}
+
+bool answeredCorrectly(const Attempt& attempt, const std::string& question_id, const Question& question) {
+    const auto it = std::find_if(attempt.answers.begin(), attempt.answers.end(),
+                                 [&question_id](const Answer& answer) { return answer.question_id == question_id; });
+    if (it == attempt.answers.end()) {
+        return false;  // blank, or not actually part of this attempt
+    }
+    return it->selected_option >= 0 && static_cast<std::size_t>(it->selected_option) == question.correct_option;
+}
+
 class AnalyticsModuleImpl final : public AnalyticsModule {
 public:
     AnalyticsModuleImpl(QuestionBank& question_bank, QuizRepository& quizzes, AttemptRepository& attempts)
@@ -137,9 +153,57 @@ public:
         return {ErrorCode::OK, "All-time leaderboard computed."};
     }
 
-    // BL-26 stub for now; implemented in a separate PR/issue.
-    Result difficultyIndex(const std::string&, double*) const override {
-        return notImplemented("AnalyticsModule::difficultyIndex");
+    // BL-26 / FR-019: percentage (0-100) of GRADED attempts that answered the question correctly,
+    // counted across every quiz the question appears in and over every graded attempt that saw the
+    // question at all - a skipped (blank) answer counts as incorrect. Practice attempts are
+    // repeatable and never persisted as results, so they must not move the index (BR-4).
+    Result difficultyIndex(const std::string& question_id, double* percent_correct) const override {
+        if (percent_correct == nullptr) {
+            return {ErrorCode::VALIDATION_FAILED, "percent_correct must not be null."};
+        }
+
+        Question question;
+        const Result question_result = question_bank_.findQuestionById(systemSession(), question_id, &question);
+        if (!question_result.ok()) {
+            return question_result;
+        }
+
+        std::vector<Quiz> quizzes;
+        const Result list_quizzes_result = quizzes_.listQuizzes(&quizzes);
+        if (!list_quizzes_result.ok()) {
+            return list_quizzes_result;
+        }
+
+        int seen = 0;
+        int correct = 0;
+        for (const Quiz& quiz : quizzes) {
+            std::vector<Attempt> attempts;
+            const Result list_result = attempts_.listGradedAttempts(quiz.quiz_id, &attempts);
+            if (!list_result.ok()) {
+                return list_result;
+            }
+            for (const Attempt& attempt : attempts) {
+                // BR-4 defense-in-depth, same as the leaderboards: graded attempts only.
+                if (attempt.mode != QuizMode::Graded) {
+                    continue;
+                }
+                const bool saw_question =
+                    std::find(attempt.question_order.begin(), attempt.question_order.end(), question_id) !=
+                    attempt.question_order.end();
+                if (!saw_question) {
+                    continue;
+                }
+                ++seen;
+                if (answeredCorrectly(attempt, question_id, question)) {
+                    ++correct;
+                }
+            }
+        }
+
+        // No graded attempts have seen this question yet: a defined, neutral 0% rather than an
+        // error - the question exists (checked above), it's just unattempted so far.
+        *percent_correct = seen == 0 ? 0.0 : (100.0 * static_cast<double>(correct) / static_cast<double>(seen));
+        return {ErrorCode::OK, "Difficulty index computed."};
     }
 
     Result topicBreakdown(const std::string&, const std::string&, std::vector<TopicScore>*) const override {
@@ -150,9 +214,7 @@ public:
     }
 
 private:
-    // Stored for BL-26's difficultyIndex(), which stacks on top of this branch and is the only
-    // caller that needs it; leaderboard() above doesn't touch it.
-    [[maybe_unused]] QuestionBank& question_bank_;
+    QuestionBank& question_bank_;  // answer key for difficultyIndex()
     QuizRepository& quizzes_;
     AttemptRepository& attempts_;
 };
