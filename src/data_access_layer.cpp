@@ -936,6 +936,35 @@ public:
         s.text(1, quiz);
         s.text(2, student);
 
+        return readReport(s, out);
+    }
+
+    Result findReportForAttempt(const std::string& attempt_id, GradeReport* out) const override {
+        if (!db.ok()) return fail(db.db, "Find report");
+        if (!out) return {ErrorCode::VALIDATION_FAILED, "Null report output"};
+        Stmt s(db.db, "SELECT attempt,score,max_score,auto FROM reports WHERE attempt=?1");
+        if (!s.ok()) return fail(db.db, "Prepare report lookup");
+        s.text(1, attempt_id);
+        return readReport(s, out);
+    }
+
+    Result listGradedAttempts(const std::string& quiz,
+                              std::vector<Attempt>* out) const override {
+        return list(
+            "SELECT id FROM attempts WHERE quiz=?1 AND submitted=1 "
+            "AND mode=1 ORDER BY submitted_at",
+            quiz, out);
+    }
+
+    Result listAttemptsForStudent(const std::string& student,
+                                  std::vector<Attempt>* out) const override {
+        return list(
+            "SELECT id FROM attempts WHERE student=?1 ORDER BY started",
+            student, out);
+    }
+
+private:
+    Result readReport(Stmt& s, GradeReport* out) const {
         const int lookup_rc = sqlite3_step(s.s);
         if (lookup_rc == SQLITE_DONE) return missing(ErrorCode::ATTEMPT_NOT_FOUND, "Report");
         if (lookup_rc != SQLITE_ROW) return fail(db.db, "Read report");
@@ -994,22 +1023,6 @@ public:
         return {};
     }
 
-    Result listGradedAttempts(const std::string& quiz,
-                              std::vector<Attempt>* out) const override {
-        return list(
-            "SELECT id FROM attempts WHERE quiz=?1 AND submitted=1 "
-            "AND mode=1 ORDER BY submitted_at",
-            quiz, out);
-    }
-
-    Result listAttemptsForStudent(const std::string& student,
-                                  std::vector<Attempt>* out) const override {
-        return list(
-            "SELECT id FROM attempts WHERE student=?1 ORDER BY started",
-            student, out);
-    }
-
-private:
     Result list(const char* sql,
                 const std::string& key,
                 std::vector<Attempt>* out) const {

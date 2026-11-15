@@ -146,7 +146,10 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_coverage(result_view_integration_tests)
     add_test(NAME result_view_integration_tests COMMAND result_view_integration_tests)
 
-        add_executable(analytics_module_tests tests/analytics_module_tests.cpp)
+        add_executable(analytics_module_tests
+        tests/analytics_module_tests.cpp
+        tests/leaderboard_sqlite_tests.cpp
+    )
     target_link_libraries(analytics_module_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
     quizsphere_enable_warnings(analytics_module_tests)
     quizsphere_enable_coverage(analytics_module_tests)

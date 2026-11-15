@@ -154,6 +154,7 @@ void runSession(const quizsphere::Session& session, const std::string& username,
         if (is_student) {
             std::cout << "1. Attempt a quiz\n";
             std::cout << "2. View my result\n";
+            std::cout << "3. View rankings\n";
         } else if (is_admin) {
             std::cout << "1. Question bank (view, import/export, enable/disable)\n";
             std::cout << "2. Manage users (coming soon)\n";
@@ -177,6 +178,8 @@ void runSession(const quizsphere::Session& session, const std::string& username,
             quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout);
         } else if (is_student && choice == "2") {
             quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout);
+        } else if (is_student && choice == "3") {
+            quizsphere::runStudentRankings(session, analytics, quizzes, std::cin, std::cout);
         } else if (!is_student && !is_admin && choice == "2") {
             quizsphere::runQuizCreation(session, engine, std::cin, std::cout);
         } else if (!is_student && choice == "3") {

@@ -34,6 +34,12 @@ public:
     // ATTEMPT_ALREADY_SUBMITTED if a graded attempt already exists (FR-015, NFR-006).
     virtual Result saveGradedAttempt(const Attempt& attempt, const GradeReport& report) = 0;
     virtual Result findReport(const std::string& quiz_id, const std::string& student_id, GradeReport* report) const = 0;
+    // Fetch one exact stored report; never select a newer result for the same student/quiz.
+    // Additive default keeps existing repositories source-compatible and fails explicitly
+    // until they implement attempt-specific lookup. The SQLite DAL implements it.
+    virtual Result findReportForAttempt(const std::string&, GradeReport*) const {
+        return notImplemented("AttemptRepository::findReportForAttempt");
+    }
     virtual Result listGradedAttempts(const std::string& quiz_id, std::vector<Attempt>* attempts) const = 0;
     virtual Result listAttemptsForStudent(const std::string& student_id, std::vector<Attempt>* attempts) const = 0;
 };
