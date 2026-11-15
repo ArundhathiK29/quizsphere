@@ -39,6 +39,7 @@ find_package(OpenSSL REQUIRED)
 add_library(quizsphere_core
     src/common_types.cpp
     src/console_input.cpp
+    src/admin_user_menu.cpp
     src/question_bank.cpp
     src/question_repository_file.cpp
     src/console_menu.cpp
@@ -97,6 +98,12 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(auth_tests)
     quizsphere_enable_coverage(auth_tests)
     gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(admin_user_menu_tests tests/admin_user_menu_tests.cpp)
+    target_link_libraries(admin_user_menu_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(admin_user_menu_tests)
+    quizsphere_enable_coverage(admin_user_menu_tests)
+    gtest_discover_tests(admin_user_menu_tests DISCOVERY_TIMEOUT 120)
 
     add_executable(data_access_layer_tests
         tests/data_access_layer_tests.cpp

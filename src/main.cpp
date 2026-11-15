@@ -6,6 +6,7 @@
 #include <string>
 
 #include "auth.hpp"
+#include "admin_user_menu.hpp"
 #include "console_menu.hpp"
 #include "console_input.hpp"
 #include "quiz_console.hpp"
@@ -109,7 +110,8 @@ const char* roleLabel(quizsphere::Role role) {
 }
 
 void runSession(const quizsphere::Session& session, const std::string& username, quizsphere::QuestionBank& bank,
-                quizsphere::QuizEngine& engine, const quizsphere::GradingModule& grading) {
+                quizsphere::QuizEngine& engine, const quizsphere::GradingModule& grading,
+                quizsphere::IUserRepository& users) {
     const bool is_student = session.role == quizsphere::Role::Student;
     const bool is_admin = session.role == quizsphere::Role::Admin;
     for (;;) {
@@ -120,7 +122,7 @@ void runSession(const quizsphere::Session& session, const std::string& username,
             std::cout << "2. View my result\n";
         } else if (is_admin) {
             std::cout << "1. Question bank (view, import/export, enable/disable)\n";
-            std::cout << "2. Manage users (coming soon)\n";
+            std::cout << "2. Manage users\n";
             std::cout << "3. System reports (coming soon)\n";
         } else {
             std::cout << "1. Question bank\n";
@@ -143,7 +145,9 @@ void runSession(const quizsphere::Session& session, const std::string& username,
             quizsphere::runQuizResult(session, engine, grading, std::cin, std::cout);
         } else if (!is_student && !is_admin && choice == "2") {
             quizsphere::runQuizCreation(session, engine, std::cin, std::cout);
-        } else if (!is_student && (choice == "2" || choice == "3")) {
+        } else if (is_admin && choice == "2") {
+            quizsphere::runAdminUserMenu(session, users, std::cin, std::cout);
+        } else if (!is_student && choice == "3") {
             std::cout << "Not available yet: this feature is planned for a later sprint.\n";
         } else {
             std::cout << "Invalid option.\n";
@@ -237,7 +241,7 @@ int main() {
                 std::cout << describe(login.status) << '\n';
                 continue;
             }
-            runSession(quizsphere::makeSession(login, unixNow()), username, *question_bank, *engine, *grading);
+            runSession(quizsphere::makeSession(login, unixNow()), username, *question_bank, *engine, *grading, users);
         } else {
             std::cout << "Invalid option.\n";
         }
