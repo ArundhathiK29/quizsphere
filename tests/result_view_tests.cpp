@@ -10,7 +10,7 @@ namespace {
 
 GradeReport sampleReport() {
     GradeReport report;
-    report.score = 0.75;
+    report.score = 1.0;  // BR-5: the wrong item is floored at 0, so 1 + 0 + 0
     report.max_score = 3.0;
     report.auto_submitted = false;
 
@@ -29,7 +29,7 @@ GradeReport sampleReport() {
     wrong.correct_option = 0;
     wrong.correct = false;
     wrong.blank = false;
-    wrong.marks_awarded = -0.25;
+    wrong.marks_awarded = 0.0;  // BR-5 per-question floor (BL-25): never below zero
     report.itemised_breakdown.push_back(wrong);
 
     ItemResult blank;
@@ -49,13 +49,13 @@ TEST(ResultView, ListsEveryQuestionWithAnswerCorrectAnswerAndMarks) {
     const std::string text = formatItemisedResult(sampleReport());
 
     EXPECT_NE(text.find("Q1: your answer = 1, correct answer = 1 -> CORRECT (+1.00)"), std::string::npos);
-    EXPECT_NE(text.find("Q2: your answer = 2, correct answer = 0 -> WRONG (-0.25)"), std::string::npos);
+    EXPECT_NE(text.find("Q2: your answer = 2, correct answer = 0 -> WRONG (+0.00)"), std::string::npos);
     EXPECT_NE(text.find("Q3: your answer = blank, correct answer = 2 -> BLANK (+0.00)"), std::string::npos);
 }
 
 TEST(ResultView, ShowsTheTotalScoreAgainstMaxScore) {
     const std::string text = formatItemisedResult(sampleReport());
-    EXPECT_NE(text.find("Score: 0.75 / 3.00"), std::string::npos);
+    EXPECT_NE(text.find("Score: 1.00 / 3.00"), std::string::npos);
 }
 
 TEST(ResultView, FlagsAutoSubmittedAttempts) {

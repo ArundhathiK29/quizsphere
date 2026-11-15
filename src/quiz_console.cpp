@@ -161,7 +161,7 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
 }
 
 void runQuizResult(const Session& student, const QuizEngine& engine, const GradingModule& grading,
-                   QuestionBank& bank, std::istream& input, std::ostream& output) {
+                   const QuestionBank& bank, std::istream& input, std::ostream& output) {
     if (student.role!=Role::Student) { output << "Not authorized: view your own results as a Student.\n"; return; }
     std::string id;
     if (!chooseQuiz(engine,input,output,&id)) return;

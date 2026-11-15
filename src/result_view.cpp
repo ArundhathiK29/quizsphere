@@ -64,7 +64,7 @@ std::string formatItemisedResult(const GradeReport& report) {
     return out.str();
 }
 
-std::string formatItemisedResult(const GradeReport& report, QuestionBank& question_bank) {
+std::string formatItemisedResult(const GradeReport& report, const QuestionBank& question_bank) {
     std::ostringstream out;
     out << std::fixed << std::setprecision(2);
 
@@ -81,7 +81,10 @@ std::string formatItemisedResult(const GradeReport& report, QuestionBank& questi
                 << (item.marks_awarded >= 0.0 ? "+" : "") << item.marks_awarded << ")\n";
             continue;
         }
-        out << item.question_id << ": your answer = " << formatOption(item.selected_option, question)
+        // Question text on its own line, then the answers/marks line indented under it, so the
+        // student sees what was asked next to what they answered (FR-017).
+        out << item.question_id << ": " << question.question_text << "\n"
+            << "    your answer = " << formatOption(item.selected_option, question)
             << ", correct answer = " << formatOption(item.correct_option, question) << " -> " << statusLabel(item)
             << " (" << (item.marks_awarded >= 0.0 ? "+" : "") << item.marks_awarded << ")\n";
     }

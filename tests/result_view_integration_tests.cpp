@@ -100,6 +100,7 @@ TEST_F(ResultViewIntegrationTest, ResolvesOriginalOrderOptionIndexesToReadableTe
 
     const std::string text = formatItemisedResult(report, *bank_);
 
+    EXPECT_NE(text.find("Q1: Capital of France?"), std::string::npos);
     EXPECT_NE(text.find("your answer = Berlin"), std::string::npos);
     EXPECT_NE(text.find("correct answer = Paris"), std::string::npos);
     // The old index-only form must not appear - this is the whole point of the overload.
@@ -130,6 +131,7 @@ TEST_F(ResultViewIntegrationTest, StillResolvesReadableTextAfterClosingAndReopen
     ASSERT_TRUE(grading_->getReport("quiz-1", "student-1", &reloaded).ok());
 
     const std::string text = formatItemisedResult(reloaded, *bank_);
+    EXPECT_NE(text.find("Q1: Capital of France?"), std::string::npos);
     EXPECT_NE(text.find("your answer = Berlin"), std::string::npos);
     EXPECT_NE(text.find("correct answer = Paris"), std::string::npos);
 }

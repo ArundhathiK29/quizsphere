@@ -18,11 +18,11 @@ namespace quizsphere {
 // for callers that only have a GradeReport in hand (and for the existing formatter tests).
 std::string formatItemisedResult(const GradeReport& report);
 
-// Same as above, but resolves each selected/correct option index to its actual option text via
-// question_bank. GradeReport/ItemResult indexes are always in the question's ORIGINAL (unshuffled)
+// Same as above, but shows each question's text and resolves each selected/correct option index
+// to its actual option text via question_bank. GradeReport/ItemResult indexes are always in the question's ORIGINAL (unshuffled)
 // option order - the same convention Grading itself scores against (see grading_module.cpp) - so
 // this looks them up directly with no re-shuffling or re-ordering involved. Falls back to the
 // index-only line for a question that can no longer be found (e.g. deleted since the attempt).
-std::string formatItemisedResult(const GradeReport& report, QuestionBank& question_bank);
+std::string formatItemisedResult(const GradeReport& report, const QuestionBank& question_bank);
 
 }  // namespace quizsphere
