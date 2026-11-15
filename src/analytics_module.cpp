@@ -89,7 +89,7 @@ public:
                     continue;
                 }
                 GradeReport report;
-                const Result report_result = attempts_.findReport(quiz.quiz_id, attempt.student_id, &report);
+                const Result report_result = attempts_.findReportForAttempt(attempt.attempt_id, &report);
                 if (!report_result.ok()) {
                     return report_result;
                 }

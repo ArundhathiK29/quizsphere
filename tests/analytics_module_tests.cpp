@@ -91,6 +91,14 @@ public:
         *report = it->second;
         return {ErrorCode::OK, "ok"};
     }
+    Result findReportForAttempt(const std::string& attempt_id, GradeReport* report) const override {
+        const auto it = reports_by_attempt_.find(attempt_id);
+        if (it == reports_by_attempt_.end()) {
+            return {ErrorCode::ATTEMPT_NOT_FOUND, "No report for attempt."};
+        }
+        *report = it->second;
+        return {ErrorCode::OK, "ok"};
+    }
     Result listGradedAttempts(const std::string& quiz_id, std::vector<Attempt>* attempts) const override {
         attempts->clear();
         const auto it = by_quiz_.find(quiz_id);
@@ -109,10 +117,12 @@ public:
     void addGradedAttemptWithReport(const Attempt& attempt, const GradeReport& report) {
         by_quiz_[attempt.quiz_id].push_back(attempt);
         reports_[attempt.quiz_id + "|" + attempt.student_id] = report;
+        reports_by_attempt_[attempt.attempt_id] = report;
     }
 
 private:
     std::unordered_map<std::string, GradeReport> reports_;
+    std::unordered_map<std::string, GradeReport> reports_by_attempt_;
     std::unordered_map<std::string, std::vector<Attempt>> by_quiz_;
 };
 
