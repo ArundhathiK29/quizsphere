@@ -39,6 +39,7 @@ public:
                     << "2. Create a user\n"
                     << "3. Change a user role\n"
                     << "4. Enable or disable a user\n"
+                    << "5. Remove a user\n"
                     << "0. Back\n";
             std::string choice;
             if (!prompt("Select: ", choice) || choice == "0") return;
@@ -51,6 +52,8 @@ public:
                 changeRole();
             } else if (choice == "4") {
                 changeStatus();
+            } else if (choice == "5") {
+                removeAccount();
             } else {
                 output_ << "Invalid option.\n";
             }
@@ -178,6 +181,15 @@ private:
         if (status == AuthStatus::Success) {
             output_ << "Account " << (enabled ? "enabled: " : "disabled: ") << user.username << ".\n";
         } else output_ << statusMessage(status) << '\n';
+    }
+
+    void removeAccount() {
+        User user;
+        if (!findTarget(user)) return;
+        if (!confirm("permanently remove " + user.username)) return;
+        const AuthStatus status = removeUser(users_, session_, user.id);
+        if (status == AuthStatus::Success) output_ << "Account removed: " << user.username << ".\n";
+        else output_ << statusMessage(status) << '\n';
     }
 
     const Session& session_;

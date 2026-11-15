@@ -178,5 +178,27 @@ TEST_F(AdminUserMenuTest, StatusChangeNeedsValidInputAndConfirmationAndCannotDis
     EXPECT_TRUE(user("root_admin").enabled);
 }
 
+
+TEST_F(AdminUserMenuTest, RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount) {
+    const std::string text = run("5\nlearner\nYES\n0\n");
+    EXPECT_NE(text.find("permanently remove learner"), std::string::npos);
+    EXPECT_NE(text.find("Account removed: learner"), std::string::npos);
+    bool exists = true;
+    ASSERT_TRUE(users_.usernameExists("learner", exists));
+    EXPECT_FALSE(exists);
+    EXPECT_EQ(loginUser(users_, "learner", kPassword).status, AuthStatus::InvalidCredentials);
+    EXPECT_EQ(user("teacher").role, Role::Instructor);
+    EXPECT_TRUE(loginUser(users_, "root_admin", kPassword).ok());
+}
+
+TEST_F(AdminUserMenuTest, RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe) {
+    EXPECT_NE(run("5\nlearner\nyes\n0\n").find("Cancelled."), std::string::npos);
+    run("5\nlearner\n");
+    EXPECT_TRUE(user("learner").enabled);
+    EXPECT_NE(run("5\nmissing_user\n0\n").find("No such user."), std::string::npos);
+    EXPECT_NE(run("5\nroot_admin\nYES\n0\n").find("Permission denied"), std::string::npos);
+    EXPECT_TRUE(loginUser(users_, "root_admin", kPassword).ok());
+}
+
 }  // namespace
 }  // namespace quizsphere
