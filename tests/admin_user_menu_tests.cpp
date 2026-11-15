@@ -137,5 +137,27 @@ TEST_F(AdminUserMenuTest, CreationRequiresConfirmationAndStopsOnEndOfInput) {
     EXPECT_FALSE(exists);
 }
 
+
+TEST_F(AdminUserMenuTest, RoleChangesAreConfirmedAndAffectTheNextLogin) {
+    const std::string text = run("3\nlearner\n2\nYES\n0\n");
+    EXPECT_NE(text.find("change learner from Student to Instructor"), std::string::npos);
+    EXPECT_NE(text.find("Role updated: learner -> Instructor"), std::string::npos);
+    const AuthResult login = loginUser(users_, "learner", kPassword);
+    ASSERT_TRUE(login.ok());
+    EXPECT_EQ(login.role, Role::Instructor);
+    EXPECT_NE(run("3\nlearner\n3\nYES\n0\n").find("Role updated"), std::string::npos);
+    EXPECT_EQ(user("learner").role, Role::Admin);
+}
+
+TEST_F(AdminUserMenuTest, RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection) {
+    EXPECT_NE(run("3\nlearner\n3\nNO\n0\n").find("Cancelled."), std::string::npos);
+    EXPECT_NE(run("3\nlearner\ninvalid\n0\n").find("Invalid role."), std::string::npos);
+    EXPECT_NE(run("3\nmissing_user\n0\n").find("No such user."), std::string::npos);
+    run("3\nlearner\n2\n");
+    EXPECT_EQ(user("learner").role, Role::Student);
+    EXPECT_NE(run("3\nroot_admin\n1\nYES\n0\n").find("Permission denied"), std::string::npos);
+    EXPECT_EQ(user("root_admin").role, Role::Admin);
+}
+
 }  // namespace
 }  // namespace quizsphere

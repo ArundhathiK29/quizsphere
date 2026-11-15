@@ -37,6 +37,7 @@ public:
             output_ << "\n=== Manage users ===\n"
                     << "1. Find a user\n"
                     << "2. Create a user\n"
+                    << "3. Change a user role\n"
                     << "0. Back\n";
             std::string choice;
             if (!prompt("Select: ", choice) || choice == "0") return;
@@ -45,6 +46,8 @@ public:
                 findTarget(user);
             } else if (choice == "2") {
                 createAccount();
+            } else if (choice == "3") {
+                changeRole();
             } else {
                 output_ << "Invalid option.\n";
             }
@@ -142,6 +145,19 @@ private:
         const AuthResult result = createUserAsAdmin(users_, session_, username, password, role);
         if (result.ok()) output_ << "Account created: " << username << " (" << roleToString(role) << ").\n";
         else output_ << statusMessage(result.status) << '\n';
+    }
+
+    void changeRole() {
+        User user;
+        if (!findTarget(user)) return;
+        Role role;
+        if (!promptRole(role)) return;
+        if (!confirm("change " + user.username + " from " + roleToString(user.role) +
+                     " to " + roleToString(role))) return;
+        const AuthStatus status = setUserRole(users_, session_, user.id, role);
+        if (status == AuthStatus::Success) {
+            output_ << "Role updated: " << user.username << " -> " << roleToString(role) << ".\n";
+        } else output_ << statusMessage(status) << '\n';
     }
 
     const Session& session_;
