@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "analytics_console.hpp"
+#include "analytics_module.hpp"
 #include "auth.hpp"
 #include "console_menu.hpp"
 #include "quiz_console.hpp"
@@ -142,7 +144,8 @@ const char* roleLabel(quizsphere::Role role) {
 }
 
 void runSession(const quizsphere::Session& session, const std::string& username, quizsphere::QuestionBank& bank,
-                quizsphere::QuizEngine& engine, const quizsphere::GradingModule& grading) {
+                quizsphere::QuizEngine& engine, const quizsphere::GradingModule& grading,
+                const quizsphere::AnalyticsModule& analytics, const quizsphere::QuizRepository& quizzes) {
     const bool is_student = session.role == quizsphere::Role::Student;
     const bool is_admin = session.role == quizsphere::Role::Admin;
     for (;;) {
@@ -151,14 +154,15 @@ void runSession(const quizsphere::Session& session, const std::string& username,
         if (is_student) {
             std::cout << "1. Attempt a quiz\n";
             std::cout << "2. View my result\n";
+            std::cout << "3. View rankings\n";
         } else if (is_admin) {
             std::cout << "1. Question bank (view, import/export, enable/disable)\n";
             std::cout << "2. Manage users (coming soon)\n";
-            std::cout << "3. System reports (coming soon)\n";
+            std::cout << "3. View analytics\n";
         } else {
             std::cout << "1. Question bank\n";
             std::cout << "2. Create a quiz\n";
-            std::cout << "3. View analytics (coming soon)\n";
+            std::cout << "3. View analytics\n";
         }
         std::cout << "0. Log out\n";
 
@@ -173,10 +177,14 @@ void runSession(const quizsphere::Session& session, const std::string& username,
         } else if (is_student && choice == "1") {
             quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout);
         } else if (is_student && choice == "2") {
-                        quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout);
+            quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout);
+        } else if (is_student && choice == "3") {
+            quizsphere::runStudentRankings(session, analytics, quizzes, std::cin, std::cout);
         } else if (!is_student && !is_admin && choice == "2") {
             quizsphere::runQuizCreation(session, engine, std::cin, std::cout);
-        } else if (!is_student && (choice == "2" || choice == "3")) {
+        } else if (!is_student && choice == "3") {
+            quizsphere::runAnalyticsMenu(session, analytics, quizzes, std::cin, std::cout);
+        } else if (is_admin && choice == "2") {
             std::cout << "Not available yet: this feature is planned for a later sprint.\n";
         } else {
             std::cout << "Invalid option.\n";
@@ -236,6 +244,7 @@ int main() {
     }
     auto grading = quizsphere::createGradingModule(*question_bank, *dal->quizzes, *dal->attempts);
     auto engine = quizsphere::createQuizEngine(*question_bank, *dal->quizzes, *dal->attempts, *grading);
+    auto analytics = quizsphere::createAnalyticsModule(*question_bank, *dal->quizzes, *dal->attempts);
     auto auth_log = quizsphere::createFileAuthEventLog(envOr("QUIZSPHERE_AUTH_LOG", "quizsphere_auth.log"));
 
     int admins = 0;
@@ -270,7 +279,8 @@ int main() {
                 std::cout << describe(login.status) << '\n';
                 continue;
             }
-            runSession(quizsphere::makeSession(login, unixNow()), username, *question_bank, *engine, *grading);
+            runSession(quizsphere::makeSession(login, unixNow()), username, *question_bank, *engine, *grading,
+                       *analytics, *dal->quizzes);
         } else {
             std::cout << "Invalid option.\n";
         }
