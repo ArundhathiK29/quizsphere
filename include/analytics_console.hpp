@@ -12,4 +12,9 @@ namespace quizsphere {
 void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
                       std::istream& input, std::ostream& output);
 
+// Read-only Student entry point for per-quiz, per-topic and all-time rankings (BL-24).
+// Does not grant access to the Instructor/Admin analytics entry point.
+void runStudentRankings(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
+                        std::istream& input, std::ostream& output);
+
 }  // namespace quizsphere

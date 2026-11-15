@@ -90,16 +90,10 @@ void showAllTimeLeaderboard(const AnalyticsModule& analytics, std::ostream& outp
     printEntries("All-time leaderboard", entries, output);
 }
 
-}  // namespace
-
-void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
-                      std::istream& input, std::ostream& output) {
-    if (session.role != Role::Instructor && session.role != Role::Admin) {
-        output << "Only instructors and administrators can view analytics.\n";
-        return;
-    }
+void runRankings(const AnalyticsModule& analytics, const QuizRepository& quizzes,
+                 std::istream& input, std::ostream& output) {
     for (;;) {
-        output << "\n=== Analytics ===\n"
+        output << "\n=== Rankings ===\n"
                << "1. Leaderboard for a quiz\n"
                << "2. Topic leaderboard\n"
                << "3. All-time leaderboard\n"
@@ -118,6 +112,26 @@ void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, 
             output << "Invalid option.\n";
         }
     }
+}
+
+}  // namespace
+
+void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
+                      std::istream& input, std::ostream& output) {
+    if (session.role != Role::Instructor && session.role != Role::Admin) {
+        output << "Only instructors and administrators can view analytics.\n";
+        return;
+    }
+    runRankings(analytics, quizzes, input, output);
+}
+
+void runStudentRankings(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
+                        std::istream& input, std::ostream& output) {
+    if (session.role != Role::Student) {
+        output << "The Student rankings menu requires a Student session.\n";
+        return;
+    }
+    runRankings(analytics, quizzes, input, output);
 }
 
 }  // namespace quizsphere

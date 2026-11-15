@@ -340,6 +340,36 @@ TEST_F(AnalyticsModuleTest, AnalyticsConsoleRefusesStudents) {
     EXPECT_EQ(output.str().find("All-time leaderboard"), std::string::npos);
 }
 
+TEST_F(AnalyticsModuleTest, StudentRankingsHandlesEmptyResultsInvalidInputAndBack) {
+    const Session student{"alice", Role::Student, "2026-11-15T00:00:00Z"};
+    std::istringstream input("invalid\n1\nmissing-quiz\n2\nMath\n3\n0\n");
+    std::ostringstream output;
+    runStudentRankings(student, *analytics_, quizzes_, input, output);
+    const std::string text = output.str();
+    EXPECT_NE(text.find("Invalid option."), std::string::npos);
+    EXPECT_NE(text.find("Could not compute leaderboard"), std::string::npos);
+    EXPECT_NE(text.find("Topic leaderboard: Math"), std::string::npos);
+    EXPECT_NE(text.find("All-time leaderboard"), std::string::npos);
+    EXPECT_NE(text.find("No graded attempts yet."), std::string::npos);
+    EXPECT_EQ(text.find("Only instructors and administrators"), std::string::npos);
+    EXPECT_EQ(input.peek(), std::char_traits<char>::eof());
+}
+
+TEST_F(AnalyticsModuleTest, StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput) {
+    std::istringstream input("3\n0\n");
+    std::ostringstream output;
+    runStudentRankings(instructorSession(), *analytics_, quizzes_, input, output);
+    EXPECT_NE(output.str().find("requires a Student session"), std::string::npos);
+    EXPECT_EQ(output.str().find("All-time leaderboard"), std::string::npos);
+    EXPECT_EQ(input.peek(), '3');
+
+    const Session student{"alice", Role::Student, "2026-11-15T00:00:00Z"};
+    std::istringstream empty_input;
+    std::ostringstream empty_output;
+    runStudentRankings(student, *analytics_, quizzes_, empty_input, empty_output);
+    EXPECT_NE(empty_output.str().find("=== Rankings ==="), std::string::npos);
+}
+
 TEST_F(AnalyticsModuleTest, AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards) {
     attempts_.addGradedAttemptWithReport(
         makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 2.0, {}, {"Q1", "Q2"}),

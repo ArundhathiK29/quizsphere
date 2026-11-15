@@ -138,6 +138,28 @@ TEST_F(LeaderboardSqliteTest, TopicRankingIgnoresNewerPracticeReportsAndSurvives
     expectGradedRanking();
 }
 
+TEST_F(LeaderboardSqliteTest, StudentCanReadAllThreeRankingsAfterRestart) {
+    grade("quiz1", "alice");
+    grade("quiz2", "bob");
+    saveNewerPracticeReport("quiz1", "alice", 99.0);
+    close();
+    open();
+    std::istringstream input("1\nquiz1\n2\nMath\n3\n0\n");
+    std::ostringstream output;
+    runStudentRankings(student_, *analytics_, *dal_->quizzes, input, output);
+    const std::string text = output.str();
+    EXPECT_NE(text.find("Leaderboard: quiz1"), std::string::npos);
+    EXPECT_NE(text.find("Topic leaderboard: Math"), std::string::npos);
+    EXPECT_NE(text.find("All-time leaderboard"), std::string::npos);
+    EXPECT_NE(text.find("  1. bob  10.00"), std::string::npos);
+    EXPECT_NE(text.find("  2. alice  4.00"), std::string::npos);
+    EXPECT_EQ(text.find("99.00"), std::string::npos);
+    EXPECT_EQ(text.find("Two plus two?"), std::string::npos);
+    GradeReport report;
+    ASSERT_TRUE(dal_->attempts->findReportForAttempt("graded-alice-quiz1", &report).ok());
+    EXPECT_DOUBLE_EQ(report.score, 4.0);  // reading rankings never changes the result
+}
+
 TEST_F(LeaderboardSqliteTest, ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt) {
     grade("quiz1", "alice");
     saveNewerPracticeReport("quiz1", "alice", 99.0);
