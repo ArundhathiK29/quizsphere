@@ -7,17 +7,13 @@
 
 #include "auth.hpp"
 #include "console_menu.hpp"
+#include "console_input.hpp"
 #include "quiz_console.hpp"
 #include "question_bank.hpp"
 #include "question_repository.hpp"
 #include "sqlite_user_repository.hpp"
 
-#if defined(_WIN32)
-#include <windows.h>
-#else
-#include <termios.h>
-#include <unistd.h>
-#endif
+
 
 namespace {
 
@@ -39,37 +35,8 @@ bool readLine(const std::string& prompt, std::string& out) {
     return static_cast<bool>(std::getline(std::cin, out));
 }
 
-// Reads a password without echoing it when stdin is a terminal; falls back to a plain read otherwise (pipes, tests).
 bool readPassword(const std::string& prompt, std::string& out) {
-    std::cout << prompt << std::flush;
-#if defined(_WIN32)
-    HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
-    DWORD mode = 0;
-    const bool is_console = handle != INVALID_HANDLE_VALUE && GetConsoleMode(handle, &mode) != 0;
-    if (is_console) {
-        SetConsoleMode(handle, mode & ~static_cast<DWORD>(ENABLE_ECHO_INPUT));
-    }
-    const bool ok = static_cast<bool>(std::getline(std::cin, out));
-    if (is_console) {
-        SetConsoleMode(handle, mode);
-        std::cout << '\n';
-    }
-    return ok;
-#else
-    termios original{};
-    const bool is_tty = isatty(STDIN_FILENO) != 0 && tcgetattr(STDIN_FILENO, &original) == 0;
-    if (is_tty) {
-        termios silent = original;
-        silent.c_lflag &= static_cast<tcflag_t>(~ECHO);
-        tcsetattr(STDIN_FILENO, TCSANOW, &silent);
-    }
-    const bool ok = static_cast<bool>(std::getline(std::cin, out));
-    if (is_tty) {
-        tcsetattr(STDIN_FILENO, TCSANOW, &original);
-        std::cout << '\n';
-    }
-    return ok;
-#endif
+    return quizsphere::readConsolePassword(std::cin, std::cout, prompt, out);
 }
 
 const char* describe(AuthStatus status) {

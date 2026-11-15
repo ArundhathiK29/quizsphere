@@ -38,6 +38,7 @@ find_package(OpenSSL REQUIRED)
 
 add_library(quizsphere_core
     src/common_types.cpp
+    src/console_input.cpp
     src/question_bank.cpp
     src/question_repository_file.cpp
     src/console_menu.cpp
@@ -86,6 +87,7 @@ if(QUIZSPHERE_BUILD_TESTS)
 
     add_executable(auth_tests
         tests/password_hasher_tests.cpp
+        tests/console_input_tests.cpp
         tests/auth_tests.cpp
         tests/auth_event_log_tests.cpp
         tests/sqlite_user_repository_tests.cpp
