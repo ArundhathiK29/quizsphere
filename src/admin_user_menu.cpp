@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "console_input.hpp"
+
 namespace quizsphere {
 namespace {
 
@@ -34,12 +36,15 @@ public:
             if (!authorized()) return;
             output_ << "\n=== Manage users ===\n"
                     << "1. Find a user\n"
+                    << "2. Create a user\n"
                     << "0. Back\n";
             std::string choice;
             if (!prompt("Select: ", choice) || choice == "0") return;
             if (choice == "1") {
                 User user;
                 findTarget(user);
+            } else if (choice == "2") {
+                createAccount();
             } else {
                 output_ << "Invalid option.\n";
             }
@@ -85,6 +90,58 @@ private:
         output_ << "User: " << user.username << " | Role: " << roleToString(user.role)
                 << " | Status: " << (user.enabled ? "Enabled" : "Disabled") << '\n';
         return true;
+    }
+
+    bool promptRole(Role& role) {
+        std::string choice;
+        if (!prompt("Role: 1. Student  2. Instructor  3. Admin (0 to cancel): ", choice) ||
+            choice.empty() || choice == "0") return false;
+        if (choice == "1") role = Role::Student;
+        else if (choice == "2") role = Role::Instructor;
+        else if (choice == "3") role = Role::Admin;
+        else {
+            output_ << "Invalid role. Choose 1, 2 or 3.\n";
+            return false;
+        }
+        return true;
+    }
+
+    bool confirm(const std::string& action) {
+        std::string answer;
+        if (!prompt("Type YES to " + action + ": ", answer)) return false;
+        if (answer == "YES") return true;
+        output_ << "Cancelled.\n";
+        return false;
+    }
+
+    void createAccount() {
+        std::string username;
+        if (!prompt("New username (blank to cancel): ", username) || username.empty()) return;
+        if (!isValidUsername(username)) {
+            output_ << "Invalid username. Use 3-32 letters, digits, '_', '-' or '.'.\n";
+            return;
+        }
+        Role role;
+        if (!promptRole(role)) return;
+        std::string password;
+        std::string repeated;
+        if (!readConsolePassword(input_, output_, "New password: ", password) ||
+            !readConsolePassword(input_, output_, "Repeat password: ", repeated)) {
+            running_ = false;
+            return;
+        }
+        if (password != repeated) {
+            output_ << "Passwords did not match.\n";
+            return;
+        }
+        if (!isValidPassword(password)) {
+            output_ << "Password must contain 8-1024 characters.\n";
+            return;
+        }
+        if (!confirm("create " + username + " as " + roleToString(role))) return;
+        const AuthResult result = createUserAsAdmin(users_, session_, username, password, role);
+        if (result.ok()) output_ << "Account created: " << username << " (" << roleToString(role) << ").\n";
+        else output_ << statusMessage(result.status) << '\n';
     }
 
     const Session& session_;

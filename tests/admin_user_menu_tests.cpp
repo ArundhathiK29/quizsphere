@@ -97,5 +97,45 @@ TEST(AdminUserMenuStorage, FailedActorLookupExitsWithoutOpeningTheMenu) {
     EXPECT_EQ(output.str().find("=== Manage users ==="), std::string::npos);
 }
 
+
+TEST_F(AdminUserMenuTest, CreatesEveryRoleWithoutEchoingPasswords) {
+    int choice = 0;
+    for (const Role role : {Role::Student, Role::Instructor, Role::Admin}) {
+        ++choice;
+        const std::string username = "created_" + std::to_string(choice);
+        const std::string text = run("2\n" + username + "\n" + std::to_string(choice) +
+                                    "\n" + kPassword + "\n" + kPassword + "\nYES\n0\n");
+        const AuthResult login = loginUser(users_, username, kPassword);
+        ASSERT_TRUE(login.ok());
+        EXPECT_EQ(login.role, role);
+        EXPECT_NE(text.find("Account created: " + username), std::string::npos);
+        EXPECT_EQ(text.find(kPassword), std::string::npos);
+        EXPECT_NE(user(username).password_hash, kPassword);
+    }
+}
+
+TEST_F(AdminUserMenuTest, CreationRejectsBadNamesRolesPasswordsAndDuplicates) {
+    EXPECT_NE(run("2\nx\n0\n").find("Invalid username."), std::string::npos);
+    EXPECT_NE(run("2\nnew_user\ninvalid\n0\n").find("Invalid role."), std::string::npos);
+    EXPECT_NE(run("2\nnew_user\n1\nshort\nshort\n0\n").find("8-1024"), std::string::npos);
+    EXPECT_NE(run("2\nnew_user\n1\nfirstsecret\ndifferentsecret\n0\n").find("did not match"), std::string::npos);
+    const std::string duplicate = run(std::string("2\nLEARNER\n3\n") + kPassword + "\n" + kPassword + "\nYES\n0\n");
+    EXPECT_NE(duplicate.find("already taken"), std::string::npos);
+    EXPECT_EQ(user("learner").role, Role::Student);
+    bool exists = true;
+    ASSERT_TRUE(users_.usernameExists("new_user", exists));
+    EXPECT_FALSE(exists);
+}
+
+TEST_F(AdminUserMenuTest, CreationRequiresConfirmationAndStopsOnEndOfInput) {
+    const std::string commands = std::string("2\nnew_user\n1\n") + kPassword + "\n" + kPassword + "\nNO\n0\n";
+    EXPECT_NE(run(commands).find("Cancelled."), std::string::npos);
+    run("2\nnew_user\n0\n0\n");
+    run("2\nnew_user\n1\n");
+    bool exists = true;
+    ASSERT_TRUE(users_.usernameExists("new_user", exists));
+    EXPECT_FALSE(exists);
+}
+
 }  // namespace
 }  // namespace quizsphere
