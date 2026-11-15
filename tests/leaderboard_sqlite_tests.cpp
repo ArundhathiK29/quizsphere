@@ -173,5 +173,37 @@ TEST_F(LeaderboardSqliteTest, ExactReportLookupValidatesOutputAndDoesNotFallBack
               ErrorCode::VALIDATION_FAILED);
 }
 
+TEST_F(LeaderboardSqliteTest, StudentSeesOwnRankWhenStorageUsesNumericAccountIds) {
+    grade("quiz1", "2");
+    grade("quiz2", "3");
+    const Session student{"2", Role::Student, "2026-11-16T00:00:00Z"};
+    std::istringstream input("1\nquiz1\n2\nMath\n3\n0\n");
+    std::ostringstream output;
+    runStudentRankings(student, *analytics_, *dal_->quizzes, input, output);
+    const std::string text = output.str();
+    EXPECT_NE(text.find("Your rank: 1 | Score: 4.00"), std::string::npos);
+    const std::string second_rank = "Your rank: 2 | Score: 4.00";
+    const auto topic_rank = text.find(second_rank);
+    ASSERT_NE(topic_rank, std::string::npos);
+    EXPECT_NE(text.find(second_rank, topic_rank + second_rank.size()), std::string::npos);
+    EXPECT_EQ(text.find("Your rank: 1 | Score: 10.00"), std::string::npos);
+}
+
+TEST_F(LeaderboardSqliteTest, StudentWithoutAGradeIsUnrankedAndInstructorGetsNoOwnRankSummary) {
+    grade("quiz2", "3");
+    const Session student{"2", Role::Student, "2026-11-16T00:00:00Z"};
+    std::istringstream input("3\n0\n");
+    std::ostringstream output;
+    runStudentRankings(student, *analytics_, *dal_->quizzes, input, output);
+    EXPECT_NE(output.str().find("You have no graded result in this ranking."), std::string::npos);
+    EXPECT_EQ(output.str().find("Your rank:"), std::string::npos);
+
+    std::istringstream instructor_input("3\n0\n");
+    std::ostringstream instructor_output;
+    runAnalyticsMenu(instructor_, *analytics_, *dal_->quizzes, instructor_input, instructor_output);
+    EXPECT_EQ(instructor_output.str().find("Your rank:"), std::string::npos);
+    EXPECT_EQ(instructor_output.str().find("You have no graded result"), std::string::npos);
+}
+
 }  // namespace
 }  // namespace quizsphere

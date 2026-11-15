@@ -25,20 +25,30 @@ bool prompt(std::istream& input, std::ostream& output, const std::string& label,
     return true;
 }
 
-void printEntries(const std::string& title, const std::vector<LeaderboardEntry>& entries, std::ostream& output) {
+void printEntries(const std::string& title, const std::vector<LeaderboardEntry>& entries, std::ostream& output,
+                  const std::string& student_id) {
     output << "\n--- " << title << " ---\n";
     if (entries.empty()) {
         output << "No graded attempts yet.\n";
         return;
     }
     output << std::fixed << std::setprecision(2);
+    const LeaderboardEntry* own_entry = nullptr;
     for (const LeaderboardEntry& entry : entries) {
         output << std::setw(3) << entry.rank << ". " << entry.student_id << "  " << entry.score << '\n';
+        if (entry.student_id == student_id) own_entry = &entry;
+    }
+    if (!student_id.empty()) {
+        if (own_entry != nullptr) {
+            output << "Your rank: " << own_entry->rank << " | Score: " << own_entry->score << '\n';
+        } else {
+            output << "You have no graded result in this ranking.\n";
+        }
     }
 }
 
 void showQuizLeaderboard(const AnalyticsModule& analytics, const QuizRepository& quizzes, std::istream& input,
-                         std::ostream& output) {
+                         std::ostream& output, const std::string& student_id) {
     std::vector<Quiz> all;
     const Result list_result = quizzes.listQuizzes(&all);
     if (!list_result.ok()) {
@@ -63,10 +73,11 @@ void showQuizLeaderboard(const AnalyticsModule& analytics, const QuizRepository&
         output << "Could not compute leaderboard: " << result.message << '\n';
         return;
     }
-    printEntries("Leaderboard: " + quiz_id, entries, output);
+    printEntries("Leaderboard: " + quiz_id, entries, output, student_id);
 }
 
-void showTopicLeaderboard(const AnalyticsModule& analytics, std::istream& input, std::ostream& output) {
+void showTopicLeaderboard(const AnalyticsModule& analytics, std::istream& input, std::ostream& output,
+                          const std::string& student_id) {
     std::string subject_tag;
     if (!prompt(input, output, "Subject tag (blank to cancel): ", &subject_tag) || subject_tag.empty()) {
         return;
@@ -77,21 +88,22 @@ void showTopicLeaderboard(const AnalyticsModule& analytics, std::istream& input,
         output << "Could not compute topic leaderboard: " << result.message << '\n';
         return;
     }
-    printEntries("Topic leaderboard: " + subject_tag, entries, output);
+    printEntries("Topic leaderboard: " + subject_tag, entries, output, student_id);
 }
 
-void showAllTimeLeaderboard(const AnalyticsModule& analytics, std::ostream& output) {
+void showAllTimeLeaderboard(const AnalyticsModule& analytics, std::ostream& output,
+                            const std::string& student_id) {
     std::vector<LeaderboardEntry> entries;
     const Result result = analytics.allTimeLeaderboard(&entries);
     if (!result.ok()) {
         output << "Could not compute all-time leaderboard: " << result.message << '\n';
         return;
     }
-    printEntries("All-time leaderboard", entries, output);
+    printEntries("All-time leaderboard", entries, output, student_id);
 }
 
 void runRankings(const AnalyticsModule& analytics, const QuizRepository& quizzes,
-                 std::istream& input, std::ostream& output) {
+                 std::istream& input, std::ostream& output, const std::string& student_id) {
     for (;;) {
         output << "\n=== Rankings ===\n"
                << "1. Leaderboard for a quiz\n"
@@ -103,11 +115,11 @@ void runRankings(const AnalyticsModule& analytics, const QuizRepository& quizzes
             return;
         }
         if (choice == "1") {
-            showQuizLeaderboard(analytics, quizzes, input, output);
+            showQuizLeaderboard(analytics, quizzes, input, output, student_id);
         } else if (choice == "2") {
-            showTopicLeaderboard(analytics, input, output);
+            showTopicLeaderboard(analytics, input, output, student_id);
         } else if (choice == "3") {
-            showAllTimeLeaderboard(analytics, output);
+            showAllTimeLeaderboard(analytics, output, student_id);
         } else {
             output << "Invalid option.\n";
         }
@@ -122,7 +134,7 @@ void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, 
         output << "Only instructors and administrators can view analytics.\n";
         return;
     }
-    runRankings(analytics, quizzes, input, output);
+    runRankings(analytics, quizzes, input, output, "");
 }
 
 void runStudentRankings(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
@@ -131,7 +143,7 @@ void runStudentRankings(const Session& session, const AnalyticsModule& analytics
         output << "The Student rankings menu requires a Student session.\n";
         return;
     }
-    runRankings(analytics, quizzes, input, output);
+    runRankings(analytics, quizzes, input, output, session.user_id);
 }
 
 }  // namespace quizsphere

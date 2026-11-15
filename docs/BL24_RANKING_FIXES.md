@@ -8,6 +8,10 @@ After logging in as a Student, choose **3. View rankings**. The read-only menu
 offers per-quiz, per-topic and all-time rankings, then **0. Back** returns to the
 Student menu. No answer keys or result editing are exposed.
 
+Each Student ranking identifies their own rank and score explicitly, including
+when stored account IDs are numeric. A Student without a graded result is shown
+as unranked; Instructor/Admin views omit the personal Student summary.
+
 The existing Instructor/Admin analytics entry point still refuses Students.
 The separate `runStudentRankings` entry point shares only the ranking display
 implementation. New privileged analytics actions must stay outside that shared
