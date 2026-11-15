@@ -32,5 +32,56 @@
       "number": 71,
       "sha": "887b54bbe0819668accf73973995ba46e5f074da"
     }
-  ]
+  ],
+  "documentChecks": {
+    "expectedRequirementRows": 50,
+    "reviewedRows": 50,
+    "fr": 22,
+    "nfr": 6,
+    "security": 6,
+    "businessRules": 7,
+    "useCases": 9,
+    "codeAndTestFileRevisionsChecked": 54,
+    "referenceErrors": 0,
+    "method": "Referenced files/symbols and executable test names checked against pinned snapshots; planned tests labelled explicitly."
+  },
+  "executionEvidence": {
+    "main": {
+      "run": 43730792622,
+      "ctestEntries": 148,
+      "buildTest": "success",
+      "docker": "success"
+    },
+    "leaderboardFollowup": {
+      "pr": 70,
+      "run": 43734826113,
+      "ctestEntries": 151,
+      "buildTest": "success",
+      "docker": "success"
+    },
+    "adminMenu": {
+      "pr": 71,
+      "run": 43738064178,
+      "ctestEntries": 166,
+      "buildTest": "success",
+      "docker": "success"
+    },
+    "authCoverage": {
+      "pr": 68,
+      "focusedTests": 40,
+      "linesCovered": 440,
+      "linesTotal": 474,
+      "branchesCovered": 436,
+      "branchesTotal": 690,
+      "scope": [
+        "src/auth.cpp",
+        "src/password_hasher.cpp",
+        "src/auth_event_log.cpp",
+        "src/sqlite_user_repository.cpp"
+      ],
+      "compiler": "GCC/gcov 15.1.0",
+      "executedAt": "2026-11-10",
+      "note": "Historical four-source measurement; not new Admin UI or whole-project coverage."
+    }
+  }
 }

@@ -11,7 +11,8 @@ Console-based online quiz system in C++17 (SE Mini-Project, Team 12, UE24CS341A)
 | Question bank: add/edit/delete, enable/disable, CSV import/export, console menu | Done, tested |
 | Quiz creation and per-quiz scoring | Implemented, with SQLite restart tests |
 | Shuffled attempts, navigation, flags, practice feedback, Student/Instructor quiz menus | Implemented; graded answers persist |
-| Production grading, detailed results, leaderboard and analytics | Awaiting grading integration / assigned follow-up work |
+| Production grading | Merged, including per-question floor and real SQLite integration tests |
+| Readable results, leaderboard and analytics | Pending result/ranking/difficulty PRs and remaining Sprint 2 report work |
 
 ## Build and run
 
@@ -89,6 +90,16 @@ file and rename; application question/attempt writes use SQLite transactions.
 - 5 consecutive failed logins lock the account for 5 minutes. A wrong password never reveals whether an account exists or is disabled.
 - Admin-only functions re-check the caller against the database on every call, and an admin cannot disable, demote or remove their own account.
 - Failed logins are logged without passwords; text typed into the username field is never written to the log.
+
+## Requirements and traceability
+
+The [editable SRS revision](docs/SRS.md), [complete traceability matrix](docs/REQUIREMENTS_TRACEABILITY.md),
+[implementation design references](docs/IMPLEMENTATION_DESIGN.md) and
+[deviation register](docs/REQUIREMENT_DEVIATIONS.md) are the BL-30 review draft.
+The [baseline](docs/REQUIREMENTS_BASELINE.md) separates merged code, pending PRs
+and unfinished obligations; [verification/handoff](docs/REQUIREMENTS_VERIFICATION.md)
+lists the evidence to refresh before final submission. The original combined PDF
+is retained as the historical source.
 
 ## Layout
 
