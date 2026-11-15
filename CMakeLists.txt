@@ -104,6 +104,14 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(admin_user_menu_tests)
     quizsphere_enable_coverage(admin_user_menu_tests)
     gtest_discover_tests(admin_user_menu_tests DISCOVERY_TIMEOUT 120)
+    add_test(
+        NAME ST_ADM_01_AdminUserFlow
+        COMMAND ${CMAKE_COMMAND}
+            "-DAPP=$<TARGET_FILE:quizsphere>"
+            "-DTEST_DIR=${CMAKE_CURRENT_BINARY_DIR}/admin-system-flow"
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/admin_user_flow.cmake
+    )
+    set_tests_properties(ST_ADM_01_AdminUserFlow PROPERTIES TIMEOUT 180)
 
     add_executable(data_access_layer_tests
         tests/data_access_layer_tests.cpp
