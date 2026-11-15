@@ -173,7 +173,7 @@ void runSession(const quizsphere::Session& session, const std::string& username,
         } else if (is_student && choice == "1") {
             quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout);
         } else if (is_student && choice == "2") {
-            quizsphere::runQuizResult(session, engine, grading, std::cin, std::cout);
+                        quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout);
         } else if (!is_student && !is_admin && choice == "2") {
             quizsphere::runQuizCreation(session, engine, std::cin, std::cout);
         } else if (!is_student && (choice == "2" || choice == "3")) {
