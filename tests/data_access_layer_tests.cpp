@@ -420,6 +420,42 @@ TEST_F(DataAccessLayerTest, RejectsDuplicateGradedSubmission) {
         second.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
 }
 
+TEST_F(DataAccessLayerTest, ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake) {
+    ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
+    auto first = makeAttempt();
+    ASSERT_TRUE(dal->attempts->saveInProgressAttempt(first).ok());
+    auto other = createSqliteDataAccessLayer(db_path, nullptr);
+    ASSERT_NE(other, nullptr);
+    auto second = first;
+    second.attempt_id = "retake";
+    std::promise<void> start;
+    auto gate = start.get_future();
+    auto contender = std::async(std::launch::async, [&] {
+        gate.wait();
+        return other->attempts->saveInProgressAttempt(second);
+    });
+
+    first.submitted = true;
+    first.submitted_at = "2026-10-26T10:10:00Z";
+    first.score = 2.0;
+    start.set_value();
+    const auto finalized = dal->attempts->saveGradedAttempt(first, makeReport());
+    const auto racing_start = contender.get();
+    ASSERT_TRUE(finalized.ok()) << finalized.message;
+    EXPECT_TRUE(racing_start.code == ErrorCode::ATTEMPT_ALREADY_SUBMITTED ||
+                racing_start.code == ErrorCode::VALIDATION_FAILED) << racing_start.message;
+
+    other.reset();
+    dal.reset();
+    dal = createSqliteDataAccessLayer(db_path, nullptr);
+    ASSERT_NE(dal, nullptr);
+    EXPECT_EQ(dal->attempts->saveInProgressAttempt(second).code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
+    Attempt stored;
+    EXPECT_EQ(dal->attempts->findAttempt(second.attempt_id, &stored).code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(dal->attempts->findOpenAttempt(first.quiz_id, first.student_id, &stored).code,
+              ErrorCode::ATTEMPT_NOT_FOUND);
+}
+
 TEST_F(DataAccessLayerTest, QuizSurvivesClosingAndReopeningDatabase) {
     ASSERT_TRUE(dal->quizzes->saveQuiz(makeQuiz()).ok());
 

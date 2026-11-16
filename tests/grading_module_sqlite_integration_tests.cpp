@@ -189,9 +189,7 @@ TEST_F(GradingSqliteIntegrationTest, GradedResultSurvivesClosingAndReopeningTheD
     const Result regrade_result = grading_->gradeAttempt("quiz-1", "student-1", answers, &reloaded);
     EXPECT_EQ(regrade_result.code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
 
-    // If a fresh open attempt DOES exist (e.g. a disallowed second Graded-mode attempt slipped
-    // through), the real DAL's own saveGradedAttempt duplicate check rejects it with
-    // ATTEMPT_ALREADY_SUBMITTED, and the original stored result is untouched.
+    // A racing or direct DAL caller also cannot create a retake after a finalized grade.
     Attempt second_attempt;
     second_attempt.attempt_id = "attempt-2";
     second_attempt.quiz_id = "quiz-1";
@@ -199,7 +197,7 @@ TEST_F(GradingSqliteIntegrationTest, GradedResultSurvivesClosingAndReopeningTheD
     second_attempt.mode = QuizMode::Graded;
     second_attempt.started_at = "2026-10-29T01:00:00Z";
     second_attempt.question_order = {"Q1", "Q2"};
-    ASSERT_TRUE(dal_->attempts->saveInProgressAttempt(second_attempt).ok());
+    EXPECT_EQ(dal_->attempts->saveInProgressAttempt(second_attempt).code, ErrorCode::ATTEMPT_ALREADY_SUBMITTED);
 
     GradeReport second_report;
     const Result second_result = grading_->gradeAttempt("quiz-1", "student-1", answers, &second_report);

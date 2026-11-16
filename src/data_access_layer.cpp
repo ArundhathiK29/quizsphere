@@ -195,6 +195,19 @@ Result missing(ErrorCode code, const std::string& what) {
     return {code, what + " not found"};
 }
 
+Result checkGradedRetake(sqlite3* db, const Attempt& attempt) {
+    if (attempt.mode != QuizMode::Graded) return {};
+    Stmt submitted(db, "SELECT 1 FROM attempts WHERE quiz=?1 AND student=?2 "
+                       "AND mode=1 AND submitted=1 LIMIT 1");
+    if (!submitted.ok()) return fail(db, "Check graded retake");
+    submitted.text(1, attempt.quiz_id);
+    submitted.text(2, attempt.student_id);
+    const int rc = sqlite3_step(submitted.s);
+    if (rc == SQLITE_ROW)
+        return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "This graded quiz has already been submitted."};
+    return rc == SQLITE_DONE ? Result{} : fail(db, "Check graded retake");
+}
+
 bool exec(sqlite3* db, const char* sql) {
     return sqlite3_exec(db, sql, nullptr, nullptr, nullptr) == SQLITE_OK;
 }
@@ -687,7 +700,8 @@ public:
             }
         }
 
-        auto result = writeAttempt(db.db, a, update);
+        auto result = checkGradedRetake(db.db, a);
+        if (result.ok()) result = writeAttempt(db.db, a, update);
 
         if (!result.ok()) {
             exec(db.db, "ROLLBACK");
