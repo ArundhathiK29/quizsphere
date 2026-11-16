@@ -1,0 +1,6 @@
+Real CLI registration/login, Instructor fixture creation and untimed, non-persistent practice passed
+Eight practice starts produced 2 question orders and 5 option orders for Q1; no rows persisted
+Unfinished attempt resumed after restart with same ID, UTC start, option order, answer and flag
+Idle confirmation auto-submitted in 5.14s without Enter; saved 4/8 and one blank under the original ID
+Restart retrieved 4/8 and rejected a retake; saved rows were identical
+Already-expired attempt on restart auto-submitted before any answer prompt
