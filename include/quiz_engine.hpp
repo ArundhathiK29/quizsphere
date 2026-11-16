@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <cstdint>
+#include <chrono>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -31,6 +33,10 @@ public:
     // FR-012 / FR-013: record, change or flag an answer while the attempt is open.
     virtual Result saveAnswer(Attempt* attempt, const Answer& answer) = 0;
 
+    virtual Result remainingTime(const Attempt&, std::chrono::milliseconds*) const {
+        return notImplemented("QuizEngine::remainingTime");
+    }
+
     // Submit and grade through the Grading Module. `timed_out` = the timer ended it (FR-011).
     virtual Result submitAttempt(const Session& session, Attempt* attempt, bool timed_out, GradeReport* report) = 0;
 };
@@ -45,5 +51,14 @@ std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& question_bank,
 std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& question_bank, QuizRepository& quizzes,
                                              AttemptRepository& attempts, GradingModule& grading,
                                              std::uint64_t random_seed);
+
+struct QuizClock {
+    std::function<std::chrono::system_clock::time_point()> utc_now = std::chrono::system_clock::now;
+    std::function<std::chrono::steady_clock::time_point()> steady_now = std::chrono::steady_clock::now;
+};
+
+std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& question_bank, QuizRepository& quizzes,
+                                             AttemptRepository& attempts, GradingModule& grading,
+                                             std::uint64_t random_seed, QuizClock clock);
 
 }  // namespace quizsphere

@@ -51,6 +51,7 @@ add_library(quizsphere_core
     src/quiz_engine.cpp
     src/quiz_attempt.cpp
     src/quiz_console.cpp
+    src/timed_console_input.cpp
     src/analytics_module.cpp
     src/analytics_console.cpp
     src/result_view.cpp
@@ -113,6 +114,7 @@ if(QUIZSPHERE_BUILD_TESTS)
         tests/quiz_engine_tests.cpp
         tests/quiz_engine_sqlite_tests.cpp
         tests/quiz_attempt_tests.cpp
+        tests/quiz_timer_tests.cpp
     )
     target_link_libraries(quiz_engine_tests
         PRIVATE quizsphere_core GTest::gtest GTest::gtest_main

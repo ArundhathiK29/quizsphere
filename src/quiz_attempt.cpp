@@ -170,4 +170,16 @@ Result QuizAttemptSession::submit(bool confirmed, GradeReport* report) {
     return engine_.submitAttempt(student_, &attempt_, false, report);
 }
 
+Result QuizAttemptSession::submitExpired(GradeReport* report) {
+    const auto result = requireOpen();
+    if (!result.ok()) return result;
+    return engine_.submitAttempt(student_, &attempt_, true, report);
+}
+
+Result QuizAttemptSession::remainingTime(std::chrono::milliseconds* remaining) const {
+    const auto result = requireOpen();
+    if (!result.ok()) return result;
+    return engine_.remainingTime(attempt_, remaining);
+}
+
 }  // namespace quizsphere

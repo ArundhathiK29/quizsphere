@@ -12,12 +12,16 @@
 namespace quizsphere {
 namespace {
 
-bool read(std::istream& input, std::ostream& output, const std::string& prompt, std::string* value) {
-    output << prompt;
-    if (!std::getline(input,*value)) return false;
+void trimLine(std::string* value) {
     const auto not_space=[](unsigned char c) { return std::isspace(c)==0; };
     value->erase(value->begin(),std::find_if(value->begin(),value->end(),not_space));
     value->erase(std::find_if(value->rbegin(),value->rend(),not_space).base(),value->end());
+}
+
+bool read(std::istream& input, std::ostream& output, const std::string& prompt, std::string* value) {
+    output << prompt;
+    if (!std::getline(input,*value)) return false;
+    trimLine(value);
     return true;
 }
 
@@ -105,7 +109,7 @@ void runQuizCreation(const Session& session, QuizEngine& engine, std::istream& i
 }
 
 void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& bank,
-                     std::istream& input, std::ostream& output) {
+                     std::istream& input, std::ostream& output, TimedLineReader timed_read) {
     if (student.role!=Role::Student) { output << "Not authorized: attempts require a Student.\n"; return; }
     std::string id, mode;
     if (!chooseQuiz(engine,input,output,&id)) return;
@@ -114,9 +118,47 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
     QuizAttemptSession session(student,engine,bank);
     auto result=session.start(id,mode=="p" ? QuizMode::Practice : QuizMode::Graded);
     if (!result.ok()) { outcome(result,output); return; }
-    output << (mode=="p" ? "Practice: feedback is immediate; nothing is stored.\n" :
-        "Graded: answers and flags are saved. The time limit is not enforced yet.\n");
+    const bool graded = mode == "g";
+    output << (graded ? "Graded: answers and flags are saved. The deadline continues when you leave.\n" :
+        "Practice: feedback is immediate; nothing is stored.\n");
+    const auto autoSubmit = [&] {
+        GradeReport report;
+        const auto submitted = session.submitExpired(&report);
+        if (submitted.ok() || (submitted.code == ErrorCode::TIME_EXPIRED && report.auto_submitted)) {
+            output << "\nTime expired. Attempt auto-submitted.\n" << formatItemisedResult(report, bank);
+        } else {
+            output << "\nTime expired. Automatic submission failed.\n";
+            outcome(submitted, output);
+        }
+    };
+    const auto readCommand = [&](const std::string& prompt, std::string* line) {
+        if (!graded || !timed_read) return read(input, output, prompt, line);
+        output << prompt << std::flush;
+        for (;;) {
+            std::chrono::milliseconds remaining;
+            const auto time = session.remainingTime(&remaining);
+            if (!time.ok()) { outcome(time, output); return false; }
+            if (remaining.count() == 0) { autoSubmit(); return false; }
+            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now());
+            const auto status = timed_read(now + remaining, line);
+            if (status == TimedRead::Timeout) continue;
+            const auto after = session.remainingTime(&remaining);
+            if (!after.ok()) { outcome(after, output); return false; }
+            if (remaining.count() == 0) { autoSubmit(); return false; }
+            if (status == TimedRead::Error) output << "\nError: could not read timed quiz input.\n";
+            if (status != TimedRead::Line) return false;
+            trimLine(line);
+            return true;
+        }
+    };
     for (;;) {
+        if (graded) {
+            std::chrono::milliseconds remaining;
+            result = session.remainingTime(&remaining);
+            if (!result.ok()) { outcome(result, output); return; }
+            if (remaining.count() == 0) { autoSubmit(); return; }
+            output << "Time remaining: " << std::chrono::ceil<std::chrono::seconds>(remaining).count() << " seconds\n";
+        }
         AttemptQuestionView view;
         result=session.question(&view);
         if (!result.ok()) { outcome(result,output); return; }
@@ -126,7 +168,7 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
         for (std::size_t i=0;i<view.question.options.size();++i)
             output << i+1 << ". " << view.question.options[i] << (view.selected_display_option==static_cast<int>(i) ? " [selected]" : "") << '\n';
         std::string line;
-        if (!read(input,output,"n next | p previous | j N jump | a N answer | c clear | f flag/unflag | r review | s submit | 0 back: ",&line) || line=="0") return;
+        if (!readCommand("n next | p previous | j N jump | a N answer | c clear | f flag/unflag | r review | s submit | 0 back: ",&line) || line=="0") return;
         if (line=="n") result=session.next();
         else if (line=="p") result=session.previous();
         else if (line=="f") result=session.flag(!view.flagged);
@@ -135,11 +177,12 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
         else if (line=="s") {
             showReview(session,output);
             std::string answer;
-            if (!read(input,output,"Submit this attempt? [yes/no]: ",&answer)) return;
+            if (!readCommand("Submit this attempt? [yes/no]: ",&answer)) return;
             if (answer!="yes") { output << "Submission cancelled.\n"; continue; }
             GradeReport report;
             result=session.submit(true,&report);
-                        if (result.ok()) {
+            if (result.ok() || (result.code == ErrorCode::TIME_EXPIRED && report.auto_submitted)) {
+                if (report.auto_submitted) output << "Time expired. Attempt auto-submitted.\n";
                 if (mode=="p") output << "Practice completed. No result stored.\n";
                 else output << formatItemisedResult(report,bank);
                 return;
