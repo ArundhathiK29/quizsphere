@@ -729,4 +729,17 @@ TEST_F(AnalyticsModuleTest, AnalyticsConsoleExportsATranscriptAndAsksBeforeOverw
     EXPECT_EQ(files_.writes, 2);
 }
 
+// UT-ANLY-01 exactly as written in the Test Plan: 4 graded attempts, 3 correct on the item -> 75%.
+TEST_F(AnalyticsModuleTest, UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent) {
+    for (int i = 0; i < 4; ++i) {
+        const int selected = i < 3 ? 1 : 0;  // Q1's correct option is 1
+        attempts_.addGradedAttempt(makeGradedAttempt("a" + std::to_string(i), "quiz-1", "s" + std::to_string(i),
+                                                     QuizMode::Graded, selected == 1 ? 1.0 : 0.0,
+                                                     {Answer{"Q1", selected, false}}, {"Q1", "Q2"}));
+    }
+    double percent = -1.0;
+    ASSERT_TRUE(analytics_->difficultyIndex("Q1", &percent).ok());
+    EXPECT_DOUBLE_EQ(percent, 75.0);
+}
+
 }  // namespace

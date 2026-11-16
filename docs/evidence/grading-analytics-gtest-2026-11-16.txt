@@ -1,0 +1,152 @@
+=== grading_module_tests ===
+[ RUN      ] GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers
+[       OK ] GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks
+[       OK ] GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative
+[       OK ] GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero
+[       OK ] GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected
+[       OK ] GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected (0 ms)
+[ RUN      ] GradingModuleTest.GroupsTopicBreakdownBySubjectTag
+[       OK ] GradingModuleTest.GroupsTopicBreakdownBySubjectTag (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport
+[       OK ] GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI
+[       OK ] GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound
+[       OK ] GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound (0 ms)
+[ RUN      ] GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound
+[       OK ] GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired
+[       OK ] GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired (0 ms)
+[ RUN      ] GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected
+[       OK ] GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected
+[       OK ] GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected
+[       OK ] GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.OutOfRangeOptionIndexIsRejected
+[       OK ] GradingModuleTest.OutOfRangeOptionIndexIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted
+[       OK ] GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted (0 ms)
+[ RUN      ] GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched
+[       OK ] GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched (0 ms)
+[ RUN      ] GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll
+[       OK ] GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll (0 ms)
+[ RUN      ] GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted
+[       OK ] GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted (0 ms)
+[ RUN      ] GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound
+[       OK ] GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound (0 ms)
+[ RUN      ] GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten
+[       OK ] GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten (0 ms)
+=== grading_module_sqlite_integration_tests ===
+[ RUN      ] GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal
+[       OK ] GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal (27 ms)
+[ RUN      ] GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank
+[       OK ] GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank (17 ms)
+[ RUN      ] GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase
+[       OK ] GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase (24 ms)
+=== analytics_module_tests ===
+[ RUN      ] AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks
+[       OK ] AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks (0 ms)
+[ RUN      ] AnalyticsModuleTest.LeaderboardForUnknownQuizReturnsQuizNotFound
+[       OK ] AnalyticsModuleTest.LeaderboardForUnknownQuizReturnsQuizNotFound (0 ms)
+[ RUN      ] AnalyticsModuleTest.LeaderboardWithNoGradedAttemptsIsEmptyNotAnError
+[       OK ] AnalyticsModuleTest.LeaderboardWithNoGradedAttemptsIsEmptyNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded
+[       OK ] AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicLeaderboardForAnUnusedSubjectIsEmptyNotAnError
+[       OK ] AnalyticsModuleTest.TopicLeaderboardForAnUnusedSubjectIsEmptyNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded
+[       OK ] AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded (0 ms)
+[ RUN      ] AnalyticsModuleTest.AllTimeLeaderboardWithNoGradedAttemptsIsEmptyNotAnError
+[       OK ] AnalyticsModuleTest.AllTimeLeaderboardWithNoGradedAttemptsIsEmptyNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleRefusesStudents
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleRefusesStudents (0 ms)
+[ RUN      ] AnalyticsModuleTest.StudentRankingsHandlesEmptyResultsInvalidInputAndBack
+[       OK ] AnalyticsModuleTest.StudentRankingsHandlesEmptyResultsInvalidInputAndBack (0 ms)
+[ RUN      ] AnalyticsModuleTest.StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput
+[       OK ] AnalyticsModuleTest.StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly
+[       OK ] AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexTreatsABlankAnswerAsIncorrect
+[       OK ] AnalyticsModuleTest.DifficultyIndexTreatsABlankAnswerAsIncorrect (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError
+[       OK ] AnalyticsModuleTest.DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound
+[       OK ] AnalyticsModuleTest.DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound
+[       OK ] AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice
+[       OK ] AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic
+[       OK ] AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone
+[       OK ] AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping
+[       OK ] AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells
+[       OK ] AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly
+[       OK ] AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone
+[       OK ] AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone (0 ms)
+[ RUN      ] AnalyticsModuleTest.ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems
+[       OK ] AnalyticsModuleTest.ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting (0 ms)
+[ RUN      ] AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent
+[       OK ] AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent (0 ms)
+[ RUN      ] LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart
+[       OK ] LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart (35 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart
+[       OK ] LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart (18 ms)
+[ RUN      ] LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt
+[       OK ] LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt (15 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds
+[       OK ] LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds (18 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentWithoutAGradeIsUnrankedAndInstructorGetsNoOwnRankSummary
+[       OK ] LeaderboardSqliteTest.StudentWithoutAGradeIsUnrankedAndInstructorGetsNoOwnRankSummary (16 ms)
+=== analytics_module_sqlite_integration_tests ===
+[ RUN      ] AnalyticsSqliteIntegrationTest.DifficultyIndexCountsOnlyGradedAttemptsAndSurvivesRestart
+[       OK ] AnalyticsSqliteIntegrationTest.DifficultyIndexCountsOnlyGradedAttemptsAndSurvivesRestart (26 ms)
+[ RUN      ] AnalyticsSqliteIntegrationTest.DifficultyIndexTreatsAPersistedBlankAsIncorrect
+[       OK ] AnalyticsSqliteIntegrationTest.DifficultyIndexTreatsAPersistedBlankAsIncorrect (18 ms)
+=== result_view_tests ===
+[ RUN      ] ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks
+[       OK ] ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks (0 ms)
+[ RUN      ] ResultView.ShowsTheTotalScoreAgainstMaxScore
+[       OK ] ResultView.ShowsTheTotalScoreAgainstMaxScore (0 ms)
+[ RUN      ] ResultView.FlagsAutoSubmittedAttempts
+[       OK ] ResultView.FlagsAutoSubmittedAttempts (0 ms)
+[ RUN      ] ResultView.HandlesAnEmptyBreakdownWithoutCrashing
+[       OK ] ResultView.HandlesAnEmptyBreakdownWithoutCrashing (0 ms)
+[ RUN      ] ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest
+[       OK ] ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest (0 ms)
+[ RUN      ] ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics
+[       OK ] ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics (0 ms)
+=== result_view_integration_tests ===
+[ RUN      ] ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText
+[       OK ] ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText (16 ms)
+[ RUN      ] ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase
+[       OK ] ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase (22 ms)
+[ RUN      ] ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit
+[       OK ] ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit (15 ms)
+=== topic_analytics_integration_tests ===
+[ RUN      ] TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart
+[       OK ] TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart (33 ms)
+[ RUN      ] TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan
+[       OK ] TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan (22 ms)
+=== transcript_export_integration_tests ===
+[ RUN      ] TranscriptExportIntegrationTest.WritesRereadsRefusesSilentOverwriteAndReportsBadPath
+[       OK ] TranscriptExportIntegrationTest.WritesRereadsRefusesSilentOverwriteAndReportsBadPath (29 ms)
+[ RUN      ] TranscriptExportIntegrationTest.StudentWithNoGradedAttemptsGetsAHeaderOnlyFile
+[       OK ] TranscriptExportIntegrationTest.StudentWithNoGradedAttemptsGetsAHeaderOnlyFile (10 ms)
+=== submitted_attempt_protection_tests ===
+=== leaderboard_sqlite_tests ===

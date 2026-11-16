@@ -1,0 +1,165 @@
+  1/163 Test   #1: PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2 ...........................................   Passed    0.01 sec
+  2/163 Test   #2: PasswordHasher.SameSecretGetsDifferentSalts .....................................................   Passed    0.02 sec
+  3/163 Test   #3: PasswordHasher.RejectsWrongPassword .............................................................   Passed    0.02 sec
+  4/163 Test   #4: PasswordHasher.EmbeddedNulBytesAreSignificant ...................................................   Passed    0.02 sec
+  5/163 Test   #5: PasswordHasher.RefusesIterationCountsOutsidePolicy ..............................................   Passed    0.01 sec
+  6/163 Test   #6: PasswordHasher.RejectsMalformedStoredValues .....................................................   Passed    0.01 sec
+  7/163 Test   #7: Auth.UT_AUTH_02_RegistersStudentAndInstructor ...................................................   Passed    0.33 sec
+  8/163 Test   #8: Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively ....................................   Passed    0.01 sec
+  9/163 Test   #9: Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected ...............................................   Passed    0.01 sec
+ 10/163 Test  #10: Auth.UT_AUTH_11_PasswordPolicy ..................................................................   Passed    0.01 sec
+ 11/163 Test  #11: Auth.UT_AUTH_12_UsernameValidation ..............................................................   Passed    0.01 sec
+ 12/163 Test  #12: Auth.RegistrationNeverStoresThePlaintextPassword ................................................   Passed    0.16 sec
+ 13/163 Test  #13: Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole ......................................................   Passed    0.02 sec
+ 14/163 Test  #14: Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials .........................   Passed    0.34 sec
+ 15/163 Test  #15: Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword .............................   Passed    0.02 sec
+ 16/163 Test  #16: Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden .............................................   Passed    0.02 sec
+ 17/163 Test  #17: Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater ................................   Passed    0.03 sec
+ 18/163 Test  #18: Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter ..........................................   Passed    0.02 sec
+ 19/163 Test  #19: Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword ...........................   Passed    0.28 sec
+ 20/163 Test  #20: Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce ..........................................   Passed    0.40 sec
+ 21/163 Test  #21: Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly ...............................   Passed    0.01 sec
+ 22/163 Test  #22: Auth.UT_AUTH_08_AdminManagesUsers ...............................................................   Passed    0.30 sec
+ 23/163 Test  #23: Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot ......................................   Passed    0.30 sec
+ 24/163 Test  #24: Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut ...................................................   Passed    0.01 sec
+ 25/163 Test  #25: Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp .......................................   Passed    0.01 sec
+ 26/163 Test  #26: AuthEventLog.FormatsUtcTimestamps ...............................................................   Passed    0.01 sec
+ 27/163 Test  #27: AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword .................................   Passed    0.01 sec
+ 28/163 Test  #28: AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField ........................................   Passed    0.01 sec
+ 29/163 Test  #29: AuthEventLog.AppendsRatherThanOverwrites ........................................................   Passed    0.01 sec
+ 30/163 Test  #30: SqliteUserRepository.OpensAndCreatesSchema ......................................................   Passed    0.01 sec
+ 31/163 Test  #31: SqliteUserRepository.StoresAndReturnsEveryField .................................................   Passed    0.01 sec
+ 32/163 Test  #32: SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase ..................................   Passed    0.01 sec
+ 33/163 Test  #33: SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData ...................................   Passed    0.01 sec
+ 34/163 Test  #34: SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged ..........................   Passed    0.01 sec
+ 35/163 Test  #35: SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile .......................................   Passed    0.02 sec
+ 36/163 Test  #36: SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage .........................   Passed    0.01 sec
+ 37/163 Test  #37: SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened ......................................   Passed    0.01 sec
+ 38/163 Test  #38: SqliteUserRepository.RegistrationAndLoginWorkEndToEnd ...........................................   Passed    0.54 sec
+ 39/163 Test  #39: SqliteUserRepository.AdminLifecycleThroughTheRealRepository .....................................   Passed    0.42 sec
+ 40/163 Test  #40: ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults ......................................   Passed    0.01 sec
+ 41/163 Test  #41: ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether ............................................   Passed    0.01 sec
+ 42/163 Test  #42: ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase .....................................   Passed    0.01 sec
+ 43/163 Test  #43: ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding ......................   Passed    0.01 sec
+ 44/163 Test  #44: DataAccessLayerTest.SavesAndRetrievesQuiz .......................................................   Passed    0.02 sec
+ 45/163 Test  #45: DataAccessLayerTest.ListsSavedQuizzes ...........................................................   Passed    0.02 sec
+ 46/163 Test  #46: DataAccessLayerTest.MissingQuizReturnsQuizNotFound ..............................................   Passed    0.01 sec
+ 47/163 Test  #47: DataAccessLayerTest.SavesAndRetrievesInProgressAttempt ..........................................   Passed    0.03 sec
+ 48/163 Test  #48: DataAccessLayerTest.UpdatesExistingInProgressAttempt ............................................   Passed    0.02 sec
+ 49/163 Test  #49: DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress ...................................   Passed    0.02 sec
+ 50/163 Test  #50: DataAccessLayerTest.FindsOpenAttempt ............................................................   Passed    0.02 sec
+ 51/163 Test  #51: DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart ...................   Passed    0.02 sec
+ 52/163 Test  #52: DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner ..............................   Passed    0.03 sec
+ 53/163 Test  #53: DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup ......................   Passed    0.03 sec
+ 54/163 Test  #54: DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup ..........................   Passed    0.02 sec
+ 55/163 Test  #55: DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot .........................   Passed    0.03 sec
+ 56/163 Test  #56: DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure ................................   Passed    0.03 sec
+ 57/163 Test  #57: DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound ........................................   Passed    0.02 sec
+ 58/163 Test  #58: DataAccessLayerTest.SavesAndRetrievesGradeReport ................................................   Passed    0.02 sec
+ 59/163 Test  #59: DataAccessLayerTest.RejectsDuplicateGradedSubmission ............................................   Passed    0.02 sec
+ 60/163 Test  #60: DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake ..............   Passed    0.03 sec
+ 61/163 Test  #61: DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase .....................................   Passed    0.02 sec
+ 62/163 Test  #62: DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport ...................................   Passed    0.02 sec
+ 63/163 Test  #63: DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart ......................................   Passed    0.02 sec
+ 64/163 Test  #64: DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart .....................   Passed    0.04 sec
+ 65/163 Test  #65: DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection ..............................   Passed    0.12 sec
+ 66/163 Test  #66: DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening .....................................   Passed    0.03 sec
+ 67/163 Test  #67: DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState .............................   Passed    0.03 sec
+ 68/163 Test  #68: DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring .........................   Passed    0.02 sec
+ 69/163 Test  #69: DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion ..............................   Passed    0.02 sec
+ 70/163 Test  #70: DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges .....................   Passed    0.02 sec
+ 71/163 Test  #71: DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans ............................   Passed    0.03 sec
+ 72/163 Test  #72: DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange ..............................   Passed    0.03 sec
+ 73/163 Test  #73: DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity ............................   Passed    0.02 sec
+ 74/163 Test  #74: DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled ...................   Passed    0.03 sec
+ 75/163 Test  #75: DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary ...................................   Passed    0.01 sec
+ 76/163 Test  #76: DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges .................   Passed    0.02 sec
+ 77/163 Test  #77: QuizEngineTests.CreatesQuizAndPersistsItsDetails ................................................   Passed    0.01 sec
+ 78/163 Test  #78: QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved ........................................   Passed    0.01 sec
+ 79/163 Test  #79: QuizEngineTests.AllowsScoringWithoutNegativeMarking .............................................   Passed    0.01 sec
+ 80/163 Test  #80: QuizEngineTests.RejectsNonPositiveMarksPerQuestion ..............................................   Passed    0.01 sec
+ 81/163 Test  #81: QuizEngineTests.RejectsNegativeNegativeMark .....................................................   Passed    0.01 sec
+ 82/163 Test  #82: QuizEngineTests.RejectsNonFiniteScoringValues ...................................................   Passed    0.01 sec
+ 83/163 Test  #83: QuizEngineTests.AdminCanCreateQuiz ..............................................................   Passed    0.01 sec
+ 84/163 Test  #84: QuizEngineTests.StudentCannotCreateQuiz .........................................................   Passed    0.01 sec
+ 85/163 Test  #85: QuizEngineTests.RejectsUnauthenticatedSession ...................................................   Passed    0.01 sec
+ 86/163 Test  #86: QuizEngineTests.RejectsBlankTitle ...............................................................   Passed    0.01 sec
+ 87/163 Test  #87: QuizEngineTests.RejectsNonPositiveQuestionCount .................................................   Passed    0.01 sec
+ 88/163 Test  #88: QuizEngineTests.RejectsNonPositiveTimeLimit .....................................................   Passed    0.01 sec
+ 89/163 Test  #89: QuizEngineTests.RejectsNullOutputPointer ........................................................   Passed    0.01 sec
+ 90/163 Test  #90: QuizEngineTests.RejectsInsufficientAvailableQuestions ...........................................   Passed    0.01 sec
+ 91/163 Test  #91: QuizEngineTests.AppliesSubjectAndDifficultyFilters ..............................................   Passed    0.01 sec
+ 92/163 Test  #92: QuizEngineTests.DoesNotIncludeUnavailableQuestions ..............................................   Passed    0.01 sec
+ 93/163 Test  #93: QuizEngineTests.ListsCreatedQuizzes .............................................................   Passed    0.01 sec
+ 94/163 Test  #94: QuizEngineTests.RejectsNullQuizListPointer ......................................................   Passed    0.01 sec
+ 95/163 Test  #95: QuizEngineTests.RejectsNullQuizPointerWhenRetrieving ............................................   Passed    0.01 sec
+ 96/163 Test  #96: QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving ................................................   Passed    0.01 sec
+ 97/163 Test  #97: QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject .....................................   Passed    0.01 sec
+ 98/163 Test  #98: QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions ........................   Passed    0.01 sec
+ 99/163 Test  #99: QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving ...................................   Passed    0.01 sec
+100/163 Test #100: QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart ................   Passed    0.03 sec
+101/163 Test #101: QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz .....................   Passed    0.04 sec
+102/163 Test #102: QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart ............................   Passed    0.04 sec
+103/163 Test #103: QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence ................   Passed    0.05 sec
+104/163 Test #104: QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce ..........................   Passed    0.03 sec
+105/163 Test #105: QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions ...................................   Passed    0.09 sec
+106/163 Test #106: QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer ...........................   Passed    0.05 sec
+107/163 Test #107: QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable .........................   Passed    0.04 sec
+108/163 Test #108: QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist ..............................   Passed    0.04 sec
+109/163 Test #109: QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags ...................   Passed    0.05 sec
+110/163 Test #110: QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen .............   Passed    0.03 sec
+111/163 Test #111: QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble ...   Passed    0.03 sec
+112/163 Test #112: QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers .................................   Passed    0.03 sec
+113/163 Test #113: QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts ................   Passed    0.03 sec
+114/163 Test #114: QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected ..........................   Passed    0.02 sec
+115/163 Test #115: QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence .....................   Passed    0.03 sec
+116/163 Test #116: QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation ...........................   Passed    0.02 sec
+117/163 Test #117: QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration ....................   Passed    0.02 sec
+118/163 Test #118: QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage .................   Passed    0.02 sec
+119/163 Test #119: QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable ........................   Passed    0.02 sec
+120/163 Test #120: QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble .................   Passed    0.02 sec
+121/163 Test #121: QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit ................................   Passed    0.02 sec
+122/163 Test #122: QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles ....................................   Passed    0.02 sec
+123/163 Test #123: QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords ..........................   Passed    0.03 sec
+124/163 Test #124: QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave ...........................   Passed    0.03 sec
+125/163 Test #125: QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading ..............................   Passed    0.04 sec
+126/163 Test #126: TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices .................   Passed    0.05 sec
+127/163 Test #127: TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline ......................................   Passed    0.02 sec
+128/163 Test #128: TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation .............................   Passed    0.04 sec
+129/163 Test #129: TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer ......................................   Passed    0.06 sec
+130/163 Test #130: TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart ......................   Passed    0.07 sec
+131/163 Test #131: TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce .................................   Passed    0.05 sec
+132/163 Test #132: TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules ..............................   Passed    0.03 sec
+133/163 Test #133: TimedConsoleInputTest.IncompleteInputDoesNotBlockDeadlineAndNextLineCanBeRead ...................   Passed    0.09 sec
+134/163 Test #134: GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers .................................   Passed    0.00 sec
+135/163 Test #135: GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks .............................   Passed    0.00 sec
+136/163 Test #136: GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative .........   Passed    0.01 sec
+137/163 Test #137: GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero ...................   Passed    0.01 sec
+138/163 Test #138: GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected .......................................   Passed    0.00 sec
+139/163 Test #139: GradingModuleTest.GroupsTopicBreakdownBySubjectTag ..............................................   Passed    0.00 sec
+140/163 Test #140: GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport ................   Passed    0.01 sec
+141/163 Test #141: GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI .........................   Passed    0.00 sec
+142/163 Test #142: GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound ....................................   Passed    0.00 sec
+143/163 Test #143: GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound ...........................................   Passed    0.00 sec
+144/163 Test #144: GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired ..................   Passed    0.00 sec
+145/163 Test #145: GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected ...................................   Passed    0.00 sec
+146/163 Test #146: GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected .................................   Passed    0.01 sec
+147/163 Test #147: GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected ...................................   Passed    0.00 sec
+148/163 Test #148: GradingModuleTest.OutOfRangeOptionIndexIsRejected ...............................................   Passed    0.01 sec
+149/163 Test #149: GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted ..............   Passed    0.00 sec
+150/163 Test #150: GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched ........   Passed    0.01 sec
+151/163 Test #151: GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll ..............................   Passed    0.01 sec
+152/163 Test #152: GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted ................................   Passed    0.00 sec
+153/163 Test #153: GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound ..............   Passed    0.00 sec
+154/163 Test #154: GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten ....................   Passed    0.00 sec
+155/163 Test #155: question_bank_tests .............................................................................   Passed    0.08 sec
+156/163 Test #156: grading_module_sqlite_integration_tests .........................................................   Passed    0.07 sec
+157/163 Test #157: result_view_tests ...............................................................................   Passed    0.00 sec
+158/163 Test #158: result_view_integration_tests ...................................................................   Passed    0.08 sec
+159/163 Test #159: analytics_module_tests ..........................................................................   Passed    0.15 sec
+160/163 Test #160: analytics_module_sqlite_integration_tests .......................................................   Passed    0.06 sec
+161/163 Test #161: topic_analytics_integration_tests ...............................................................   Passed    0.05 sec
+162/163 Test #162: transcript_export_integration_tests .............................................................   Passed    0.04 sec
+163/163 Test #163: no_fstream_outside_repository_or_logging ........................................................   Passed    0.01 sec
+100% tests passed, 0 tests failed out of 163
+Total Test time (real) =   6.51 sec
