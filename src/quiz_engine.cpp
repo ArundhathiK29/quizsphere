@@ -10,6 +10,7 @@
 #include <random>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
@@ -46,10 +47,7 @@ std::string trim(const std::string& value) {
     return std::string(first, last.base());
 }
 
-std::string currentUtcTimestamp() {
-    const auto now = std::chrono::system_clock::now();
-    const std::time_t time = std::chrono::system_clock::to_time_t(now);
-
+std::string utcTimestamp(std::time_t time) {
     std::tm utc_time{};
 
 #ifdef _WIN32
@@ -63,9 +61,25 @@ std::string currentUtcTimestamp() {
     return timestamp.str();
 }
 
+using Milliseconds = std::chrono::milliseconds;
+
+bool utcMilliseconds(const std::string& stamp, Milliseconds* out) {
+    std::tm utc{};
+    std::istringstream input(stamp);
+    input >> std::get_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
+    if (input.fail() || input.peek() != std::char_traits<char>::eof()) return false;
+#ifdef _WIN32
+    const std::time_t seconds = _mkgmtime(&utc);
+#else
+    const std::time_t seconds = timegm(&utc);
+#endif
+    if (utcTimestamp(seconds) != stamp) return false;
+    *out = std::chrono::seconds(seconds);
+    return true;
+}
+
 std::string generateQuizId() {
-    static std::random_device random_device;
-    static std::mt19937_64 generator(random_device());
+    thread_local std::mt19937_64 generator(std::random_device{}());
 
     std::ostringstream id;
     id << "quiz-" << std::hex << generator();
@@ -79,9 +93,9 @@ public:
         QuizRepository& quizzes,
         AttemptRepository& attempts,
         GradingModule& grading,
-        std::uint64_t seed)
+        std::uint64_t seed, QuizClock clock)
         : question_bank_(question_bank), quizzes_(quizzes), attempts_(attempts),
-          grading_(grading), random_(seed) {}
+          grading_(grading), random_(seed), clock_(std::move(clock)) {}
 
     Result createQuiz(
         const Session& session,
@@ -174,7 +188,7 @@ public:
         new_quiz.quiz_id = generateQuizId();
         new_quiz.title = title;
         new_quiz.created_by = session.user_id;
-        new_quiz.created_at = currentUtcTimestamp();
+        new_quiz.created_at = utcTimestamp(std::chrono::system_clock::to_time_t(clock_.utc_now()));
         new_quiz.time_limit_minutes = config.time_limit_minutes;
 
         // BL-08: retain both scoring values on the quiz.
@@ -255,16 +269,25 @@ public:
             attempt.attempt_id = "attempt-" + generateQuizId();
             attempt.quiz_id = quiz_id;
             attempt.student_id = session.user_id;
-            attempt.started_at = currentUtcTimestamp();
+            attempt.started_at = utcTimestamp(
+                std::chrono::floor<std::chrono::seconds>(clock_.utc_now()).time_since_epoch().count());
             attempt.mode = mode;
             attempt.question_order = quiz.question_ids;
             std::shuffle(attempt.question_order.begin(), attempt.question_order.end(), random_);
         }
         result = validateAttempt(attempt, quiz);
         if (!result.ok()) return result;
+        Milliseconds deadline;
+        if (mode == QuizMode::Graded && !utcMilliseconds(attempt.started_at, &deadline))
+            return validationError("Invalid graded attempt start time.");
         if (mode == QuizMode::Graded && !resumed) {
             result = attempts_.saveInProgressAttempt(attempt);
             if (!result.ok()) return result;
+        }
+        if (mode == QuizMode::Graded && deadlines_.find(attempt.attempt_id) == deadlines_.end()) {
+            deadline += std::chrono::minutes(quiz.time_limit_minutes);
+            const auto remaining = std::max(Milliseconds::zero(), deadline - utcNow());
+            deadlines_.emplace(attempt.attempt_id, Deadline{deadline, steadyNow() + remaining});
         }
         active_[attempt.attempt_id] = attempt;
         *out = attempt;
@@ -275,6 +298,13 @@ public:
         Attempt current;
         auto result = currentAttempt(attempt, &current);
         if (!result.ok()) return result;
+        if (current.mode == QuizMode::Graded) {
+            Milliseconds remaining;
+            result = remainingTime(current, &remaining);
+            if (!result.ok()) return result;
+            if (remaining == Milliseconds::zero())
+                return {ErrorCode::TIME_EXPIRED, "Time expired. Answers are locked."};
+        }
         if (std::find(current.question_order.begin(), current.question_order.end(), answer.question_id) == current.question_order.end())
             return validationError("Question is not part of this attempt.");
         PublicQuestion question;
@@ -297,30 +327,63 @@ public:
         return {ErrorCode::OK, "Answer saved."};
     }
 
+    Result remainingTime(const Attempt& attempt, Milliseconds* remaining) const override {
+        const auto found = deadlines_.find(attempt.attempt_id);
+        if (!remaining || found == deadlines_.end())
+            return validationError("No graded attempt deadline is available.");
+        *remaining = attempt.auto_submitted ? Milliseconds::zero() :
+            std::max(Milliseconds::zero(), std::min(found->second.utc - utcNow(),
+                                                   found->second.steady - steadyNow()));
+        return {};
+    }
+
     Result submitAttempt(const Session& session, Attempt* attempt, bool timed_out, GradeReport* report) override {
         if (!isValidSession(session) || session.role != Role::Student || !attempt || attempt->student_id != session.user_id)
             return {ErrorCode::NOT_AUTHORIZED, "Only the attempt's student can submit it."};
         if (!report) return validationError("Report output must not be null.");
-        if (timed_out) return notImplemented("Quiz timer/automatic submission");
         Attempt current;
         auto result = currentAttempt(attempt, &current);
         if (!result.ok()) return result;
         if (current.mode == QuizMode::Practice) {
+            if (timed_out) return validationError("Practice attempts do not have a deadline.");
             current.submitted = true;
-            current.submitted_at = currentUtcTimestamp();
+            current.submitted_at = utcTimestamp(std::chrono::system_clock::to_time_t(clock_.utc_now()));
             active_[current.attempt_id] = current;
             *attempt = current;
             *report = {};
             return {ErrorCode::OK, "Practice completed; no result is stored."};
         }
+        Milliseconds remaining;
+        result = remainingTime(current, &remaining);
+        if (!result.ok()) return result;
+        if (timed_out && remaining != Milliseconds::zero())
+            return validationError("The graded attempt deadline has not elapsed.");
+        if (remaining == Milliseconds::zero() && !current.auto_submitted) {
+            current.auto_submitted = true;
+            result = attempts_.saveInProgressAttempt(current);
+            if (!result.ok()) return result;
+            // The DAL records only the timeout flag. Reload the last committed answers.
+            result = attempts_.findAttempt(current.attempt_id, &current);
+            if (!result.ok()) return result;
+        }
         GradeReport computed;
         result = grading_.gradeAttempt(current.quiz_id, current.student_id, current.answers, &computed);
-        if (!result.ok() && result.code != ErrorCode::TIME_EXPIRED) return result;
         Attempt stored;
+        if (result.code == ErrorCode::VALIDATION_FAILED && !current.auto_submitted) {
+            // Another process may have latched expiry after grading read the open attempt.
+            const auto latest = attempts_.findAttempt(current.attempt_id, &stored);
+            if (!latest.ok()) return latest;
+            if (stored.submitted)
+                return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "Attempt already submitted."};
+            if (stored.auto_submitted)
+                result = grading_.gradeAttempt(stored.quiz_id, stored.student_id, stored.answers, &computed);
+        }
+        if (!result.ok() && result.code != ErrorCode::TIME_EXPIRED) return result;
         const auto persisted = attempts_.findAttempt(current.attempt_id, &stored);
         if (!persisted.ok()) return persisted;
         if (!stored.submitted) return {ErrorCode::IO_ERROR, "Grading did not finalize the attempt."};
         active_[stored.attempt_id] = stored;
+        deadlines_.erase(stored.attempt_id);
         *attempt = stored;
         *report = computed;
         return result;
@@ -332,7 +395,18 @@ private:
     AttemptRepository& attempts_;
     GradingModule& grading_;
     std::mt19937_64 random_;
+    QuizClock clock_;
+    struct Deadline { Milliseconds utc; Milliseconds steady; };
+    std::unordered_map<std::string, Deadline> deadlines_;
     std::unordered_map<std::string, Attempt> active_;
+
+    Milliseconds utcNow() const {
+        return std::chrono::duration_cast<Milliseconds>(clock_.utc_now().time_since_epoch());
+    }
+
+    Milliseconds steadyNow() const {
+        return std::chrono::duration_cast<Milliseconds>(clock_.steady_now().time_since_epoch());
+    }
 
     Result currentAttempt(const Attempt* supplied, Attempt* current) {
         if (!supplied) return validationError("Attempt must not be null.");
@@ -396,13 +470,19 @@ std::unique_ptr<QuizEngine> createQuizEngine(
         quizzes,
         attempts,
         grading,
-        std::random_device{}());
+        std::random_device{}(), QuizClock{});
 }
 
 std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& bank, QuizRepository& quizzes,
                                              AttemptRepository& attempts, GradingModule& grading,
                                              std::uint64_t random_seed) {
-    return std::make_unique<QuizEngineImpl>(bank, quizzes, attempts, grading, random_seed);
+    return createQuizEngine(bank, quizzes, attempts, grading, random_seed, {});
+}
+
+std::unique_ptr<QuizEngine> createQuizEngine(QuestionBank& bank, QuizRepository& quizzes,
+                                             AttemptRepository& attempts, GradingModule& grading,
+                                             std::uint64_t random_seed, QuizClock clock) {
+    return std::make_unique<QuizEngineImpl>(bank, quizzes, attempts, grading, random_seed, std::move(clock));
 }
 
 }  // namespace quizsphere

@@ -175,7 +175,7 @@ void runSession(const quizsphere::Session& session, const std::string& username,
             auto menu = quizsphere::createConsoleMenu(session, username, bank, std::cin, std::cout);
             menu->run();
         } else if (is_student && choice == "1") {
-            quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout);
+            quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout, quizsphere::readConsoleLineUntil);
         } else if (is_student && choice == "2") {
             quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout);
         } else if (is_student && choice == "3") {
@@ -195,6 +195,10 @@ void runSession(const quizsphere::Session& session, const std::string& username,
 }  // namespace
 
 int main() {
+    if (!quizsphere::prepareTimedConsoleInput()) {
+        std::cerr << "Startup failure: cannot configure console input.\n";
+        return 1;
+    }
     std::string question_storage_error;
     auto repository = quizsphere::createSqliteQuestionRepository(
         envOr("QUIZSPHERE_DB", "quizsphere.db"), &question_storage_error);

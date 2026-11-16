@@ -195,6 +195,19 @@ Result missing(ErrorCode code, const std::string& what) {
     return {code, what + " not found"};
 }
 
+Result checkGradedRetake(sqlite3* db, const Attempt& attempt) {
+    if (attempt.mode != QuizMode::Graded) return {};
+    Stmt submitted(db, "SELECT 1 FROM attempts WHERE quiz=?1 AND student=?2 "
+                       "AND mode=1 AND submitted=1 LIMIT 1");
+    if (!submitted.ok()) return fail(db, "Check graded retake");
+    submitted.text(1, attempt.quiz_id);
+    submitted.text(2, attempt.student_id);
+    const int rc = sqlite3_step(submitted.s);
+    if (rc == SQLITE_ROW)
+        return {ErrorCode::ATTEMPT_ALREADY_SUBMITTED, "This graded quiz has already been submitted."};
+    return rc == SQLITE_DONE ? Result{} : fail(db, "Check graded retake");
+}
+
 bool exec(sqlite3* db, const char* sql) {
     return sqlite3_exec(db, sql, nullptr, nullptr, nullptr) == SQLITE_OK;
 }
@@ -651,7 +664,7 @@ public:
         {
             Stmt existing(
                 db.db,
-                "SELECT submitted,quiz,student,mode,started FROM attempts WHERE id=?1"
+                "SELECT submitted,quiz,student,mode,started,auto FROM attempts WHERE id=?1"
             );
 
             if (!existing.ok()) {
@@ -683,11 +696,28 @@ public:
                     exec(db.db, "ROLLBACK");
                     return {ErrorCode::VALIDATION_FAILED, "Attempt identity cannot change"};
                 }
+                if (a.mode == QuizMode::Graded && !a.auto_submitted && sqlite3_column_int(existing.s, 5) != 0) {
+                    exec(db.db, "ROLLBACK");
+                    return {ErrorCode::TIME_EXPIRED, "Time expired. Answers are locked."};
+                }
                 update = true;
             }
         }
 
-        auto result = writeAttempt(db.db, a, update);
+        auto result = checkGradedRetake(db.db, a);
+        if (result.ok() && a.mode == QuizMode::Graded && a.auto_submitted) {
+            // Latch expiry without rewriting answers a concurrent session may have saved.
+            if (!update) {
+                result = missing(ErrorCode::ATTEMPT_NOT_FOUND, "Open graded attempt");
+            } else {
+                Stmt expire(db.db, "UPDATE attempts SET auto=1 WHERE id=?1");
+                if (expire.ok()) expire.text(1, a.attempt_id);
+                if (!expire.ok() || sqlite3_step(expire.s) != SQLITE_DONE)
+                    result = fail(db.db, "Record attempt expiry");
+            }
+        } else if (result.ok()) {
+            result = writeAttempt(db.db, a, update);
+        }
 
         if (!result.ok()) {
             exec(db.db, "ROLLBACK");
@@ -786,7 +816,7 @@ public:
 
         {
             Stmt old(db.db,
-                "SELECT submitted,quiz,student,mode,started FROM attempts WHERE id=?1");
+                "SELECT submitted,quiz,student,mode,started,auto FROM attempts WHERE id=?1");
 
             if (!old.ok()) {
                 exec(db.db, "ROLLBACK");
@@ -814,6 +844,10 @@ public:
                     sqlite3_column_int(old.s, 3) != (a.mode == QuizMode::Practice ? 0 : 1) || old.str(4) != a.started_at) {
                     exec(db.db, "ROLLBACK");
                     return {ErrorCode::VALIDATION_FAILED, "Attempt identity cannot change"};
+                }
+                if (a.mode == QuizMode::Graded && (sqlite3_column_int(old.s, 5) != 0) != a.auto_submitted) {
+                    exec(db.db, "ROLLBACK");
+                    return {ErrorCode::VALIDATION_FAILED, "Attempt expiry changed. Reload before grading."};
                 }
                 existingAttempt = true;
             }

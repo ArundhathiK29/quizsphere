@@ -43,6 +43,8 @@ public:
     Result flag(bool flagged);
     Result feedback(PracticeFeedback* feedback) const;  // Practice only
     Result submit(bool confirmed, GradeReport* report);
+    Result submitExpired(GradeReport* report);
+    Result remainingTime(std::chrono::milliseconds* remaining) const;
     [[nodiscard]] AttemptReview review() const;
     [[nodiscard]] const Attempt& attempt() const { return attempt_; }
     [[nodiscard]] std::size_t position() const { return position_; }

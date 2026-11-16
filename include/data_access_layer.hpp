@@ -26,6 +26,7 @@ class AttemptRepository {
 public:
     virtual ~AttemptRepository() = default;
     // Persist an in-progress attempt (so the timer deadline survives a restart).
+    // For an existing graded attempt, auto_submitted latches expiry without replacing its answers.
     virtual Result saveInProgressAttempt(const Attempt& attempt) = 0;
     virtual Result findAttempt(const std::string& attempt_id, Attempt* attempt) const = 0;   // ATTEMPT_NOT_FOUND
     // The student's open graded attempt for a quiz. Ambiguous legacy rows are a validation error.
