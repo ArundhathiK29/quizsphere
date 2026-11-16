@@ -46,7 +46,8 @@ only in the traceability matrix are marked accordingly.
   clock to verify restart against the unchanged stored start.
 - The three submitted-attempt protection tests from PR #74 passed against this
   branch's core library in isolation.
-- The Windows console path was not exercised at runtime.
+- The Windows timer and input sources cross-compiled with MinGW-w64 GCC 13.2
+  and warnings as errors. Windows console runtime remains unverified.
 
 [Console smoke results](evidence/quiz-engine-sprint2/console-smoke.txt) ·
 [Raw gcovr reports](evidence/quiz-engine-sprint2/coverage.txt)
