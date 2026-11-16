@@ -170,6 +170,12 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_coverage(topic_analytics_integration_tests)
     add_test(NAME topic_analytics_integration_tests COMMAND topic_analytics_integration_tests)
 
+    add_executable(transcript_export_integration_tests tests/transcript_export_integration_tests.cpp)
+    target_link_libraries(transcript_export_integration_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(transcript_export_integration_tests)
+    quizsphere_enable_coverage(transcript_export_integration_tests)
+    add_test(NAME transcript_export_integration_tests COMMAND transcript_export_integration_tests)
+
     add_test(
         NAME no_fstream_outside_repository_or_logging
         COMMAND ${CMAKE_COMMAND} -DPROJECT_SOURCE_DIR=${CMAKE_SOURCE_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/check_no_fstream.cmake

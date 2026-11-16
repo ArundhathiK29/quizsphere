@@ -143,6 +143,33 @@ void showTopicAnalytics(const Session& session, const AnalyticsModule& analytics
     output << formatTopicSummary(topics);
 }
 
+// BL-42: Instructor/Admin export of one student's transcript; asks before overwriting.
+void exportTranscript(const Session& session, const AnalyticsModule& analytics, std::istream& input,
+                      std::ostream& output) {
+    std::string student_id;
+    if (!prompt(input, output, "Student id (blank to cancel): ", &student_id) || student_id.empty()) {
+        return;
+    }
+    std::string csv_path;
+    if (!prompt(input, output, "CSV file path (blank to cancel): ", &csv_path) || csv_path.empty()) {
+        return;
+    }
+    Result result = analytics.exportTranscriptCsv(session, student_id, csv_path, false);
+    if (result.code == ErrorCode::CONFIRMATION_REQUIRED) {
+        std::string answer;
+        if (!prompt(input, output, "File exists. Overwrite? [yes/no]: ", &answer) || answer != "yes") {
+            output << "Export cancelled.\n";
+            return;
+        }
+        result = analytics.exportTranscriptCsv(session, student_id, csv_path, true);
+    }
+    if (!result.ok()) {
+        output << "Export failed: " << result.message << '\n';
+        return;
+    }
+    output << result.message << '\n';
+}
+
 void runRankings(const AnalyticsModule& analytics, const QuizRepository& quizzes,
                  std::istream& input, std::ostream& output, const std::string& student_id) {
     for (;;) {
@@ -179,6 +206,7 @@ void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, 
         output << "\n=== Analytics ===\n"
                << "1. Rankings (per quiz, per topic, all-time)\n"
                << "2. Topic analytics for a student\n"
+               << "3. Export a student's transcript (CSV)\n"
                << "0. Back\n";
         std::string choice;
         if (!prompt(input, output, "Select: ", &choice) || choice == "0") {
@@ -188,6 +216,8 @@ void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, 
             runRankings(analytics, quizzes, input, output, "");
         } else if (choice == "2") {
             showTopicAnalytics(session, analytics, quizzes, input, output);
+        } else if (choice == "3") {
+            exportTranscript(session, analytics, input, output);
         } else {
             output << "Invalid option.\n";
         }

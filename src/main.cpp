@@ -227,6 +227,7 @@ int main() {
             return 1;
         }
     }
+    const quizsphere::QuestionRepository* files = repository.get();  // owned by question_bank below
     auto question_bank = quizsphere::createQuestionBank(std::move(repository));
 
     const auto load_result = question_bank->load();
@@ -249,7 +250,7 @@ int main() {
     }
     auto grading = quizsphere::createGradingModule(*question_bank, *dal->quizzes, *dal->attempts);
     auto engine = quizsphere::createQuizEngine(*question_bank, *dal->quizzes, *dal->attempts, *grading);
-    auto analytics = quizsphere::createAnalyticsModule(*question_bank, *dal->quizzes, *dal->attempts);
+    auto analytics = quizsphere::createAnalyticsModule(*question_bank, *dal->quizzes, *dal->attempts, files);
     auto auth_log = quizsphere::createFileAuthEventLog(envOr("QUIZSPHERE_AUTH_LOG", "quizsphere_auth.log"));
 
     int admins = 0;
