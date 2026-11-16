@@ -168,6 +168,14 @@ Quiz makeQuiz(const std::string& quiz_id, const std::string& title, std::vector<
     return quiz;
 }
 
+GradeReport makeReportWithTopics(double score, double max_score, std::vector<TopicScore> topics) {
+    GradeReport report;
+    report.score = score;
+    report.max_score = max_score;
+    report.topic_breakdown = std::move(topics);
+    return report;
+}
+
 GradeReport makeReportWithOneTopic(double score, double max_score, const std::string& subject_tag, double marks) {
     GradeReport report;
     report.score = score;
@@ -378,8 +386,9 @@ TEST_F(AnalyticsModuleTest, AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards
         makeGradedAttempt("a2", "quiz-1", "bob", QuizMode::Graded, 1.0, {}, {"Q1", "Q2"}),
         makeReportWithOneTopic(1.0, 2.0, "Math", 1.0));
 
-    // 1 = quiz leaderboard (quiz-1), 2 = topic leaderboard (Math), 3 = all-time, 0 = back.
-    std::istringstream input("1\nquiz-1\n2\nMath\n3\n0\n");
+    // Analytics 1 = rankings; then 1 = quiz leaderboard (quiz-1), 2 = topic leaderboard (Math),
+    // 3 = all-time, 0 = back to analytics, 0 = back.
+    std::istringstream input("1\n1\nquiz-1\n2\nMath\n3\n0\n0\n");
     std::ostringstream output;
     runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, input, output);
 
@@ -434,6 +443,117 @@ TEST_F(AnalyticsModuleTest, DifficultyIndexForAnUnknownQuestionReturnsQuestionNo
     double percent = -1.0;
     const Result result = analytics_->difficultyIndex("missing-question", &percent);
     EXPECT_EQ(result.code, ErrorCode::QUESTION_NOT_FOUND);
+}
+
+// ---- BL-41 / FR-020: topic breakdown and topic analytics ----
+
+// Fixture: quiz-1 has Math (2 q) and Science (1 q). alice: Math 2/2, Science 0/1. bob: Math 1/2,
+// Science 1/1. A practice report for carol (Math 0/2, Science 0/1) must not move the class average.
+void seedTopicData(FakeAttemptRepository* attempts) {
+    attempts->addGradedAttemptWithReport(
+        makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 2.0, {}, {"Q1", "Q2"}),
+        makeReportWithTopics(2.0, 3.0, {TopicScore{"Math", 2, 2, 2.0}, TopicScore{"Science", 0, 1, 0.0}}));
+    attempts->addGradedAttemptWithReport(
+        makeGradedAttempt("a2", "quiz-1", "bob", QuizMode::Graded, 2.0, {}, {"Q1", "Q2"}),
+        makeReportWithTopics(2.0, 3.0, {TopicScore{"Math", 1, 2, 1.0}, TopicScore{"Science", 1, 1, 1.0}}));
+    attempts->addGradedAttemptWithReport(
+        makeGradedAttempt("a3", "quiz-1", "carol", QuizMode::Practice, 0.0, {}, {"Q1", "Q2"}),
+        makeReportWithTopics(0.0, 3.0, {TopicScore{"Math", 0, 2, 0.0}, TopicScore{"Science", 0, 1, 0.0}}));
+}
+
+TEST_F(AnalyticsModuleTest, TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound) {
+    seedTopicData(&attempts_);
+
+    std::vector<TopicScore> topics;
+    ASSERT_TRUE(analytics_->topicBreakdown("quiz-1", "alice", &topics).ok());
+    ASSERT_EQ(topics.size(), 2u);
+    EXPECT_EQ(topics[0].subject_tag, "Math");
+    EXPECT_EQ(topics[0].correct, 2);
+    EXPECT_EQ(topics[1].subject_tag, "Science");
+    EXPECT_EQ(topics[1].correct, 0);
+
+    // carol only has a practice report: no graded breakdown exists for her (BR-4).
+    EXPECT_EQ(analytics_->topicBreakdown("quiz-1", "carol", &topics).code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(analytics_->topicBreakdown("quiz-1", "nobody", &topics).code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(analytics_->topicBreakdown("missing-quiz", "alice", &topics).code, ErrorCode::QUIZ_NOT_FOUND);
+}
+
+TEST_F(AnalyticsModuleTest, TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice) {
+    seedTopicData(&attempts_);
+
+    std::vector<TopicAnalytics> topics;
+    const Session alice{"alice", Role::Student, "2026-11-16T00:00:00Z"};
+    ASSERT_TRUE(analytics_->topicAnalytics(alice, "quiz-1", "alice", &topics).ok());
+    ASSERT_EQ(topics.size(), 2u);
+
+    // Weakest first: Science 0% then Math 100%.
+    EXPECT_EQ(topics[0].subject_tag, "Science");
+    EXPECT_DOUBLE_EQ(topics[0].student_percent, 0.0);
+    EXPECT_TRUE(topics[0].weakest);
+    // Class average over the two GRADED attempts only: alice 0% + bob 100% = 50%; carol's
+    // practice 0% would have dragged it to 33.3%.
+    EXPECT_DOUBLE_EQ(topics[0].class_average_percent, 50.0);
+    EXPECT_EQ(topics[0].class_attempts, 2);
+
+    EXPECT_EQ(topics[1].subject_tag, "Math");
+    EXPECT_DOUBLE_EQ(topics[1].student_percent, 100.0);
+    EXPECT_FALSE(topics[1].weakest);
+    EXPECT_DOUBLE_EQ(topics[1].class_average_percent, 75.0);  // alice 100 + bob 50
+    EXPECT_EQ(topics[1].class_attempts, 2);
+    EXPECT_EQ(topics[1].student_correct, 2);
+    EXPECT_EQ(topics[1].student_total, 2);
+    EXPECT_DOUBLE_EQ(topics[1].student_marks, 2.0);
+}
+
+TEST_F(AnalyticsModuleTest, TopicAnalyticsFlagsEveryTiedWeakestTopic) {
+    attempts_.addGradedAttemptWithReport(
+        makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 0.0, {}, {"Q1", "Q2"}),
+        makeReportWithTopics(0.0, 2.0, {TopicScore{"Math", 0, 1, 0.0}, TopicScore{"Science", 0, 1, 0.0}}));
+
+    std::vector<TopicAnalytics> topics;
+    ASSERT_TRUE(analytics_->topicAnalytics(instructorSession(), "quiz-1", "alice", &topics).ok());
+    ASSERT_EQ(topics.size(), 2u);
+    EXPECT_TRUE(topics[0].weakest);
+    EXPECT_TRUE(topics[1].weakest);
+}
+
+TEST_F(AnalyticsModuleTest, TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone) {
+    seedTopicData(&attempts_);
+    std::vector<TopicAnalytics> topics;
+
+    const Session alice{"alice", Role::Student, "2026-11-16T00:00:00Z"};
+    EXPECT_TRUE(analytics_->topicAnalytics(alice, "quiz-1", "alice", &topics).ok());
+    EXPECT_EQ(analytics_->topicAnalytics(alice, "quiz-1", "bob", &topics).code, ErrorCode::NOT_AUTHORIZED);
+
+    EXPECT_TRUE(analytics_->topicAnalytics(instructorSession(), "quiz-1", "bob", &topics).ok());
+    const Session admin{"root", Role::Admin, "2026-11-16T00:00:00Z"};
+    EXPECT_TRUE(analytics_->topicAnalytics(admin, "quiz-1", "bob", &topics).ok());
+
+    // A student with only a practice attempt has no analytics to show.
+    EXPECT_EQ(analytics_->topicAnalytics(instructorSession(), "quiz-1", "carol", &topics).code,
+              ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(analytics_->topicAnalytics(alice, "quiz-1", "alice", nullptr).code, ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(AnalyticsModuleTest, AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors) {
+    seedTopicData(&attempts_);
+
+    // Analytics 2 = topic analytics; quiz-1; alice; then 0 = back.
+    std::istringstream input("2\nquiz-1\nalice\n0\n");
+    std::ostringstream output;
+    runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, input, output);
+
+    const std::string text = output.str();
+    EXPECT_NE(text.find("Topic analytics: alice on quiz-1"), std::string::npos);
+    EXPECT_NE(text.find("Science: 0/1 correct (0.0%), class average 50.0%  <- weakest"), std::string::npos);
+    EXPECT_NE(text.find("Math: 2/2 correct (100.0%), class average 75.0%"), std::string::npos);
+    EXPECT_NE(text.find("Weakest topic: Science"), std::string::npos);
+
+    // A student id with no graded result is reported, not crashed on.
+    std::istringstream missing("2\nquiz-1\ncarol\n0\n");
+    std::ostringstream missing_output;
+    runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, missing, missing_output);
+    EXPECT_NE(missing_output.str().find("Could not compute topic analytics"), std::string::npos);
 }
 
 }  // namespace

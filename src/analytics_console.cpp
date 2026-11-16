@@ -1,5 +1,7 @@
 #include "analytics_console.hpp"
 
+#include "result_view.hpp"
+
 #include <iomanip>
 #include <string>
 #include <vector>
@@ -102,6 +104,45 @@ void showAllTimeLeaderboard(const AnalyticsModule& analytics, std::ostream& outp
     printEntries("All-time leaderboard", entries, output, student_id);
 }
 
+// BL-41: Instructor/Admin view of one student's topic breakdown vs the class average on a quiz.
+void showTopicAnalytics(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
+                        std::istream& input, std::ostream& output) {
+    std::vector<Quiz> all;
+    const Result list_result = quizzes.listQuizzes(&all);
+    if (!list_result.ok()) {
+        output << "Could not list quizzes: " << list_result.message << '\n';
+        return;
+    }
+    if (all.empty()) {
+        output << "No quizzes exist yet.\n";
+        return;
+    }
+    output << "\nQuizzes:\n";
+    for (const Quiz& quiz : all) {
+        output << "  " << quiz.quiz_id << "  " << quiz.title << '\n';
+    }
+    std::string quiz_id;
+    if (!prompt(input, output, "Quiz id (blank to cancel): ", &quiz_id) || quiz_id.empty()) {
+        return;
+    }
+    std::string student_id;
+    if (!prompt(input, output, "Student id (blank to cancel): ", &student_id) || student_id.empty()) {
+        return;
+    }
+    std::vector<TopicAnalytics> topics;
+    const Result result = analytics.topicAnalytics(session, quiz_id, student_id, &topics);
+    if (!result.ok()) {
+        output << "Could not compute topic analytics: " << result.message << '\n';
+        return;
+    }
+    output << "\n--- Topic analytics: " << student_id << " on " << quiz_id << " ---\n";
+    if (topics.empty()) {
+        output << "No topics in this result.\n";
+        return;
+    }
+    output << formatTopicSummary(topics);
+}
+
 void runRankings(const AnalyticsModule& analytics, const QuizRepository& quizzes,
                  std::istream& input, std::ostream& output, const std::string& student_id) {
     for (;;) {
@@ -134,7 +175,23 @@ void runAnalyticsMenu(const Session& session, const AnalyticsModule& analytics, 
         output << "Only instructors and administrators can view analytics.\n";
         return;
     }
-    runRankings(analytics, quizzes, input, output, "");
+    for (;;) {
+        output << "\n=== Analytics ===\n"
+               << "1. Rankings (per quiz, per topic, all-time)\n"
+               << "2. Topic analytics for a student\n"
+               << "0. Back\n";
+        std::string choice;
+        if (!prompt(input, output, "Select: ", &choice) || choice == "0") {
+            return;
+        }
+        if (choice == "1") {
+            runRankings(analytics, quizzes, input, output, "");
+        } else if (choice == "2") {
+            showTopicAnalytics(session, analytics, quizzes, input, output);
+        } else {
+            output << "Invalid option.\n";
+        }
+    }
 }
 
 void runStudentRankings(const Session& session, const AnalyticsModule& analytics, const QuizRepository& quizzes,
