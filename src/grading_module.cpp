@@ -211,7 +211,20 @@ public:
         if (report == nullptr) {
             return {ErrorCode::VALIDATION_FAILED, "report must not be null."};
         }
-        return attempts_.findReport(quiz_id, student_id, report);
+        std::vector<Attempt> attempts;
+        const Result listed = attempts_.listGradedAttempts(quiz_id, &attempts);
+        if (!listed.ok()) return listed;
+        const Attempt* selected = nullptr;
+        for (const auto& attempt : attempts) {
+            if (attempt.quiz_id != quiz_id || attempt.student_id != student_id ||
+                attempt.mode != QuizMode::Graded || !attempt.submitted) continue;
+            if (selected != nullptr) {
+                return {ErrorCode::VALIDATION_FAILED, "Multiple submitted graded attempts exist."};
+            }
+            selected = &attempt;
+        }
+        if (selected == nullptr) return {ErrorCode::ATTEMPT_NOT_FOUND, "No submitted graded result."};
+        return attempts_.findReportForAttempt(selected->attempt_id, report);
     }
 
 private:

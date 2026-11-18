@@ -26,11 +26,12 @@ public:
                                 const std::vector<Answer>& answers,
                                 GradeReport* report) = 0;
 
-    // The stored itemised result of a graded attempt (result screen, BL-23).
+    // The exact submitted Graded attempt's result (BL-23); retained Practice reports
+    // never replace it. Repository failures propagate without a latest-report fallback.
     virtual Result getReport(const std::string& quiz_id, const std::string& student_id, GradeReport* report) const = 0;
 };
 
-// Stub for now (BL-01): every call returns NOT_IMPLEMENTED.
+// Uses the agreed repository contracts; no storage calls outside the DAL.
 std::unique_ptr<GradingModule> createGradingModule(QuestionBank& question_bank,
                                                    QuizRepository& quizzes,
                                                    AttemptRepository& attempts);
