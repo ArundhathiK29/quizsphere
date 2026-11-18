@@ -59,17 +59,17 @@ function renderRankings(selected=''){
 async function perform(action,data={}){attempt=await api('attempt/action',{action,...data});renderAttempt(attempt);}
 app.addEventListener('submit',async event=>{
  event.preventDefault();if(busy)return;busy=true;
- const form=event.target,data=Object.fromEntries(new FormData(form));const button=form.querySelector('[type="submit"]');if(button)button.disabled=true;
+ const form=event.target,formId=form.getAttribute('id'),data=Object.fromEntries(new FormData(form));const button=form.querySelector('[type="submit"]');if(button)button.disabled=true;
  try{
-  if(form.id==='auth-form'){
+  if(formId==='auth-form'){
    const tab=authTab,result=await api(tab,data);
    if(tab==='register'){authTab='login';renderAuth(result.message,true);}else{user=result;shell();await navigate('quizzes');}
-  }else if(form.id==='question-form'){data.correct=String(Number(data.correct)-1);await api('questions/save',data);flash('Question saved.');await navigate('questions');}
-  else if(form.id==='create-form'){await api('quizzes/create',data);flash('Your quiz is ready.');await navigate('quizzes');}
-  else if(form.id==='ranking-form'){
+  }else if(formId==='question-form'){data.correct=String(Number(data.correct)-1);await api('questions/save',data);flash('Question saved.');await navigate('questions');}
+  else if(formId==='create-form'){await api('quizzes/create',data);flash('Your quiz is ready.');await navigate('quizzes');}
+  else if(formId==='ranking-form'){
    const rows=await api('rankings?'+new URLSearchParams(data));document.querySelector('#ranking-results').innerHTML=rows.length?`<div class="table-wrap full"><table><thead><tr><th>Rank</th><th>Student ID</th><th>Score</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r.own?'mine':''}"><td>${r.rank}</td><td>${esc(r.student)} ${r.own?'(you)':''}</td><td>${money(r.score)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty full">No graded results yet.</div>';
   }
- }catch(e){if(form.id==='auth-form')renderAuth(e.message);else flash(e.message);}finally{busy=false;if(button?.isConnected)button.disabled=false;}
+ }catch(e){if(formId==='auth-form')renderAuth(e.message);else flash(e.message);}finally{busy=false;if(button?.isConnected)button.disabled=false;}
 });
 app.addEventListener('change',async event=>{if(event.target.name!=='answer'||busy)return;busy=true;try{await perform('answer',{index:event.target.value});}catch(e){flash(e.message);}finally{busy=false;}});
 app.addEventListener('click',async event=>{
