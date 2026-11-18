@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\karib\Documents\Codex\2026-10-28\so\work\arundhathi-final\source\tests\web_timer_regression.py", line 96, in <module>
+    assert state.get("completed"), ("Other session retained an open attempt", state)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('Other session retained an open attempt', {'completed': False, 'practice': False, 'quiz': 'quiz-df71d36e91995a0a', 'position': 0, 'total': 1, 'answered': 0, 'flagged': False, 'flags': [], 'remaining': 58688, 'question': '2+2?', 'subject': 'Math', 'options': ['3', '4'], 'selected': -1, 'feedback': None, 'error': ''})

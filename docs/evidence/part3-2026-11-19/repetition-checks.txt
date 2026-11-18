@@ -1,0 +1,1 @@
+Actual Windows tests after final shared raw-handle fix: timed_confirmation_flow.py passed 30 consecutive process runs; process_kill_atomicity.py passed 5 consecutive runs (3 interrupted transactions per run). The full final native suite separately passed 209/209 entries. Recorded from the tool execution, not inferred from a CTest count.

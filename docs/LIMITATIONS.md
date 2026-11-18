@@ -24,3 +24,8 @@ Updated 18 November 2026. The team is freezing feature expansion for this review
 - Merge the reviewed work, verify final main CI, then create the `v1.0` tag at that exact final main commit. BL-31 stays open until the tag exists; this candidate prepares its README but does not pretend the freeze has occurred.
 
 Other limitations above are disclosure of scope/evidence, not a request to build more features before this review.
+
+
+## Part 3 measured acceptance status (19 November 2026)
+
+The [updated Test Case Document](TEST_CASE_DOCUMENT.md) retains 73 original-plan IDs: 70 Pass, two Partial (complete alternative flat-file DAL parity and dedicated Admin item-analysis display), and one Not Accepted (original console three-step usability target). Formal team/instructor UAT approval is pending. Five measured 20-question load/start trials satisfy PERF-01 on the recorded machine. Fresh measured line coverage is 3874/4323 (89.61%); branch coverage is 5740/10914 (52.59%), including GCC exception/compiler paths. A separate 90% branch threshold, if imposed, is not met. These disclosures do not silently waive original exit criteria.

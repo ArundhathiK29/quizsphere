@@ -153,3 +153,8 @@ git push origin v1.0
 ```
 
 Run those release commands only after the stated prerequisites; this branch does not claim the tag already exists. Contributors can extend the separate core interfaces and add a new adapter without rewriting auth, grading or persistence. See the [implementation design](docs/IMPLEMENTATION_DESIGN.md) and module tests first.
+
+
+## Part 3 testing submission
+
+The [Part 3 summary](docs/PART3_TEST_SUMMARY.md) links the updated Test Case Document, Unit Test Report, System Validation Report, Code Coverage Report and Branch Coverage Report. Raw XML/stdout, source hashes and environment are retained in `docs/evidence/part3-2026-11-19/`. The reports distinguish passing checks from unmet acceptance criteria and formal UAT; no above-90% whole-project branch coverage is claimed.

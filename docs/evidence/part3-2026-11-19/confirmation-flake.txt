@@ -1,0 +1,57 @@
+Traceback (most recent call last):
+  File "C:\Users\karib\Documents\Codex\2026-10-28\so\work\arundhathi-final\source\tests\timed_confirmation_flow.py", line 35, in <module>
+    assert connection.execute("SELECT count(*) FROM reports").fetchone()[0] == 1, final_output.decode(errors="replace")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 
+=== QuizSphere ===
+1) Log in
+2) Register
+0) Exit
+Select: Username: Password: 
+=== QuizSphere: Student Menu ===
+User: student (Student)
+1. Attempt a quiz
+2. View my result
+3. View rankings
+0. Log out
+Select: quiz-45b3ad7c2c5656f | Timed | 1 questions
+Quiz ID (blank to go back): Mode: p = practice, g = graded: Graded: answers and flags are saved. The deadline continues when you leave.
+Time remaining: 299 seconds
+
+Question 1/1 [unanswered]: Two plus two?
+1. 4
+2. 3
+n next | p previous | j N jump | a N answer | c clear | f flag/unflag | r review | s submit | 0 back: Invalid command.
+Time remaining: 299 seconds
+
+Question 1/1 [unanswered]: Two plus two?
+1. 4
+2. 3
+n next | p previous | j N jump | a N answer | c clear | f flag/unflag | r review | s submit | 0 back: Invalid command.
+Time remaining: 299 seconds
+
+Question 1/1 [unanswered]: Two plus two?
+1. 4
+2. 3
+n next | p previous | j N jump | a N answer | c clear | f flag/unflag | r review | s submit | 0 back: 
+=== QuizSphere: Student Menu ===
+User: student (Student)
+1. Attempt a quiz
+2. View my result
+3. View rankings
+0. Log out
+Select: Invalid option.
+
+=== QuizSphere: Student Menu ===
+User: student (Student)
+1. Attempt a quiz
+2. View my result
+3. View rankings
+0. Log out
+Select: Logged out.
+
+=== QuizSphere ===
+1) Log in
+2) Register
+0) Exit
+Select: 
