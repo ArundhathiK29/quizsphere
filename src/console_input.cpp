@@ -10,24 +10,30 @@
 #endif
 
 namespace quizsphere {
+namespace {
+int readConsoleByte(std::istream& input) {
+#if defined(_WIN32)
+    // Normal and timed real input share the raw handle, without CRT lookahead.
+    if (&input == &std::cin) {
+        unsigned char byte = 0;
+        DWORD count = 0;
+        if (!ReadFile(GetStdHandle(STD_INPUT_HANDLE), &byte, 1, &count, nullptr) || count == 0)
+            return std::char_traits<char>::eof();
+        return byte;
+    }
+#endif
+    return input.get();
+}
+}  // namespace
 
 bool readConsoleLine(std::istream& input, std::ostream& output, std::string& value, std::size_t max_bytes) {
     value.clear();
     bool rejected = false;
     bool received = false;
-    char byte = 0;
-    const auto readByte = [&] {
-#if defined(_WIN32)
-        // The real input handle is also used by timed reads. Mixing it with
-        // CRT/iostream buffering can hide bytes from PeekNamedPipe.
-        if (&input == &std::cin) {
-            DWORD count = 0;
-            return ReadFile(GetStdHandle(STD_INPUT_HANDLE), &byte, 1, &count, nullptr) != 0 && count == 1;
-        }
-#endif
-        return static_cast<bool>(input.get(byte));
-    };
-    while (readByte()) {
+    for (;;) {
+        const int raw = readConsoleByte(input);
+        if (raw == std::char_traits<char>::eof()) break;
+        const char byte = static_cast<char>(raw);
         received = true;
         if (byte == '\n') break;
         if (value.size() < max_bytes) value.push_back(byte);
