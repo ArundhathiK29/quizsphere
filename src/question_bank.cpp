@@ -1,5 +1,7 @@
 #include "question_bank.hpp"
 
+#include "csv_format.hpp"
+
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
@@ -138,42 +140,12 @@ Result notAuthorized() {
 
 // ---------------------------------------------------------------- CSV writing
 
-std::string csvEscape(const std::string& value) {
-    const bool needs_quotes = std::any_of(value.begin(), value.end(), [](char c) {
-        return c == ',' || c == '"' || c == '\n' || c == '\r';
-    });
-    if (!needs_quotes) {
-        return value;
-    }
-    std::string out = "\"";
-    for (const char c : value) {
-        if (c == '"') {
-            out += "\"\"";
-        } else {
-            out.push_back(c);
-        }
-    }
-    out.push_back('"');
-    return out;
-}
-
-bool isFormulaChar(char c) {
-    return c == '=' || c == '+' || c == '-' || c == '@';
-}
-
-// True if the value is (apostrophes)* followed by a formula character. Such values get one
-// extra leading apostrophe on export and lose exactly one on import, so the round trip is
-// lossless even for values that already start with an apostrophe.
-bool needsApostrophe(const std::string& value) {
-    std::size_t i = 0;
-    while (i < value.size() && value[i] == '\'') {
-        ++i;
-    }
-    return i < value.size() && isFormulaChar(value[i]);
-}
-
 std::string neutralizeFormula(const std::string& value) {
-    return needsApostrophe(value) ? "'" + value : value;
+    return csvNeutralizeFormula(value);
+}
+
+bool needsApostrophe(const std::string& value) {
+    return csvNeedsApostrophe(value);
 }
 
 std::string deneutralizeFormula(const std::string& value) {

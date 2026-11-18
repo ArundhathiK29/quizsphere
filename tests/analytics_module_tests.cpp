@@ -47,6 +47,34 @@ private:
     std::vector<Question> stored_;
 };
 
+// BL-42: records what exportTranscriptCsv asks the file repository to write.
+class RecordingFileRepository final : public QuestionRepository {
+public:
+    Result loadAll(std::vector<Question>*) override { return {ErrorCode::OK, "ok"}; }
+    Result saveAll(const std::vector<Question>&) override { return {ErrorCode::OK, "ok"}; }
+    Result readTextFile(const std::string&, std::string*) const override { return {ErrorCode::IO_ERROR, "not used"}; }
+    Result writeTextFileAtomic(const std::string& path, const std::string& content, bool overwrite) const override {
+        if (path == "/unwritable/dir/x.csv") {
+            return {ErrorCode::IO_ERROR, "Unable to write export file."};
+        }
+        if (path == existing_path && !overwrite) {
+            return {ErrorCode::CONFIRMATION_REQUIRED, "Export target exists. Confirmation required to overwrite."};
+        }
+        last_path = path;
+        last_content = content;
+        last_overwrite = overwrite;
+        ++writes;
+        return {ErrorCode::OK, "Export written."};
+    }
+    bool isReferenced(const std::string&) const override { return false; }
+
+    std::string existing_path;
+    mutable std::string last_path;
+    mutable std::string last_content;
+    mutable bool last_overwrite{false};
+    mutable int writes{0};
+};
+
 class FakeQuizRepository final : public QuizRepository {
 public:
     Result saveQuiz(const Quiz& quiz) override {
@@ -107,7 +135,15 @@ public:
         }
         return {ErrorCode::OK, "ok"};
     }
-    Result listAttemptsForStudent(const std::string&, std::vector<Attempt>*) const override {
+    Result listAttemptsForStudent(const std::string& student_id, std::vector<Attempt>* attempts) const override {
+        attempts->clear();
+        for (const auto& entry : by_quiz_) {
+            for (const Attempt& attempt : entry.second) {
+                if (attempt.student_id == student_id) {
+                    attempts->push_back(attempt);
+                }
+            }
+        }
         return {ErrorCode::OK, "ok"};
     }
 
@@ -194,9 +230,10 @@ protected:
 
         quizzes_.saveQuiz(makeQuiz("quiz-1", "Sample Quiz", {"Q1", "Q2"}));
 
-        analytics_ = createAnalyticsModule(*bank_, quizzes_, attempts_);
+        analytics_ = createAnalyticsModule(*bank_, quizzes_, attempts_, &files_);
     }
 
+    RecordingFileRepository files_;
     std::unique_ptr<QuestionBank> bank_;
     FakeQuizRepository quizzes_;
     FakeAttemptRepository attempts_;
@@ -554,6 +591,142 @@ TEST_F(AnalyticsModuleTest, AnalyticsConsoleShowsTopicAnalyticsForAStudentToInst
     std::ostringstream missing_output;
     runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, missing, missing_output);
     EXPECT_NE(missing_output.str().find("Could not compute topic analytics"), std::string::npos);
+}
+
+// ---- BL-42 / FR-021: CSV transcript ----
+
+// alice: graded on quiz-1 (2/3, newest) and quiz-2 (1/1, oldest), plus a practice attempt on
+// quiz-1 and an unsubmitted graded attempt on quiz-2 that must both be left out.
+void seedTranscriptData(FakeQuizRepository* quizzes, FakeAttemptRepository* attempts) {
+    quizzes->saveQuiz(makeQuiz("quiz-2", "Second, \"Quoted\" Quiz", {"Q1"}));
+    Attempt newest = makeGradedAttempt("a1", "quiz-1", "alice", QuizMode::Graded, 2.0, {}, {"Q1", "Q2"});
+    newest.submitted_at = "2026-11-16T10:00:00Z";
+    attempts->addGradedAttemptWithReport(newest, makeReportWithOneTopic(2.0, 3.0, "Math", 2.0));
+    Attempt oldest = makeGradedAttempt("a2", "quiz-2", "alice", QuizMode::Graded, 1.0, {}, {"Q1"});
+    oldest.submitted_at = "2026-11-15T10:00:00Z";
+    attempts->addGradedAttemptWithReport(oldest, makeReportWithOneTopic(1.0, 1.0, "Math", 1.0));
+    attempts->addGradedAttemptWithReport(
+        makeGradedAttempt("a3", "quiz-1", "alice", QuizMode::Practice, 3.0, {}, {"Q1", "Q2"}),
+        makeReportWithOneTopic(3.0, 3.0, "Math", 3.0));
+    Attempt open = makeGradedAttempt("a4", "quiz-2", "alice", QuizMode::Graded, 0.0, {}, {"Q1"});
+    open.submitted = false;
+    open.submitted_at.clear();
+    attempts->addGradedAttempt(open);
+}
+
+TEST_F(AnalyticsModuleTest, TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping) {
+    seedTranscriptData(&quizzes_, &attempts_);
+
+    std::string csv;
+    ASSERT_TRUE(analytics_->transcriptCsv(instructorSession(), "alice", &csv).ok());
+    EXPECT_EQ(csv,
+              "quiz_id,quiz_title,score,max_score,percent,submitted_at\n"
+              "quiz-2,\"Second, \"\"Quoted\"\" Quiz\",1.00,1.00,100.00,2026-11-15T10:00:00Z\n"
+              "quiz-1,Sample Quiz,2.00,3.00,66.67,2026-11-16T10:00:00Z\n");
+}
+
+TEST_F(AnalyticsModuleTest, TranscriptNeutralisesSpreadsheetFormulasInTextCells) {
+    quizzes_.saveQuiz(makeQuiz("=cmd", "-1+1", {"Q1"}));
+    Attempt attempt = makeGradedAttempt("a1", "=cmd", "alice", QuizMode::Graded, 1.0, {}, {"Q1"});
+    attempts_.addGradedAttemptWithReport(attempt, makeReportWithOneTopic(1.0, 1.0, "Math", 1.0));
+
+    std::string csv;
+    ASSERT_TRUE(analytics_->transcriptCsv(instructorSession(), "alice", &csv).ok());
+    EXPECT_NE(csv.find("'=cmd,'-1+1,1.00,1.00,100.00,"), std::string::npos);
+}
+
+TEST_F(AnalyticsModuleTest, TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly) {
+    attempts_.addGradedAttemptWithReport(
+        makeGradedAttempt("a3", "quiz-1", "alice", QuizMode::Practice, 3.0, {}, {"Q1", "Q2"}),
+        makeReportWithOneTopic(3.0, 3.0, "Math", 3.0));
+
+    std::string csv;
+    const Result result = analytics_->transcriptCsv(instructorSession(), "alice", &csv);
+    ASSERT_TRUE(result.ok());
+    EXPECT_EQ(csv, "quiz_id,quiz_title,score,max_score,percent,submitted_at\n");
+    EXPECT_NE(result.message.find("No graded attempts"), std::string::npos);
+
+    ASSERT_TRUE(analytics_->transcriptCsv(instructorSession(), "nobody", &csv).ok());
+    EXPECT_EQ(csv, "quiz_id,quiz_title,score,max_score,percent,submitted_at\n");
+}
+
+TEST_F(AnalyticsModuleTest, TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone) {
+    seedTranscriptData(&quizzes_, &attempts_);
+    std::string csv;
+    const Session alice{"alice", Role::Student, "2026-11-16T00:00:00Z"};
+    const Session bob{"bob", Role::Student, "2026-11-16T00:00:00Z"};
+    const Session admin{"root", Role::Admin, "2026-11-16T00:00:00Z"};
+    EXPECT_TRUE(analytics_->transcriptCsv(alice, "alice", &csv).ok());
+    EXPECT_EQ(analytics_->transcriptCsv(bob, "alice", &csv).code, ErrorCode::NOT_AUTHORIZED);
+    EXPECT_TRUE(analytics_->transcriptCsv(admin, "alice", &csv).ok());
+    EXPECT_EQ(analytics_->exportTranscriptCsv(bob, "alice", "out.csv", false).code, ErrorCode::NOT_AUTHORIZED);
+    EXPECT_EQ(files_.writes, 0);  // nothing is written on a refused export
+    EXPECT_EQ(analytics_->transcriptCsv(alice, "", &csv).code, ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(analytics_->transcriptCsv(alice, "alice", nullptr).code, ErrorCode::VALIDATION_FAILED);
+}
+
+TEST_F(AnalyticsModuleTest, ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems) {
+    seedTranscriptData(&quizzes_, &attempts_);
+
+    ASSERT_TRUE(analytics_->exportTranscriptCsv(instructorSession(), "alice", "alice.csv", false).ok());
+    EXPECT_EQ(files_.last_path, "alice.csv");
+    EXPECT_FALSE(files_.last_overwrite);
+    std::string expected;
+    ASSERT_TRUE(analytics_->transcriptCsv(instructorSession(), "alice", &expected).ok());
+    EXPECT_EQ(files_.last_content, expected);
+
+    EXPECT_EQ(analytics_->exportTranscriptCsv(instructorSession(), "alice", "", false).code, ErrorCode::VALIDATION_FAILED);
+    EXPECT_EQ(analytics_->exportTranscriptCsv(instructorSession(), "alice", "/unwritable/dir/x.csv", false).code,
+              ErrorCode::IO_ERROR);
+
+    files_.existing_path = "alice.csv";
+    EXPECT_EQ(analytics_->exportTranscriptCsv(instructorSession(), "alice", "alice.csv", false).code,
+              ErrorCode::CONFIRMATION_REQUIRED);
+    EXPECT_TRUE(analytics_->exportTranscriptCsv(instructorSession(), "alice", "alice.csv", true).ok());
+    EXPECT_TRUE(files_.last_overwrite);
+
+    // Without a file repository the text is still available but export is a clean IO_ERROR.
+    auto no_files = createAnalyticsModule(*bank_, quizzes_, attempts_);
+    EXPECT_TRUE(no_files->transcriptCsv(instructorSession(), "alice", &expected).ok());
+    EXPECT_EQ(no_files->exportTranscriptCsv(instructorSession(), "alice", "alice.csv", true).code, ErrorCode::IO_ERROR);
+}
+
+TEST_F(AnalyticsModuleTest, AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting) {
+    seedTranscriptData(&quizzes_, &attempts_);
+
+    // Analytics 3 = export; alice; path; 0 = back.
+    std::istringstream input("3\nalice\nalice.csv\n0\n");
+    std::ostringstream output;
+    runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, input, output);
+    EXPECT_NE(output.str().find("Exported to alice.csv"), std::string::npos);
+    EXPECT_EQ(files_.writes, 1);
+
+    // Existing file: "no" cancels without writing; "yes" overwrites.
+    files_.existing_path = "alice.csv";
+    std::istringstream decline("3\nalice\nalice.csv\nno\n0\n");
+    std::ostringstream decline_output;
+    runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, decline, decline_output);
+    EXPECT_NE(decline_output.str().find("Export cancelled."), std::string::npos);
+    EXPECT_EQ(files_.writes, 1);
+
+    std::istringstream accept("3\nalice\nalice.csv\nyes\n0\n");
+    std::ostringstream accept_output;
+    runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, accept, accept_output);
+    EXPECT_NE(accept_output.str().find("Exported to alice.csv"), std::string::npos);
+    EXPECT_EQ(files_.writes, 2);
+    EXPECT_TRUE(files_.last_overwrite);
+
+    // Unwritable path is reported, not crashed on; a Student cannot reach this menu at all.
+    std::istringstream bad("3\nalice\n/unwritable/dir/x.csv\n0\n");
+    std::ostringstream bad_output;
+    runAnalyticsMenu(instructorSession(), *analytics_, quizzes_, bad, bad_output);
+    EXPECT_NE(bad_output.str().find("Export failed"), std::string::npos);
+    std::istringstream student_input("3\nalice\nalice.csv\n0\n");
+    std::ostringstream student_output;
+    runAnalyticsMenu(Session{"alice", Role::Student, "2026-11-16T00:00:00Z"}, *analytics_, quizzes_, student_input,
+                     student_output);
+    EXPECT_NE(student_output.str().find("Only instructors and administrators"), std::string::npos);
+    EXPECT_EQ(files_.writes, 2);
 }
 
 }  // namespace

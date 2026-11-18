@@ -1,6 +1,10 @@
 #include "analytics_module.hpp"
 
+#include "csv_format.hpp"
+
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 #include <iterator>
 #include <unordered_map>
 
@@ -45,8 +49,9 @@ bool answeredCorrectly(const Attempt& attempt, const std::string& question_id, c
 
 class AnalyticsModuleImpl final : public AnalyticsModule {
 public:
-    AnalyticsModuleImpl(QuestionBank& question_bank, QuizRepository& quizzes, AttemptRepository& attempts)
-        : question_bank_(question_bank), quizzes_(quizzes), attempts_(attempts) {}
+    AnalyticsModuleImpl(QuestionBank& question_bank, QuizRepository& quizzes, AttemptRepository& attempts,
+                        const QuestionRepository* files)
+        : question_bank_(question_bank), quizzes_(quizzes), attempts_(attempts), files_(files) {}
 
     // BL-24 / FR-017: ranked graded attempts of one quiz; practice attempts never appear (BR-4).
     Result leaderboard(const std::string& quiz_id, std::vector<LeaderboardEntry>* entries) const override {
@@ -295,8 +300,74 @@ public:
         }
         return {ErrorCode::OK, "Topic analytics computed."};
     }
-    Result exportTranscriptCsv(const Session&, const std::string&, const std::string&, bool) const override {
-        return notImplemented("AnalyticsModule::exportTranscriptCsv");
+    // BL-42 / FR-021: the transcript text. Graded + submitted attempts only (BR-4), oldest first.
+    Result transcriptCsv(const Session& session, const std::string& student_id, std::string* csv) const override {
+        if (csv == nullptr) {
+            return {ErrorCode::VALIDATION_FAILED, "csv must not be null."};
+        }
+        if (student_id.empty()) {
+            return {ErrorCode::VALIDATION_FAILED, "Student id must not be blank."};
+        }
+        if (session.role == Role::Student) {
+            if (session.user_id != student_id) {
+                return {ErrorCode::NOT_AUTHORIZED, "Students may only export their own transcript."};
+            }
+        } else if (session.role != Role::Instructor && session.role != Role::Admin) {
+            return {ErrorCode::NOT_AUTHORIZED, "Not authorized."};
+        }
+
+        std::vector<Attempt> attempts;
+        const Result list_result = attempts_.listAttemptsForStudent(student_id, &attempts);
+        if (!list_result.ok()) {
+            return list_result;
+        }
+        std::vector<const Attempt*> graded;
+        for (const Attempt& attempt : attempts) {
+            if (attempt.mode == QuizMode::Graded && attempt.submitted) {
+                graded.push_back(&attempt);
+            }
+        }
+        std::stable_sort(graded.begin(), graded.end(), [](const Attempt* a, const Attempt* b) {
+            return a->submitted_at < b->submitted_at;
+        });
+
+        std::ostringstream out;
+        out << "quiz_id,quiz_title,score,max_score,percent,submitted_at\n";
+        out << std::fixed << std::setprecision(2);
+        for (const Attempt* attempt : graded) {
+            Quiz quiz;
+            const std::string title = quizzes_.findQuiz(attempt->quiz_id, &quiz).ok() ? quiz.title : "";
+            GradeReport report;
+            const Result report_result = attempts_.findReportForAttempt(attempt->attempt_id, &report);
+            if (!report_result.ok()) {
+                return report_result;
+            }
+            const double pct = report.max_score > 0.0 ? 100.0 * report.score / report.max_score : 0.0;
+            out << csvTextCell(attempt->quiz_id) << ',' << csvTextCell(title) << ',' << report.score << ','
+                << report.max_score << ',' << pct << ',' << csvTextCell(attempt->submitted_at) << '\n';
+        }
+        *csv = out.str();
+        return {ErrorCode::OK, graded.empty() ? "No graded attempts: header only." : "Transcript built."};
+    }
+
+    Result exportTranscriptCsv(const Session& session, const std::string& student_id, const std::string& csv_path,
+                               bool overwrite) const override {
+        std::string csv;
+        const Result built = transcriptCsv(session, student_id, &csv);
+        if (!built.ok()) {
+            return built;
+        }
+        if (csv_path.empty()) {
+            return {ErrorCode::VALIDATION_FAILED, "Export path must not be blank."};
+        }
+        if (files_ == nullptr) {
+            return {ErrorCode::IO_ERROR, "No file repository available for export."};
+        }
+        const Result written = files_->writeTextFileAtomic(csv_path, csv, overwrite);
+        if (!written.ok()) {
+            return written;
+        }
+        return {ErrorCode::OK, built.message + " Exported to " + csv_path};
     }
 
 private:
@@ -329,14 +400,16 @@ private:
     QuestionBank& question_bank_;  // answer key for difficultyIndex()
     QuizRepository& quizzes_;
     AttemptRepository& attempts_;
+    const QuestionRepository* files_;
 };
 
 }  // namespace
 
 std::unique_ptr<AnalyticsModule> createAnalyticsModule(QuestionBank& question_bank,
                                                        QuizRepository& quizzes,
-                                                       AttemptRepository& attempts) {
-    return std::make_unique<AnalyticsModuleImpl>(question_bank, quizzes, attempts);
+                                                       AttemptRepository& attempts,
+                                                       const QuestionRepository* files) {
+    return std::make_unique<AnalyticsModuleImpl>(question_bank, quizzes, attempts, files);
 }
 
 }  // namespace quizsphere

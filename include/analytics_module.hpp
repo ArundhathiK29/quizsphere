@@ -7,6 +7,7 @@
 #include "common_types.hpp"
 #include "data_access_layer.hpp"
 #include "question_bank.hpp"
+#include "question_repository.hpp"
 #include "quiz_types.hpp"
 
 // Analytics Module (BL-24, BL-26, BL-41, BL-42; owner: see backlog).
@@ -59,16 +60,26 @@ public:
                                   const std::string& student_id,
                                   std::vector<TopicAnalytics>* topics) const = 0;
 
-    // FR-021: per-student result transcript as CSV. Student may export their own, Instructor/Admin anyone's.
+    // FR-021 (BL-42): per-student result transcript as CSV - one row per submitted GRADED attempt
+    // (quiz_id, quiz_title, score, max_score, percent, submitted_at), oldest first; header only
+    // when the student has none. Student may export their own, Instructor/Admin anyone's
+    // (NOT_AUTHORIZED otherwise). CONFIRMATION_REQUIRED if csv_path exists and !overwrite;
+    // IO_ERROR for an unwritable path. Written atomically through the file repository.
     virtual Result exportTranscriptCsv(const Session& session,
                                        const std::string& student_id,
                                        const std::string& csv_path,
                                        bool overwrite) const = 0;
+
+    // The exact CSV text exportTranscriptCsv() would write, without touching the filesystem.
+    virtual Result transcriptCsv(const Session& session, const std::string& student_id, std::string* csv) const = 0;
 };
 
-// Stub for now (BL-01): every call returns NOT_IMPLEMENTED.
+// `files` is the text-file writer used by exportTranscriptCsv (the same QuestionRepository the
+// QuestionBank was built on; the SQLite one delegates CSV I/O to the file repository). Without it,
+// transcriptCsv() still works but exportTranscriptCsv() reports IO_ERROR.
 std::unique_ptr<AnalyticsModule> createAnalyticsModule(QuestionBank& question_bank,
                                                        QuizRepository& quizzes,
-                                                       AttemptRepository& attempts);
+                                                       AttemptRepository& attempts,
+                                                       const QuestionRepository* files = nullptr);
 
 }  // namespace quizsphere
