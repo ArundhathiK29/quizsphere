@@ -1,0 +1,17 @@
+Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = *PERF*
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Part3Acceptance
+[ RUN      ] Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds
+PERF-01 run 1: 37.3438 ms
+PERF-01 run 2: 31.211 ms
+PERF-01 run 3: 24.5747 ms
+PERF-01 run 4: 27.7208 ms
+PERF-01 run 5: 28.2858 ms
+[       OK ] Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds (418 ms)
+[----------] 1 test from Part3Acceptance (418 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (419 ms total)
+[  PASSED  ] 1 test.

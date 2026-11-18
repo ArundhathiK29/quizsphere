@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="2" failures="0" disabled="0" errors="0" time="0.185" timestamp="2026-11-18T18:40:36.507" name="AllTests">
+  <testsuite name="TopicAnalyticsIntegrationTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0.185" timestamp="2026-11-18T18:40:36.507">
+    <testcase name="ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/topic_analytics_integration_tests.cpp" line="92" status="run" result="completed" time="0.106" timestamp="2026-11-18T18:40:36.507" classname="TopicAnalyticsIntegrationTest" />
+    <testcase name="StudentCannotReadAnotherStudentsTopicsButInstructorCan" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/topic_analytics_integration_tests.cpp" line="128" status="run" result="completed" time="0.078" timestamp="2026-11-18T18:40:36.613" classname="TopicAnalyticsIntegrationTest" />
+  </testsuite>
+</testsuites>

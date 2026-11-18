@@ -1,0 +1,40 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 14 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 13 tests from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes
+[       OK ] AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes (510 ms)
+[ RUN      ] AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter
+[       OK ] AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter (563 ms)
+[ RUN      ] AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter
+[       OK ] AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter (514 ms)
+[ RUN      ] AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits
+[       OK ] AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits (538 ms)
+[ RUN      ] AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords
+[       OK ] AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords (1492 ms)
+[ RUN      ] AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates
+[       OK ] AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates (494 ms)
+[ RUN      ] AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput
+[       OK ] AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput (577 ms)
+[ RUN      ] AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin
+[       OK ] AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin (711 ms)
+[ RUN      ] AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection
+[       OK ] AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection (522 ms)
+[ RUN      ] AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess
+[       OK ] AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess (811 ms)
+[ RUN      ] AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf
+[       OK ] AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf (537 ms)
+[ RUN      ] AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount
+[       OK ] AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount (942 ms)
+[ RUN      ] AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe
+[       OK ] AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe (635 ms)
+[----------] 13 tests from AdminUserMenuTest (8851 ms total)
+
+[----------] 1 test from AdminUserMenuStorage
+[ RUN      ] AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu
+[       OK ] AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu (0 ms)
+[----------] 1 test from AdminUserMenuStorage (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 14 tests from 2 test suites ran. (8851 ms total)
+[  PASSED  ] 14 tests.

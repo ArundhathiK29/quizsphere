@@ -1,0 +1,75 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 33 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 33 tests from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.SavesAndRetrievesQuiz
+[       OK ] DataAccessLayerTest.SavesAndRetrievesQuiz (42 ms)
+[ RUN      ] DataAccessLayerTest.ListsSavedQuizzes
+[       OK ] DataAccessLayerTest.ListsSavedQuizzes (54 ms)
+[ RUN      ] DataAccessLayerTest.MissingQuizReturnsQuizNotFound
+[       OK ] DataAccessLayerTest.MissingQuizReturnsQuizNotFound (47 ms)
+[ RUN      ] DataAccessLayerTest.SavesAndRetrievesInProgressAttempt
+[       OK ] DataAccessLayerTest.SavesAndRetrievesInProgressAttempt (65 ms)
+[ RUN      ] DataAccessLayerTest.UpdatesExistingInProgressAttempt
+[       OK ] DataAccessLayerTest.UpdatesExistingInProgressAttempt (71 ms)
+[ RUN      ] DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress
+[       OK ] DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress (53 ms)
+[ RUN      ] DataAccessLayerTest.FindsOpenAttempt
+[       OK ] DataAccessLayerTest.FindsOpenAttempt (59 ms)
+[ RUN      ] DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart
+[       OK ] DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart (84 ms)
+[ RUN      ] DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner
+[       OK ] DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner (87 ms)
+[ RUN      ] DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup
+[       OK ] DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup (83 ms)
+[ RUN      ] DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup
+[       OK ] DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup (54 ms)
+[ RUN      ] DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot
+[       OK ] DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot (56 ms)
+[ RUN      ] DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure
+[       OK ] DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure (59 ms)
+[ RUN      ] DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound
+[       OK ] DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound (40 ms)
+[ RUN      ] DataAccessLayerTest.SavesAndRetrievesGradeReport
+[       OK ] DataAccessLayerTest.SavesAndRetrievesGradeReport (60 ms)
+[ RUN      ] DataAccessLayerTest.RejectsDuplicateGradedSubmission
+[       OK ] DataAccessLayerTest.RejectsDuplicateGradedSubmission (63 ms)
+[ RUN      ] DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake
+[       OK ] DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake (77 ms)
+[ RUN      ] DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase
+[       OK ] DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase (48 ms)
+[ RUN      ] DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport
+[       OK ] DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport (54 ms)
+[ RUN      ] DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart
+[       OK ] DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart (53 ms)
+[ RUN      ] DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart
+[       OK ] DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart (53 ms)
+[ RUN      ] DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection
+[       OK ] DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection (40 ms)
+[ RUN      ] DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening
+[       OK ] DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening (55 ms)
+[ RUN      ] DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState
+[       OK ] DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState (63 ms)
+[ RUN      ] DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring
+[       OK ] DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring (63 ms)
+[ RUN      ] DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion
+[       OK ] DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion (50 ms)
+[ RUN      ] DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges
+[       OK ] DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges (63 ms)
+[ RUN      ] DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans
+[       OK ] DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans (39 ms)
+[ RUN      ] DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange
+[       OK ] DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange (48 ms)
+[ RUN      ] DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity
+[       OK ] DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity (36 ms)
+[ RUN      ] DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled
+[       OK ] DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled (96 ms)
+[ RUN      ] DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary
+[       OK ] DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary (33 ms)
+[ RUN      ] DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges
+[       OK ] DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges (50 ms)
+[----------] 33 tests from DataAccessLayerTest (1914 ms total)
+
+[----------] Global test environment tear-down
+[==========] 33 tests from 1 test suite ran. (1914 ms total)
+[  PASSED  ] 33 tests.

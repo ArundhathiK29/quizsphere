@@ -1,0 +1,135 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 57 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 23 tests from QuizEngineTests
+[ RUN      ] QuizEngineTests.CreatesQuizAndPersistsItsDetails
+[       OK ] QuizEngineTests.CreatesQuizAndPersistsItsDetails (0 ms)
+[ RUN      ] QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved
+[       OK ] QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved (0 ms)
+[ RUN      ] QuizEngineTests.AllowsScoringWithoutNegativeMarking
+[       OK ] QuizEngineTests.AllowsScoringWithoutNegativeMarking (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNonPositiveMarksPerQuestion
+[       OK ] QuizEngineTests.RejectsNonPositiveMarksPerQuestion (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNegativeNegativeMark
+[       OK ] QuizEngineTests.RejectsNegativeNegativeMark (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNonFiniteScoringValues
+[       OK ] QuizEngineTests.RejectsNonFiniteScoringValues (0 ms)
+[ RUN      ] QuizEngineTests.AdminCanCreateQuiz
+[       OK ] QuizEngineTests.AdminCanCreateQuiz (0 ms)
+[ RUN      ] QuizEngineTests.StudentCannotCreateQuiz
+[       OK ] QuizEngineTests.StudentCannotCreateQuiz (0 ms)
+[ RUN      ] QuizEngineTests.RejectsUnauthenticatedSession
+[       OK ] QuizEngineTests.RejectsUnauthenticatedSession (0 ms)
+[ RUN      ] QuizEngineTests.RejectsBlankTitle
+[       OK ] QuizEngineTests.RejectsBlankTitle (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNonPositiveQuestionCount
+[       OK ] QuizEngineTests.RejectsNonPositiveQuestionCount (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNonPositiveTimeLimit
+[       OK ] QuizEngineTests.RejectsNonPositiveTimeLimit (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNullOutputPointer
+[       OK ] QuizEngineTests.RejectsNullOutputPointer (0 ms)
+[ RUN      ] QuizEngineTests.RejectsInsufficientAvailableQuestions
+[       OK ] QuizEngineTests.RejectsInsufficientAvailableQuestions (0 ms)
+[ RUN      ] QuizEngineTests.AppliesSubjectAndDifficultyFilters
+[       OK ] QuizEngineTests.AppliesSubjectAndDifficultyFilters (0 ms)
+[ RUN      ] QuizEngineTests.DoesNotIncludeUnavailableQuestions
+[       OK ] QuizEngineTests.DoesNotIncludeUnavailableQuestions (0 ms)
+[ RUN      ] QuizEngineTests.ListsCreatedQuizzes
+[       OK ] QuizEngineTests.ListsCreatedQuizzes (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNullQuizListPointer
+[       OK ] QuizEngineTests.RejectsNullQuizListPointer (0 ms)
+[ RUN      ] QuizEngineTests.RejectsNullQuizPointerWhenRetrieving
+[       OK ] QuizEngineTests.RejectsNullQuizPointerWhenRetrieving (0 ms)
+[ RUN      ] QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving
+[       OK ] QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving (0 ms)
+[ RUN      ] QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject
+[       OK ] QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject (0 ms)
+[ RUN      ] QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions
+[       OK ] QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions (0 ms)
+[ RUN      ] QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving
+[       OK ] QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving (0 ms)
+[----------] 23 tests from QuizEngineTests (0 ms total)
+
+[----------] 4 tests from QuizEngineSqliteTest
+[ RUN      ] QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart
+[       OK ] QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart (61 ms)
+[ RUN      ] QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz
+[       OK ] QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz (57 ms)
+[ RUN      ] QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart
+[       OK ] QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart (59 ms)
+[ RUN      ] QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence
+[       OK ] QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence (69 ms)
+[----------] 4 tests from QuizEngineSqliteTest (248 ms total)
+
+[----------] 22 tests from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce
+[       OK ] QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce (52 ms)
+[ RUN      ] QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions
+[       OK ] QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions (185 ms)
+[ RUN      ] QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer
+[       OK ] QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer (99 ms)
+[ RUN      ] QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable
+[       OK ] QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable (52 ms)
+[ RUN      ] QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist
+[       OK ] QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist (65 ms)
+[ RUN      ] QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags
+[       OK ] QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags (101 ms)
+[ RUN      ] QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen
+[       OK ] QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen (76 ms)
+[ RUN      ] QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble
+[       OK ] QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble (106 ms)
+[ RUN      ] QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers
+[       OK ] QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers (72 ms)
+[ RUN      ] QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts
+[       OK ] QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts (73 ms)
+[ RUN      ] QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected
+[       OK ] QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected (66 ms)
+[ RUN      ] QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence
+[       OK ] QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence (79 ms)
+[ RUN      ] QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation
+[       OK ] QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation (56 ms)
+[ RUN      ] QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration
+[       OK ] QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration (51 ms)
+[ RUN      ] QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage
+[       OK ] QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage (65 ms)
+[ RUN      ] QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable
+[       OK ] QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable (91 ms)
+[ RUN      ] QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble
+[       OK ] QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble (85 ms)
+[ RUN      ] QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit
+[       OK ] QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit (76 ms)
+[ RUN      ] QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles
+[       OK ] QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles (71 ms)
+[ RUN      ] QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords
+[       OK ] QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords (68 ms)
+[ RUN      ] QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave
+[       OK ] QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave (73 ms)
+[ RUN      ] QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading
+[       OK ] QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading (57 ms)
+[----------] 22 tests from QuizAttemptTest (1730 ms total)
+
+[----------] 7 tests from TimedQuizTest
+[ RUN      ] TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices
+[       OK ] TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices (98 ms)
+[ RUN      ] TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline
+[       OK ] TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline (78 ms)
+[ RUN      ] TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation
+[       OK ] TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation (80 ms)
+[ RUN      ] TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer
+[       OK ] TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer (66 ms)
+[ RUN      ] TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart
+[       OK ] TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart (99 ms)
+[ RUN      ] TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce
+[       OK ] TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce (112 ms)
+[ RUN      ] TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules
+[       OK ] TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules (73 ms)
+[----------] 7 tests from TimedQuizTest (609 ms total)
+
+[----------] 1 test from TimedConsoleInputTest
+[ RUN      ] TimedConsoleInputTest.IncompleteInputDoesNotBlockDeadlineAndNextLineCanBeRead
+[       OK ] TimedConsoleInputTest.IncompleteInputDoesNotBlockDeadlineAndNextLineCanBeRead (80 ms)
+[----------] 1 test from TimedConsoleInputTest (80 ms total)
+
+[----------] Global test environment tear-down
+[==========] 57 tests from 5 test suites ran. (2670 ms total)
+[  PASSED  ] 57 tests.

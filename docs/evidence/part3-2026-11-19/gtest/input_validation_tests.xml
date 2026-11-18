@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="7" failures="0" disabled="0" errors="0" time="0.296" timestamp="2026-11-18T18:40:32.187" name="AllTests">
+  <testsuite name="InputValidation" tests="4" failures="0" disabled="0" skipped="0" errors="0" time="0.001" timestamp="2026-11-18T18:40:32.187">
+    <testcase name="ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="17" status="run" result="completed" time="0.001" timestamp="2026-11-18T18:40:32.187" classname="InputValidation" />
+    <testcase name="ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="28" status="run" result="completed" time="0." timestamp="2026-11-18T18:40:32.189" classname="InputValidation" />
+    <testcase name="ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="45" status="run" result="completed" time="0." timestamp="2026-11-18T18:40:32.189" classname="InputValidation" />
+    <testcase name="ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="139" status="run" result="completed" time="0." timestamp="2026-11-18T18:40:32.189" classname="InputValidation" />
+  </testsuite>
+  <testsuite name="SecurityMenus" tests="3" failures="0" disabled="0" skipped="0" errors="0" time="0.294" timestamp="2026-11-18T18:40:32.189">
+    <testcase name="ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="87" status="run" result="completed" time="0.044" timestamp="2026-11-18T18:40:32.189" classname="SecurityMenus" />
+    <testcase name="ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="102" status="run" result="completed" time="0.034" timestamp="2026-11-18T18:40:32.233" classname="SecurityMenus" />
+    <testcase name="ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/input_validation_tests.cpp" line="122" status="run" result="completed" time="0.216" timestamp="2026-11-18T18:40:32.267" classname="SecurityMenus" />
+  </testsuite>
+</testsuites>

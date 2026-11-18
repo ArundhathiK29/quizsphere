@@ -1,0 +1,8 @@
+{
+  "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "cpu": "12th Gen Intel(R) Core(TM) i5-1235U",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "gcovr": "gcovr 7.0\n\nCopyright (c) 2013-2024 the gcovr authors\nCopyright (c) 2013 Sandia Corporation.\nUnder the terms of Contract DE-AC04-94AL85000 with Sandia Corporation,\nthe U.S. Government retains certain rights in this software.",
+  "date_utc": "2026-11-18T18:40:55Z"
+}

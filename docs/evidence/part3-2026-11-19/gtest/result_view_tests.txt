@@ -1,0 +1,21 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from ResultView
+[ RUN      ] ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks
+[       OK ] ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks (0 ms)
+[ RUN      ] ResultView.ShowsTheTotalScoreAgainstMaxScore
+[       OK ] ResultView.ShowsTheTotalScoreAgainstMaxScore (0 ms)
+[ RUN      ] ResultView.FlagsAutoSubmittedAttempts
+[       OK ] ResultView.FlagsAutoSubmittedAttempts (0 ms)
+[ RUN      ] ResultView.HandlesAnEmptyBreakdownWithoutCrashing
+[       OK ] ResultView.HandlesAnEmptyBreakdownWithoutCrashing (0 ms)
+[ RUN      ] ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest
+[       OK ] ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest (0 ms)
+[ RUN      ] ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics
+[       OK ] ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics (0 ms)
+[----------] 6 tests from ResultView (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 6 tests.

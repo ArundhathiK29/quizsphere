@@ -1,0 +1,108 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 45 tests from 4 test suites.
+[----------] Global test environment set-up.
+[----------] 29 tests from QuestionBankFixture
+[ RUN      ] QuestionBankFixture.UT_QB_01_AddPersistReload
+[       OK ] QuestionBankFixture.UT_QB_01_AddPersistReload (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_02_EditQuestion
+[       OK ] QuestionBankFixture.UT_QB_02_EditQuestion (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation
+[       OK ] QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer
+[       OK ] QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_05_MissingSubjectTag
+[       OK ] QuestionBankFixture.UT_QB_05_MissingSubjectTag (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_06_FewerThanTwoOptions
+[       OK ] QuestionBankFixture.UT_QB_06_FewerThanTwoOptions (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_07_ValidCsvImport
+[       OK ] QuestionBankFixture.UT_QB_07_ValidCsvImport (4 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_08_CsvWithTwoInvalidRowsOfTen
+[       OK ] QuestionBankFixture.UT_QB_08_CsvWithTwoInvalidRowsOfTen (9 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_09_ExportFullAndFiltered
+[       OK ] QuestionBankFixture.UT_QB_09_ExportFullAndFiltered (4 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_10_DisableViaSetAvailability
+[       OK ] QuestionBankFixture.UT_QB_10_DisableViaSetAvailability (0 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_11_RejectedRowLoggingWithTimestampAndReason
+[       OK ] QuestionBankFixture.UT_QB_11_RejectedRowLoggingWithTimestampAndReason (3 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_DuplicateIdRejected
+[       OK ] QuestionBankFixture.EXTRA_DuplicateIdRejected (0 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_IdsAndSubjectsAreNormalisedAndMatchedCaseInsensitively
+[       OK ] QuestionBankFixture.EXTRA_IdsAndSubjectsAreNormalisedAndMatchedCaseInsensitively (0 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_ListAvailableFilterCombinations
+[       OK ] QuestionBankFixture.EXTRA_ListAvailableFilterCombinations (0 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_ValidationLimitsCountCharactersNotBytes
+[       OK ] QuestionBankFixture.EXTRA_ValidationLimitsCountCharactersNotBytes (0 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_ControlCharactersAndDuplicateOptionsRejected
+[       OK ] QuestionBankFixture.EXTRA_ControlCharactersAndDuplicateOptionsRejected (0 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_SpecialCharactersRoundTripTsvAndCsv
+[       OK ] QuestionBankFixture.EXTRA_SpecialCharactersRoundTripTsvAndCsv (5 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_FormulaInjectionIsNeutralisedOnExportAndLosslessOnImport
+[       OK ] QuestionBankFixture.EXTRA_FormulaInjectionIsNeutralisedOnExportAndLosslessOnImport (1 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_CsvBomCrlfMultilineAndFormulaImport
+[       OK ] QuestionBankFixture.EXTRA_CsvBomCrlfMultilineAndFormulaImport (1 ms)
+[ RUN      ] QuestionBankFixture.ST_SEC_05_StructuralCsvFailuresRejectWholeFileAndLeaveBankIdentical
+[       OK ] QuestionBankFixture.ST_SEC_05_StructuralCsvFailuresRejectWholeFileAndLeaveBankIdentical (45 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_CsvRowLevelProblemsAreSkippedAndReported
+[       OK ] QuestionBankFixture.EXTRA_CsvRowLevelProblemsAreSkippedAndReported (4 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_UnterminatedQuoteOnlyAffectsItsOwnRecord
+[       OK ] QuestionBankFixture.EXTRA_UnterminatedQuoteOnlyAffectsItsOwnRecord (1 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_TextAfterClosingQuoteIsMalformed
+[       OK ] QuestionBankFixture.EXTRA_TextAfterClosingQuoteIsMalformed (1 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_RowNumbersArePhysicalLines
+[       OK ] QuestionBankFixture.EXTRA_RowNumbersArePhysicalLines (1 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_LoadFailsOnMalformedStoredFileAndLeavesFileAlone
+[       OK ] QuestionBankFixture.EXTRA_LoadFailsOnMalformedStoredFileAndLeavesFileAlone (12 ms)
+[ RUN      ] QuestionBankFixture.EXTRA_StorageFileWithCrlfLoads
+[       OK ] QuestionBankFixture.EXTRA_StorageFileWithCrlfLoads (1 ms)
+[ RUN      ] QuestionBankFixture.ST_SEC_02_RoleDenialOnEveryFunction
+[       OK ] QuestionBankFixture.ST_SEC_02_RoleDenialOnEveryFunction (5 ms)
+[ RUN      ] QuestionBankFixture.ST_SEC_QuizViewNeverExposesCorrectAnswerToStudents
+[       OK ] QuestionBankFixture.ST_SEC_QuizViewNeverExposesCorrectAnswerToStudents (0 ms)
+[ RUN      ] QuestionBankFixture.ST_SEC_05_ReadOnlyDirectoryKeepsOriginalFileByteIdentical
+[       OK ] QuestionBankFixture.ST_SEC_05_ReadOnlyDirectoryKeepsOriginalFileByteIdentical (8 ms)
+[----------] 29 tests from QuestionBankFixture (118 ms total)
+
+[----------] 4 tests from QuestionBankUnit
+[ RUN      ] QuestionBankUnit.EXTRA_InUseQuestionBlocksUpdateAndDelete
+[       OK ] QuestionBankUnit.EXTRA_InUseQuestionBlocksUpdateAndDelete (0 ms)
+[ RUN      ] QuestionBankUnit.EXTRA_SaveFailureRollsBackEveryOperation
+[       OK ] QuestionBankUnit.EXTRA_SaveFailureRollsBackEveryOperation (0 ms)
+[ RUN      ] QuestionBankUnit.EXTRA_ImportPersistFailureRollsBackAndReportsError
+[       OK ] QuestionBankUnit.EXTRA_ImportPersistFailureRollsBackAndReportsError (0 ms)
+[ RUN      ] QuestionBankUnit.EXTRA_ImportLogFailureIsReportedNotSilent
+[       OK ] QuestionBankUnit.EXTRA_ImportLogFailureIsReportedNotSilent (0 ms)
+[----------] 4 tests from QuestionBankUnit (0 ms total)
+
+[----------] 11 tests from MenuFixture
+[ RUN      ] MenuFixture.ST_UI_InvalidOptionThenExit
+[       OK ] MenuFixture.ST_UI_InvalidOptionThenExit (0 ms)
+[ RUN      ] MenuFixture.ST_UI_EndOfInputExitsCleanly
+[       OK ] MenuFixture.ST_UI_EndOfInputExitsCleanly (0 ms)
+[ RUN      ] MenuFixture.ST_UI_DeleteNeedsYesAndNoKeepsQuestion
+[       OK ] MenuFixture.ST_UI_DeleteNeedsYesAndNoKeepsQuestion (0 ms)
+[ RUN      ] MenuFixture.ST_UI_AddQuestionThroughMenu
+[       OK ] MenuFixture.ST_UI_AddQuestionThroughMenu (0 ms)
+[ RUN      ] MenuFixture.ST_UI_InvalidDifficultyCancelsInsteadOfDefaultingToEasy
+[       OK ] MenuFixture.ST_UI_InvalidDifficultyCancelsInsteadOfDefaultingToEasy (0 ms)
+[ RUN      ] MenuFixture.ST_UI_CorrectOptionMustBeAWholeNumber
+[       OK ] MenuFixture.ST_UI_CorrectOptionMustBeAWholeNumber (0 ms)
+[ RUN      ] MenuFixture.ST_UI_EnableDisableUsesExactWordsAndConfirmation
+[       OK ] MenuFixture.ST_UI_EnableDisableUsesExactWordsAndConfirmation (0 ms)
+[ RUN      ] MenuFixture.ST_UI_StudentSeesNoActionsAndIsDenied
+[       OK ] MenuFixture.ST_UI_StudentSeesNoActionsAndIsDenied (0 ms)
+[ RUN      ] MenuFixture.ST_UI_ExportAsksBeforeOverwriting
+[       OK ] MenuFixture.ST_UI_ExportAsksBeforeOverwriting (5 ms)
+[ RUN      ] MenuFixture.ST_UI_ImportShowsSkippedRowsWithLineNumbers
+[       OK ] MenuFixture.ST_UI_ImportShowsSkippedRowsWithLineNumbers (3 ms)
+[ RUN      ] MenuFixture.ST_ADM_02_AdminCanImportAndExportThroughMenu
+[       OK ] MenuFixture.ST_ADM_02_AdminCanImportAndExportThroughMenu (3 ms)
+[----------] 11 tests from MenuFixture (15 ms total)
+
+[----------] 1 test from StorageParityTest
+[ RUN      ] StorageParityTest.UT_DAL_02_FlatFileAndSqliteReturnIdenticalQuestions
+[       OK ] StorageParityTest.UT_DAL_02_FlatFileAndSqliteReturnIdenticalQuestions (34 ms)
+[----------] 1 test from StorageParityTest (34 ms total)
+
+[----------] Global test environment tear-down
+[==========] 45 tests from 4 test suites ran. (168 ms total)
+[  PASSED  ] 45 tests.
