@@ -1,0 +1,102 @@
+Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.*:PasswordHasher.*:AuthEventLog.*:SqliteUserRepository.*:AuthRoleBoundary.*
+[==========] Running 40 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 10 tests from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.OpensAndCreatesSchema
+[       OK ] SqliteUserRepository.OpensAndCreatesSchema (8 ms)
+[ RUN      ] SqliteUserRepository.StoresAndReturnsEveryField
+[       OK ] SqliteUserRepository.StoresAndReturnsEveryField (0 ms)
+[ RUN      ] SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase
+[       OK ] SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase (0 ms)
+[ RUN      ] SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData
+[       OK ] SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData (0 ms)
+[ RUN      ] SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged
+[       OK ] SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged (0 ms)
+[ RUN      ] SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile
+[       OK ] SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile (23 ms)
+[ RUN      ] SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage
+[       OK ] SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage (7 ms)
+[ RUN      ] SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened
+[       OK ] SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened (0 ms)
+[ RUN      ] SqliteUserRepository.RegistrationAndLoginWorkEndToEnd
+[       OK ] SqliteUserRepository.RegistrationAndLoginWorkEndToEnd (437 ms)
+[ RUN      ] SqliteUserRepository.AdminLifecycleThroughTheRealRepository
+[       OK ] SqliteUserRepository.AdminLifecycleThroughTheRealRepository (281 ms)
+[----------] 10 tests from SqliteUserRepository (760 ms total)
+
+[----------] 4 tests from AuthEventLog
+[ RUN      ] AuthEventLog.FormatsUtcTimestamps
+[       OK ] AuthEventLog.FormatsUtcTimestamps (0 ms)
+[ RUN      ] AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword
+[       OK ] AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword (38 ms)
+[ RUN      ] AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField
+[       OK ] AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField (13 ms)
+[ RUN      ] AuthEventLog.AppendsRatherThanOverwrites
+[       OK ] AuthEventLog.AppendsRatherThanOverwrites (8 ms)
+[----------] 4 tests from AuthEventLog (61 ms total)
+
+[----------] 1 test from AuthRoleBoundary
+[ RUN      ] AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions
+[       OK ] AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions (3 ms)
+[----------] 1 test from AuthRoleBoundary (3 ms total)
+
+[----------] 19 tests from Auth
+[ RUN      ] Auth.UT_AUTH_02_RegistersStudentAndInstructor
+[       OK ] Auth.UT_AUTH_02_RegistersStudentAndInstructor (194 ms)
+[ RUN      ] Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively
+[       OK ] Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively (1 ms)
+[ RUN      ] Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected
+[       OK ] Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected (0 ms)
+[ RUN      ] Auth.UT_AUTH_11_PasswordPolicy
+[       OK ] Auth.UT_AUTH_11_PasswordPolicy (0 ms)
+[ RUN      ] Auth.UT_AUTH_12_UsernameValidation
+[       OK ] Auth.UT_AUTH_12_UsernameValidation (0 ms)
+[ RUN      ] Auth.RegistrationNeverStoresThePlaintextPassword
+[       OK ] Auth.RegistrationNeverStoresThePlaintextPassword (87 ms)
+[ RUN      ] Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole
+[       OK ] Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole (4 ms)
+[ RUN      ] Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials
+[       OK ] Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials (179 ms)
+[ RUN      ] Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword
+[       OK ] Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword (4 ms)
+[ RUN      ] Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden
+[       OK ] Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden (1 ms)
+[ RUN      ] Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater
+[       OK ] Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater (7 ms)
+[ RUN      ] Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter
+[       OK ] Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter (10 ms)
+[ RUN      ] Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword
+[       OK ] Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword (96 ms)
+[ RUN      ] Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce
+[       OK ] Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce (187 ms)
+[ RUN      ] Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly
+[       OK ] Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly (4 ms)
+[ RUN      ] Auth.UT_AUTH_08_AdminManagesUsers
+[       OK ] Auth.UT_AUTH_08_AdminManagesUsers (98 ms)
+[ RUN      ] Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot
+[       OK ] Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot (184 ms)
+[ RUN      ] Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut
+[       OK ] Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut (2 ms)
+[ RUN      ] Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp
+[       OK ] Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp (0 ms)
+[----------] 19 tests from Auth (1064 ms total)
+
+[----------] 6 tests from PasswordHasher
+[ RUN      ] PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2
+[       OK ] PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2 (1 ms)
+[ RUN      ] PasswordHasher.SameSecretGetsDifferentSalts
+[       OK ] PasswordHasher.SameSecretGetsDifferentSalts (5 ms)
+[ RUN      ] PasswordHasher.RejectsWrongPassword
+[       OK ] PasswordHasher.RejectsWrongPassword (4 ms)
+[ RUN      ] PasswordHasher.EmbeddedNulBytesAreSignificant
+[       OK ] PasswordHasher.EmbeddedNulBytesAreSignificant (4 ms)
+[ RUN      ] PasswordHasher.RefusesIterationCountsOutsidePolicy
+[       OK ] PasswordHasher.RefusesIterationCountsOutsidePolicy (0 ms)
+[ RUN      ] PasswordHasher.RejectsMalformedStoredValues
+[       OK ] PasswordHasher.RejectsMalformedStoredValues (1 ms)
+[----------] 6 tests from PasswordHasher (17 ms total)
+
+[----------] Global test environment tear-down
+[==========] 40 tests from 5 test suites ran. (1907 ms total)
+[  PASSED  ] 40 tests.

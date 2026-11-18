@@ -1,0 +1,457 @@
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/predefined_ops.h'
+Lines executed:100.00% of 12
+No branches
+Calls executed:100.00% of 3
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator.h'
+Lines executed:66.67% of 9
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/move.h'
+Lines executed:33.33% of 3
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/new_allocator.h'
+Lines executed:9.09% of 11
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+Calls executed:0.00% of 3
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_algobase.h'
+Lines executed:42.86% of 7
+Branches executed:75.00% of 8
+Taken at least once:75.00% of 8
+Calls executed:100.00% of 1
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/ptr_traits.h'
+Lines executed:0.00% of 4
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_algo.h'
+Lines executed:100.00% of 8
+Branches executed:100.00% of 2
+Taken at least once:50.00% of 2
+Calls executed:100.00% of 5
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.h'
+Lines executed:0.00% of 160
+Branches executed:0.00% of 64
+Taken at least once:0.00% of 64
+Calls executed:0.00% of 111
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/alloc_traits.h'
+Lines executed:0.00% of 6
+No branches
+Calls executed:0.00% of 2
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.tcc'
+Lines executed:0.00% of 60
+Branches executed:0.00% of 34
+Taken at least once:0.00% of 34
+Calls executed:0.00% of 46
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/ext/alloc_traits.h'
+Lines executed:0.00% of 4
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/allocator.h'
+Lines executed:50.00% of 4
+No branches
+Calls executed:30.00% of 10
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/chrono.h'
+Lines executed:0.00% of 13
+No branches
+Calls executed:0.00% of 3
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_types.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_funcs.h'
+Lines executed:0.00% of 3
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/char_traits.h'
+Lines executed:0.00% of 18
+Branches executed:0.00% of 6
+Taken at least once:0.00% of 6
+Calls executed:0.00% of 2
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/std_function.h'
+Lines executed:85.71% of 7
+Branches executed:100.00% of 2
+Taken at least once:50.00% of 2
+Calls executed:75.00% of 4
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/charconv.h'
+Lines executed:0.00% of 26
+Branches executed:0.00% of 12
+Taken at least once:0.00% of 12
+No calls
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/src/auth.cpp'
+Lines executed:92.16% of 204
+Branches executed:97.76% of 268
+Taken at least once:74.63% of 268
+Calls executed:88.03% of 117
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/include/common_types.hpp'
+No executable lines
+No branches
+No calls
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/include/auth.hpp'
+No executable lines
+No branches
+No calls
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/include/user_repository.hpp'
+No executable lines
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++config.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+Creating 'auth.cpp.gcov.json.gz'
+Lines executed:40.46% of 561
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_function.h'
+Lines executed:0.00% of 4
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++config.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_construct.h'
+Lines executed:100.00% of 5
+Branches executed:100.00% of 2
+Taken at least once:50.00% of 2
+Calls executed:50.00% of 2
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_algobase.h'
+Lines executed:45.83% of 24
+Branches executed:40.00% of 10
+Taken at least once:20.00% of 10
+Calls executed:40.00% of 5
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.tcc'
+Lines executed:16.24% of 117
+Branches executed:10.53% of 76
+Taken at least once:6.58% of 76
+Calls executed:10.13% of 79
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.h'
+Lines executed:7.55% of 212
+Branches executed:5.00% of 80
+Taken at least once:3.75% of 80
+Calls executed:7.95% of 151
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_uninitialized.h'
+Lines executed:96.43% of 28
+Branches executed:100.00% of 6
+Taken at least once:50.00% of 6
+Calls executed:100.00% of 5
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/move.h'
+Lines executed:75.00% of 4
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_types.h'
+Lines executed:100.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/new_allocator.h'
+Lines executed:57.89% of 19
+Branches executed:50.00% of 8
+Taken at least once:25.00% of 8
+Calls executed:30.00% of 10
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator.h'
+Lines executed:90.91% of 11
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_vector.h'
+Lines executed:84.96% of 133
+Branches executed:71.43% of 28
+Taken at least once:39.29% of 28
+Calls executed:69.35% of 62
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/ptr_traits.h'
+Lines executed:0.00% of 5
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/allocator.h'
+Lines executed:100.00% of 3
+No branches
+Calls executed:44.44% of 9
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/vector.tcc'
+Lines executed:46.55% of 58
+Branches executed:75.00% of 16
+Taken at least once:37.50% of 16
+Calls executed:45.16% of 31
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/alloc_traits.h'
+Lines executed:87.50% of 8
+No branches
+Calls executed:50.00% of 8
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_funcs.h'
+Lines executed:0.00% of 3
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/char_traits.h'
+Lines executed:0.00% of 47
+Branches executed:0.00% of 26
+Taken at least once:0.00% of 26
+Calls executed:0.00% of 6
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/ext/alloc_traits.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/charconv.h'
+Lines executed:100.00% of 26
+Branches executed:100.00% of 12
+Taken at least once:83.33% of 12
+No calls
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/src/password_hasher.cpp'
+Lines executed:90.48% of 84
+Branches executed:95.71% of 140
+Taken at least once:61.43% of 140
+Calls executed:84.21% of 114
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/limits'
+Lines executed:100.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/new'
+Lines executed:0.00% of 4
+No branches
+No calls
+
+Creating 'password_hasher.cpp.gcov.json.gz'
+Lines executed:44.56% of 799
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/unique_ptr.h'
+Lines executed:87.10% of 31
+Branches executed:60.00% of 10
+Taken at least once:30.00% of 10
+Calls executed:79.17% of 24
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/tuple'
+Lines executed:100.00% of 35
+No branches
+Calls executed:100.00% of 15
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/move.h'
+Lines executed:50.00% of 4
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/new_allocator.h'
+Lines executed:9.09% of 11
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+Calls executed:0.00% of 3
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/ptr_traits.h'
+Lines executed:0.00% of 4
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.h'
+Lines executed:0.00% of 85
+Branches executed:0.00% of 20
+Taken at least once:0.00% of 20
+Calls executed:0.00% of 50
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/alloc_traits.h'
+Lines executed:0.00% of 4
+No branches
+Calls executed:0.00% of 2
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.tcc'
+Lines executed:0.00% of 27
+Branches executed:0.00% of 18
+Taken at least once:0.00% of 18
+Calls executed:0.00% of 22
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/src/auth_event_log.cpp'
+Lines executed:94.12% of 17
+Branches executed:90.48% of 42
+Taken at least once:50.00% of 42
+Calls executed:84.62% of 26
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_types.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_funcs.h'
+Lines executed:0.00% of 3
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/allocator.h'
+Lines executed:66.67% of 3
+No branches
+Calls executed:28.57% of 7
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/char_traits.h'
+Lines executed:0.00% of 18
+Branches executed:0.00% of 6
+Taken at least once:0.00% of 6
+Calls executed:0.00% of 2
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/ext/alloc_traits.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/include/auth_event_log.hpp'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_algobase.h'
+Lines executed:0.00% of 4
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++config.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+Creating 'auth_event_log.cpp.gcov.json.gz'
+Lines executed:33.07% of 251
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/new_allocator.h'
+Lines executed:9.09% of 11
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+Calls executed:0.00% of 3
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_function.h'
+Lines executed:0.00% of 4
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++config.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.h'
+Lines executed:0.00% of 190
+Branches executed:0.00% of 70
+Taken at least once:0.00% of 70
+Calls executed:0.00% of 136
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/basic_string.tcc'
+Lines executed:0.00% of 107
+Branches executed:0.00% of 72
+Taken at least once:0.00% of 72
+Calls executed:0.00% of 76
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/ptr_traits.h'
+Lines executed:0.00% of 4
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/move.h'
+Lines executed:0.00% of 3
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/alloc_traits.h'
+Lines executed:0.00% of 4
+No branches
+Calls executed:0.00% of 2
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_algobase.h'
+Lines executed:0.00% of 4
+Branches executed:0.00% of 2
+Taken at least once:0.00% of 2
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_types.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/stl_iterator_base_funcs.h'
+Lines executed:0.00% of 3
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/allocator.h'
+Lines executed:66.67% of 3
+No branches
+Calls executed:42.86% of 7
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/char_traits.h'
+Lines executed:0.00% of 36
+Branches executed:0.00% of 18
+Taken at least once:0.00% of 18
+Calls executed:0.00% of 4
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/ext/alloc_traits.h'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+File 'C:/msys64/mingw64/include/c++/15.1.0/bits/charconv.h'
+Lines executed:0.00% of 26
+Branches executed:0.00% of 12
+Taken at least once:0.00% of 12
+No calls
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/src/sqlite_user_repository.cpp'
+Lines executed:93.57% of 171
+Branches executed:95.83% of 240
+Taken at least once:53.75% of 240
+Calls executed:84.24% of 165
+
+File 'C:/Users/karib/Documents/Codex/2026-10-28/so/work/bl29/source/include/user_repository.hpp'
+Lines executed:0.00% of 1
+No branches
+No calls
+
+Creating 'sqlite_user_repository.cpp.gcov.json.gz'
+Lines executed:28.55% of 571

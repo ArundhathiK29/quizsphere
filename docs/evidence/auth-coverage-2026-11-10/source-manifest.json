@@ -1,0 +1,210 @@
+{
+  "base_commit": "8615120cf193294786b49fbe39a63f13e55b9864",
+  "note": "Base main plus boundary test and CMake/coverage tooling changes in this PR; hashes describe the reviewed inputs, not an unmodified base tree.",
+  "files": [
+    {
+      "path": "src/analytics_module.cpp",
+      "git_blob_sha": "2fd45af3617efeb06511e4eaf883f6d653a4d49f"
+    },
+    {
+      "path": "src/auth.cpp",
+      "git_blob_sha": "1be0ed5eff38f51d143eeef9b555b5d1b581a47f"
+    },
+    {
+      "path": "src/auth_event_log.cpp",
+      "git_blob_sha": "6ca863aec3641a5f18b6c3c916e72fbb251c6931"
+    },
+    {
+      "path": "src/common_types.cpp",
+      "git_blob_sha": "8efbf3e4dea6436350c02e8cb68789a78fc78878"
+    },
+    {
+      "path": "src/console_menu.cpp",
+      "git_blob_sha": "e96fb12c4b172166697d9548e1f7c0ce7fc11815"
+    },
+    {
+      "path": "src/data_access_layer.cpp",
+      "git_blob_sha": "5079ac76d67cfe1c95a9c71230c46f3c624183ce"
+    },
+    {
+      "path": "src/grading_module.cpp",
+      "git_blob_sha": "d16a8b75b630a3577216502b0dac7ce9282c4ba6"
+    },
+    {
+      "path": "src/import_logger.cpp",
+      "git_blob_sha": "c2ec1a3e134457b4684d73c3d2b9c290a420ed4c"
+    },
+    {
+      "path": "src/main.cpp",
+      "git_blob_sha": "c5822ccd435dd7eb88abb114e865b70f7ccb78c6"
+    },
+    {
+      "path": "src/password_hasher.cpp",
+      "git_blob_sha": "bf0a969c7be1679fbad3d5becfab018b552e2269"
+    },
+    {
+      "path": "src/question_bank.cpp",
+      "git_blob_sha": "63310d04c427c145295c5dce458538ca408fa506"
+    },
+    {
+      "path": "src/question_repository_file.cpp",
+      "git_blob_sha": "e2aa2dc10440030a0ea6302ef4876c2c722a46c9"
+    },
+    {
+      "path": "src/quiz_attempt.cpp",
+      "git_blob_sha": "bff999797f8a19c63d8c216aac1b4f54d3239669"
+    },
+    {
+      "path": "src/quiz_console.cpp",
+      "git_blob_sha": "5e949b08fb1b9b12eb7ea798cecad451afd8fc80"
+    },
+    {
+      "path": "src/quiz_engine.cpp",
+      "git_blob_sha": "387833cb3a6c2b8a27c51c301535600e41939c8a"
+    },
+    {
+      "path": "src/sqlite_user_repository.cpp",
+      "git_blob_sha": "2ece13f7c1d1241bbbae47c5733f273b95b05fff"
+    },
+    {
+      "path": "include/analytics_module.hpp",
+      "git_blob_sha": "7243918f13f3d221a463d56977c8a25262f89698"
+    },
+    {
+      "path": "include/auth.hpp",
+      "git_blob_sha": "2eb6fe06585cb6fbee4bd6f8b96d4b0bee4fff18"
+    },
+    {
+      "path": "include/auth_event_log.hpp",
+      "git_blob_sha": "33f369abeff411658c488c0f0535be8d2c6f98f9"
+    },
+    {
+      "path": "include/common_types.hpp",
+      "git_blob_sha": "56c972dbaf8ecf2b595167289c996ca6f2be81c6"
+    },
+    {
+      "path": "include/console_menu.hpp",
+      "git_blob_sha": "bd54e86b4560b2c13e96826b095556ef08dc0e39"
+    },
+    {
+      "path": "include/data_access_layer.hpp",
+      "git_blob_sha": "1c82f29cb7de3872e7e7dbecdf07064ded0c38f8"
+    },
+    {
+      "path": "include/grading_module.hpp",
+      "git_blob_sha": "500000d9b67fd99106a2885b40c7928a10c53568"
+    },
+    {
+      "path": "include/import_logger.hpp",
+      "git_blob_sha": "236861e7cfd091f4047cc01a3afb0cae524fbc89"
+    },
+    {
+      "path": "include/options_codec.hpp",
+      "git_blob_sha": "619198afa7669da5b13010114f7a43fbf9221bef"
+    },
+    {
+      "path": "include/password_hasher.hpp",
+      "git_blob_sha": "ff60ca6d8fa6eac0988c062319b171a61c668495"
+    },
+    {
+      "path": "include/question_bank.hpp",
+      "git_blob_sha": "4df216ee823f2b357a49dddb78e5fdec52b3ca6b"
+    },
+    {
+      "path": "include/question_repository.hpp",
+      "git_blob_sha": "64e40478f46e1f2906071b259198572dae893fd7"
+    },
+    {
+      "path": "include/question_types.hpp",
+      "git_blob_sha": "0649ef65ade37600f6edaf6da58ee0a36dc6a4ca"
+    },
+    {
+      "path": "include/quiz_attempt.hpp",
+      "git_blob_sha": "b8b5680577fe1350a94b16b50f883ce099688b15"
+    },
+    {
+      "path": "include/quiz_console.hpp",
+      "git_blob_sha": "0ab8ce0ecf7dd64bdcfbaabce3fd20da0aff7304"
+    },
+    {
+      "path": "include/quiz_engine.hpp",
+      "git_blob_sha": "b5b33ec1845d126ccc27017eaf9a3782874effc1"
+    },
+    {
+      "path": "include/quiz_types.hpp",
+      "git_blob_sha": "489f4789b3e0d28810478bcb85d82c9b689bf26b"
+    },
+    {
+      "path": "include/sqlite_user_repository.hpp",
+      "git_blob_sha": "f9bef4ca1e20254492a31796361fd60e3c2e7c3f"
+    },
+    {
+      "path": "include/user_repository.hpp",
+      "git_blob_sha": "564972f757168874c9e1220b05d610158e8f7351"
+    },
+    {
+      "path": "tests/auth_event_log_tests.cpp",
+      "git_blob_sha": "9dfd31c64ea9a1228fd0dec28150f914485bd460"
+    },
+    {
+      "path": "tests/auth_role_boundary_tests.cpp",
+      "git_blob_sha": "f63b0a7bc9870aaaf9b96f0d030a9fb75359c108"
+    },
+    {
+      "path": "tests/auth_tests.cpp",
+      "git_blob_sha": "8b5587772e688b33a3f2623e676a4e1427b29541"
+    },
+    {
+      "path": "tests/data_access_layer_tests.cpp",
+      "git_blob_sha": "fa7213a53e9b2389151b188efccd661cc6286fa8"
+    },
+    {
+      "path": "tests/grading_module_sqlite_integration_tests.cpp",
+      "git_blob_sha": "03e2f5817f812606ceaa698dfebcea3ee833cd8a"
+    },
+    {
+      "path": "tests/grading_module_tests.cpp",
+      "git_blob_sha": "6b1f4c194a2b34dbcec5c4a224804496d91157bd"
+    },
+    {
+      "path": "tests/module_interfaces_tests.cpp",
+      "git_blob_sha": "c3394d8d269f5bfa96e13ed42ad33d1d2d4f0f19"
+    },
+    {
+      "path": "tests/password_hasher_tests.cpp",
+      "git_blob_sha": "9573bd1e21e3775e677e55d334f008f1a72dce00"
+    },
+    {
+      "path": "tests/question_bank_tests.cpp",
+      "git_blob_sha": "d15f3bd2d2db8327be0c1da36f15469529517b72"
+    },
+    {
+      "path": "tests/quiz_attempt_tests.cpp",
+      "git_blob_sha": "79d4fec6c74ae640e91ac4fd81fbf009d49e4a6f"
+    },
+    {
+      "path": "tests/quiz_engine_sqlite_tests.cpp",
+      "git_blob_sha": "59eacccccdbc5ee4a1614ae0232d79cb2908cfd3"
+    },
+    {
+      "path": "tests/quiz_engine_tests.cpp",
+      "git_blob_sha": "8717c816ee3f7edb6b3043892abc1f4dabbee3a2"
+    },
+    {
+      "path": "tests/sqlite_user_repository_tests.cpp",
+      "git_blob_sha": "c548182b8673be7709a7776eb386ee8d682b76ee"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "git_blob_sha": "763c2d5384a90a7c0d0bf9c4b7dc34b2eb972c1c"
+    },
+    {
+      "path": "scripts/auth_coverage.py",
+      "git_blob_sha": "08423ebdeddc1e65000838b152e1e167399c0cfe"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "git_blob_sha": "4f7b78554a64cb29eaf19030a58a4291833acf44"
+    }
+  ]
+}
