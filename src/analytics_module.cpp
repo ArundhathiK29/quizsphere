@@ -206,14 +206,126 @@ public:
         return {ErrorCode::OK, "Difficulty index computed."};
     }
 
-    Result topicBreakdown(const std::string&, const std::string&, std::vector<TopicScore>*) const override {
-        return notImplemented("AnalyticsModule::topicBreakdown");
+    // BL-41 / FR-020: the student's own graded topic rows, exactly as grading stored them.
+    Result topicBreakdown(const std::string& quiz_id, const std::string& student_id,
+                          std::vector<TopicScore>* topics) const override {
+        if (topics == nullptr) {
+            return {ErrorCode::VALIDATION_FAILED, "topics must not be null."};
+        }
+        GradeReport report;
+        const Result found = findGradedReport(quiz_id, student_id, &report);
+        if (!found.ok()) {
+            return found;
+        }
+        *topics = report.topic_breakdown;
+        return {ErrorCode::OK, "Topic breakdown retrieved."};
+    }
+
+    // BL-41 / FR-020: student vs class per topic, weakest first.
+    Result topicAnalytics(const Session& session, const std::string& quiz_id, const std::string& student_id,
+                          std::vector<TopicAnalytics>* topics) const override {
+        if (topics == nullptr) {
+            return {ErrorCode::VALIDATION_FAILED, "topics must not be null."};
+        }
+        if (session.role == Role::Student) {
+            if (session.user_id != student_id) {
+                return {ErrorCode::NOT_AUTHORIZED, "Students may only view their own topic analytics."};
+            }
+        } else if (session.role != Role::Instructor && session.role != Role::Admin) {
+            return {ErrorCode::NOT_AUTHORIZED, "Not authorized."};
+        }
+
+        std::vector<TopicScore> own;
+        const Result own_result = topicBreakdown(quiz_id, student_id, &own);
+        if (!own_result.ok()) {
+            return own_result;
+        }
+
+        // Class average: mean percent-correct per topic over every GRADED attempt on this quiz
+        // (the student's own attempt included). Practice attempts never count (BR-4).
+        std::vector<Attempt> attempts;
+        const Result list_result = attempts_.listGradedAttempts(quiz_id, &attempts);
+        if (!list_result.ok()) {
+            return list_result;
+        }
+        std::unordered_map<std::string, std::pair<double, int>> class_sum;  // tag -> (sum of %, count)
+        for (const Attempt& attempt : attempts) {
+            if (attempt.mode != QuizMode::Graded) {
+                continue;
+            }
+            GradeReport report;
+            const Result report_result = attempts_.findReportForAttempt(attempt.attempt_id, &report);
+            if (!report_result.ok()) {
+                return report_result;
+            }
+            for (const TopicScore& topic : report.topic_breakdown) {
+                if (topic.total <= 0) {
+                    continue;
+                }
+                auto& slot = class_sum[topic.subject_tag];
+                slot.first += percent(topic.correct, topic.total);
+                slot.second += 1;
+            }
+        }
+
+        topics->clear();
+        topics->reserve(own.size());
+        for (const TopicScore& topic : own) {
+            TopicAnalytics row;
+            row.subject_tag = topic.subject_tag;
+            row.student_correct = topic.correct;
+            row.student_total = topic.total;
+            row.student_marks = topic.marks;
+            row.student_percent = percent(topic.correct, topic.total);
+            const auto it = class_sum.find(topic.subject_tag);
+            if (it != class_sum.end() && it->second.second > 0) {
+                row.class_average_percent = it->second.first / it->second.second;
+                row.class_attempts = it->second.second;
+            }
+            topics->push_back(row);
+        }
+        std::stable_sort(topics->begin(), topics->end(), [](const TopicAnalytics& a, const TopicAnalytics& b) {
+            return a.student_percent < b.student_percent;
+        });
+        if (!topics->empty()) {
+            const double lowest = topics->front().student_percent;
+            for (TopicAnalytics& row : *topics) {
+                row.weakest = row.student_percent == lowest;
+            }
+        }
+        return {ErrorCode::OK, "Topic analytics computed."};
     }
     Result exportTranscriptCsv(const Session&, const std::string&, const std::string&, bool) const override {
         return notImplemented("AnalyticsModule::exportTranscriptCsv");
     }
 
 private:
+    static double percent(int correct, int total) {
+        return total <= 0 ? 0.0 : 100.0 * static_cast<double>(correct) / static_cast<double>(total);
+    }
+
+    // The GradeReport of the student's GRADED attempt on quiz_id, looked up by exact attempt id
+    // (findReport(quiz, student) returns the latest report, which could be a retained practice one).
+    Result findGradedReport(const std::string& quiz_id, const std::string& student_id, GradeReport* report) const {
+        Quiz quiz;
+        const Result quiz_result = quizzes_.findQuiz(quiz_id, &quiz);
+        if (!quiz_result.ok()) {
+            return quiz_result;
+        }
+        std::vector<Attempt> attempts;
+        const Result list_result = attempts_.listGradedAttempts(quiz_id, &attempts);
+        if (!list_result.ok()) {
+            return list_result;
+        }
+        const auto graded = std::find_if(attempts.begin(), attempts.end(), [&student_id](const Attempt& attempt) {
+            return attempt.mode == QuizMode::Graded && attempt.student_id == student_id;
+        });
+        if (graded == attempts.end()) {
+            return {ErrorCode::ATTEMPT_NOT_FOUND, "No graded result for this student on this quiz."};
+        }
+        return attempts_.findReportForAttempt(graded->attempt_id, report);
+    }
+
     QuestionBank& question_bank_;  // answer key for difficultyIndex()
     QuizRepository& quizzes_;
     AttemptRepository& attempts_;

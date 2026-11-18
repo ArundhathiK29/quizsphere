@@ -12,6 +12,18 @@
 // Analytics Module (BL-24, BL-26, BL-41, BL-42; owner: see backlog).
 namespace quizsphere {
 
+// BL-41 / FR-020: one topic of a student's graded attempt on a quiz, next to the class average.
+struct TopicAnalytics {
+    std::string subject_tag;
+    int student_correct{0};
+    int student_total{0};
+    double student_marks{0.0};
+    double student_percent{0.0};        // 100 * student_correct / student_total
+    double class_average_percent{0.0};  // mean of that percentage over every GRADED attempt on the quiz
+    int class_attempts{0};              // how many graded attempts the class average is over
+    bool weakest{false};                // true for the topic(s) with the lowest student_percent
+};
+
 class AnalyticsModule {
 public:
     virtual ~AnalyticsModule() = default;
@@ -32,10 +44,20 @@ public:
     // FR-019: percentage (0-100) of graded attempts that answered the question correctly.
     virtual Result difficultyIndex(const std::string& question_id, double* percent_correct) const = 0;
 
-    // FR-020: per-topic breakdown and weak topics for one student's graded attempt.
+    // FR-020: per-topic breakdown of one student's graded attempt on a quiz (the TopicScore rows
+    // the Grading Module stored in that attempt's GradeReport). ATTEMPT_NOT_FOUND if the student
+    // has no graded result for the quiz. Practice attempts never have one (BR-4).
     virtual Result topicBreakdown(const std::string& quiz_id,
                                   const std::string& student_id,
                                   std::vector<TopicScore>* topics) const = 0;
+
+    // BL-41 / FR-020: topicBreakdown() plus the class average per topic (over every graded
+    // attempt on the quiz) with the weakest topic(s) flagged, sorted weakest first. A Student may
+    // only request their own (NOT_AUTHORIZED otherwise); Instructor/Admin may request anyone's.
+    virtual Result topicAnalytics(const Session& session,
+                                  const std::string& quiz_id,
+                                  const std::string& student_id,
+                                  std::vector<TopicAnalytics>* topics) const = 0;
 
     // FR-021: per-student result transcript as CSV. Student may export their own, Instructor/Admin anyone's.
     virtual Result exportTranscriptCsv(const Session& session,

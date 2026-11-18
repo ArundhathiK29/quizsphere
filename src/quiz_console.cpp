@@ -108,8 +108,19 @@ void runQuizCreation(const Session& session, QuizEngine& engine, std::istream& i
     else output << "Quiz created: " << quiz.quiz_id << '\n';
 }
 
+// BL-41: per-topic summary under the itemised result; silently skipped when analytics is absent
+// or the topic lookup fails (the result itself was already shown).
+void printTopicSummary(const AnalyticsModule* analytics, const Session& student, const std::string& quiz_id,
+                       std::ostream& output) {
+    if (analytics == nullptr) return;
+    std::vector<TopicAnalytics> topics;
+    if (analytics->topicAnalytics(student, quiz_id, student.user_id, &topics).ok())
+        output << formatTopicSummary(topics);
+}
+
 void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& bank,
-                     std::istream& input, std::ostream& output, TimedLineReader timed_read) {
+                     std::istream& input, std::ostream& output, TimedLineReader timed_read,
+                     const AnalyticsModule* analytics) {
     if (student.role!=Role::Student) { output << "Not authorized: attempts require a Student.\n"; return; }
     std::string id, mode;
     if (!chooseQuiz(engine,input,output,&id)) return;
@@ -126,6 +137,7 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
         const auto submitted = session.submitExpired(&report);
         if (submitted.ok() || (submitted.code == ErrorCode::TIME_EXPIRED && report.auto_submitted)) {
             output << "\nTime expired. Attempt auto-submitted.\n" << formatItemisedResult(report, bank);
+            if (graded) printTopicSummary(analytics, student, id, output);
         } else {
             output << "\nTime expired. Automatic submission failed.\n";
             outcome(submitted, output);
@@ -184,7 +196,7 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
             if (result.ok() || (result.code == ErrorCode::TIME_EXPIRED && report.auto_submitted)) {
                 if (report.auto_submitted) output << "Time expired. Attempt auto-submitted.\n";
                 if (mode=="p") output << "Practice completed. No result stored.\n";
-                else output << formatItemisedResult(report,bank);
+                else { output << formatItemisedResult(report,bank); printTopicSummary(analytics,student,id,output); }
                 return;
             }
             if (result.code==ErrorCode::NOT_IMPLEMENTED) {
@@ -204,7 +216,8 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
 }
 
 void runQuizResult(const Session& student, const QuizEngine& engine, const GradingModule& grading,
-                   const QuestionBank& bank, std::istream& input, std::ostream& output) {
+                   const QuestionBank& bank, std::istream& input, std::ostream& output,
+                   const AnalyticsModule* analytics) {
     if (student.role!=Role::Student) { output << "Not authorized: view your own results as a Student.\n"; return; }
     std::string id;
     if (!chooseQuiz(engine,input,output,&id)) return;
@@ -213,7 +226,7 @@ void runQuizResult(const Session& student, const QuizEngine& engine, const Gradi
     if (result.code==ErrorCode::NOT_IMPLEMENTED)
         output << "Results are not available yet. Your saved attempt can be resumed from Attempt a quiz.\n";
     else if (!result.ok()) outcome(result,output);
-    else output << formatItemisedResult(report,bank);
+    else { output << formatItemisedResult(report,bank); printTopicSummary(analytics,student,id,output); }
 }
 
 }  // namespace quizsphere

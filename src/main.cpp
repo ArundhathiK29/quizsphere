@@ -175,9 +175,10 @@ void runSession(const quizsphere::Session& session, const std::string& username,
             auto menu = quizsphere::createConsoleMenu(session, username, bank, std::cin, std::cout);
             menu->run();
         } else if (is_student && choice == "1") {
-            quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout, quizsphere::readConsoleLineUntil);
+            quizsphere::runQuizAttempts(session, engine, bank, std::cin, std::cout, quizsphere::readConsoleLineUntil,
+                                        &analytics);
         } else if (is_student && choice == "2") {
-            quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout);
+            quizsphere::runQuizResult(session, engine, grading, bank, std::cin, std::cout, &analytics);
         } else if (is_student && choice == "3") {
             quizsphere::runStudentRankings(session, analytics, quizzes, std::cin, std::cout);
         } else if (!is_student && !is_admin && choice == "2") {

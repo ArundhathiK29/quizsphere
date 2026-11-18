@@ -75,4 +75,41 @@ TEST(ResultView, HandlesAnEmptyBreakdownWithoutCrashing) {
     EXPECT_NE(text.find("Score: 0.00 / 0.00"), std::string::npos);
 }
 
+// BL-41 / FR-020: the per-topic section under the itemised result.
+TEST(ResultView, TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest) {
+    std::vector<TopicAnalytics> topics;
+    TopicAnalytics science;
+    science.subject_tag = "Science";
+    science.student_correct = 0;
+    science.student_total = 1;
+    science.student_percent = 0.0;
+    science.class_average_percent = 50.0;
+    science.weakest = true;
+    TopicAnalytics math;
+    math.subject_tag = "Math";
+    math.student_correct = 2;
+    math.student_total = 2;
+    math.student_percent = 100.0;
+    math.class_average_percent = 75.0;
+    topics = {science, math};
+
+    const std::string text = formatTopicSummary(topics);
+    EXPECT_NE(text.find("Topics (you vs class average):"), std::string::npos);
+    EXPECT_NE(text.find("  Science: 0/1 correct (0.0%), class average 50.0%  <- weakest"), std::string::npos);
+    EXPECT_NE(text.find("  Math: 2/2 correct (100.0%), class average 75.0%\n"), std::string::npos);
+    EXPECT_NE(text.find("Weakest topic: Science\n"), std::string::npos);
+}
+
+TEST(ResultView, TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics) {
+    TopicAnalytics a;
+    a.subject_tag = "A";
+    a.student_total = 1;
+    a.weakest = true;
+    TopicAnalytics b = a;
+    b.subject_tag = "B";
+    const std::string text = formatTopicSummary({a, b});
+    EXPECT_NE(text.find("Weakest topics: A, B"), std::string::npos);
+    EXPECT_EQ(formatTopicSummary({}), "");
+}
+
 }  // namespace

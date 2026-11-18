@@ -97,4 +97,25 @@ std::string formatItemisedResult(const GradeReport& report, const QuestionBank& 
     return out.str();
 }
 
+
+std::string formatTopicSummary(const std::vector<TopicAnalytics>& topics) {
+    if (topics.empty()) {
+        return "";
+    }
+    std::ostringstream out;
+    out << std::fixed << std::setprecision(1);
+    out << "Topics (you vs class average):\n";
+    std::string weakest;
+    for (const TopicAnalytics& topic : topics) {
+        out << "  " << topic.subject_tag << ": " << topic.student_correct << "/" << topic.student_total << " correct ("
+            << topic.student_percent << "%), class average " << topic.class_average_percent << "%"
+            << (topic.weakest ? "  <- weakest" : "") << "\n";
+        if (topic.weakest) {
+            weakest += (weakest.empty() ? "" : ", ") + topic.subject_tag;
+        }
+    }
+    out << "Weakest topic" << (weakest.find(',') != std::string::npos ? "s" : "") << ": " << weakest << "\n";
+    return out.str();
+}
+
 }  // namespace quizsphere

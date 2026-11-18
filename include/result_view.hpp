@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "analytics_module.hpp"
 #include "question_bank.hpp"
 #include "quiz_types.hpp"
 
@@ -24,5 +25,10 @@ std::string formatItemisedResult(const GradeReport& report);
 // this looks them up directly with no re-shuffling or re-ordering involved. Falls back to the
 // index-only line for a question that can no longer be found (e.g. deleted since the attempt).
 std::string formatItemisedResult(const GradeReport& report, const QuestionBank& question_bank);
+
+// BL-41 / FR-020: the per-topic section of the result screen - one line per topic (student's
+// correct/total and percent, class average) followed by the weakest topic(s). Input is the
+// weakest-first output of AnalyticsModule::topicAnalytics(); an empty vector prints nothing.
+std::string formatTopicSummary(const std::vector<TopicAnalytics>& topics);
 
 }  // namespace quizsphere
