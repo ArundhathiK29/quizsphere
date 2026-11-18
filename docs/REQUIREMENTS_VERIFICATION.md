@@ -1,64 +1,27 @@
-# Requirements review verification and handoff
+# Integration verification and handoff
 
-Reviewed: **15 November 2026** for BL-30. See [baseline](REQUIREMENTS_BASELINE.md)
-and [review manifest](evidence/requirements-review-2026-11-15.json).
+Candidate reviewed 18 November 2026 against main `4a6cc1c` plus Arundhathi's existing review branches. [Baseline](REQUIREMENTS_BASELINE.md); [limitations](LIMITATIONS.md).
 
-## Document checks
+## Document verification
 
-- All original requirement families are retained: FR-001-022, NFR-001-006,
-  SEC-001-006, BR-1-7 and UC-01-09: **50 unique traceability rows**.
-- Every row has architecture, design, code, tests/verification and status.
-  Unimplemented features link their real stub/interface and planned test IDs;
-  planned tests are not represented as executable passes.
-- Referenced implementation identifiers and GoogleTest names were checked
-  against their actual files. Pending code/tests link immutable PR revisions,
-  not nonexistent relative files in main. The reference audit examined 54
-  distinct source/test file-revision combinations.
-- The historical PDF matches its recorded Git blob/SHA-256. Its full relevant
-  requirement text was extracted and the functional/NFR/security tables were
-  visually inspected. The PDF is not edited by this PR.
-- Local document links/anchors, ID counts, table columns, unchanged product-code
-  files and whitespace are checked before publishing. These are documentation
-  integrity checks, not new functional test execution.
+The RTM retains all 50 original identifiers with nonempty architecture, design, code, verification and status columns. New timer, analytics, transcript, Admin and input-validation mappings refer to actual files. Historical immutable links/coverage manifests remain provenance. The original combined PDF is unchanged. SRS 1.0.3 records the optional local browser adapter and the input boundaries without removing unmet targets.
 
-## Execution evidence and limits
+## Reproduce checks
 
-| Evidence | Revision / source | What it establishes |
-| --- | --- | --- |
-| Main CI | `0d9519ab9c93ff0ccb047ba6cee1a86893579855`; [run 43730792622](https://github.com/ArundhathiK29/quizsphere/actions/runs/43730792622) | Build-test and Docker each passed 148/148 CTest entries. This is the merged implementation baseline. |
-| Auth coverage | Pending [#68](https://github.com/ArundhathiK29/quizsphere/pull/68), `1fb68a4ae6e455745f0d4b1b2c0da3eede168885`; [scoped report](https://github.com/ArundhathiK29/quizsphere/blob/1fb68a4ae6e455745f0d4b1b2c0da3eede168885/docs/AUTH_COVERAGE.md) | The dated four-source measurement ran 40 focused tests: 440/474 lines, 436/690 GCC-reported branches. It is not whole-project or new Admin UI coverage. |
-| Leaderboard follow-up | Pending [#70](https://github.com/ArundhathiK29/quizsphere/pull/70), `0a8cf8d746e877d7104ad712f12e573469760fe7`; [run 43734826113](https://github.com/ArundhathiK29/quizsphere/actions/runs/43734826113) | Build-test/Docker each passed 151/151 entries on the leaderboard stack. Includes exact graded-report selection and Student view cases. It is not merged-main evidence. |
-| Admin console | Pending [#71](https://github.com/ArundhathiK29/quizsphere/pull/71), `887b54bbe0819668accf73973995ba46e5f074da`; [run 43738064178](https://github.com/ArundhathiK29/quizsphere/actions/runs/43738064178) | Build-test/Docker each passed 166/166 entries. Includes actual CLI lifecycle across restarts. It is not merged-main evidence. |
-| Old auth/quiz records | [Auth execution](AUTH_VERIFICATION.md), [quiz-attempt execution](SPRINT1_QUIZ_ATTEMPTS.md) | Historical 3/4 November runs remain dated records, not current suite counts or final integrated acceptance. |
+```sh
+cmake -S . -B build -DQUIZSPHERE_BUILD_TESTS=ON
+cmake --build build -j 4
+ctest --test-dir build --output-on-failure
+python3 tests/web_http_smoke.py build/quizsphere_web
+cppcheck --enable=warning,style,performance,portability --error-exitcode=1 -q -I include include src
+```
 
-Some CTest entries contain multiple GoogleTest cases. Counts from different
-branches/registration styles are not additive and are not a feature-completion
-percentage. Green CI does not supply PERF-01 measurements, USE-01 walkthroughs,
-an unimplemented timer, class analytics, transcript export or a final demo video.
-This documentation task does not rerun/claim a fresh local Docker build.
+On Windows use `build/quizsphere_web.exe` and a configured compiler/dependency installation. CI also generates full-suite coverage and a separate auth-only line/branch artifact. Auth-only counter resets occur after the full report.
 
-## Before final BL-30 closure
+New regression evidence covers exact graded report selection despite newer legacy practice data; unchanged graded results after restart; propagation of storage/missing-report errors; oversized lines drained without suffix execution; malformed UTF-8/control bytes; password boundaries; malformed role/numeric/boolean fields; cross-menu paths; actual console negative flows checked against SQLite. No skipped check is labelled a pass.
 
-1. Refresh the baseline commit and reviewed PR states after required merges;
-   change each RTM row only when its actual implementation/evidence is on that
-   baseline. #70 merges into #62's branch first; it does not itself deliver
-   rankings to main.
-2. Retain the completed floor correction; verify readable results, rankings,
-   difficulty and Admin menu against their final merged contracts. Check #68's
-   coverage scope against changed source hashes; rerun changed coverage rather
-   than copying old percentages onto new code.
-3. Link BL-38 timer/REL-01, BL-41 Student/class weak-topic reports and BL-42 CSV
-   transcripts once delivered. Resolve the UC-08/header permission discrepancy
-   D-08 with the feature owner; preserve explicit permission tests.
-4. Attach BL-28 cross-menu negative evidence, BL-33 USE-01 and BL-34 PERF-01
-   results; keep BL-39/43 lock/immutability verification and module coverage
-   evidence linked to the appropriate requirement rows.
-5. Coordinate the SAD/diagram update with Aryan's BL-36 and replace outdated
-   Test Plan expected/actual references. Export the reviewed submission documents
-   from their current editable sources, retaining the source PDF as history.
-6. Have a teammate review the completed documentation. Close BL-30 when its
-   final integrated mapping/deviations match the submission. BL-31 release tag
-   and final README remain a separate final freeze step.
+Final test counts, platform and CI revision are recorded in the integration PR and its linked CI run, rather than copied from historical PR counts. [BL-28 evidence](INPUT_VALIDATION.md) gives direct case mappings.
 
-This list is a documentation/evidence handoff for existing backlog obligations;
-it creates no new functional requirements and does not reopen resolved fixes.
+## Closure boundary
+
+BL-27, BL-28, BL-29, BL-30, optional #79 and fix #81 can close when this reviewed candidate merges with passing checks. BL-31 additionally requires the real final tag, after Aryan's SAD and full demo deliverables. Existing PRs #68/#71/#72/#73/#80 are incorporated with their original commits and can be superseded after the integration PR exists.

@@ -1,6 +1,6 @@
 # QuizSphere Software Requirements Specification
 
-**Version:** 1.0.2 integration draft, 15 November 2026. **Authors:** Team 12.
+**Version:** 1.0.3 review candidate, 18 November 2026. **Authors:** Team 12.
 **Status:** proposed implementation-aligned revision for teammate review.
 
 This editable revision retains the scope and IDs of SRS v1.0.1 in the
@@ -12,7 +12,7 @@ does not assert that every feature is implemented. See the matrix for status.
 
 ## 1. Purpose and scope
 
-QuizSphere is a local C++17 console quiz assessment and analytics application.
+QuizSphere is a local C++17 console quiz assessment and analytics application. An optional loopback-only browser adapter exposes Student/Instructor login, question/quiz work, attempts, results and rankings using the same core and SQLite database. The browser extension was requested by the repository owner; lecturer approval is not claimed.
 Students practise or take graded quizzes; Instructors manage questions and
 quizzes; Admins manage accounts and can perform permitted oversight actions.
 The committed scope includes account authentication, tagged MCQ storage,
@@ -146,6 +146,7 @@ of questions retained by saved quizzes/historical attempts.
   Five consecutive failures lock the account for 300 seconds by default;
   successful login resets failure state. Verification accepts only the
   implemented encoded-hash iteration bounds, not arbitrary work factors.
+- **Input boundary:** console lines are bounded to 4096 bytes and passwords to 1024 bytes. Rejected lines are drained without accepting a truncated prefix. Quiz titles are single-line valid UTF-8 up to 200 code points; subject filters up to 40. Import reads are bounded to 10 MiB; malformed paths, NUL and terminal controls are rejected.
 - **Quiz/Attempt/Answer:** stable IDs, role-bearing ownership, mode, timestamps,
   ordered question IDs and original-option answers (`kBlankAnswer = -1`).
   Restart must retain a graded attempt's ownership, order, responses and flags.
@@ -178,3 +179,5 @@ remains BL-31; this revision does not claim that freeze has happened.
 | --- | --- | --- |
 | 1.0.1 | Retained source baseline | SRS in the historical combined PDF; FR-001 through FR-022. |
 | 1.0.2 draft | 2026-11-15 | Record actual hashing/dependencies, clarify mode/index/storage/Admin contracts, preserve measurable targets and original IDs, replace sample traceability with complete implementation/evidence mappings. Pending features remain visible. |
+
+| 1.0.3 candidate | 2026-11-18 | Reconcile merged timer/analytics/transcript work, optional browser extension, Admin integration, bounded input and exact graded-report selection. Preserve targets; explicit limitations are in LIMITATIONS.md. |

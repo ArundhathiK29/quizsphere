@@ -31,3 +31,17 @@ The updated documents are complete for this pinned review snapshot. Before
 closing BL-30 for final submission, refresh the RTM/status/evidence against the
 integrated release, reconcile D-08 with the feature owner, and incorporate the
 reviewed SRS plus BL-36 SAD/Test Plan updates into the submission export.
+
+
+## 18 November integration reconciliation (supersedes earlier pending statuses)
+
+The rows above preserve the earlier review snapshot. Current status:
+
+- D-04/D-05/D-06: timer, result/rankings/difficulty and topic/transcript implementations are now merged through #78/#75/#77/#76. Candidate keeps these implementations and their tests.
+- D-08: Instructor/Admin transcript export is implemented. Student-own backend transcript access is an additive, owner-visible extension; it does not allow reading another Student's transcript. Browser export controls are not included.
+- D-10: #68's historical auth coverage evidence is integrated; fresh CI captures current full-suite and scoped auth coverage. No 90% branch coverage claim is made.
+- D-12: candidate fixes silent default registration roles and adds bounded input across console/password/timed paths, strict text/booleans, path validation and security regressions. Formal performance/usability acceptance is still limited as documented.
+- D-13: optional browser UI uses a loopback HTTP adapter around the existing core. Console is retained; Admin console remains the account-management interface. No public hosting or lecturer-approved scope change is claimed.
+- D-14: candidate fixes inherited latest-report selection (#81) by looking up the submitted Graded attempt and its exact report. A newer retained Practice report is not a graded result.
+
+Remaining product/presentation limitations and team release prerequisites are stated in [LIMITATIONS.md](LIMITATIONS.md); they are not silently recorded as completed acceptance criteria.
