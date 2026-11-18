@@ -35,7 +35,7 @@ std::string envOr(const char* name, const char* fallback) {
 
 bool readLine(const std::string& prompt, std::string& out) {
     std::cout << prompt << std::flush;
-    return static_cast<bool>(std::getline(std::cin, out));
+    return quizsphere::readConsoleLine(std::cin, std::cout, out);
 }
 
 bool readPassword(const std::string& prompt, std::string& out) {
@@ -98,9 +98,12 @@ void doRegister(quizsphere::IUserRepository& users) {
         std::cout << "Passwords did not match.\n";
         return;
     }
-    const quizsphere::Role role = (!role_choice.empty() && (role_choice[0] == 'i' || role_choice[0] == 'I'))
-                                      ? quizsphere::Role::Instructor
-                                      : quizsphere::Role::Student;
+    if (role_choice != "s" && role_choice != "S" && role_choice != "i" && role_choice != "I") {
+        std::cout << "Invalid role. Choose s or i.\n";
+        return;
+    }
+    const quizsphere::Role role = (role_choice == "i" || role_choice == "I")
+                                      ? quizsphere::Role::Instructor : quizsphere::Role::Student;
     const AuthResult result = quizsphere::registerUser(users, username, password, role);
     std::cout << (result.ok() ? "Account created. You can now log in." : describe(result.status)) << '\n';
 }

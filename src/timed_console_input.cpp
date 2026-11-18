@@ -1,4 +1,5 @@
 #include "timed_console_input.hpp"
+#include "input_validation.hpp"
 
 #include <algorithm>
 #include <climits>
@@ -51,6 +52,14 @@ bool prepareTimedConsoleInput() {
 
 TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
     line->clear();
+    bool rejected = false;
+    const auto finished = [&] {
+        if (rejected || !validInputText(*line, kMaxConsoleLineBytes)) {
+            line->clear();
+            return TimedRead::Error;
+        }
+        return TimedRead::Line;
+    };
 #ifdef _WIN32
     const HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
     const DWORD type = GetFileType(input);
@@ -74,14 +83,16 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
             if (key == 0 || key == 224) { extended_key = true; continue; }
             if (key == '\r') {
                 std::cout << '\n' << std::flush;
-                return consoleNow() < deadline ? TimedRead::Line : expired();
+                return consoleNow() < deadline ? finished() : expired();
             }
             if (key == '\b' && !line->empty()) {
                 line->pop_back();
                 std::cout << "\b \b" << std::flush;
             } else if (key >= 32 && key <= 126) {
-                line->push_back(static_cast<char>(key));
-                std::cout << static_cast<char>(key) << std::flush;
+                if (line->size() < kMaxConsoleLineBytes) {
+                    line->push_back(static_cast<char>(key));
+                    std::cout << static_cast<char>(key) << std::flush;
+                } else rejected = true;
             } else if (key == 26) {
                 return TimedRead::Closed;
             }
@@ -112,9 +123,12 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
         const int byte = std::cin.get();
 #endif
         if (byte == std::char_traits<char>::eof())
-            return line->empty() ? TimedRead::Closed : TimedRead::Line;
-        if (byte == '\n') return TimedRead::Line;
-        if (byte != '\r') line->push_back(static_cast<char>(byte));
+            return line->empty() && !rejected ? TimedRead::Closed : finished();
+        if (byte == '\n') return finished();
+        if (byte != '\r') {
+            if (line->size() < kMaxConsoleLineBytes) line->push_back(static_cast<char>(byte));
+            else rejected = true;
+        }
     }
 }
 

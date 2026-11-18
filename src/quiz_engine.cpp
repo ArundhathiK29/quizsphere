@@ -1,5 +1,6 @@
 
 #include "quiz_engine.hpp"
+#include "input_validation.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -115,8 +116,8 @@ public:
 
         const std::string title = trim(config.title);
 
-        if (title.empty()) {
-            return validationError("Quiz title must not be empty.");
+        if (title.empty() || !validInputText(config.title, 200)) {
+            return validationError("Quiz title must be valid single-line UTF-8 text of 1-200 characters.");
         }
 
         if (config.question_count <= 0) {
@@ -149,7 +150,8 @@ public:
         auto subject_filter = config.subject_filter;
         if (subject_filter) {
             *subject_filter = trim(*subject_filter);
-            if (subject_filter->empty()) return validationError("Subject filter must not be blank.");
+            if (subject_filter->empty() || !validInputText(*config.subject_filter, 40))
+                return validationError("Subject filter must be valid single-line text of 1-40 characters.");
         }
         std::vector<PublicQuestion> available_questions;
 

@@ -103,5 +103,16 @@ TEST_F(WebApplicationTest, MalformedFieldsAndReferencedQuestionMutationsAreRejec
     EXPECT_EQ(call("questions/save",std::string(65537,'a'),teacher).status,413);
     EXPECT_FALSE(id.empty());
 }
+TEST_F(WebApplicationTest, InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability) {
+    auto teacher = account("teacher", "Instructor");
+    quiz(teacher);
+    for (const auto& body : {"id=q1&available=maybe", "id=q1&available=", "id=%FF&available=false",
+                             "id=%1B%5B2J&available=false", "id=%C0%AF&available=false"}) {
+        EXPECT_EQ(call("questions/availability", body, teacher).status, 400);
+    }
+    const auto questions = read("questions", teacher);
+    EXPECT_NE(questions.body.find("\"available\":true"), std::string::npos);
+}
+
 }  // namespace
 }  // namespace quizsphere

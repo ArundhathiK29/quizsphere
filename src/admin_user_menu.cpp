@@ -71,7 +71,7 @@ private:
 
     bool prompt(const std::string& label, std::string& value) {
         output_ << label << std::flush;
-        if (!std::getline(input_, value)) {
+        if (!readConsoleLine(input_, output_, value)) {
             running_ = false;
             return false;
         }

@@ -1,3 +1,4 @@
+#include "console_input.hpp"
 #include "console_menu.hpp"
 
 #include <algorithm>
@@ -153,7 +154,7 @@ private:
     }
 
     bool readLine(std::string* line) {
-        if (!std::getline(input_, *line)) {
+        if (!readConsoleLine(input_, output_, *line)) {
             output_ << "\nInput ended. Exiting menu.\n";
             return false;
         }

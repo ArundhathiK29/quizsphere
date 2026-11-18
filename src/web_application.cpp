@@ -1,4 +1,5 @@
 #include "web_application.hpp"
+#include "input_validation.hpp"
 
 #include <openssl/rand.h>
 #include <algorithm>
@@ -86,6 +87,8 @@ Fields fields(const std::string& body) {
         const auto equals = part.find('=');
         const auto key = decode(part.substr(0, equals));
         const auto value = equals == std::string::npos ? "" : decode(part.substr(equals+1));
+        if (!validInputText(key, 64) || !validInputText(value, 16384, true))
+            throw ApiError(400, "Invalid text encoding or unsupported control characters.");
         if (key.empty() || key.size() > 64 || value.size() > 16384 || out.size() >= 32 || out.count(key))
             throw ApiError(400, "Invalid or duplicate form field.");
         out.emplace(key, value);
@@ -97,6 +100,10 @@ Fields fields(const std::string& body) {
 std::string get(const Fields& values, const std::string& key) {
     const auto it = values.find(key);
     return it == values.end() ? "" : it->second;
+}
+bool boolean(const std::string& text) {
+    if (text != "true" && text != "false") throw ApiError(400, "Choose true or false.");
+    return text == "true";
 }
 int integer(const std::string& s, int min, int max) {
     int n = 0;
@@ -296,11 +303,11 @@ struct WebApplication::Impl {
             }
             if(post && path=="/api/questions/save") {
                 Question q;q.question_id=get(values,"id");q.question_text=get(values,"text");q.subject_tag=get(values,"subject");auto difficulty=parseDifficulty(get(values,"difficulty"));if(!difficulty)throw ApiError(400,"Invalid difficulty.");q.difficulty=*difficulty;
-                q.question_type=QuestionType::MCQ;q.is_available=get(values,"available")=="true";std::istringstream in(get(values,"options"));std::string option;while(std::getline(in,option)){if(!option.empty()&&option.back()=='\r')option.pop_back();q.options.push_back(option);}q.correct_option=static_cast<std::size_t>(integer(get(values,"correct"),0,99));
+                q.question_type=QuestionType::MCQ;q.is_available=boolean(get(values,"available"));std::istringstream in(get(values,"options"));std::string option;while(std::getline(in,option)){if(!option.empty()&&option.back()=='\r')option.pop_back();q.options.push_back(option);}q.correct_option=static_cast<std::size_t>(integer(get(values,"correct"),0,99));
                 require(get(values,"edit")=="true"?bank->updateQuestion(s.actor,q):bank->addQuestion(s.actor,q));return {200,"{}",""};
             }
             if(post && path=="/api/questions/delete"){if(get(values,"confirmed")!="true")throw ApiError(400,"Please confirm deletion.");require(bank->deleteQuestion(s.actor,get(values,"id"),true));return {200,"{}",""};}
-            if(post && path=="/api/questions/availability"){require(bank->setAvailability(s.actor,get(values,"id"),get(values,"available")=="true"));return {200,"{}",""};}
+            if(post && path=="/api/questions/availability"){require(bank->setAvailability(s.actor,get(values,"id"),boolean(get(values,"available"))));return {200,"{}",""};}
         }
         if(post && path=="/api/attempt/start") {
             if(s.actor.role!=Role::Student)throw ApiError(403,"Only students can attempt quizzes.");
@@ -314,7 +321,7 @@ struct WebApplication::Impl {
                 const auto action=get(values,"action");
                 if(action=="answer")require(s.attempt->select(integer(get(values,"index"),-1,99)));
                 else if(action=="jump")require(s.attempt->jump(static_cast<std::size_t>(integer(get(values,"index"),0,9999))));
-                else if(action=="flag")require(s.attempt->flag(get(values,"flagged")=="true"));
+                else if(action=="flag")require(s.attempt->flag(boolean(get(values,"flagged"))));
                 else if(action=="submit"){if(get(values,"confirmed")!="true")throw ApiError(400,"Please confirm submission.");GradeReport report;const auto result=s.attempt->submit(true,&report);if(!result.ok()&&!(result.code==ErrorCode::TIME_EXPIRED&&report.auto_submitted))require(result);}
                 else throw ApiError(400,"Unknown quiz action.");
             }else if(post || path!="/api/attempt")throw ApiError(405,"Method not allowed.");

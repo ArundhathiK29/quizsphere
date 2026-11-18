@@ -38,6 +38,7 @@ endif()
 find_package(OpenSSL REQUIRED)
 
 add_library(quizsphere_core
+    src/input_validation.cpp
     src/common_types.cpp
     src/console_input.cpp
     src/admin_user_menu.cpp
@@ -157,6 +158,16 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(data_access_layer_tests)
     quizsphere_enable_coverage(data_access_layer_tests)
     gtest_discover_tests(data_access_layer_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(input_validation_tests tests/input_validation_tests.cpp)
+    target_link_libraries(input_validation_tests PRIVATE quizsphere_core GTest::gtest_main)
+    quizsphere_enable_warnings(input_validation_tests)
+    quizsphere_enable_coverage(input_validation_tests)
+    gtest_discover_tests(input_validation_tests DISCOVERY_TIMEOUT 120)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    add_test(NAME ST_SEC_08_ActualConsoleValidation
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/security_console_flow.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(ST_SEC_08_ActualConsoleValidation PROPERTIES TIMEOUT 90)
 
     add_executable(quiz_engine_tests
         tests/quiz_engine_tests.cpp
