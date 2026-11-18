@@ -1,5 +1,10 @@
 # Sprint 1 quiz attempts (Ashwin: BL-19, BL-20, BL-21)
 
+**Historical execution record: 4 November 2026.** The dependency/status statements
+below describe that run. As of the 15 November review, #59 is merged and #60
+has the per-question floor. The 120-test results remain historical; use the
+[current RTM](REQUIREMENTS_TRACEABILITY.md) for current/pending features and evidence.
+
 Start from the merged Sprint 0 DAL, quiz creation/scoring and role menus. The branch changes the Quiz Engine, adds a presentation/navigation service, and connects two narrow console entry points. Question Bank CRUD/CSV, authentication, GradingModule and Analytics implementations are preserved.
 
 ## Interfaces and answer mapping

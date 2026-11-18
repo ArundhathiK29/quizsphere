@@ -30,8 +30,15 @@ ctest --test-dir build --output-on-failure
 
 Test-plan mapping: UT-DAL-01 is atomic attempt/answer storage (fault-injection regression plus existing graded-write rollback); UT-DAL-02 is file/SQLite question parity; UT-DAL-03 is the existing `no_fstream_outside_repository_or_logging` check plus storage-boundary review. Fault injection does not claim the separate process-termination scenario has been executed.
 
-## Integration review
+## Integration status (15 November 2026)
 
-PR #59's real-DAL grading fixture currently writes questions to a file repository. It must seed the SQLite question repository at the same database path before saving quizzes under the stricter reference contract. Grading-specific repeat-submission behavior remains Chaturya's responsibility. PR #58 changes Question Bank fields and startup wiring: Aryan should retain the SQLite factory and adapt any added metadata in the same persistence transaction when integrating that PR.
+PRs #58/#59 are merged. Real-DAL grading integration tests seed the SQLite
+question repository before saving quizzes, and grade/restart/repeat-submission
+paths have existing regression coverage. The production startup retains the
+SQLite factory. Reference protection and same-path repository wiring still apply.
 
-Scoring rules are unchanged by this DAL work. Arundhathi and Chaturya still need to reconcile the documented per-question floor with PR #60's attempt-total floor, including topic totals. No grading implementation or console menu behavior is changed here.
+Main now includes #60's per-question scoring-floor correction. Item/topic/total
+aggregation follows BR-5; the earlier attempt-total-floor discussion is resolved.
+This DAL document is not evidence that the runtime timer, pending analytics or
+readable result UI are complete. See the [requirements matrix](REQUIREMENTS_TRACEABILITY.md)
+for current delivery and verification status.
