@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <chrono>
 #include <filesystem>
-#include <fstream>
 #include <iostream>
 #include <random>
 #include "quiz_engine.hpp"
@@ -86,14 +85,13 @@ TEST_F(Part3Acceptance, UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite) {
 TEST_F(Part3Acceptance, SeededMalformedCsvFuzzPreservesTheQuestionBank) {
     std::mt19937 random(20261118);
     const auto csv = directory / "fuzz.csv";
+    auto files = createFileQuestionRepository((directory / "unused.tsv").string());
     const std::string header = "question_id,subject_tag,difficulty,question_type,question_text,options,correct_option,is_available\n";
     for (int run = 0; run < 100; ++run) {
         std::string payload;
         for (unsigned n = 0; n < random() % 256U; ++n) payload.push_back(static_cast<char>(random() % 256U));
-        {
-            std::ofstream file(csv, std::ios::binary);
-            file << header << "bad,,Easy,MCQ," << payload << ",A|B,not-a-number,true\n";
-        }
+        ASSERT_TRUE(files->writeTextFileAtomic(csv.string(), header + "bad,,Easy,MCQ," + payload +
+                                               ",A|B,not-a-number,true\n", true).ok());
         const auto imported = bank->importFromCsv(teacher, csv.string());
         EXPECT_EQ(imported.imported_count, 0U);
         std::vector<Question> after;

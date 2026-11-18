@@ -30,8 +30,8 @@ with tempfile.TemporaryDirectory(prefix="qs-confirmation-") as directory:
             assert connection.execute("SELECT count(*) FROM reports").fetchone()[0] == 0, malformed
             assert connection.execute("SELECT submitted FROM attempts").fetchone()[0] == 0, malformed
     # Conventional CRLF line termination still accepts an exact affirmative.
-    run(prefix + b"yes\r\n0\n0\n")
+    final_output = run(prefix + b"yes\r\n0\n0\n")
     with closing(sqlite3.connect(db)) as connection:
-        assert connection.execute("SELECT count(*) FROM reports").fetchone()[0] == 1
+        assert connection.execute("SELECT count(*) FROM reports").fetchone()[0] == 1, final_output.decode(errors="replace")
         assert connection.execute("SELECT submitted FROM attempts").fetchone()[0] == 1
     print("PASS timed confirmation: embedded controls rejected, exact CRLF yes accepted")
