@@ -157,7 +157,7 @@ std::string authMessage(AuthStatus status) {
 struct WebApplication::Impl {
     struct BrowserSession {
         Session actor;
-        std::string name, csrf;
+        std::string name, csrf, completed_quiz;
         Clock::time_point touched = Clock::now();
         std::unique_ptr<QuizEngine> engine;
         std::unique_ptr<QuizAttemptSession> attempt;
@@ -185,6 +185,17 @@ struct WebApplication::Impl {
     void expire() {
         for (auto it = sessions.begin(); it != sessions.end();) {
             auto& s = *it->second;
+            if (s.attempt && s.attempt->attempt().mode == QuizMode::Graded && !s.attempt->attempt().submitted) {
+                Attempt stored;
+                const auto found = dal->attempts->findAttempt(s.attempt->attempt().attempt_id, &stored);
+                if (found.ok() && stored.submitted) {
+                    // Another browser session/process may have finalized this same
+                    // attempt. SQLite is authoritative, not this tab's old snapshot.
+                    s.completed_quiz = stored.quiz_id;
+                    s.attempt.reset();
+                    s.timer_error.clear();
+                } else if (!found.ok()) s.timer_error = found.message;
+            }
             if (s.attempt && s.attempt->attempt().mode == QuizMode::Graded && !s.attempt->attempt().submitted) {
                 std::chrono::milliseconds remaining;
                 const auto state = s.attempt->remainingTime(&remaining);
@@ -229,6 +240,11 @@ struct WebApplication::Impl {
         return "{\"score\":"+number(report.score)+",\"max\":"+number(report.max_score)+",\"auto\":"+(report.auto_submitted?"true":"false")+",\"items\":"+array(rows)+",\"topics\":"+array(topics)+"}";
     }
     std::string attemptJson(const BrowserSession& s) const {
+        if (!s.attempt && !s.completed_quiz.empty()) {
+            GradeReport report;
+            require(grading->getReport(s.completed_quiz, s.actor.user_id, &report));
+            return "{\"completed\":true,\"report\":"+reportJson(report)+"}";
+        }
         if (!s.attempt) throw ApiError(404, "Start a quiz first.");
         const auto& a = s.attempt->attempt();
         if (a.submitted) {
@@ -319,11 +335,18 @@ struct WebApplication::Impl {
                 (mode != "graded" || get(values,"quiz") != s.attempt->attempt().quiz_id)) {
                 throw ApiError(409,"Finish your current graded quiz before starting another activity.");
             }
-            auto attempt=std::make_unique<QuizAttemptSession>(s.actor,*s.engine,*bank);require(attempt->start(get(values,"quiz"),mode=="practice"?QuizMode::Practice:QuizMode::Graded));s.attempt=std::move(attempt);s.timer_error.clear();return {200,attemptJson(s),""};
+            auto attempt=std::make_unique<QuizAttemptSession>(s.actor,*s.engine,*bank);require(attempt->start(get(values,"quiz"),mode=="practice"?QuizMode::Practice:QuizMode::Graded));s.attempt=std::move(attempt);s.completed_quiz.clear();s.timer_error.clear();return {200,attemptJson(s),""};
         }
         if(path=="/api/attempt" || path=="/api/attempt/action") {
             if(s.actor.role!=Role::Student)throw ApiError(403,"Only students can attempt quizzes.");
-            if(!s.attempt)throw ApiError(404,"Start a quiz first.");
+            if(!s.attempt) {
+                if (!s.completed_quiz.empty()) {
+                    if (post) throw ApiError(409,"Attempt already submitted.");
+                    return {200,attemptJson(s),""};
+                }
+                throw ApiError(404,"Start a quiz first.");
+            }
+            if (post && s.attempt->attempt().submitted) throw ApiError(409,"Attempt already submitted.");
             if(post && path=="/api/attempt/action") {
                 const auto action=get(values,"action");
                 if(action=="answer")require(s.attempt->select(integer(get(values,"index"),-1,99)));

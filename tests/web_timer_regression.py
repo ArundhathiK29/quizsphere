@@ -77,13 +77,36 @@ with tempfile.TemporaryDirectory(prefix="qs-web-timer-") as directory:
         process.terminate()
         process.wait(timeout=5)
         with closing(sqlite3.connect(db)) as connection:
-            connection.execute("UPDATE attempts SET started=strftime('%Y-%m-%dT%H:%M:%SZ','now','-58 seconds')")
+            if case != "cross-session-manual":
+                connection.execute("UPDATE attempts SET started=strftime('%Y-%m-%dT%H:%M:%SZ','now','-58 seconds')")
             connection.commit()
         process = start()
         student = login("student")
         state, _ = ok("/api/attempt/start", {"quiz": quiz, "mode": "graded"}, student)
         assert not state["completed"], "Fixture expired before the test started"
-        if case == "practice-switch":
+        if case.startswith("cross-session-"):
+            second = login("student")
+            ok("/api/attempt/start", {"quiz": quiz, "mode": "graded"}, second)
+            if case == "cross-session-manual":
+                ok("/api/attempt/action", {"action": "submit", "confirmed": "true"}, student)
+            else:
+                time.sleep(3)
+            # Another session's completion must be reconciled before polling/actions/guarding.
+            state, _ = ok("/api/attempt", identity=second)
+            assert state.get("completed"), ("Other session retained an open attempt", state)
+            assert call("/api/attempt/action", {"action": "answer", "index": 0}, second)[0] == 409
+            state, _ = ok("/api/attempt/start", {"quiz": quiz, "mode": "practice"}, second)
+            assert state["practice"]
+            # Login again because the fixture restart invalidated the original teacher cookie.
+            teacher = login("teacher")
+            new_quiz, _ = ok("/api/quizzes/create", {"title": "Next", "minutes": 1, "count": 1,
+                                                    "marks": 4, "penalty": 0}, teacher)
+            state, _ = ok("/api/attempt/start", {"quiz": new_quiz["id"], "mode": "graded"}, second)
+            assert not state["completed"] and not state["practice"]
+            with closing(sqlite3.connect(db)) as connection:
+                assert connection.execute("SELECT count(*) FROM reports").fetchone()[0] == 1
+            print("PASS", case, ": shared completion reconciled; practice/next quiz allowed; no regrading")
+        elif case == "practice-switch":
             status, result, _ = call("/api/attempt/start", {"quiz": quiz, "mode": "practice"}, student)
             assert status == 409, ("Open graded attempt was replaced by practice", status, result)
             time.sleep(3)
