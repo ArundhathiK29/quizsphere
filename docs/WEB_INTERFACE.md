@@ -36,7 +36,8 @@ To build only the original console product, set `-DQUIZSPHERE_BUILD_WEB=OFF`. A 
 2. Choose Practice for immediate answer feedback without a persisted report, or Start graded for a saved timed attempt.
 3. Answer, clear answers, jump between questions and flag questions. Displayed choices map back to original option indexes in the core.
 4. Review the answered/flagged counts and confirm submission. Graded results show readable selected/correct answers and per-topic totals. Practice completion stores no result.
-5. The server ticks active graded deadlines even while the browser is idle. Expiry calls the real grader with committed answers. The browser polls the current attempt once per second and shows the final result. Closing/restarting the server requires login and starting the same graded quiz to resume; the persisted original deadline still applies.
+5. The server ticks active graded deadlines even while the browser is idle or a client is sending incomplete HTTP headers/bodies. Network waits are nonblocking, service expiry at intervals of at most 50 ms between application operations, and share one two-second absolute connection budget; new chunks do not reset it. Expiry calls the real grader with committed answers. The browser polls the current attempt once per second and shows the final result. Closing/restarting the server requires login and starting the same graded quiz to resume; the persisted original deadline still applies.
+Starting practice or another quiz while a graded attempt is still open is rejected with a message to finish the graded quiz first; resuming that same graded quiz remains available. Practice is allowed again after finalization.
 6. Use My result after restart. A second graded attempt is refused. Rankings support per quiz, per topic and all time; the current student's numeric identity is marked “you”.
 
 Leaving to the quiz list keeps the current attempt active in that browser session. Logging out or session expiry releases in-memory state; an unfinished graded attempt remains persistent and is checked when resumed. Practice state is lost on logout/server restart. A page reload can use Start graded to resume; this version does not automatically reopen the attempt screen.
@@ -45,7 +46,7 @@ Leaving to the quiz list keeps the current attempt active in that browser sessio
 
 Create an Instructor account and log in. Question bank supports add/edit/delete and enable/disable. Enter one answer option per line and choose the correct option number. Core reference protection blocks editing/deleting questions used by a saved quiz or historical attempt. Disabling remains available.
 
-Create quiz accepts title, positive count/duration, optional subject/difficulty filters, marks and wrong-answer penalty. Only available matching questions are pooled. The existing BR-5 per-item zero-floor behaviour is unchanged. Instructors can browse quiz and ranking views. CSV import/export, full Admin console controls and the pending class-topic/transcript extensions remain in their existing console/feature work; this first browser version does not claim to expose every console action.
+Create quiz accepts title, positive count/duration, optional subject/difficulty filters, marks and wrong-answer penalty. Only available matching questions are pooled. The existing BR-5 per-item zero-floor behaviour is unchanged. Instructors can browse quiz and ranking views. CSV import/export, full Admin console controls and class-topic/transcript screens remain in the console/core; this first browser version does not claim to expose every console action.
 
 ## Transport and security boundary
 
@@ -75,3 +76,18 @@ Local Windows build and all **165 CTest entries** passed; actual HTTP smoke chec
 The original SRS §2.4/§4.1 and SAD describe a console-only product. Issue #79 is an explicitly approved owner extension, not proof of lecturer acceptance. At final integration, add the browser presentation and transport to the SRS/SAD/RTM while retaining the original 22 FR identifiers. Link browser verification as additional evidence rather than rewriting completed console evidence. Aryan's BL-36 handoff documents the pinned console baseline and this extension boundary separately.
 
 The UI branch is based on main `95a8197d4bc23dbb9ae8642e91fc5a17c4952ae7`. It uses current main's rankings and per-attempt topic totals. Chaturya's unmerged #75/#77 class-topic/transcript changes remain independently owned; their integration should be reviewed after those PRs merge.
+
+
+## PR #82 review regressions
+
+The three blocking findings on `2a570dd` were independently reproduced against that binary before applying fixes:
+
+| Finding | Failure before the fix | Executable regression |
+| --- | --- | --- |
+| Incomplete HTTP traffic stalls expiry | Dripping unfinished headers/body left SQLite `submitted=0`, `auto=0`, no report after the deadline. | `web_timer_slow-header`, `web_timer_slow-body` |
+| Practice replaces the monitored graded attempt | Starting practice during an open graded attempt returned 200 and replaced the active timer. | `web_timer_practice-switch` |
+| Embedded CR becomes affirmative confirmation | Actual piped `y<CR>es<LF>` finalized the quiz instead of rejecting the malformed confirmation. | `ST_SEC_09_TimedConfirmationControls` |
+
+These run through CTest on Windows/Linux and inside Docker. HTTP probes inspect SQLite before completing the hostile request or sending any follow-up API call, so a request-triggered submission cannot hide timer starvation. They also verify the absolute connection budget and that practice works after grading. The actual-console probe rejects embedded CR/ESC/NUL while an exact `yes<CR><LF>` still submits.
+
+No new product features were added in these fixes. Passing regressions require the reviewer to re-check the updated PR head; they do not dismiss the existing changes-requested review automatically.
