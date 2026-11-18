@@ -171,8 +171,19 @@ if(QUIZSPHERE_BUILD_TESTS)
     add_test(NAME ST_SEC_09_TimedConfirmationControls
         COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/timed_confirmation_flow.py $<TARGET_FILE:quizsphere>)
     set_tests_properties(ST_SEC_09_TimedConfirmationControls PROPERTIES TIMEOUT 60)
+    add_test(NAME UT_DAL_01_ProcessKillAtomicity
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/process_kill_atomicity.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(UT_DAL_01_ProcessKillAtomicity PROPERTIES TIMEOUT 60)
+    add_test(NAME ST_PART3_StudentInstructorAdminReports
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/part3_system_flow.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(ST_PART3_StudentInstructorAdminReports PROPERTIES TIMEOUT 60)
+    add_executable(part3_acceptance_tests tests/part3_acceptance_tests.cpp)
+    target_link_libraries(part3_acceptance_tests PRIVATE quizsphere_core GTest::gtest_main)
+    quizsphere_enable_warnings(part3_acceptance_tests)
+    quizsphere_enable_coverage(part3_acceptance_tests)
+    gtest_discover_tests(part3_acceptance_tests DISCOVERY_TIMEOUT 120)
     if(QUIZSPHERE_BUILD_WEB)
-        foreach(timer_case slow-header slow-body practice-switch)
+        foreach(timer_case slow-header slow-body practice-switch cross-session-manual cross-session-auto)
             add_test(NAME web_timer_${timer_case}
                 COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/web_timer_regression.py
                     $<TARGET_FILE:quizsphere_web> ${timer_case})
