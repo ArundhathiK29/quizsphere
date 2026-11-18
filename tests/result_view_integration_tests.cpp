@@ -136,5 +136,23 @@ TEST_F(ResultViewIntegrationTest, StillResolvesReadableTextAfterClosingAndReopen
     EXPECT_NE(text.find("correct answer = Paris"), std::string::npos);
 }
 
+TEST_F(ResultViewIntegrationTest, FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit) {
+    GradeReport report;
+    report.score = 0.0;
+    report.max_score = 1.0;
+    report.auto_submitted = true;
+    ItemResult missing;
+    missing.question_id = "Q-deleted";  // never added to the bank
+    missing.selected_option = 7;        // out of range for any question -> printed as the bare index
+    missing.correct_option = 1;
+    missing.blank = false;
+    missing.marks_awarded = 0.0;
+    report.itemised_breakdown.push_back(missing);
+
+    const std::string text = formatItemisedResult(report, *bank_);
+    EXPECT_NE(text.find("Q-deleted: your answer = 7, correct answer = 1 -> WRONG (+0.00)"), std::string::npos);
+    EXPECT_NE(text.find("auto-submitted: time expired"), std::string::npos);
+}
+
 }  // namespace
 }  // namespace quizsphere
