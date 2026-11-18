@@ -88,20 +88,22 @@ void serve(Socket socket,quizsphere::WebApplication& app,int port) {
     }
     const auto host=headers["host"];
     const auto suffix=":"+std::to_string(port);
-    if(host!="127.0.0.1"+suffix&&host!="localhost"+suffix){reject(403,"Local host required.");return;}
     if(headers.count("transfer-encoding")){reject(400,"Transfer encoding is unsupported.");return;}
     std::size_t length=0;
     if(headers.count("content-length")){
         const auto& raw=headers["content-length"];const auto parsed=std::from_chars(raw.data(),raw.data()+raw.size(),length);
         if(raw.empty()||parsed.ec!=std::errc{}||parsed.ptr!=raw.data()+raw.size()||length>65536){reject(413,"Invalid body length.");return;}
     }
+    std::string body=data.substr(end+4);
+    while(body.size()<length){if(!receive(socket,body)){reject(400,"Incomplete request body.");return;}}
+    body.resize(length);
+    // Consume a bounded, framed body before replying. Closing with unread body bytes can
+    // reset a TCP connection before Windows clients receive an otherwise valid denial.
+    if(host!="127.0.0.1"+suffix&&host!="localhost"+suffix){reject(403,"Local host required.");return;}
     if(method=="POST"){
         if(headers["origin"]!="http://"+host){reject(403,"Same-origin request required.");return;}
         if(headers["content-type"].rfind("application/x-www-form-urlencoded",0)!=0){reject(415,"Use form encoding.");return;}
     }
-    std::string body=data.substr(end+4);
-    while(body.size()<length){if(!receive(socket,body)){reject(400,"Incomplete request body.");return;}}
-    body.resize(length);
     if(method=="GET"&&path=="/"){respond(socket,200,quizsphere::web_html,"text/html; charset=utf-8");return;}
     if(method=="GET"&&path=="/app.css"){respond(socket,200,quizsphere::web_css,"text/css; charset=utf-8");return;}
     if(method=="GET"&&path=="/app.js"){respond(socket,200,quizsphere::web_js,"text/javascript; charset=utf-8");return;}
@@ -130,10 +132,7 @@ int main(int argc,char** argv) {
         quizsphere::WebApplication app(database);
         const Socket listener=socket(AF_INET,SOCK_STREAM,0);
         if(listener==invalid_socket)throw std::runtime_error("Cannot create local listener.");
-#ifdef _WIN32
-        const int exclusive=1;
-        if(setsockopt(listener,SOL_SOCKET,SO_EXCLUSIVEADDRUSE,reinterpret_cast<const char*>(&exclusive),sizeof(exclusive))!=0){closeSocket(listener);throw std::runtime_error("Cannot reserve the local listener.");}
-#else
+#ifndef _WIN32
         const int reuse=1;
         if(setsockopt(listener,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse))!=0){closeSocket(listener);throw std::runtime_error("Cannot configure listener restart.");}
 #endif
