@@ -232,6 +232,11 @@ Session makeSession(const AuthResult& login, std::int64_t unix_time) {
     return session;
 }
 
+AuthStatus checkAdminAccess(IUserRepository& repository, const Session& actor) {
+    int actor_id = 0;
+    return requireAdmin(repository, actor, actor_id);
+}
+
 AuthResult createUserAsAdmin(IUserRepository& repository, const Session& actor, const std::string& username,
                              const std::string& password, Role role) {
     AuthResult result;

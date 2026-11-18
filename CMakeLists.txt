@@ -38,6 +38,8 @@ find_package(OpenSSL REQUIRED)
 
 add_library(quizsphere_core
     src/common_types.cpp
+    src/console_input.cpp
+    src/admin_user_menu.cpp
     src/question_bank.cpp
     src/question_repository_file.cpp
     src/console_menu.cpp
@@ -89,6 +91,7 @@ if(QUIZSPHERE_BUILD_TESTS)
 
     add_executable(auth_tests
         tests/password_hasher_tests.cpp
+        tests/console_input_tests.cpp
         tests/auth_tests.cpp
         tests/auth_role_boundary_tests.cpp
         tests/auth_event_log_tests.cpp
@@ -99,6 +102,20 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(auth_tests)
     quizsphere_enable_coverage(auth_tests)
     gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(admin_user_menu_tests tests/admin_user_menu_tests.cpp)
+    target_link_libraries(admin_user_menu_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(admin_user_menu_tests)
+    quizsphere_enable_coverage(admin_user_menu_tests)
+    gtest_discover_tests(admin_user_menu_tests DISCOVERY_TIMEOUT 120)
+    add_test(
+        NAME ST_ADM_01_AdminUserFlow
+        COMMAND ${CMAKE_COMMAND}
+            "-DAPP=$<TARGET_FILE:quizsphere>"
+            "-DTEST_DIR=${CMAKE_CURRENT_BINARY_DIR}/admin-system-flow"
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/admin_user_flow.cmake
+    )
+    set_tests_properties(ST_ADM_01_AdminUserFlow PROPERTIES TIMEOUT 180)
 
     add_executable(data_access_layer_tests
         tests/data_access_layer_tests.cpp

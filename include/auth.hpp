@@ -64,6 +64,8 @@ Session makeSession(const AuthResult& login, std::int64_t unix_time);
 // Admin-only operations (SEC-003). Authorization is checked here, not only in the UI:
 // the actor is re-read from storage and must be an enabled Admin. An Admin cannot
 // disable, demote or remove their own account, so at least one enabled Admin always remains.
+// Read-only entry points use the same current stored-role check as mutations.
+AuthStatus checkAdminAccess(IUserRepository& repository, const Session& actor);
 AuthResult createUserAsAdmin(IUserRepository& repository, const Session& actor, const std::string& username,
                              const std::string& password, Role role);
 AuthStatus setAccountEnabled(IUserRepository& repository, const Session& actor, int target_user_id, bool enabled);
