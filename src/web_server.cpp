@@ -9,6 +9,7 @@ constexpr Socket invalid_socket = INVALID_SOCKET;
 static void closeSocket(Socket socket) { closesocket(socket); }
 #else
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <sys/select.h>
 #include <sys/socket.h>
@@ -20,6 +21,7 @@ static void closeSocket(Socket socket) { close(socket); }
 
 #include <algorithm>
 #include <charconv>
+#include <chrono>
 #include <cctype>
 #include <csignal>
 #include <cstdlib>
@@ -41,35 +43,68 @@ std::string trim(const std::string& value) {
     const auto first=value.find_first_not_of(" \t\r");
     return first==std::string::npos?"":value.substr(first,value.find_last_not_of(" \t\r")-first+1);
 }
-void respond(Socket socket,int status,const std::string& body,const std::string& type,const std::string& cookie="") {
+using NetworkClock = std::chrono::steady_clock;
+struct Connection {
+    Socket socket;
+    quizsphere::WebApplication& app;
+    NetworkClock::time_point deadline;
+};
+
+bool waitReady(Connection& connection, bool reading) {
+    for (;;) {
+        // SQLite and browser state stay on this single thread. Slow network I/O
+        // must not prevent the application from processing quiz expiry.
+        connection.app.tick();
+        if (!running || NetworkClock::now() >= connection.deadline) return false;
+        fd_set ready;
+        FD_ZERO(&ready);
+        FD_SET(connection.socket, &ready);
+        timeval wait{0, 50000};
+        const int count = select(static_cast<int>(connection.socket) + 1,
+                                 reading ? &ready : nullptr, reading ? nullptr : &ready, nullptr, &wait);
+        if (count < 0) return false;
+        if (count > 0) return true;
+    }
+}
+
+bool makeNonBlocking(Socket socket) {
+#ifdef _WIN32
+    u_long enabled = 1;
+    return ioctlsocket(socket, FIONBIO, &enabled) == 0;
+#else
+    const int flags = fcntl(socket, F_GETFL, 0);
+    return flags >= 0 && fcntl(socket, F_SETFL, flags | O_NONBLOCK) == 0;
+#endif
+}
+
+void respond(Connection& connection,int status,const std::string& body,const std::string& type,const std::string& cookie="") {
     std::string data="HTTP/1.1 "+std::to_string(status)+" Response\r\nContent-Type: "+type+"\r\nContent-Length: "+std::to_string(body.size())+"\r\nConnection: close\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nReferrer-Policy: no-referrer\r\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'\r\n";
     if(!cookie.empty())data+="Set-Cookie: "+cookie+"\r\n";
     data+="\r\n"+body;
     std::size_t sent=0;
     while(sent<data.size()){
-        const int count=send(socket,data.data()+sent,static_cast<int>(std::min<std::size_t>(data.size()-sent,32768)),0);
+        if (!waitReady(connection, false)) break;
+        const int count=send(connection.socket,data.data()+sent,static_cast<int>(std::min<std::size_t>(data.size()-sent,32768)),0);
         if(count<=0)break;
         sent+=static_cast<std::size_t>(count);
     }
 }
-bool receive(Socket socket,std::string& data) {
-    char buffer[4096];const int count=recv(socket,buffer,sizeof(buffer),0);
+bool receive(Connection& connection,std::string& data) {
+    if (!waitReady(connection, true)) return false;
+    char buffer[4096];const int count=recv(connection.socket,buffer,sizeof(buffer),0);
     if(count<=0)return false;
     data.append(buffer,static_cast<std::size_t>(count));return true;
 }
 void serve(Socket socket,quizsphere::WebApplication& app,int port) {
-#ifdef _WIN32
-    DWORD timeout=1000;
-#else
-    timeval timeout{1,0};
-#endif
-    setsockopt(socket,SOL_SOCKET,SO_RCVTIMEO,reinterpret_cast<const char*>(&timeout),sizeof(timeout));
-    setsockopt(socket,SOL_SOCKET,SO_SNDTIMEO,reinterpret_cast<const char*>(&timeout),sizeof(timeout));
-    const auto reject=[&](int code,const std::string& reason){respond(socket,code,"{\"error\":\""+reason+"\"}","application/json; charset=utf-8");};
+    if (!makeNonBlocking(socket)) return;
+    // One absolute budget covers headers, body and response; individual chunks
+    // never extend it. waitReady services deadlines even while this request stalls.
+    Connection connection{socket, app, NetworkClock::now() + std::chrono::seconds(2)};
+    const auto reject=[&](int code,const std::string& reason){respond(connection,code,"{\"error\":\""+reason+"\"}","application/json; charset=utf-8");};
     std::string data;
     while(data.find("\r\n\r\n")==std::string::npos){
         if(data.size()>8192){reject(431,"Headers too large.");return;}
-        if(!receive(socket,data))return;
+        if(!receive(connection,data))return;
     }
     const auto end=data.find("\r\n\r\n");if(end>8192){reject(431,"Headers too large.");return;}
     std::istringstream input(data.substr(0,end));std::string line,method,path,version,extra;
@@ -95,7 +130,7 @@ void serve(Socket socket,quizsphere::WebApplication& app,int port) {
         if(raw.empty()||parsed.ec!=std::errc{}||parsed.ptr!=raw.data()+raw.size()||length>65536){reject(413,"Invalid body length.");return;}
     }
     std::string body=data.substr(end+4);
-    while(body.size()<length){if(!receive(socket,body)){reject(400,"Incomplete request body.");return;}}
+    while(body.size()<length){if(!receive(connection,body)){reject(400,"Incomplete request body.");return;}}
     body.resize(length);
     // Consume a bounded, framed body before replying. Closing with unread body bytes can
     // reset a TCP connection before Windows clients receive an otherwise valid denial.
@@ -104,12 +139,12 @@ void serve(Socket socket,quizsphere::WebApplication& app,int port) {
         if(headers["origin"]!="http://"+host){reject(403,"Same-origin request required.");return;}
         if(headers["content-type"].rfind("application/x-www-form-urlencoded",0)!=0){reject(415,"Use form encoding.");return;}
     }
-    if(method=="GET"&&path=="/"){respond(socket,200,quizsphere::web_html,"text/html; charset=utf-8");return;}
-    if(method=="GET"&&path=="/app.css"){respond(socket,200,quizsphere::web_css,"text/css; charset=utf-8");return;}
-    if(method=="GET"&&path=="/app.js"){respond(socket,200,quizsphere::web_js,"text/javascript; charset=utf-8");return;}
+    if(method=="GET"&&path=="/"){respond(connection,200,quizsphere::web_html,"text/html; charset=utf-8");return;}
+    if(method=="GET"&&path=="/app.css"){respond(connection,200,quizsphere::web_css,"text/css; charset=utf-8");return;}
+    if(method=="GET"&&path=="/app.js"){respond(connection,200,quizsphere::web_js,"text/javascript; charset=utf-8");return;}
     if(path.rfind("/api/",0)!=0){reject(404,"Not found.");return;}
     const auto result=app.handle({method,path,body,headers["cookie"],headers["x-csrf-token"]});
-    respond(socket,result.status,result.body,"application/json; charset=utf-8",result.cookie);
+    respond(connection,result.status,result.body,"application/json; charset=utf-8",result.cookie);
 }
 }  // namespace
 

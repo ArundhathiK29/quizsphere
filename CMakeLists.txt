@@ -168,6 +168,17 @@ if(QUIZSPHERE_BUILD_TESTS)
     add_test(NAME ST_SEC_08_ActualConsoleValidation
         COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/security_console_flow.py $<TARGET_FILE:quizsphere>)
     set_tests_properties(ST_SEC_08_ActualConsoleValidation PROPERTIES TIMEOUT 90)
+    add_test(NAME ST_SEC_09_TimedConfirmationControls
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/timed_confirmation_flow.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(ST_SEC_09_TimedConfirmationControls PROPERTIES TIMEOUT 60)
+    if(QUIZSPHERE_BUILD_WEB)
+        foreach(timer_case slow-header slow-body practice-switch)
+            add_test(NAME web_timer_${timer_case}
+                COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/web_timer_regression.py
+                    $<TARGET_FILE:quizsphere_web> ${timer_case})
+            set_tests_properties(web_timer_${timer_case} PROPERTIES TIMEOUT 45)
+        endforeach()
+    endif()
 
     add_executable(quiz_engine_tests
         tests/quiz_engine_tests.cpp
