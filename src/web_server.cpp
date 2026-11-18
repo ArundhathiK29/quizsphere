@@ -13,7 +13,6 @@ static void closeSocket(Socket socket) { closesocket(socket); }
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <csignal>
 using Socket = int;
 constexpr Socket invalid_socket = -1;
 static void closeSocket(Socket socket) { close(socket); }
@@ -22,6 +21,7 @@ static void closeSocket(Socket socket) { close(socket); }
 #include <algorithm>
 #include <charconv>
 #include <cctype>
+#include <csignal>
 #include <cstdlib>
 #include <iostream>
 #include <map>
@@ -32,6 +32,8 @@ static void closeSocket(Socket socket) { close(socket); }
 #include "web_assets.hpp"
 
 namespace {
+volatile std::sig_atomic_t running = 1;
+void stopServer(int) { running = 0; }
 std::string lower(std::string value) {
     std::transform(value.begin(),value.end(),value.begin(),[](unsigned char c){return static_cast<char>(std::tolower(c));});return value;
 }
@@ -122,14 +124,23 @@ int main(int argc,char** argv) {
 #else
     std::signal(SIGPIPE,SIG_IGN);
 #endif
+    std::signal(SIGINT,stopServer);
+    std::signal(SIGTERM,stopServer);
     try{
         quizsphere::WebApplication app(database);
         const Socket listener=socket(AF_INET,SOCK_STREAM,0);
         if(listener==invalid_socket)throw std::runtime_error("Cannot create local listener.");
+#ifdef _WIN32
+        const int exclusive=1;
+        if(setsockopt(listener,SOL_SOCKET,SO_EXCLUSIVEADDRUSE,reinterpret_cast<const char*>(&exclusive),sizeof(exclusive))!=0){closeSocket(listener);throw std::runtime_error("Cannot reserve the local listener.");}
+#else
+        const int reuse=1;
+        if(setsockopt(listener,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse))!=0){closeSocket(listener);throw std::runtime_error("Cannot configure listener restart.");}
+#endif
         sockaddr_in address{};address.sin_family=AF_INET;address.sin_port=htons(static_cast<unsigned short>(port));address.sin_addr.s_addr=htonl(INADDR_LOOPBACK);
         if(bind(listener,reinterpret_cast<const sockaddr*>(&address),sizeof(address))!=0||listen(listener,16)!=0){closeSocket(listener);throw std::runtime_error("Cannot listen on this port. Choose another --port.");}
         std::cout<<"QuizSphere browser UI: http://127.0.0.1:"<<port<<"\nDatabase: "<<database<<"\nLocal access only. Stop with Ctrl+C.\n"<<std::flush;
-        for(;;){
+        while(running){
             app.tick();fd_set ready;FD_ZERO(&ready);FD_SET(listener,&ready);timeval wait{0,200000};
             const int count=select(static_cast<int>(listener)+1,&ready,nullptr,nullptr,&wait);
             if(count<0)break;

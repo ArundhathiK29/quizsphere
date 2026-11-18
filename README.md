@@ -115,4 +115,3 @@ The grading-floor decision remains with Arundhathi and Chaturya: for +4 correct,
 Build the additional `quizsphere_web` target and open `http://127.0.0.1:8765/`
 for the Student/Instructor browser workspace. See [browser build, usage and
 scope](docs/WEB_INTERFACE.md). The existing console executable is also available.
-

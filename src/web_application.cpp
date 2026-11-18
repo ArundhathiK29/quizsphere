@@ -7,6 +7,7 @@
 #include <cmath>
 #include <ctime>
 #include <iomanip>
+#include <iterator>
 #include <map>
 #include <sstream>
 #include <stdexcept>
@@ -46,6 +47,13 @@ std::string array(const std::vector<std::string>& values) {
     std::string out = "[";
     for (const auto& value : values) { if (out.size() > 1) out += ','; out += value; }
     return out + ']';
+}
+template<class Range, class Formatter>
+std::vector<std::string> jsonValues(const Range& values, Formatter format) {
+    std::vector<std::string> out;
+    out.reserve(values.size());
+    std::transform(values.begin(), values.end(), std::back_inserter(out), format);
+    return out;
 }
 int hex(char c) {
     if (c >= '0' && c <= '9') return c - '0';
@@ -202,17 +210,18 @@ struct WebApplication::Impl {
         return "{\"id\":"+quote(s.actor.user_id)+",\"name\":"+quote(s.name)+",\"role\":"+quote(roleName(s.actor.role))+",\"csrf\":"+quote(s.csrf)+"}";
     }
     std::string reportJson(const GradeReport& report) const {
-        std::vector<std::string> rows, topics;
+        std::vector<std::string> rows;
         for (const auto& item : report.itemised_breakdown) {
             PublicQuestion q; const auto found = bank->getQuestionForQuiz(item.question_id, &q);
             const auto option = [&](int i) { return found.ok() && i >= 0 && static_cast<std::size_t>(i) < q.options.size() ? q.options[static_cast<std::size_t>(i)] : "Unavailable"; };
             rows.push_back("{\"question\":"+quote(found.ok()?q.question_text:item.question_id)+",\"selected\":"+quote(item.blank?"Blank":option(item.selected_option))+",\"answer\":"+quote(option(static_cast<int>(item.correct_option)))+",\"status\":"+quote(item.blank?"Blank":item.correct?"Correct":"Incorrect")+",\"marks\":"+number(item.marks_awarded)+"}");
         }
-        for (const auto& topic : report.topic_breakdown)
-            topics.push_back("{\"subject\":"+quote(topic.subject_tag)+",\"correct\":"+std::to_string(topic.correct)+",\"total\":"+std::to_string(topic.total)+",\"marks\":"+number(topic.marks)+"}");
+        const auto topics = jsonValues(report.topic_breakdown, [](const TopicScore& topic) {
+            return "{\"subject\":"+quote(topic.subject_tag)+",\"correct\":"+std::to_string(topic.correct)+",\"total\":"+std::to_string(topic.total)+",\"marks\":"+number(topic.marks)+"}";
+        });
         return "{\"score\":"+number(report.score)+",\"max\":"+number(report.max_score)+",\"auto\":"+(report.auto_submitted?"true":"false")+",\"items\":"+array(rows)+",\"topics\":"+array(topics)+"}";
     }
-    std::string attemptJson(BrowserSession& s) {
+    std::string attemptJson(const BrowserSession& s) const {
         if (!s.attempt) throw ApiError(404, "Start a quiz first.");
         const auto& a = s.attempt->attempt();
         if (a.submitted) {
@@ -221,10 +230,9 @@ struct WebApplication::Impl {
             return "{\"completed\":true,\"report\":"+reportJson(report)+"}";
         }
         AttemptQuestionView view; require(s.attempt->question(&view));
-        std::vector<std::string> options, flags;
-        for (const auto& option : view.question.options) options.push_back(quote(option));
+        const auto options = jsonValues(view.question.options, quote);
         const auto review = s.attempt->review();
-        for (auto p : review.flagged_positions) flags.push_back(std::to_string(p));
+        const auto flags = jsonValues(review.flagged_positions, [](std::size_t p) { return std::to_string(p); });
         std::chrono::milliseconds remaining{};
         if (a.mode == QuizMode::Graded) require(s.attempt->remainingTime(&remaining));
         std::string feedback = "null";
@@ -264,8 +272,10 @@ struct WebApplication::Impl {
         if (!post && path=="/api/session") return {200,profile(s),""};
         if (post && path=="/api/logout") { sessions.erase(sessionToken(request.cookie));return {200,"{}","qs_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0"}; }
         if (!post && path=="/api/quizzes") {
-            std::vector<Quiz> quizzes;require(s.engine->listQuizzes(&quizzes));std::vector<std::string> rows;
-            for(const auto& q:quizzes)rows.push_back("{\"id\":"+quote(q.quiz_id)+",\"title\":"+quote(q.title)+",\"minutes\":"+std::to_string(q.time_limit_minutes)+",\"count\":"+std::to_string(q.question_ids.size())+",\"marks\":"+number(q.scoring.marks_per_question)+"}");
+            std::vector<Quiz> quizzes;require(s.engine->listQuizzes(&quizzes));
+            const auto rows = jsonValues(quizzes, [](const Quiz& q) {
+                return "{\"id\":"+quote(q.quiz_id)+",\"title\":"+quote(q.title)+",\"minutes\":"+std::to_string(q.time_limit_minutes)+",\"count\":"+std::to_string(q.question_ids.size())+",\"marks\":"+number(q.scoring.marks_per_question)+"}";
+            });
             return {200,array(rows),""};
         }
         if (post && path=="/api/quizzes/create") {
@@ -277,8 +287,11 @@ struct WebApplication::Impl {
         if (path=="/api/questions" || path.rfind("/api/questions/",0)==0) {
             if(s.actor.role==Role::Student)throw ApiError(403,"Only instructors can manage questions.");
             if(!post && path=="/api/questions") {
-                std::vector<Question> questions;require(bank->listQuestions(s.actor,&questions,false,std::nullopt,std::nullopt));std::vector<std::string> rows;
-                for(const auto& q:questions){std::vector<std::string> opts;for(const auto& o:q.options)opts.push_back(quote(o));rows.push_back("{\"id\":"+quote(q.question_id)+",\"text\":"+quote(q.question_text)+",\"subject\":"+quote(q.subject_tag)+",\"difficulty\":"+quote(difficultyToString(q.difficulty))+",\"options\":"+array(opts)+",\"correct\":"+std::to_string(q.correct_option)+",\"available\":"+(q.is_available?"true":"false")+"}");}
+                std::vector<Question> questions;require(bank->listQuestions(s.actor,&questions,false,std::nullopt,std::nullopt));
+                const auto rows = jsonValues(questions, [](const Question& q) {
+                    const auto opts = jsonValues(q.options, quote);
+                    return "{\"id\":"+quote(q.question_id)+",\"text\":"+quote(q.question_text)+",\"subject\":"+quote(q.subject_tag)+",\"difficulty\":"+quote(difficultyToString(q.difficulty))+",\"options\":"+array(opts)+",\"correct\":"+std::to_string(q.correct_option)+",\"available\":"+(q.is_available?"true":"false")+"}";
+                });
                 return {200,array(rows),""};
             }
             if(post && path=="/api/questions/save") {
@@ -316,7 +329,10 @@ struct WebApplication::Impl {
             if(type=="quiz")require(analytics->leaderboard(get(values,"quiz"),&entries));
             else if(type=="topic")require(analytics->topicLeaderboard(get(values,"subject"),&entries));
             else if(type=="all")require(analytics->allTimeLeaderboard(&entries));else throw ApiError(400,"Choose a ranking type.");
-            std::vector<std::string> rows;for(const auto& entry:entries)rows.push_back("{\"student\":"+quote(entry.student_id)+",\"score\":"+number(entry.score)+",\"rank\":"+std::to_string(entry.rank)+",\"own\":"+(entry.student_id==s.actor.user_id?"true":"false")+"}");return {200,array(rows),""};
+            const auto rows = jsonValues(entries, [&s](const LeaderboardEntry& entry) {
+                return "{\"student\":"+quote(entry.student_id)+",\"score\":"+number(entry.score)+",\"rank\":"+std::to_string(entry.rank)+",\"own\":"+(entry.student_id==s.actor.user_id?"true":"false")+"}";
+            });
+            return {200,array(rows),""};
         }
         throw ApiError(404,"Unknown API route.");
     }
