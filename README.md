@@ -117,3 +117,8 @@ Instructor/Admin sessions can create quizzes through `QuizEngine::createQuiz`. T
 The existing quiz tests are supplemented by real SQLite tests in `tests/quiz_engine_sqlite_tests.cpp`, covering filtered selection, authorization, invalid configurations, restart persistence, referenced-question protection and attempt/answer storage. Tests are registered by CMake and run through CTest. Sprint 1 attempts, navigation, modes and menu entry points are described in [Sprint 1 quiz attempts](docs/SPRINT1_QUIZ_ATTEMPTS.md). Production graded submission awaits BL-10 integration.
 
 The grading-floor decision remains with Arundhathi and Chaturya: for +4 correct, -1 wrong and 0 blank, one correct and one wrong produce 4 under a per-question zero floor and 3 under an attempt-total floor. All-wrong answers can leave negative item/topic totals while the attempt total is floored to zero in PR #60. BL-08 stores the requested scoring configuration and does not select between these rules.
+# Optional browser interface
+
+Build the additional `quizsphere_web` target and open `http://127.0.0.1:8765/`
+for the Student/Instructor browser workspace. See [browser build, usage and
+scope](docs/WEB_INTERFACE.md). The existing console executable is also available.
