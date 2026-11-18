@@ -54,6 +54,9 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
     line->clear();
     bool rejected = false;
     const auto finished = [&] {
+        // Only a trailing CR belongs to the CRLF line terminator. Embedded CR
+        // stays in the value and is rejected instead of turning y<CR>es into yes.
+        if (!line->empty() && line->back() == '\r') line->pop_back();
         if (rejected || !validInputText(*line, kMaxConsoleLineBytes)) {
             line->clear();
             return TimedRead::Error;
@@ -85,9 +88,11 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
                 std::cout << '\n' << std::flush;
                 return consoleNow() < deadline ? finished() : expired();
             }
-            if (key == '\b' && !line->empty()) {
-                line->pop_back();
-                std::cout << "\b \b" << std::flush;
+            if (key == '\b') {
+                if (!line->empty()) {
+                    line->pop_back();
+                    std::cout << "\b \b" << std::flush;
+                }
             } else if (key >= 32 && key <= 126) {
                 if (line->size() < kMaxConsoleLineBytes) {
                     line->push_back(static_cast<char>(key));
@@ -95,7 +100,7 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
                 } else rejected = true;
             } else if (key == 26) {
                 return TimedRead::Closed;
-            }
+            } else rejected = true;
             continue;
         }
         if (type == FILE_TYPE_PIPE) {
@@ -125,10 +130,8 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
         if (byte == std::char_traits<char>::eof())
             return line->empty() && !rejected ? TimedRead::Closed : finished();
         if (byte == '\n') return finished();
-        if (byte != '\r') {
-            if (line->size() < kMaxConsoleLineBytes) line->push_back(static_cast<char>(byte));
-            else rejected = true;
-        }
+        if (line->size() < kMaxConsoleLineBytes) line->push_back(static_cast<char>(byte));
+        else rejected = true;
     }
 }
 
