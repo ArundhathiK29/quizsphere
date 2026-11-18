@@ -312,6 +312,13 @@ struct WebApplication::Impl {
         if(post && path=="/api/attempt/start") {
             if(s.actor.role!=Role::Student)throw ApiError(403,"Only students can attempt quizzes.");
             const auto mode=get(values,"mode");if(mode!="practice"&&mode!="graded")throw ApiError(400,"Choose practice or graded mode.");
+            // Keep the live graded deadline monitored until finalization. Resuming
+            // that same graded quiz is allowed; replacing it with another activity is not.
+            if (s.attempt && s.attempt->attempt().mode == QuizMode::Graded &&
+                !s.attempt->attempt().submitted &&
+                (mode != "graded" || get(values,"quiz") != s.attempt->attempt().quiz_id)) {
+                throw ApiError(409,"Finish your current graded quiz before starting another activity.");
+            }
             auto attempt=std::make_unique<QuizAttemptSession>(s.actor,*s.engine,*bank);require(attempt->start(get(values,"quiz"),mode=="practice"?QuizMode::Practice:QuizMode::Graded));s.attempt=std::move(attempt);s.timer_error.clear();return {200,attemptJson(s),""};
         }
         if(path=="/api/attempt" || path=="/api/attempt/action") {
