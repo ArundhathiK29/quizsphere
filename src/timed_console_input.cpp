@@ -11,8 +11,6 @@
 #define NOMINMAX
 #endif
 #include <conio.h>
-#include <fcntl.h>
-#include <io.h>
 #include <windows.h>
 #else
 #include <cerrno>
@@ -49,12 +47,6 @@ TimedRead expired() {
 }  // namespace
 
 bool prepareTimedConsoleInput() {
-#ifdef _WIN32
-    // One byte-preserving CRT stream is shared by normal and timed pipe reads.
-    // Mixing std::cin with ReadFile loses CRT lookahead bytes intermittently;
-    // text mode would also erase embedded CR before validation.
-    if (_setmode(_fileno(stdin), _O_BINARY) == -1) return false;
-#endif
     return std::setvbuf(stdin, nullptr, _IONBF, 0) == 0;
 }
 
@@ -123,7 +115,11 @@ TimedRead readConsoleLineUntil(ConsoleDeadline deadline, std::string* line) {
             return TimedRead::Error;
         }
         if (consoleNow() >= deadline) return expired();
-        const int byte = std::cin.get();
+        unsigned char raw = 0;
+        DWORD count = 0;
+        if (!ReadFile(input, &raw, 1, &count, nullptr))
+            return GetLastError() == ERROR_BROKEN_PIPE ? TimedRead::Closed : TimedRead::Error;
+        const int byte = count == 0 ? std::char_traits<char>::eof() : raw;
 #else
         const int ready = poll(&input, 1, wait);
         if (ready == 0 || (ready < 0 && errno == EINTR)) continue;

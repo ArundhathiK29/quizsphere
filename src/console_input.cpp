@@ -16,7 +16,18 @@ bool readConsoleLine(std::istream& input, std::ostream& output, std::string& val
     bool rejected = false;
     bool received = false;
     char byte = 0;
-    while (input.get(byte)) {
+    const auto readByte = [&] {
+#if defined(_WIN32)
+        // The real input handle is also used by timed reads. Mixing it with
+        // CRT/iostream buffering can hide bytes from PeekNamedPipe.
+        if (&input == &std::cin) {
+            DWORD count = 0;
+            return ReadFile(GetStdHandle(STD_INPUT_HANDLE), &byte, 1, &count, nullptr) != 0 && count == 1;
+        }
+#endif
+        return static_cast<bool>(input.get(byte));
+    };
+    while (readByte()) {
         received = true;
         if (byte == '\n') break;
         if (value.size() < max_bytes) value.push_back(byte);
