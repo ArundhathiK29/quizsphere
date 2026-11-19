@@ -99,6 +99,19 @@ TEST_F(SecurityMenus, ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBefo
     EXPECT_TRUE(questions.empty());
 }
 
+TEST_F(SecurityMenus, RejectedQuestionMenuLineDoesNotEndTheMenu) {
+    for (const auto& rejected : {std::string("bad\x1B"), std::string(100000, 'x'),
+                                 std::string("\xFF")}) {
+        // Listing questions proves the valid command after rejection was executed.
+        std::istringstream input(rejected + "\n1\n\n\n0\n");
+        std::ostringstream output;
+        createConsoleMenu(instructor, "teacher", *bank, input, output)->run();
+        EXPECT_NE(output.str().find("Invalid input"), std::string::npos);
+        EXPECT_NE(output.str().find("Subject filter"), std::string::npos);
+        EXPECT_EQ(output.str().find("Input ended"), std::string::npos);
+    }
+}
+
 TEST_F(SecurityMenus, ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers) {
     for (const auto& title : {std::string(201, 'x'), std::string("bad\x1Btitle"), std::string("\xFF"), std::string(" ")}) {
         QuizConfig config;

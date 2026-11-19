@@ -26,8 +26,10 @@ int readConsoleByte(std::istream& input) {
 }
 }  // namespace
 
-bool readConsoleLine(std::istream& input, std::ostream& output, std::string& value, std::size_t max_bytes) {
+bool readConsoleLine(std::istream& input, std::ostream& output, std::string& value, std::size_t max_bytes,
+                     ConsoleLineStatus* status) {
     value.clear();
+    if (status) *status = ConsoleLineStatus::EndOfInput;
     bool rejected = false;
     bool received = false;
     for (;;) {
@@ -43,9 +45,11 @@ bool readConsoleLine(std::istream& input, std::ostream& output, std::string& val
     if (!value.empty() && value.back() == '\r') value.pop_back();
     if (rejected || !validInputText(value, max_bytes, true) || value.find_first_of("\r\n") != std::string::npos) {
         value.clear();
+        if (status) *status = ConsoleLineStatus::Rejected;
         output << "Invalid input: line is too long or contains unsupported characters.\n";
         return false;
     }
+    if (received && status) *status = ConsoleLineStatus::Accepted;
     return received;
 }
 

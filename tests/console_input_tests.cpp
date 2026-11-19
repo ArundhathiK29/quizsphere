@@ -24,3 +24,18 @@ TEST(ConsoleInput, EndOfInputDoesNotReuseAnEarlierPassword) {
     EXPECT_TRUE(password.empty());
     EXPECT_EQ(output.str(), "Password: ");
 }
+
+TEST(ConsoleInput, StatusDistinguishesRejectedLineFromEndOfInput) {
+    using namespace quizsphere;
+    std::istringstream input("bad\x1B\nvalid\n");
+    std::ostringstream output;
+    std::string value;
+    ConsoleLineStatus status;
+    EXPECT_FALSE(readConsoleLine(input, output, value, 100, &status));
+    EXPECT_EQ(status, ConsoleLineStatus::Rejected);
+    EXPECT_TRUE(readConsoleLine(input, output, value, 100, &status));
+    EXPECT_EQ(status, ConsoleLineStatus::Accepted);
+    EXPECT_EQ(value, "valid");
+    EXPECT_FALSE(readConsoleLine(input, output, value, 100, &status));
+    EXPECT_EQ(status, ConsoleLineStatus::EndOfInput);
+}
