@@ -1,3 +1,4 @@
+#include "console_input.hpp"
 #include "quiz_console.hpp"
 
 #include <algorithm>
@@ -20,7 +21,7 @@ void trimLine(std::string* value) {
 
 bool read(std::istream& input, std::ostream& output, const std::string& prompt, std::string* value) {
     output << prompt;
-    if (!std::getline(input,*value)) return false;
+    if (!readConsoleLine(input,output,*value)) return false;
     trimLine(value);
     return true;
 }
@@ -159,6 +160,10 @@ void runQuizAttempts(const Session& student, QuizEngine& engine, QuestionBank& b
             if (remaining.count() == 0) { autoSubmit(); return false; }
             if (status == TimedRead::Error) output << "\nError: could not read timed quiz input.\n";
             if (status != TimedRead::Line) return false;
+            if (line->size() > kMaxConsoleLineBytes || !validInputText(*line, kMaxConsoleLineBytes)) {
+                output << "Invalid input: quiz command rejected.\n";
+                return false;
+            }
             trimLine(line);
             return true;
         }

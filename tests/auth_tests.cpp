@@ -438,3 +438,22 @@ TEST(Auth, UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp) {
     EXPECT_EQ(session.role, Role::Instructor);
     EXPECT_EQ(session.logged_in_at, "2023-11-14T22:13:20Z");
 }
+
+TEST(Auth, AdminEntryAccessUsesTheCurrentStoredRoleAndStatus) {
+    FakeRepository repo;
+    const int admin = repo.addUser("root_admin", kPassword, Role::Admin);
+    const int student = repo.addUser("student", kPassword, Role::Student);
+    const Session actor = adminSession(admin);
+    EXPECT_EQ(checkAdminAccess(repo, actor), AuthStatus::Success);
+    EXPECT_EQ(checkAdminAccess(repo, adminSession(student)), AuthStatus::PermissionDenied);
+    EXPECT_EQ(checkAdminAccess(repo, {"invalid", Role::Admin, ""}), AuthStatus::PermissionDenied);
+    EXPECT_EQ(checkAdminAccess(repo, adminSession(99999)), AuthStatus::PermissionDenied);
+    repo.find(admin)->role = Role::Instructor;
+    EXPECT_EQ(checkAdminAccess(repo, actor), AuthStatus::PermissionDenied);
+    repo.find(admin)->role = Role::Admin;
+    repo.find(admin)->enabled = false;
+    EXPECT_EQ(checkAdminAccess(repo, actor), AuthStatus::PermissionDenied);
+    repo.find(admin)->enabled = true;
+    repo.fail = true;
+    EXPECT_EQ(checkAdminAccess(repo, actor), AuthStatus::StorageError);
+}

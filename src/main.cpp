@@ -8,18 +8,15 @@
 #include "analytics_console.hpp"
 #include "analytics_module.hpp"
 #include "auth.hpp"
+#include "admin_user_menu.hpp"
 #include "console_menu.hpp"
+#include "console_input.hpp"
 #include "quiz_console.hpp"
 #include "question_bank.hpp"
 #include "question_repository.hpp"
 #include "sqlite_user_repository.hpp"
 
-#if defined(_WIN32)
-#include <windows.h>
-#else
-#include <termios.h>
-#include <unistd.h>
-#endif
+
 
 namespace {
 
@@ -38,40 +35,11 @@ std::string envOr(const char* name, const char* fallback) {
 
 bool readLine(const std::string& prompt, std::string& out) {
     std::cout << prompt << std::flush;
-    return static_cast<bool>(std::getline(std::cin, out));
+    return quizsphere::readConsoleLine(std::cin, std::cout, out);
 }
 
-// Reads a password without echoing it when stdin is a terminal; falls back to a plain read otherwise (pipes, tests).
 bool readPassword(const std::string& prompt, std::string& out) {
-    std::cout << prompt << std::flush;
-#if defined(_WIN32)
-    HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
-    DWORD mode = 0;
-    const bool is_console = handle != INVALID_HANDLE_VALUE && GetConsoleMode(handle, &mode) != 0;
-    if (is_console) {
-        SetConsoleMode(handle, mode & ~static_cast<DWORD>(ENABLE_ECHO_INPUT));
-    }
-    const bool ok = static_cast<bool>(std::getline(std::cin, out));
-    if (is_console) {
-        SetConsoleMode(handle, mode);
-        std::cout << '\n';
-    }
-    return ok;
-#else
-    termios original{};
-    const bool is_tty = isatty(STDIN_FILENO) != 0 && tcgetattr(STDIN_FILENO, &original) == 0;
-    if (is_tty) {
-        termios silent = original;
-        silent.c_lflag &= static_cast<tcflag_t>(~ECHO);
-        tcsetattr(STDIN_FILENO, TCSANOW, &silent);
-    }
-    const bool ok = static_cast<bool>(std::getline(std::cin, out));
-    if (is_tty) {
-        tcsetattr(STDIN_FILENO, TCSANOW, &original);
-        std::cout << '\n';
-    }
-    return ok;
-#endif
+    return quizsphere::readConsolePassword(std::cin, std::cout, prompt, out);
 }
 
 const char* describe(AuthStatus status) {
@@ -130,9 +98,12 @@ void doRegister(quizsphere::IUserRepository& users) {
         std::cout << "Passwords did not match.\n";
         return;
     }
-    const quizsphere::Role role = (!role_choice.empty() && (role_choice[0] == 'i' || role_choice[0] == 'I'))
-                                      ? quizsphere::Role::Instructor
-                                      : quizsphere::Role::Student;
+    if (role_choice != "s" && role_choice != "S" && role_choice != "i" && role_choice != "I") {
+        std::cout << "Invalid role. Choose s or i.\n";
+        return;
+    }
+    const quizsphere::Role role = (role_choice == "i" || role_choice == "I")
+                                      ? quizsphere::Role::Instructor : quizsphere::Role::Student;
     const AuthResult result = quizsphere::registerUser(users, username, password, role);
     std::cout << (result.ok() ? "Account created. You can now log in." : describe(result.status)) << '\n';
 }
@@ -145,7 +116,8 @@ const char* roleLabel(quizsphere::Role role) {
 
 void runSession(const quizsphere::Session& session, const std::string& username, quizsphere::QuestionBank& bank,
                 quizsphere::QuizEngine& engine, const quizsphere::GradingModule& grading,
-                const quizsphere::AnalyticsModule& analytics, const quizsphere::QuizRepository& quizzes) {
+                const quizsphere::AnalyticsModule& analytics, const quizsphere::QuizRepository& quizzes,
+                quizsphere::IUserRepository& users) {
     const bool is_student = session.role == quizsphere::Role::Student;
     const bool is_admin = session.role == quizsphere::Role::Admin;
     for (;;) {
@@ -157,7 +129,7 @@ void runSession(const quizsphere::Session& session, const std::string& username,
             std::cout << "3. View rankings\n";
         } else if (is_admin) {
             std::cout << "1. Question bank (view, import/export, enable/disable)\n";
-            std::cout << "2. Manage users (coming soon)\n";
+            std::cout << "2. Manage users\n";
             std::cout << "3. View analytics\n";
         } else {
             std::cout << "1. Question bank\n";
@@ -186,7 +158,7 @@ void runSession(const quizsphere::Session& session, const std::string& username,
         } else if (!is_student && choice == "3") {
             quizsphere::runAnalyticsMenu(session, analytics, quizzes, std::cin, std::cout);
         } else if (is_admin && choice == "2") {
-            std::cout << "Not available yet: this feature is planned for a later sprint.\n";
+            quizsphere::runAdminUserMenu(session, users, std::cin, std::cout);
         } else {
             std::cout << "Invalid option.\n";
         }
@@ -286,7 +258,7 @@ int main() {
                 continue;
             }
             runSession(quizsphere::makeSession(login, unixNow()), username, *question_bank, *engine, *grading,
-                       *analytics, *dal->quizzes);
+                       *analytics, *dal->quizzes, users);
         } else {
             std::cout << "Invalid option.\n";
         }

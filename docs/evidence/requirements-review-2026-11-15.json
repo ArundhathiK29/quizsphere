@@ -1,0 +1,87 @@
+{
+  "reviewDate": "2026-11-15",
+  "main": "0d9519ab9c93ff0ccb047ba6cee1a86893579855",
+  "pdf": {
+    "path": "docs/Team12_SE_QuizSphere.pdf",
+    "pages": 25,
+    "gitBlob": "5038982b1e9749f9a5f9532cd4126bccff550e6c",
+    "sha256": "10ff850ad48533e29d99525a4542c33b216aaf29a1f2e1d9532282b8cc215891"
+  },
+  "pendingPRs": [
+    {
+      "number": 61,
+      "sha": "d68f49146ed1ea258e6531eee3ef6e289ced8faa"
+    },
+    {
+      "number": 62,
+      "sha": "a6d408d8190c0fd2e313310d13cbd7280af79f92"
+    },
+    {
+      "number": 63,
+      "sha": "04c73a064e3d3f61e76631c8ce5383f76cef30fd"
+    },
+    {
+      "number": 68,
+      "sha": "1fb68a4ae6e455745f0d4b1b2c0da3eede168885"
+    },
+    {
+      "number": 70,
+      "sha": "0a8cf8d746e877d7104ad712f12e573469760fe7"
+    },
+    {
+      "number": 71,
+      "sha": "887b54bbe0819668accf73973995ba46e5f074da"
+    }
+  ],
+  "documentChecks": {
+    "expectedRequirementRows": 50,
+    "reviewedRows": 50,
+    "fr": 22,
+    "nfr": 6,
+    "security": 6,
+    "businessRules": 7,
+    "useCases": 9,
+    "codeAndTestFileRevisionsChecked": 54,
+    "referenceErrors": 0,
+    "method": "Referenced files/symbols and executable test names checked against pinned snapshots; planned tests labelled explicitly."
+  },
+  "executionEvidence": {
+    "main": {
+      "run": 43730792622,
+      "ctestEntries": 148,
+      "buildTest": "success",
+      "docker": "success"
+    },
+    "leaderboardFollowup": {
+      "pr": 70,
+      "run": 43734826113,
+      "ctestEntries": 151,
+      "buildTest": "success",
+      "docker": "success"
+    },
+    "adminMenu": {
+      "pr": 71,
+      "run": 43738064178,
+      "ctestEntries": 166,
+      "buildTest": "success",
+      "docker": "success"
+    },
+    "authCoverage": {
+      "pr": 68,
+      "focusedTests": 40,
+      "linesCovered": 440,
+      "linesTotal": 474,
+      "branchesCovered": 436,
+      "branchesTotal": 690,
+      "scope": [
+        "src/auth.cpp",
+        "src/password_hasher.cpp",
+        "src/auth_event_log.cpp",
+        "src/sqlite_user_repository.cpp"
+      ],
+      "compiler": "GCC/gcov 15.1.0",
+      "executedAt": "2026-11-10",
+      "note": "Historical four-source measurement; not new Admin UI or whole-project coverage."
+    }
+  }
+}

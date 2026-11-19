@@ -1,0 +1,2037 @@
+[
+  {
+    "name": "AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu",
+    "binary": "admin_user_menu_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsSqliteIntegrationTest.DifficultyIndexCountsOnlyGradedAttemptsAndSurvivesRestart",
+    "binary": "analytics_module_sqlite_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsSqliteIntegrationTest.DifficultyIndexTreatsAPersistedBlankAsIncorrect",
+    "binary": "analytics_module_sqlite_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.LeaderboardForUnknownQuizReturnsQuizNotFound",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.LeaderboardWithNoGradedAttemptsIsEmptyNotAnError",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TopicLeaderboardForAnUnusedSubjectIsEmptyNotAnError",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.AllTimeLeaderboardWithNoGradedAttemptsIsEmptyNotAnError",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.AnalyticsConsoleRefusesStudents",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.StudentRankingsHandlesEmptyResultsInvalidInputAndBack",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.DifficultyIndexTreatsABlankAnswerAsIncorrect",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.StudentWithoutAGradeIsUnrankedAndInstructorGetsNoOwnRankSummary",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.GradedReportIgnoresNewerPracticeAndSurvivesRestart",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "LeaderboardSqliteTest.PracticeOnlyAndOtherStudentsDoNotProduceGradedResults",
+    "binary": "analytics_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "PasswordHasher.SameSecretGetsDifferentSalts",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "PasswordHasher.RejectsWrongPassword",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "PasswordHasher.EmbeddedNulBytesAreSignificant",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "PasswordHasher.RefusesIterationCountsOutsidePolicy",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "PasswordHasher.RejectsMalformedStoredValues",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_02_RegistersStudentAndInstructor",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_11_PasswordPolicy",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_12_UsernameValidation",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.RegistrationNeverStoresThePlaintextPassword",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_08_AdminManagesUsers",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AuthEventLog.FormatsUtcTimestamps",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "AuthEventLog.AppendsRatherThanOverwrites",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.OpensAndCreatesSchema",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.StoresAndReturnsEveryField",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.RegistrationAndLoginWorkEndToEnd",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SqliteUserRepository.AdminLifecycleThroughTheRealRepository",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding",
+    "binary": "auth_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.SavesAndRetrievesQuiz",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.ListsSavedQuizzes",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.MissingQuizReturnsQuizNotFound",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.SavesAndRetrievesInProgressAttempt",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.UpdatesExistingInProgressAttempt",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.FindsOpenAttempt",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.SavesAndRetrievesGradeReport",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.RejectsDuplicateGradedSubmission",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges",
+    "binary": "data_access_layer_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal",
+    "binary": "grading_module_sqlite_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank",
+    "binary": "grading_module_sqlite_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase",
+    "binary": "grading_module_sqlite_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.GroupsTopicBreakdownBySubjectTag",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.OutOfRangeOptionIndexIsRejected",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.ResultLookupPreservesListAndExactReportFailures",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails",
+    "binary": "grading_module_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands",
+    "binary": "input_validation_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds",
+    "binary": "part3_acceptance_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {
+      "maximum_load_start_ms": "14.989645"
+    }
+  },
+  {
+    "name": "Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite",
+    "binary": "part3_acceptance_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank",
+    "binary": "part3_acceptance_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {
+      "fuzz_seed": "20261118",
+      "generated_cases": "100"
+    }
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_01_AddPersistReload",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_02_EditQuestion",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_05_MissingSubjectTag",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_06_FewerThanTwoOptions",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_07_ValidCsvImport",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_08_CsvWithTwoInvalidRowsOfTen",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_09_ExportFullAndFiltered",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_10_DisableViaSetAvailability",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.UT_QB_11_RejectedRowLoggingWithTimestampAndReason",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_DuplicateIdRejected",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_IdsAndSubjectsAreNormalisedAndMatchedCaseInsensitively",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_ListAvailableFilterCombinations",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_ValidationLimitsCountCharactersNotBytes",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_ControlCharactersAndDuplicateOptionsRejected",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_SpecialCharactersRoundTripTsvAndCsv",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_FormulaInjectionIsNeutralisedOnExportAndLosslessOnImport",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_CsvBomCrlfMultilineAndFormulaImport",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.ST_SEC_05_StructuralCsvFailuresRejectWholeFileAndLeaveBankIdentical",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_CsvRowLevelProblemsAreSkippedAndReported",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_UnterminatedQuoteOnlyAffectsItsOwnRecord",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_TextAfterClosingQuoteIsMalformed",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_RowNumbersArePhysicalLines",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_LoadFailsOnMalformedStoredFileAndLeavesFileAlone",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.EXTRA_StorageFileWithCrlfLoads",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.ST_SEC_02_RoleDenialOnEveryFunction",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.ST_SEC_QuizViewNeverExposesCorrectAnswerToStudents",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankFixture.ST_SEC_05_ReadOnlyDirectoryKeepsOriginalFileByteIdentical",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankUnit.EXTRA_InUseQuestionBlocksUpdateAndDelete",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankUnit.EXTRA_SaveFailureRollsBackEveryOperation",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankUnit.EXTRA_ImportPersistFailureRollsBackAndReportsError",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuestionBankUnit.EXTRA_ImportLogFailureIsReportedNotSilent",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_InvalidOptionThenExit",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_EndOfInputExitsCleanly",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_DeleteNeedsYesAndNoKeepsQuestion",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_AddQuestionThroughMenu",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_InvalidDifficultyCancelsInsteadOfDefaultingToEasy",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_CorrectOptionMustBeAWholeNumber",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_EnableDisableUsesExactWordsAndConfirmation",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_StudentSeesNoActionsAndIsDenied",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_ExportAsksBeforeOverwriting",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_UI_ImportShowsSkippedRowsWithLineNumbers",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "MenuFixture.ST_ADM_02_AdminCanImportAndExportThroughMenu",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "StorageParityTest.UT_DAL_02_FlatFileAndSqliteReturnIdenticalQuestions",
+    "binary": "question_bank_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.CreatesQuizAndPersistsItsDetails",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.AllowsScoringWithoutNegativeMarking",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNonPositiveMarksPerQuestion",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNegativeNegativeMark",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNonFiniteScoringValues",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.AdminCanCreateQuiz",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.StudentCannotCreateQuiz",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsUnauthenticatedSession",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsBlankTitle",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNonPositiveQuestionCount",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNonPositiveTimeLimit",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNullOutputPointer",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsInsufficientAvailableQuestions",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.AppliesSubjectAndDifficultyFilters",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.DoesNotIncludeUnavailableQuestions",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.ListsCreatedQuizzes",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNullQuizListPointer",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsNullQuizPointerWhenRetrieving",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TimedConsoleInputTest.IncompleteInputDoesNotBlockDeadlineAndNextLineCanBeRead",
+    "binary": "quiz_engine_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText",
+    "binary": "result_view_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase",
+    "binary": "result_view_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit",
+    "binary": "result_view_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks",
+    "binary": "result_view_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultView.ShowsTheTotalScoreAgainstMaxScore",
+    "binary": "result_view_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultView.FlagsAutoSubmittedAttempts",
+    "binary": "result_view_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultView.HandlesAnEmptyBreakdownWithoutCrashing",
+    "binary": "result_view_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest",
+    "binary": "result_view_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics",
+    "binary": "result_view_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SubmittedAttemptProtectionTest.SubmittedGradedAttemptCannotBeChangedOrDeletedThroughAnyApi",
+    "binary": "submitted_attempt_protection_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SubmittedAttemptProtectionTest.ProtectionHoldsAfterRestart",
+    "binary": "submitted_attempt_protection_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "SubmittedAttemptProtectionTest.QuizAttemptSessionRefusesEveryActionAfterSubmit",
+    "binary": "submitted_attempt_protection_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart",
+    "binary": "topic_analytics_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan",
+    "binary": "topic_analytics_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TranscriptExportIntegrationTest.WritesRereadsRefusesSilentOverwriteAndReportsBadPath",
+    "binary": "transcript_export_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "TranscriptExportIntegrationTest.StudentWithNoGradedAttemptsGetsAHeaderOnlyFile",
+    "binary": "transcript_export_integration_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole",
+    "binary": "web_application_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent",
+    "binary": "web_application_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart",
+    "binary": "web_application_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode",
+    "binary": "web_application_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected",
+    "binary": "web_application_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  },
+  {
+    "name": "WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability",
+    "binary": "web_application_tests",
+    "failed": false,
+    "skipped": false,
+    "properties": {}
+  }
+]

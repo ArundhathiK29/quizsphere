@@ -1,0 +1,4 @@
+PASS HTTP auth, CSRF, host/origin boundary, role denial, question and quiz creation
+PASS practice isolation, no premature graded key, correct original-option mapping and final result
+PASS restart persistence, retake rejection, idle server-tick auto-submit and real rankings
+All real HTTP smoke checks passed.

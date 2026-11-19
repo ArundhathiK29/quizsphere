@@ -1,0 +1,26 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 7 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 4 tests from InputValidation
+[ RUN      ] InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix
+[       OK ] InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix (1 ms)
+[ RUN      ] InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode
+[       OK ] InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode (0 ms)
+[ RUN      ] InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret
+[       OK ] InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret (0 ms)
+[ RUN      ] InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation
+[       OK ] InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation (0 ms)
+[----------] 4 tests from InputValidation (1 ms total)
+
+[----------] 3 tests from SecurityMenus
+[ RUN      ] SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage
+[       OK ] SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage (44 ms)
+[ RUN      ] SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers
+[       OK ] SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers (34 ms)
+[ RUN      ] SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands
+[       OK ] SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands (216 ms)
+[----------] 3 tests from SecurityMenus (294 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 2 test suites ran. (296 ms total)
+[  PASSED  ] 7 tests.

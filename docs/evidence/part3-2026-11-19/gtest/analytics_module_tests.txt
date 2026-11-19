@@ -1,0 +1,80 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 34 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 27 tests from AnalyticsModuleTest
+[ RUN      ] AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks
+[       OK ] AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks (0 ms)
+[ RUN      ] AnalyticsModuleTest.LeaderboardForUnknownQuizReturnsQuizNotFound
+[       OK ] AnalyticsModuleTest.LeaderboardForUnknownQuizReturnsQuizNotFound (0 ms)
+[ RUN      ] AnalyticsModuleTest.LeaderboardWithNoGradedAttemptsIsEmptyNotAnError
+[       OK ] AnalyticsModuleTest.LeaderboardWithNoGradedAttemptsIsEmptyNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded
+[       OK ] AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicLeaderboardForAnUnusedSubjectIsEmptyNotAnError
+[       OK ] AnalyticsModuleTest.TopicLeaderboardForAnUnusedSubjectIsEmptyNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded
+[       OK ] AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded (0 ms)
+[ RUN      ] AnalyticsModuleTest.AllTimeLeaderboardWithNoGradedAttemptsIsEmptyNotAnError
+[       OK ] AnalyticsModuleTest.AllTimeLeaderboardWithNoGradedAttemptsIsEmptyNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleRefusesStudents
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleRefusesStudents (0 ms)
+[ RUN      ] AnalyticsModuleTest.StudentRankingsHandlesEmptyResultsInvalidInputAndBack
+[       OK ] AnalyticsModuleTest.StudentRankingsHandlesEmptyResultsInvalidInputAndBack (0 ms)
+[ RUN      ] AnalyticsModuleTest.StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput
+[       OK ] AnalyticsModuleTest.StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleShowsQuizTopicAndAllTimeLeaderboards (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly
+[       OK ] AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexTreatsABlankAnswerAsIncorrect
+[       OK ] AnalyticsModuleTest.DifficultyIndexTreatsABlankAnswerAsIncorrect (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError
+[       OK ] AnalyticsModuleTest.DifficultyIndexForAnUnattemptedQuestionIsZeroNotAnError (0 ms)
+[ RUN      ] AnalyticsModuleTest.DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound
+[       OK ] AnalyticsModuleTest.DifficultyIndexForAnUnknownQuestionReturnsQuestionNotFound (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound
+[       OK ] AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice
+[       OK ] AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic
+[       OK ] AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic (0 ms)
+[ RUN      ] AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone
+[       OK ] AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping
+[       OK ] AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells
+[       OK ] AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly
+[       OK ] AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly (0 ms)
+[ RUN      ] AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone
+[       OK ] AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone (0 ms)
+[ RUN      ] AnalyticsModuleTest.ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems
+[       OK ] AnalyticsModuleTest.ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems (0 ms)
+[ RUN      ] AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting
+[       OK ] AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting (0 ms)
+[ RUN      ] AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent
+[       OK ] AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent (0 ms)
+[----------] 27 tests from AnalyticsModuleTest (1 ms total)
+
+[----------] 7 tests from LeaderboardSqliteTest
+[ RUN      ] LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart
+[       OK ] LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart (92 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart
+[       OK ] LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart (79 ms)
+[ RUN      ] LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt
+[       OK ] LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt (65 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds
+[       OK ] LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds (76 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentWithoutAGradeIsUnrankedAndInstructorGetsNoOwnRankSummary
+[       OK ] LeaderboardSqliteTest.StudentWithoutAGradeIsUnrankedAndInstructorGetsNoOwnRankSummary (63 ms)
+[ RUN      ] LeaderboardSqliteTest.GradedReportIgnoresNewerPracticeAndSurvivesRestart
+[       OK ] LeaderboardSqliteTest.GradedReportIgnoresNewerPracticeAndSurvivesRestart (80 ms)
+[ RUN      ] LeaderboardSqliteTest.PracticeOnlyAndOtherStudentsDoNotProduceGradedResults
+[       OK ] LeaderboardSqliteTest.PracticeOnlyAndOtherStudentsDoNotProduceGradedResults (73 ms)
+[----------] 7 tests from LeaderboardSqliteTest (531 ms total)
+
+[----------] Global test environment tear-down
+[==========] 34 tests from 2 test suites ran. (532 ms total)
+[  PASSED  ] 34 tests.

@@ -1,0 +1,6 @@
+#pragma once
+namespace quizsphere {
+inline constexpr const char* web_html = R"QSWEB(@WEB_HTML@)QSWEB";
+inline constexpr const char* web_css = R"QSWEB(@WEB_CSS@)QSWEB";
+inline constexpr const char* web_js = R"QSWEB(@WEB_JS@)QSWEB";
+}

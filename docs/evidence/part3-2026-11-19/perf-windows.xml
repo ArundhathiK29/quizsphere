@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.419" timestamp="2026-11-19T00:13:19.745" name="AllTests">
+  <testsuite name="Part3Acceptance" tests="1" failures="0" disabled="0" skipped="0" errors="0" time="0.418" timestamp="2026-11-19T00:13:19.745">
+    <testcase name="PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds" file="C:\Users\karib\Documents\Codex\2026-10-28\so\work\arundhathi-final\source\tests\part3_acceptance_tests.cpp" line="48" status="run" result="completed" time="0.418" timestamp="2026-11-19T00:13:19.745" classname="Part3Acceptance">
+      <properties>
+        <property name="maximum_load_start_ms" value="37.343800"/>
+      </properties>
+    </testcase>
+  </testsuite>
+</testsuites>

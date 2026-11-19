@@ -1,0 +1,121 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 47 tests from 7 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from PasswordHasher
+[ RUN      ] PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2
+[       OK ] PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2 (5 ms)
+[ RUN      ] PasswordHasher.SameSecretGetsDifferentSalts
+[       OK ] PasswordHasher.SameSecretGetsDifferentSalts (9 ms)
+[ RUN      ] PasswordHasher.RejectsWrongPassword
+[       OK ] PasswordHasher.RejectsWrongPassword (6 ms)
+[ RUN      ] PasswordHasher.EmbeddedNulBytesAreSignificant
+[       OK ] PasswordHasher.EmbeddedNulBytesAreSignificant (6 ms)
+[ RUN      ] PasswordHasher.RefusesIterationCountsOutsidePolicy
+[       OK ] PasswordHasher.RefusesIterationCountsOutsidePolicy (0 ms)
+[ RUN      ] PasswordHasher.RejectsMalformedStoredValues
+[       OK ] PasswordHasher.RejectsMalformedStoredValues (1 ms)
+[----------] 6 tests from PasswordHasher (29 ms total)
+
+[----------] 2 tests from ConsoleInput
+[ RUN      ] ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret
+[       OK ] ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret (0 ms)
+[ RUN      ] ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword
+[       OK ] ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword (0 ms)
+[----------] 2 tests from ConsoleInput (0 ms total)
+
+[----------] 20 tests from Auth
+[ RUN      ] Auth.UT_AUTH_02_RegistersStudentAndInstructor
+[       OK ] Auth.UT_AUTH_02_RegistersStudentAndInstructor (328 ms)
+[ RUN      ] Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively
+[       OK ] Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively (3 ms)
+[ RUN      ] Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected
+[       OK ] Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected (0 ms)
+[ RUN      ] Auth.UT_AUTH_11_PasswordPolicy
+[       OK ] Auth.UT_AUTH_11_PasswordPolicy (0 ms)
+[ RUN      ] Auth.UT_AUTH_12_UsernameValidation
+[       OK ] Auth.UT_AUTH_12_UsernameValidation (0 ms)
+[ RUN      ] Auth.RegistrationNeverStoresThePlaintextPassword
+[       OK ] Auth.RegistrationNeverStoresThePlaintextPassword (201 ms)
+[ RUN      ] Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole
+[       OK ] Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole (6 ms)
+[ RUN      ] Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials
+[       OK ] Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials (304 ms)
+[ RUN      ] Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword
+[       OK ] Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword (6 ms)
+[ RUN      ] Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden
+[       OK ] Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden (6 ms)
+[ RUN      ] Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater
+[       OK ] Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater (11 ms)
+[ RUN      ] Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter
+[       OK ] Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter (19 ms)
+[ RUN      ] Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword
+[       OK ] Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword (170 ms)
+[ RUN      ] Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce
+[       OK ] Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce (314 ms)
+[ RUN      ] Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly
+[       OK ] Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly (8 ms)
+[ RUN      ] Auth.UT_AUTH_08_AdminManagesUsers
+[       OK ] Auth.UT_AUTH_08_AdminManagesUsers (164 ms)
+[ RUN      ] Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot
+[       OK ] Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot (335 ms)
+[ RUN      ] Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut
+[       OK ] Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut (7 ms)
+[ RUN      ] Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp
+[       OK ] Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp (0 ms)
+[ RUN      ] Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus
+[       OK ] Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus (5 ms)
+[----------] 20 tests from Auth (1896 ms total)
+
+[----------] 1 test from AuthRoleBoundary
+[ RUN      ] AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions
+[       OK ] AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions (2 ms)
+[----------] 1 test from AuthRoleBoundary (2 ms total)
+
+[----------] 4 tests from AuthEventLog
+[ RUN      ] AuthEventLog.FormatsUtcTimestamps
+[       OK ] AuthEventLog.FormatsUtcTimestamps (0 ms)
+[ RUN      ] AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword
+[       OK ] AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword (0 ms)
+[ RUN      ] AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField
+[       OK ] AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField (0 ms)
+[ RUN      ] AuthEventLog.AppendsRatherThanOverwrites
+[       OK ] AuthEventLog.AppendsRatherThanOverwrites (0 ms)
+[----------] 4 tests from AuthEventLog (0 ms total)
+
+[----------] 10 tests from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.OpensAndCreatesSchema
+[       OK ] SqliteUserRepository.OpensAndCreatesSchema (0 ms)
+[ RUN      ] SqliteUserRepository.StoresAndReturnsEveryField
+[       OK ] SqliteUserRepository.StoresAndReturnsEveryField (0 ms)
+[ RUN      ] SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase
+[       OK ] SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase (0 ms)
+[ RUN      ] SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData
+[       OK ] SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData (0 ms)
+[ RUN      ] SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged
+[       OK ] SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged (3 ms)
+[ RUN      ] SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile
+[       OK ] SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile (54 ms)
+[ RUN      ] SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage
+[       OK ] SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage (9 ms)
+[ RUN      ] SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened
+[       OK ] SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened (0 ms)
+[ RUN      ] SqliteUserRepository.RegistrationAndLoginWorkEndToEnd
+[       OK ] SqliteUserRepository.RegistrationAndLoginWorkEndToEnd (770 ms)
+[ RUN      ] SqliteUserRepository.AdminLifecycleThroughTheRealRepository
+[       OK ] SqliteUserRepository.AdminLifecycleThroughTheRealRepository (465 ms)
+[----------] 10 tests from SqliteUserRepository (1304 ms total)
+
+[----------] 4 tests from ModuleInterfaces
+[ RUN      ] ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults
+[       OK ] ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults (0 ms)
+[ RUN      ] ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether
+[       OK ] ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether (3 ms)
+[ RUN      ] ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase
+[       OK ] ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase (0 ms)
+[ RUN      ] ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding
+[       OK ] ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding (0 ms)
+[----------] 4 tests from ModuleInterfaces (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 47 tests from 7 test suites ran. (3236 ms total)
+[  PASSED  ] 47 tests.

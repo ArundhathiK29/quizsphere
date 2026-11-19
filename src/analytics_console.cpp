@@ -1,3 +1,4 @@
+#include "console_input.hpp"
 #include "analytics_console.hpp"
 
 #include "result_view.hpp"
@@ -20,7 +21,7 @@ std::string trim(const std::string& text) {
 
 bool prompt(std::istream& input, std::ostream& output, const std::string& label, std::string* value) {
     output << label << std::flush;
-    if (!std::getline(input, *value)) {
+    if (!readConsoleLine(input, output, *value)) {
         return false;
     }
     *value = trim(*value);

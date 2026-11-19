@@ -1,0 +1,15 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from GradingSqliteIntegrationTest
+[ RUN      ] GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal
+[       OK ] GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal (87 ms)
+[ RUN      ] GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank
+[       OK ] GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank (68 ms)
+[ RUN      ] GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase
+[       OK ] GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase (77 ms)
+[----------] 3 tests from GradingSqliteIntegrationTest (233 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (233 ms total)
+[  PASSED  ] 3 tests.

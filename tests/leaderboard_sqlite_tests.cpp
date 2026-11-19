@@ -205,5 +205,30 @@ TEST_F(LeaderboardSqliteTest, StudentWithoutAGradeIsUnrankedAndInstructorGetsNoO
     EXPECT_EQ(instructor_output.str().find("You have no graded result"), std::string::npos);
 }
 
+TEST_F(LeaderboardSqliteTest, GradedReportIgnoresNewerPracticeAndSurvivesRestart) {
+    grade("quiz1", "alice");
+    saveNewerPracticeReport("quiz1", "alice", 99.0);
+    for (int restart = 0; restart < 2; ++restart) {
+        GradeReport report;
+        ASSERT_TRUE(grader_->getReport("quiz1", "alice", &report).ok());
+        EXPECT_DOUBLE_EQ(report.score, 4.0);
+        EXPECT_DOUBLE_EQ(report.max_score, 4.0);
+        std::vector<TopicScore> topics;
+        ASSERT_TRUE(analytics_->topicBreakdown("quiz1", "alice", &topics).ok());
+        ASSERT_EQ(topics.size(), report.topic_breakdown.size());
+        EXPECT_DOUBLE_EQ(topics.front().marks, report.topic_breakdown.front().marks);
+        if (restart == 0) { close(); open(); }
+    }
+}
+
+TEST_F(LeaderboardSqliteTest, PracticeOnlyAndOtherStudentsDoNotProduceGradedResults) {
+    grade("quiz1", "bob");
+    saveNewerPracticeReport("quiz1", "alice", 99.0);
+    GradeReport report;
+    EXPECT_EQ(grader_->getReport("quiz1", "alice", &report).code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(grader_->getReport("quiz1", "missing", &report).code, ErrorCode::ATTEMPT_NOT_FOUND);
+    EXPECT_EQ(grader_->getReport("quiz1", "bob", nullptr).code, ErrorCode::VALIDATION_FAILED);
+}
+
 }  // namespace
 }  // namespace quizsphere

@@ -1,0 +1,15 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from SubmittedAttemptProtectionTest
+[ RUN      ] SubmittedAttemptProtectionTest.SubmittedGradedAttemptCannotBeChangedOrDeletedThroughAnyApi
+[       OK ] SubmittedAttemptProtectionTest.SubmittedGradedAttemptCannotBeChangedOrDeletedThroughAnyApi (89 ms)
+[ RUN      ] SubmittedAttemptProtectionTest.ProtectionHoldsAfterRestart
+[       OK ] SubmittedAttemptProtectionTest.ProtectionHoldsAfterRestart (106 ms)
+[ RUN      ] SubmittedAttemptProtectionTest.QuizAttemptSessionRefusesEveryActionAfterSubmit
+[       OK ] SubmittedAttemptProtectionTest.QuizAttemptSessionRefusesEveryActionAfterSubmit (83 ms)
+[----------] 3 tests from SubmittedAttemptProtectionTest (279 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (279 ms total)
+[  PASSED  ] 3 tests.

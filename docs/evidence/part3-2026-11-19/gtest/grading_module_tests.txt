@@ -1,0 +1,55 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 23 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 23 tests from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers
+[       OK ] GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks
+[       OK ] GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative
+[       OK ] GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero
+[       OK ] GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected
+[       OK ] GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected (0 ms)
+[ RUN      ] GradingModuleTest.GroupsTopicBreakdownBySubjectTag
+[       OK ] GradingModuleTest.GroupsTopicBreakdownBySubjectTag (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport
+[       OK ] GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI
+[       OK ] GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound
+[       OK ] GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound (0 ms)
+[ RUN      ] GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound
+[       OK ] GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound (0 ms)
+[ RUN      ] GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired
+[       OK ] GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired (0 ms)
+[ RUN      ] GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected
+[       OK ] GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected
+[       OK ] GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected
+[       OK ] GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.OutOfRangeOptionIndexIsRejected
+[       OK ] GradingModuleTest.OutOfRangeOptionIndexIsRejected (0 ms)
+[ RUN      ] GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted
+[       OK ] GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted (0 ms)
+[ RUN      ] GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched
+[       OK ] GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched (0 ms)
+[ RUN      ] GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll
+[       OK ] GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll (0 ms)
+[ RUN      ] GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted
+[       OK ] GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted (0 ms)
+[ RUN      ] GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound
+[       OK ] GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound (0 ms)
+[ RUN      ] GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten
+[       OK ] GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten (0 ms)
+[ RUN      ] GradingModuleTest.ResultLookupPreservesListAndExactReportFailures
+[       OK ] GradingModuleTest.ResultLookupPreservesListAndExactReportFailures (0 ms)
+[ RUN      ] GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails
+[       OK ] GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails (0 ms)
+[----------] 23 tests from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 23 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 23 tests.

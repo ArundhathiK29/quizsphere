@@ -1,0 +1,3267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="209"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="79"
+	timestamp="2026-11-19T00:09:15"
+	>
+	<testcase name="WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole" classname="WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole" time="0.494624" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WebApplicationTest
+[ RUN      ] WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole
+[       OK ] WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole (464 ms)
+[----------] 1 test from WebApplicationTest (464 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (465 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent" classname="WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent" time="0.822741" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WebApplicationTest
+[ RUN      ] WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent
+[       OK ] WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent (788 ms)
+[----------] 1 test from WebApplicationTest (788 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (788 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart" classname="WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart" time="1.47871" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WebApplicationTest
+[ RUN      ] WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart
+[       OK ] WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart (1448 ms)
+[----------] 1 test from WebApplicationTest (1448 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1448 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode" classname="WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode" time="1.07218" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WebApplicationTest
+[ RUN      ] WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode
+[       OK ] WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode (1042 ms)
+[----------] 1 test from WebApplicationTest (1042 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1042 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected" classname="WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected" time="0.607698" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WebApplicationTest
+[ RUN      ] WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected
+[       OK ] WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected (553 ms)
+[----------] 1 test from WebApplicationTest (553 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (553 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability" classname="WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability" time="0.674173" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WebApplicationTest
+[ RUN      ] WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability
+[       OK ] WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability (647 ms)
+[----------] 1 test from WebApplicationTest (647 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (647 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults" classname="ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults" time="0.0433729" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ModuleInterfaces
+[ RUN      ] ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults
+[       OK ] ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults (0 ms)
+[----------] 1 test from ModuleInterfaces (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether" classname="ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether" time="0.0551974" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ModuleInterfaces
+[ RUN      ] ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether
+[       OK ] ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether (17 ms)
+[----------] 1 test from ModuleInterfaces (17 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (17 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase" classname="ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase" time="0.0356656" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ModuleInterfaces
+[ RUN      ] ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase
+[       OK ] ModuleInterfaces.DataAccessLayerReportsAnUnopenableDatabase (1 ms)
+[----------] 1 test from ModuleInterfaces (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding" classname="ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding" time="0.0362873" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ModuleInterfaces
+[ RUN      ] ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding
+[       OK ] ModuleInterfaces.UnfinishedFeaturesReportNotImplementedInsteadOfSucceeding (0 ms)
+[----------] 1 test from ModuleInterfaces (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.OpensAndCreatesSchema" classname="SqliteUserRepository.OpensAndCreatesSchema" time="0.0385632" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.OpensAndCreatesSchema
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.OpensAndCreatesSchema
+[       OK ] SqliteUserRepository.OpensAndCreatesSchema (1 ms)
+[----------] 1 test from SqliteUserRepository (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.StoresAndReturnsEveryField" classname="SqliteUserRepository.StoresAndReturnsEveryField" time="0.0357416" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.StoresAndReturnsEveryField
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.StoresAndReturnsEveryField
+[       OK ] SqliteUserRepository.StoresAndReturnsEveryField (2 ms)
+[----------] 1 test from SqliteUserRepository (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase" classname="SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase" time="0.0296342" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase
+[       OK ] SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase (1 ms)
+[----------] 1 test from SqliteUserRepository (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData" classname="SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData" time="0.031103" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData
+[       OK ] SqliteUserRepository.SqlInjectionStringsAreTreatedAsPlainData (1 ms)
+[----------] 1 test from SqliteUserRepository (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged" classname="SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged" time="0.0293494" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged
+[       OK ] SqliteUserRepository.UpdateRoleStatusAndDeleteReportWhetherARowChanged (2 ms)
+[----------] 1 test from SqliteUserRepository (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile" classname="SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile" time="0.0925585" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile
+[       OK ] SqliteUserRepository.DataSurvivesReopeningTheDatabaseFile (67 ms)
+[----------] 1 test from SqliteUserRepository (67 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (67 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage" classname="SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage" time="0.0403024" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage
+[       OK ] SqliteUserRepository.RefusesADatabaseFromAnOlderSchemaWithAClearMessage (13 ms)
+[----------] 1 test from SqliteUserRepository (13 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (13 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened" classname="SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened" time="0.0250283" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened
+[       OK ] SqliteUserRepository.FailsCleanlyWhenThePathCannotBeOpened (0 ms)
+[----------] 1 test from SqliteUserRepository (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.RegistrationAndLoginWorkEndToEnd" classname="SqliteUserRepository.RegistrationAndLoginWorkEndToEnd" time="0.888538" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.RegistrationAndLoginWorkEndToEnd
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.RegistrationAndLoginWorkEndToEnd
+[       OK ] SqliteUserRepository.RegistrationAndLoginWorkEndToEnd (860 ms)
+[----------] 1 test from SqliteUserRepository (860 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (861 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SqliteUserRepository.AdminLifecycleThroughTheRealRepository" classname="SqliteUserRepository.AdminLifecycleThroughTheRealRepository" time="0.666508" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SqliteUserRepository.AdminLifecycleThroughTheRealRepository
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SqliteUserRepository
+[ RUN      ] SqliteUserRepository.AdminLifecycleThroughTheRealRepository
+[       OK ] SqliteUserRepository.AdminLifecycleThroughTheRealRepository (637 ms)
+[----------] 1 test from SqliteUserRepository (637 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (637 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AuthEventLog.FormatsUtcTimestamps" classname="AuthEventLog.FormatsUtcTimestamps" time="0.0247971" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AuthEventLog.FormatsUtcTimestamps
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AuthEventLog
+[ RUN      ] AuthEventLog.FormatsUtcTimestamps
+[       OK ] AuthEventLog.FormatsUtcTimestamps (0 ms)
+[----------] 1 test from AuthEventLog (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword" classname="AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword" time="0.0286884" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AuthEventLog
+[ RUN      ] AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword
+[       OK ] AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword (5 ms)
+[----------] 1 test from AuthEventLog (6 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (6 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField" classname="AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField" time="0.0242614" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AuthEventLog
+[ RUN      ] AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField
+[       OK ] AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField (3 ms)
+[----------] 1 test from AuthEventLog (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (3 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AuthEventLog.AppendsRatherThanOverwrites" classname="AuthEventLog.AppendsRatherThanOverwrites" time="0.0285495" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AuthEventLog.AppendsRatherThanOverwrites
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AuthEventLog
+[ RUN      ] AuthEventLog.AppendsRatherThanOverwrites
+[       OK ] AuthEventLog.AppendsRatherThanOverwrites (5 ms)
+[----------] 1 test from AuthEventLog (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (5 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions" classname="AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions" time="0.030036" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AuthRoleBoundary
+[ RUN      ] AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions
+[       OK ] AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions (5 ms)
+[----------] 1 test from AuthRoleBoundary (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (5 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_02_RegistersStudentAndInstructor" classname="Auth.UT_AUTH_02_RegistersStudentAndInstructor" time="0.401926" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_02_RegistersStudentAndInstructor
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_02_RegistersStudentAndInstructor
+[       OK ] Auth.UT_AUTH_02_RegistersStudentAndInstructor (375 ms)
+[----------] 1 test from Auth (376 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (376 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively" classname="Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively" time="0.0353077" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively
+[       OK ] Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively (10 ms)
+[----------] 1 test from Auth (10 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (10 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected" classname="Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected" time="0.021251" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected
+[       OK ] Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected (0 ms)
+[----------] 1 test from Auth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_11_PasswordPolicy" classname="Auth.UT_AUTH_11_PasswordPolicy" time="0.0259004" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_11_PasswordPolicy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_11_PasswordPolicy
+[       OK ] Auth.UT_AUTH_11_PasswordPolicy (0 ms)
+[----------] 1 test from Auth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_12_UsernameValidation" classname="Auth.UT_AUTH_12_UsernameValidation" time="0.0258878" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_12_UsernameValidation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_12_UsernameValidation
+[       OK ] Auth.UT_AUTH_12_UsernameValidation (0 ms)
+[----------] 1 test from Auth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.RegistrationNeverStoresThePlaintextPassword" classname="Auth.RegistrationNeverStoresThePlaintextPassword" time="0.225737" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.RegistrationNeverStoresThePlaintextPassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.RegistrationNeverStoresThePlaintextPassword
+[       OK ] Auth.RegistrationNeverStoresThePlaintextPassword (195 ms)
+[----------] 1 test from Auth (195 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (195 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole" classname="Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole" time="0.0406454" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole
+[       OK ] Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole (15 ms)
+[----------] 1 test from Auth (15 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (15 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials" classname="Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials" time="0.395809" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials
+[       OK ] Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials (369 ms)
+[----------] 1 test from Auth (369 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (369 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword" classname="Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword" time="0.0394727" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword
+[       OK ] Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword (15 ms)
+[----------] 1 test from Auth (16 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (16 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden" classname="Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden" time="0.0354582" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden
+[       OK ] Auth.UT_AUTH_15_StorageFailuresAreReportedNotHidden (10 ms)
+[----------] 1 test from Auth (10 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (10 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater" classname="Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater" time="0.0490064" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater
+[       OK ] Auth.UT_AUTH_13_AccountLocksAfterRepeatedFailuresAndUnlocksLater (23 ms)
+[----------] 1 test from Auth (24 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (24 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter" classname="Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter" time="0.071575" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter
+[       OK ] Auth.UT_AUTH_14_SuccessfulLoginResetsTheFailureCounter (40 ms)
+[----------] 1 test from Auth (40 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (41 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword" classname="Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword" time="0.462856" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword
+[       OK ] Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword (420 ms)
+[----------] 1 test from Auth (421 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (421 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce" classname="Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce" time="0.42799" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce
+[       OK ] Auth.UT_AUTH_10_FirstAdminCanBeBootstrappedExactlyOnce (401 ms)
+[----------] 1 test from Auth (401 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (401 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly" classname="Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly" time="0.0406729" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly
+[       OK ] Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly (17 ms)
+[----------] 1 test from Auth (17 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (17 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_08_AdminManagesUsers" classname="Auth.UT_AUTH_08_AdminManagesUsers" time="0.438255" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_08_AdminManagesUsers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_08_AdminManagesUsers
+[       OK ] Auth.UT_AUTH_08_AdminManagesUsers (409 ms)
+[----------] 1 test from Auth (409 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (409 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot" classname="Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot" time="0.437164" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot
+[       OK ] Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot (414 ms)
+[----------] 1 test from Auth (414 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (414 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut" classname="Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut" time="0.0390649" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut
+[       OK ] Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut (13 ms)
+[----------] 1 test from Auth (13 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (13 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp" classname="Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp" time="0.0225346" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp
+[       OK ] Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp (0 ms)
+[----------] 1 test from Auth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus" classname="Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus" time="0.0409761" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Auth
+[ RUN      ] Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus
+[       OK ] Auth.AdminEntryAccessUsesTheCurrentStoredRoleAndStatus (11 ms)
+[----------] 1 test from Auth (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (12 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret" classname="ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret" time="0.0254636" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConsoleInput
+[ RUN      ] ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret
+[       OK ] ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret (0 ms)
+[----------] 1 test from ConsoleInput (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword" classname="ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword" time="0.0208203" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConsoleInput
+[ RUN      ] ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword
+[       OK ] ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword (0 ms)
+[----------] 1 test from ConsoleInput (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2" classname="PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2" time="0.0348298" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PasswordHasher
+[ RUN      ] PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2
+[       OK ] PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2 (11 ms)
+[----------] 1 test from PasswordHasher (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="PasswordHasher.SameSecretGetsDifferentSalts" classname="PasswordHasher.SameSecretGetsDifferentSalts" time="0.0472411" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PasswordHasher.SameSecretGetsDifferentSalts
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PasswordHasher
+[ RUN      ] PasswordHasher.SameSecretGetsDifferentSalts
+[       OK ] PasswordHasher.SameSecretGetsDifferentSalts (20 ms)
+[----------] 1 test from PasswordHasher (20 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (20 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="PasswordHasher.RejectsWrongPassword" classname="PasswordHasher.RejectsWrongPassword" time="0.0382627" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PasswordHasher.RejectsWrongPassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PasswordHasher
+[ RUN      ] PasswordHasher.RejectsWrongPassword
+[       OK ] PasswordHasher.RejectsWrongPassword (16 ms)
+[----------] 1 test from PasswordHasher (16 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (16 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="PasswordHasher.EmbeddedNulBytesAreSignificant" classname="PasswordHasher.EmbeddedNulBytesAreSignificant" time="0.038554" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PasswordHasher.EmbeddedNulBytesAreSignificant
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PasswordHasher
+[ RUN      ] PasswordHasher.EmbeddedNulBytesAreSignificant
+[       OK ] PasswordHasher.EmbeddedNulBytesAreSignificant (16 ms)
+[----------] 1 test from PasswordHasher (16 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (16 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="PasswordHasher.RefusesIterationCountsOutsidePolicy" classname="PasswordHasher.RefusesIterationCountsOutsidePolicy" time="0.0315345" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PasswordHasher.RefusesIterationCountsOutsidePolicy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PasswordHasher
+[ RUN      ] PasswordHasher.RefusesIterationCountsOutsidePolicy
+[       OK ] PasswordHasher.RefusesIterationCountsOutsidePolicy (0 ms)
+[----------] 1 test from PasswordHasher (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="PasswordHasher.RejectsMalformedStoredValues" classname="PasswordHasher.RejectsMalformedStoredValues" time="0.0402123" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = PasswordHasher.RejectsMalformedStoredValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PasswordHasher
+[ RUN      ] PasswordHasher.RejectsMalformedStoredValues
+[       OK ] PasswordHasher.RejectsMalformedStoredValues (12 ms)
+[----------] 1 test from PasswordHasher (12 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (12 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes" classname="AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes" time="0.652457" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes
+[       OK ] AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes (626 ms)
+[----------] 1 test from AdminUserMenuTest (626 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (626 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter" classname="AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter" time="0.604656" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter
+[       OK ] AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter (579 ms)
+[----------] 1 test from AdminUserMenuTest (579 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (579 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter" classname="AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter" time="0.61441" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter
+[       OK ] AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter (590 ms)
+[----------] 1 test from AdminUserMenuTest (590 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (590 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits" classname="AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits" time="0.647427" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits
+[       OK ] AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits (624 ms)
+[----------] 1 test from AdminUserMenuTest (624 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (625 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords" classname="AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords" time="1.82606" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords
+[       OK ] AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords (1801 ms)
+[----------] 1 test from AdminUserMenuTest (1801 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1802 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates" classname="AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates" time="0.606302" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates
+[       OK ] AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates (582 ms)
+[----------] 1 test from AdminUserMenuTest (582 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (582 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput" classname="AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput" time="0.628029" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput
+[       OK ] AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput (599 ms)
+[----------] 1 test from AdminUserMenuTest (600 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (600 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin" classname="AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin" time="0.832389" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin
+[       OK ] AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin (802 ms)
+[----------] 1 test from AdminUserMenuTest (802 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (803 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection" classname="AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection" time="0.626248" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection
+[       OK ] AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection (601 ms)
+[----------] 1 test from AdminUserMenuTest (601 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (602 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess" classname="AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess" time="1.02298" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess
+[       OK ] AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess (990 ms)
+[----------] 1 test from AdminUserMenuTest (990 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (990 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf" classname="AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf" time="0.604475" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf
+[       OK ] AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf (579 ms)
+[----------] 1 test from AdminUserMenuTest (580 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (580 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount" classname="AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount" time="1.17931" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount
+[       OK ] AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount (1150 ms)
+[----------] 1 test from AdminUserMenuTest (1150 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1151 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe" classname="AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe" time="0.738994" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuTest
+[ RUN      ] AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe
+[       OK ] AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe (709 ms)
+[----------] 1 test from AdminUserMenuTest (709 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (709 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu" classname="AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu" time="0.0300182" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminUserMenuStorage
+[ RUN      ] AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu
+[       OK ] AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu (2 ms)
+[----------] 1 test from AdminUserMenuStorage (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.SavesAndRetrievesQuiz" classname="DataAccessLayerTest.SavesAndRetrievesQuiz" time="0.0736285" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.SavesAndRetrievesQuiz
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.SavesAndRetrievesQuiz
+[       OK ] DataAccessLayerTest.SavesAndRetrievesQuiz (53 ms)
+[----------] 1 test from DataAccessLayerTest (53 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (54 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.ListsSavedQuizzes" classname="DataAccessLayerTest.ListsSavedQuizzes" time="0.0758423" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.ListsSavedQuizzes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.ListsSavedQuizzes
+[       OK ] DataAccessLayerTest.ListsSavedQuizzes (57 ms)
+[----------] 1 test from DataAccessLayerTest (57 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (58 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.MissingQuizReturnsQuizNotFound" classname="DataAccessLayerTest.MissingQuizReturnsQuizNotFound" time="0.0661984" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.MissingQuizReturnsQuizNotFound
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.MissingQuizReturnsQuizNotFound
+[       OK ] DataAccessLayerTest.MissingQuizReturnsQuizNotFound (49 ms)
+[----------] 1 test from DataAccessLayerTest (50 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (50 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.SavesAndRetrievesInProgressAttempt" classname="DataAccessLayerTest.SavesAndRetrievesInProgressAttempt" time="0.0871008" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.SavesAndRetrievesInProgressAttempt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.SavesAndRetrievesInProgressAttempt
+[       OK ] DataAccessLayerTest.SavesAndRetrievesInProgressAttempt (66 ms)
+[----------] 1 test from DataAccessLayerTest (66 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (66 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.UpdatesExistingInProgressAttempt" classname="DataAccessLayerTest.UpdatesExistingInProgressAttempt" time="0.0891565" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.UpdatesExistingInProgressAttempt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.UpdatesExistingInProgressAttempt
+[       OK ] DataAccessLayerTest.UpdatesExistingInProgressAttempt (72 ms)
+[----------] 1 test from DataAccessLayerTest (72 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (72 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress" classname="DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress" time="0.0814171" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress
+[       OK ] DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress (58 ms)
+[----------] 1 test from DataAccessLayerTest (58 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (58 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.FindsOpenAttempt" classname="DataAccessLayerTest.FindsOpenAttempt" time="0.089316" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.FindsOpenAttempt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.FindsOpenAttempt
+[       OK ] DataAccessLayerTest.FindsOpenAttempt (73 ms)
+[----------] 1 test from DataAccessLayerTest (74 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (74 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart" classname="DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart" time="0.101809" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart
+[       OK ] DataAccessLayerTest.RejectsSecondOpenGradedAttemptAndRetainsOriginalOnRestart (81 ms)
+[----------] 1 test from DataAccessLayerTest (81 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (81 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner" classname="DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner" time="0.10575" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner
+[       OK ] DataAccessLayerTest.ConcurrentOpenGradedWritesHaveExactlyOneWinner (84 ms)
+[----------] 1 test from DataAccessLayerTest (84 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (84 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup" classname="DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup" time="0.133727" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup
+[       OK ] DataAccessLayerTest.AmbiguousLegacyOpenRowsArePreservedAndRejectedOnLookup (114 ms)
+[----------] 1 test from DataAccessLayerTest (114 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (114 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup" classname="DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup" time="0.0998373" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup
+[       OK ] DataAccessLayerTest.LegacyPracticeRowsAreIneligibleForOpenGradedLookup (84 ms)
+[----------] 1 test from DataAccessLayerTest (84 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (84 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot" classname="DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot" time="0.101995" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot
+[       OK ] DataAccessLayerTest.FailedOpenCreationRollsBackAndDoesNotReserveTheSlot (83 ms)
+[----------] 1 test from DataAccessLayerTest (83 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (83 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure" classname="DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure" time="0.0865725" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure
+[       OK ] DataAccessLayerTest.OpenGradedLookupPropagatesAttemptReadFailure (68 ms)
+[----------] 1 test from DataAccessLayerTest (68 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (69 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound" classname="DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound" time="0.0738935" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound
+[       OK ] DataAccessLayerTest.MissingAttemptReturnsAttemptNotFound (53 ms)
+[----------] 1 test from DataAccessLayerTest (53 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (53 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.SavesAndRetrievesGradeReport" classname="DataAccessLayerTest.SavesAndRetrievesGradeReport" time="0.0858201" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.SavesAndRetrievesGradeReport
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.SavesAndRetrievesGradeReport
+[       OK ] DataAccessLayerTest.SavesAndRetrievesGradeReport (68 ms)
+[----------] 1 test from DataAccessLayerTest (68 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (68 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.RejectsDuplicateGradedSubmission" classname="DataAccessLayerTest.RejectsDuplicateGradedSubmission" time="0.0881422" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.RejectsDuplicateGradedSubmission
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.RejectsDuplicateGradedSubmission
+[       OK ] DataAccessLayerTest.RejectsDuplicateGradedSubmission (70 ms)
+[----------] 1 test from DataAccessLayerTest (70 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (70 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake" classname="DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake" time="0.142977" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake
+[       OK ] DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake (123 ms)
+[----------] 1 test from DataAccessLayerTest (123 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (123 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase" classname="DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase" time="0.0923105" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase
+[       OK ] DataAccessLayerTest.QuizSurvivesClosingAndReopeningDatabase (74 ms)
+[----------] 1 test from DataAccessLayerTest (74 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (74 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport" classname="DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport" time="0.0992976" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport
+[       OK ] DataAccessLayerTest.FailedGradeWriteRollsBackAttemptAndReport (81 ms)
+[----------] 1 test from DataAccessLayerTest (81 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (81 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart" classname="DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart" time="0.124307" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart
+[       OK ] DataAccessLayerTest.QuestionsCrudAndMetadataSurviveRestart (105 ms)
+[----------] 1 test from DataAccessLayerTest (105 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (105 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart" classname="DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart" time="0.117416" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart
+[       OK ] DataAccessLayerTest.ReferencedQuestionEditAndDeleteAreRejectedAcrossRestart (98 ms)
+[----------] 1 test from DataAccessLayerTest (99 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (100 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection" classname="DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection" time="0.101498" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection
+[       OK ] DataAccessLayerTest.DirectRepositoryCannotBypassQuestionProtection (77 ms)
+[----------] 1 test from DataAccessLayerTest (77 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (77 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening" classname="DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening" time="0.130667" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening
+[       OK ] DataAccessLayerTest.ClearedAnswersStayClearedAfterReopening (112 ms)
+[----------] 1 test from DataAccessLayerTest (112 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (112 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState" classname="DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState" time="0.107185" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState
+[       OK ] DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState (89 ms)
+[----------] 1 test from DataAccessLayerTest (89 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (89 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring" classname="DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring" time="0.0971496" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring
+[       OK ] DataAccessLayerTest.FailedQuizUpdateRestoresOriginalQuestionsAndScoring (77 ms)
+[----------] 1 test from DataAccessLayerTest (77 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (77 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion" classname="DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion" time="0.101252" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion
+[       OK ] DataAccessLayerTest.FailedQuestionOptionSaveRollsBackEveryQuestion (75 ms)
+[----------] 1 test from DataAccessLayerTest (75 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (75 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges" classname="DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges" time="0.108674" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges
+[       OK ] DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges (89 ms)
+[----------] 1 test from DataAccessLayerTest (89 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (90 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans" classname="DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans" time="0.0862039" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans
+[       OK ] DataAccessLayerTest.ForeignKeysAndLegacyReferenceChecksRejectOrphans (65 ms)
+[----------] 1 test from DataAccessLayerTest (65 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (65 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange" classname="DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange" time="0.094174" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange
+[       OK ] DataAccessLayerTest.AttemptIdentityAndDuplicateAnswersCannotChange (73 ms)
+[----------] 1 test from DataAccessLayerTest (73 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (73 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity" classname="DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity" time="0.0941928" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity
+[       OK ] DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity (76 ms)
+[----------] 1 test from DataAccessLayerTest (76 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (76 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled" classname="DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled" time="0.160788" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled
+[       OK ] DataAccessLayerTest.LegacyQuizRowsArePreservedWhenIntegrityChecksAreInstalled (137 ms)
+[----------] 1 test from DataAccessLayerTest (137 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (137 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary" classname="DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary" time="0.0756274" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary
+[       OK ] DataAccessLayerTest.RejectsInvalidScoringAtTheStorageBoundary (55 ms)
+[----------] 1 test from DataAccessLayerTest (55 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (55 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges" classname="DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges" time="0.119312" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DataAccessLayerTest
+[ RUN      ] DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges
+[       OK ] DataAccessLayerTest.HistoricalAttemptKeepsQuestionProtectedAfterQuizPoolChanges (96 ms)
+[----------] 1 test from DataAccessLayerTest (96 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (96 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix" classname="InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix" time="0.0288786" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputValidation
+[ RUN      ] InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix
+[       OK ] InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix (2 ms)
+[----------] 1 test from InputValidation (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode" classname="InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode" time="0.0277488" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputValidation
+[ RUN      ] InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode
+[       OK ] InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode (0 ms)
+[----------] 1 test from InputValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret" classname="InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret" time="0.0267918" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputValidation
+[ RUN      ] InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret
+[       OK ] InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret (0 ms)
+[----------] 1 test from InputValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation" classname="InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation" time="0.0307934" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputValidation
+[ RUN      ] InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation
+[       OK ] InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation (0 ms)
+[----------] 1 test from InputValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage" classname="SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage" time="0.0815757" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SecurityMenus
+[ RUN      ] SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage
+[       OK ] SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage (53 ms)
+[----------] 1 test from SecurityMenus (53 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (53 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers" classname="SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers" time="0.0754608" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SecurityMenus
+[ RUN      ] SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers
+[       OK ] SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers (49 ms)
+[----------] 1 test from SecurityMenus (49 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (49 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands" classname="SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands" time="0.308083" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SecurityMenus
+[ RUN      ] SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands
+[       OK ] SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands (280 ms)
+[----------] 1 test from SecurityMenus (280 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (280 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds" classname="Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds" time="0.381463" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Part3Acceptance
+[ RUN      ] Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds
+PERF-01 run 1: 27.9561 ms
+PERF-01 run 2: 22.5037 ms
+PERF-01 run 3: 28.0488 ms
+PERF-01 run 4: 25.7775 ms
+PERF-01 run 5: 24.1745 ms
+[       OK ] Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds (360 ms)
+[----------] 1 test from Part3Acceptance (360 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (360 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite" classname="Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite" time="0.226669" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Part3Acceptance
+[ RUN      ] Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite
+[       OK ] Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite (207 ms)
+[----------] 1 test from Part3Acceptance (207 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (207 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank" classname="Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank" time="1.252" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Part3Acceptance
+[ RUN      ] Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank
+[       OK ] Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank (1236 ms)
+[----------] 1 test from Part3Acceptance (1236 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1236 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices" classname="TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices" time="0.240141" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices
+[       OK ] TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices (215 ms)
+[----------] 1 test from TimedQuizTest (216 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (216 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline" classname="TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline" time="0.104265" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline
+[       OK ] TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline (83 ms)
+[----------] 1 test from TimedQuizTest (83 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (83 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation" classname="TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation" time="0.117941" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation
+[       OK ] TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation (99 ms)
+[----------] 1 test from TimedQuizTest (99 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (99 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer" classname="TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer" time="0.132396" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer
+[       OK ] TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer (113 ms)
+[----------] 1 test from TimedQuizTest (113 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (113 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart" classname="TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart" time="0.202175" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart
+[       OK ] TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart (178 ms)
+[----------] 1 test from TimedQuizTest (179 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (179 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce" classname="TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce" time="0.176216" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce
+[       OK ] TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce (155 ms)
+[----------] 1 test from TimedQuizTest (155 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (155 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules" classname="TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules" time="0.116421" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimedQuizTest
+[ RUN      ] TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules
+[       OK ] TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules (95 ms)
+[----------] 1 test from TimedQuizTest (95 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (95 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce" classname="QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce" time="0.115879" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce
+[       OK ] QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce (92 ms)
+[----------] 1 test from QuizAttemptTest (92 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (92 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions" classname="QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions" time="0.25937" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions
+[       OK ] QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions (237 ms)
+[----------] 1 test from QuizAttemptTest (237 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (237 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer" classname="QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer" time="0.157178" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer
+[       OK ] QuizAttemptTest.SelectingChangingClearingAndFlaggingPreserveOneAnswer (131 ms)
+[----------] 1 test from QuizAttemptTest (131 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (132 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable" classname="QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable" time="0.109732" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable
+[       OK ] QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable (85 ms)
+[----------] 1 test from QuizAttemptTest (85 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (85 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist" classname="QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist" time="0.103842" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist
+[       OK ] QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist (84 ms)
+[----------] 1 test from QuizAttemptTest (84 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (84 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags" classname="QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags" time="0.174552" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags
+[       OK ] QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags (155 ms)
+[----------] 1 test from QuizAttemptTest (155 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (155 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen" classname="QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen" time="0.121196" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen
+[       OK ] QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen (102 ms)
+[----------] 1 test from QuizAttemptTest (102 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (102 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble" classname="QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble" time="0.150079" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble
+[       OK ] QuizAttemptTest.GradingHandoffUsesOriginalIndicesAndStoredResultSurvivesRestartWithTestDouble (127 ms)
+[----------] 1 test from QuizAttemptTest (127 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (128 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers" classname="QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers" time="0.119273" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers
+[       OK ] QuizAttemptTest.GradedFeedbackIsDeniedAndModesDoNotShareAnswers (100 ms)
+[----------] 1 test from QuizAttemptTest (100 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (100 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts" classname="QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts" time="0.118949" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts
+[       OK ] QuizAttemptTest.StorageFailuresDoNotChangeInMemoryAnswersOrCreatePartialAttempts (97 ms)
+[----------] 1 test from QuizAttemptTest (97 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (98 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected" classname="QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected" time="0.118762" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected
+[       OK ] QuizAttemptTest.InvalidRolesModesOptionsAndTamperedAttemptsAreRejected (94 ms)
+[----------] 1 test from QuizAttemptTest (94 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (94 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence" classname="QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence" time="0.125111" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence
+[       OK ] QuizAttemptTest.MissingOrMalformedQuizQuestionsFailBeforeAttemptPersistence (102 ms)
+[----------] 1 test from QuizAttemptTest (102 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (102 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation" classname="QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation" time="0.101701" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation
+[       OK ] QuizAttemptTest.InstructorConsoleCreatesQuizThroughExistingValidation (81 ms)
+[----------] 1 test from QuizAttemptTest (81 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (81 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration" classname="QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration" time="0.100554" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration
+[       OK ] QuizAttemptTest.InstructorConsoleRejectsMalformedAndNonpositiveConfiguration (80 ms)
+[----------] 1 test from QuizAttemptTest (80 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (81 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage" classname="QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage" time="0.108577" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage
+[       OK ] QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage (87 ms)
+[----------] 1 test from QuizAttemptTest (87 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (87 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable" classname="QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable" time="0.122264" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable
+[       OK ] QuizAttemptTest.StudentConsoleKeepsGradedAnswersWhenGradingIsUnavailable (102 ms)
+[----------] 1 test from QuizAttemptTest (102 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (102 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble" classname="QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble" time="0.129119" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble
+[       OK ] QuizAttemptTest.StudentConsoleSubmitsAndRetrievesOnlyItsOwnResultWithTestDouble (108 ms)
+[----------] 1 test from QuizAttemptTest (108 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (108 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit" classname="QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit" time="0.139749" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit
+[       OK ] QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit (113 ms)
+[----------] 1 test from QuizAttemptTest (113 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (113 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles" classname="QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles" time="0.125717" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles
+[       OK ] QuizAttemptTest.RoleSpecificConsoleFunctionsRejectOtherRoles (103 ms)
+[----------] 1 test from QuizAttemptTest (103 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (103 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords" classname="QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords" time="0.115522" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords
+[       OK ] QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords (95 ms)
+[----------] 1 test from QuizAttemptTest (95 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (95 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave" classname="QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave" time="0.117494" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave
+[       OK ] QuizAttemptTest.CorruptDuplicateQuizQuestionRowsAreRejectedBeforeSave (96 ms)
+[----------] 1 test from QuizAttemptTest (96 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (97 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading" classname="QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading" time="0.107192" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizAttemptTest
+[ RUN      ] QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading
+[       OK ] QuizAttemptTest.TamperedOrDuplicateAnswerVectorsCannotReachGrading (86 ms)
+[----------] 1 test from QuizAttemptTest (86 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (86 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart" classname="QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart" time="0.10483" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineSqliteTest
+[ RUN      ] QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart
+[       OK ] QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart (87 ms)
+[----------] 1 test from QuizEngineSqliteTest (87 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (87 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz" classname="QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz" time="0.103068" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineSqliteTest
+[ RUN      ] QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz
+[       OK ] QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz (85 ms)
+[----------] 1 test from QuizEngineSqliteTest (85 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (85 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart" classname="QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart" time="0.104081" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineSqliteTest
+[ RUN      ] QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart
+[       OK ] QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart (86 ms)
+[----------] 1 test from QuizEngineSqliteTest (86 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (86 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence" classname="QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence" time="0.122355" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineSqliteTest
+[ RUN      ] QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence
+[       OK ] QuizEngineSqliteTest.CreatedQuizSupportsTransactionalAttemptAndAnswerPersistence (103 ms)
+[----------] 1 test from QuizEngineSqliteTest (103 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (104 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.CreatesQuizAndPersistsItsDetails" classname="QuizEngineTests.CreatesQuizAndPersistsItsDetails" time="0.0161407" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.CreatesQuizAndPersistsItsDetails
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.CreatesQuizAndPersistsItsDetails
+[       OK ] QuizEngineTests.CreatesQuizAndPersistsItsDetails (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved" classname="QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved" time="0.0168686" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved
+[       OK ] QuizEngineTests.PersistsScoringSchemeWhenQuizIsRetrieved (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.AllowsScoringWithoutNegativeMarking" classname="QuizEngineTests.AllowsScoringWithoutNegativeMarking" time="0.0168649" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.AllowsScoringWithoutNegativeMarking
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.AllowsScoringWithoutNegativeMarking
+[       OK ] QuizEngineTests.AllowsScoringWithoutNegativeMarking (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNonPositiveMarksPerQuestion" classname="QuizEngineTests.RejectsNonPositiveMarksPerQuestion" time="0.0180093" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNonPositiveMarksPerQuestion
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNonPositiveMarksPerQuestion
+[       OK ] QuizEngineTests.RejectsNonPositiveMarksPerQuestion (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNegativeNegativeMark" classname="QuizEngineTests.RejectsNegativeNegativeMark" time="0.0198273" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNegativeNegativeMark
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNegativeNegativeMark
+[       OK ] QuizEngineTests.RejectsNegativeNegativeMark (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNonFiniteScoringValues" classname="QuizEngineTests.RejectsNonFiniteScoringValues" time="0.0159541" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNonFiniteScoringValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNonFiniteScoringValues
+[       OK ] QuizEngineTests.RejectsNonFiniteScoringValues (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.AdminCanCreateQuiz" classname="QuizEngineTests.AdminCanCreateQuiz" time="0.0177638" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.AdminCanCreateQuiz
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.AdminCanCreateQuiz
+[       OK ] QuizEngineTests.AdminCanCreateQuiz (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.StudentCannotCreateQuiz" classname="QuizEngineTests.StudentCannotCreateQuiz" time="0.0180144" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.StudentCannotCreateQuiz
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.StudentCannotCreateQuiz
+[       OK ] QuizEngineTests.StudentCannotCreateQuiz (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsUnauthenticatedSession" classname="QuizEngineTests.RejectsUnauthenticatedSession" time="0.0217547" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsUnauthenticatedSession
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsUnauthenticatedSession
+[       OK ] QuizEngineTests.RejectsUnauthenticatedSession (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsBlankTitle" classname="QuizEngineTests.RejectsBlankTitle" time="0.0334" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsBlankTitle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsBlankTitle
+[       OK ] QuizEngineTests.RejectsBlankTitle (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNonPositiveQuestionCount" classname="QuizEngineTests.RejectsNonPositiveQuestionCount" time="0.0196846" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNonPositiveQuestionCount
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNonPositiveQuestionCount
+[       OK ] QuizEngineTests.RejectsNonPositiveQuestionCount (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNonPositiveTimeLimit" classname="QuizEngineTests.RejectsNonPositiveTimeLimit" time="0.0225493" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNonPositiveTimeLimit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNonPositiveTimeLimit
+[       OK ] QuizEngineTests.RejectsNonPositiveTimeLimit (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNullOutputPointer" classname="QuizEngineTests.RejectsNullOutputPointer" time="0.0195582" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNullOutputPointer
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNullOutputPointer
+[       OK ] QuizEngineTests.RejectsNullOutputPointer (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsInsufficientAvailableQuestions" classname="QuizEngineTests.RejectsInsufficientAvailableQuestions" time="0.0171638" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsInsufficientAvailableQuestions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsInsufficientAvailableQuestions
+[       OK ] QuizEngineTests.RejectsInsufficientAvailableQuestions (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.AppliesSubjectAndDifficultyFilters" classname="QuizEngineTests.AppliesSubjectAndDifficultyFilters" time="0.0205894" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.AppliesSubjectAndDifficultyFilters
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.AppliesSubjectAndDifficultyFilters
+[       OK ] QuizEngineTests.AppliesSubjectAndDifficultyFilters (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.DoesNotIncludeUnavailableQuestions" classname="QuizEngineTests.DoesNotIncludeUnavailableQuestions" time="0.020972" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.DoesNotIncludeUnavailableQuestions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.DoesNotIncludeUnavailableQuestions
+[       OK ] QuizEngineTests.DoesNotIncludeUnavailableQuestions (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.ListsCreatedQuizzes" classname="QuizEngineTests.ListsCreatedQuizzes" time="0.0238312" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.ListsCreatedQuizzes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.ListsCreatedQuizzes
+[       OK ] QuizEngineTests.ListsCreatedQuizzes (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNullQuizListPointer" classname="QuizEngineTests.RejectsNullQuizListPointer" time="0.0184207" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNullQuizListPointer
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNullQuizListPointer
+[       OK ] QuizEngineTests.RejectsNullQuizListPointer (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsNullQuizPointerWhenRetrieving" classname="QuizEngineTests.RejectsNullQuizPointerWhenRetrieving" time="0.019442" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsNullQuizPointerWhenRetrieving
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsNullQuizPointerWhenRetrieving
+[       OK ] QuizEngineTests.RejectsNullQuizPointerWhenRetrieving (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving" classname="QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving" time="0.0232112" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving
+[       OK ] QuizEngineTests.RejectsEmptyQuizIdWhenRetrieving (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject" classname="QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject" time="0.0178827" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject
+[       OK ] QuizEngineTests.RejectsMalformedFiltersAndNormalizesSubject (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions" classname="QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions" time="0.0189251" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions
+[       OK ] QuizEngineTests.DuplicatePoolRowsCannotProduceDuplicateSelectedQuestions (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving" classname="QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving" time="0.0194292" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuizEngineTests
+[ RUN      ] QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving
+[       OK ] QuizEngineTests.RejectsAllNonFiniteScoringInputsWithoutSaving (0 ms)
+[----------] 1 test from QuizEngineTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers" classname="GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers" time="0.0202649" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers
+[       OK ] GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks" classname="GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks" time="0.0195689" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks
+[       OK ] GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative" classname="GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative" time="0.0220633" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative
+[       OK ] GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero" classname="GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero" time="0.0189865" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero
+[       OK ] GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected" classname="GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected" time="0.0187383" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected
+[       OK ] GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.GroupsTopicBreakdownBySubjectTag" classname="GradingModuleTest.GroupsTopicBreakdownBySubjectTag" time="0.0192808" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.GroupsTopicBreakdownBySubjectTag
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.GroupsTopicBreakdownBySubjectTag
+[       OK ] GradingModuleTest.GroupsTopicBreakdownBySubjectTag (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport" classname="GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport" time="0.0188232" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport
+[       OK ] GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI" classname="GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI" time="0.020403" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI
+[       OK ] GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound" classname="GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound" time="0.0195432" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound
+[       OK ] GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound" classname="GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound" time="0.0175106" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound
+[       OK ] GradingModuleTest.NoOpenAttemptReturnsAttemptNotFound (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired" classname="GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired" time="0.0197881" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired
+[       OK ] GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected" classname="GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected" time="0.0247344" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected
+[       OK ] GradingModuleTest.DuplicateAnswerForTheSameQuestionIsRejected (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected" classname="GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected" time="0.0176422" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected
+[       OK ] GradingModuleTest.AnswerForAQuestionOutsideTheAttemptIsRejected (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected" classname="GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected" time="0.0177688" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected
+[       OK ] GradingModuleTest.NegativeOptionIndexOtherThanBlankIsRejected (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.OutOfRangeOptionIndexIsRejected" classname="GradingModuleTest.OutOfRangeOptionIndexIsRejected" time="0.0225119" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.OutOfRangeOptionIndexIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.OutOfRangeOptionIndexIsRejected
+[       OK ] GradingModuleTest.OutOfRangeOptionIndexIsRejected (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted" classname="GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted" time="0.022214" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted
+[       OK ] GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched" classname="GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched" time="0.0176296" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched
+[       OK ] GradingModuleTest.GradingFinalizesOnlyTheIntendedGradedAttemptAndLeavesPracticeUntouched (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll" classname="GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll" time="0.0246383" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll
+[       OK ] GradingModuleTest.PracticeModeAttemptsCannotCurrentlyBeGradedAtAll (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted" classname="GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted" time="0.028337" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted
+[       OK ] GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound" classname="GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound" time="0.0175163" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound
+[       OK ] GradingModuleTest.AListGradedAttemptsFailureIsPropagatedNotMaskedAsAttemptNotFound (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten" classname="GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten" time="0.0176962" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten
+[       OK ] GradingModuleTest.DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWritten (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.ResultLookupPreservesListAndExactReportFailures" classname="GradingModuleTest.ResultLookupPreservesListAndExactReportFailures" time="0.0194899" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.ResultLookupPreservesListAndExactReportFailures
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.ResultLookupPreservesListAndExactReportFailures
+[       OK ] GradingModuleTest.ResultLookupPreservesListAndExactReportFailures (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails" classname="GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails" time="0.0179582" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GradingModuleTest
+[ RUN      ] GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails
+[       OK ] GradingModuleTest.ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails (0 ms)
+[----------] 1 test from GradingModuleTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="question_bank_tests" classname="question_bank_tests" time="1.21315" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 45 tests from 4 test suites.
+[----------] Global test environment set-up.
+[----------] 29 tests from QuestionBankFixture
+[ RUN      ] QuestionBankFixture.UT_QB_01_AddPersistReload
+[       OK ] QuestionBankFixture.UT_QB_01_AddPersistReload (5 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_02_EditQuestion
+[       OK ] QuestionBankFixture.UT_QB_02_EditQuestion (7 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation
+[       OK ] QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation (13 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer
+[       OK ] QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer (1 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_05_MissingSubjectTag
+[       OK ] QuestionBankFixture.UT_QB_05_MissingSubjectTag (1 ms)
+[ RUN      ] QuestionBankFixture.UT_QB_06_FewerThanTwoOptions
+[       OK ] QuestionBankFixture.UT_QB_06_FewerThanTwoOptions (0...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ST_ADM_01_AdminUserFlow" classname="ST_ADM_01_AdminUserFlow" time="3.96171" status="run">
+		<properties/>
+		<system-out>-- ST-ADM-01 passed: persisted Admin lifecycle, confirmation, self-protection and non-admin menu boundaries
+</system-out>
+	</testcase>
+	<testcase name="ST_SEC_08_ActualConsoleValidation" classname="ST_SEC_08_ActualConsoleValidation" time="3.74747" status="run">
+		<properties/>
+		<system-out>PASS ST-SEC-08: auth, role menus, question/quiz creation, analytics/export and Admin negatives; storage unchanged.
+</system-out>
+	</testcase>
+	<testcase name="ST_SEC_09_TimedConfirmationControls" classname="ST_SEC_09_TimedConfirmationControls" time="3.00622" status="run">
+		<properties/>
+		<system-out>PASS timed confirmation: embedded controls rejected, exact CRLF yes accepted
+</system-out>
+	</testcase>
+	<testcase name="UT_DAL_01_ProcessKillAtomicity" classname="UT_DAL_01_ProcessKillAtomicity" time="2.75444" status="run">
+		<properties/>
+		<system-out>PASS UT-DAL-01 trial 1: killed real app mid-grading; complete rollback; integrity ok
+PASS UT-DAL-01 trial 2: killed real app mid-grading; complete rollback; integrity ok
+PASS UT-DAL-01 trial 3: killed real app mid-grading; complete rollback; integrity ok
+</system-out>
+	</testcase>
+	<testcase name="ST_PART3_StudentInstructorAdminReports" classname="ST_PART3_StudentInstructorAdminReports" time="2.47973" status="run">
+		<properties/>
+		<system-out>PASS Student grading/itemised+weak-topic summary; restart; all rankings; Instructor/Admin topic analytics and CSV transcripts; secret storage/output checks
+</system-out>
+	</testcase>
+	<testcase name="web_timer_slow-header" classname="web_timer_slow-header" time="5.04934" status="run">
+		<properties/>
+		<system-out>PASS slow-header : exact deadline monitoring and persisted auto-submission
+</system-out>
+	</testcase>
+	<testcase name="web_timer_slow-body" classname="web_timer_slow-body" time="4.73694" status="run">
+		<properties/>
+		<system-out>PASS slow-body : exact deadline monitoring and persisted auto-submission
+</system-out>
+	</testcase>
+	<testcase name="web_timer_practice-switch" classname="web_timer_practice-switch" time="5.52131" status="run">
+		<properties/>
+		<system-out>PASS practice-switch : exact deadline monitoring and persisted auto-submission
+</system-out>
+	</testcase>
+	<testcase name="web_timer_cross-session-manual" classname="web_timer_cross-session-manual" time="2.93977" status="run">
+		<properties/>
+		<system-out>PASS cross-session-manual : shared completion reconciled; practice/next quiz allowed; no regrading
+PASS cross-session-manual : exact deadline monitoring and persisted auto-submission
+</system-out>
+	</testcase>
+	<testcase name="web_timer_cross-session-auto" classname="web_timer_cross-session-auto" time="5.83354" status="run">
+		<properties/>
+		<system-out>PASS cross-session-auto : shared completion reconciled; practice/next quiz allowed; no regrading
+PASS cross-session-auto : exact deadline monitoring and persisted auto-submission
+</system-out>
+	</testcase>
+	<testcase name="grading_module_sqlite_integration_tests" classname="grading_module_sqlite_integration_tests" time="0.574476" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from GradingSqliteIntegrationTest
+[ RUN      ] GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal
+[       OK ] GradingSqliteIntegrationTest.GradingFinalizesOnlyTheGradedAttemptAgainstTheRealDal (85 ms)
+[ RUN      ] GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank
+[       OK ] GradingSqliteIntegrationTest.GradesAgainstTheRealDalAndQuestionBank (80 ms)
+[ RUN      ] GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase
+[       OK ] GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase (87 ms)
+[----------] 3 tests from GradingSqliteIntegrationTest (254 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (254 ms total)
+[  PASSED  ] 3 tests.
+</system-out>
+	</testcase>
+	<testcase name="result_view_tests" classname="result_view_tests" time="0.105812" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from ResultView
+[ RUN      ] ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks
+[       OK ] ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks (0 ms)
+[ RUN      ] ResultView.ShowsTheTotalScoreAgainstMaxScore
+[       OK ] ResultView.ShowsTheTotalScoreAgainstMaxScore (0 ms)
+[ RUN      ] ResultView.FlagsAutoSubmittedAttempts
+[       OK ] ResultView.FlagsAutoSubmittedAttempts (0 ms)
+[ RUN      ] ResultView.HandlesAnEmptyBreakdownWithoutCrashing
+[       OK ] ResultView.HandlesAnEmptyBreakdownWithoutCrashing (0 ms)
+[ RUN      ] ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest
+[       OK ] ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest (0 ms)
+[ RUN      ] ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics
+[       OK ] ResultView.TopicSummaryPl...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="result_view_integration_tests" classname="result_view_integration_tests" time="0.501205" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from ResultViewIntegrationTest
+[ RUN      ] ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText
+[       OK ] ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText (76 ms)
+[ RUN      ] ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase
+[       OK ] ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase (99 ms)
+[ RUN      ] ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit
+[       OK ] ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit (62 ms)
+[----------] 3 tests from ResultViewIntegrationTest (238 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (238 ms total)
+[  ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="analytics_module_tests" classname="analytics_module_tests" time="1.13849" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 34 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 7 tests from LeaderboardSqliteTest
+[ RUN      ] LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart
+[       OK ] LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart (153 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart
+[       OK ] LeaderboardSqliteTest.StudentCanReadAllThreeRankingsAfterRestart (122 ms)
+[ RUN      ] LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt
+[       OK ] LeaderboardSqliteTest.ExactReportLookupValidatesOutputAndDoesNotFallBackToAnotherAttempt (78 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds
+[       OK ] LeaderboardSqliteTest.StudentSeesOwnRankWhenStorageUsesNumericAccountIds (79 ms)
+[ RUN      ] LeaderboardSqliteTest.StudentWithoutAG...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="analytics_module_sqlite_integration_tests" classname="analytics_module_sqlite_integration_tests" time="0.570786" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from AnalyticsSqliteIntegrationTest
+[ RUN      ] AnalyticsSqliteIntegrationTest.DifficultyIndexCountsOnlyGradedAttemptsAndSurvivesRestart
+[       OK ] AnalyticsSqliteIntegrationTest.DifficultyIndexCountsOnlyGradedAttemptsAndSurvivesRestart (125 ms)
+[ RUN      ] AnalyticsSqliteIntegrationTest.DifficultyIndexTreatsAPersistedBlankAsIncorrect
+[       OK ] AnalyticsSqliteIntegrationTest.DifficultyIndexTreatsAPersistedBlankAsIncorrect (102 ms)
+[----------] 2 tests from AnalyticsSqliteIntegrationTest (227 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (227 ms total)
+[  PASSED  ] 2 tests.
+</system-out>
+	</testcase>
+	<testcase name="topic_analytics_integration_tests" classname="topic_analytics_integration_tests" time="0.65374" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from TopicAnalyticsIntegrationTest
+[ RUN      ] TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart
+[       OK ] TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart (139 ms)
+[ RUN      ] TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan
+[       OK ] TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan (85 ms)
+[----------] 2 tests from TopicAnalyticsIntegrationTest (225 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (225 ms total)
+[  PASSED  ] 2 tests.
+</system-out>
+	</testcase>
+	<testcase name="transcript_export_integration_tests" classname="transcript_export_integration_tests" time="0.608577" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from TranscriptExportIntegrationTest
+[ RUN      ] TranscriptExportIntegrationTest.WritesRereadsRefusesSilentOverwriteAndReportsBadPath
+[       OK ] TranscriptExportIntegrationTest.WritesRereadsRefusesSilentOverwriteAndReportsBadPath (179 ms)
+[ RUN      ] TranscriptExportIntegrationTest.StudentWithNoGradedAttemptsGetsAHeaderOnlyFile
+[       OK ] TranscriptExportIntegrationTest.StudentWithNoGradedAttemptsGetsAHeaderOnlyFile (64 ms)
+[----------] 2 tests from TranscriptExportIntegrationTest (244 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (244 ms total)
+[  PASSED  ] 2 tests.
+</system-out>
+	</testcase>
+	<testcase name="submitted_attempt_protection_tests" classname="submitted_attempt_protection_tests" time="0.710514" status="run">
+		<properties/>
+		<system-out>Running main() from C:/M/B/src/googletest-1.17.0/googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from SubmittedAttemptProtectionTest
+[ RUN      ] SubmittedAttemptProtectionTest.SubmittedGradedAttemptCannotBeChangedOrDeletedThroughAnyApi
+[       OK ] SubmittedAttemptProtectionTest.SubmittedGradedAttemptCannotBeChangedOrDeletedThroughAnyApi (107 ms)
+[ RUN      ] SubmittedAttemptProtectionTest.ProtectionHoldsAfterRestart
+[       OK ] SubmittedAttemptProtectionTest.ProtectionHoldsAfterRestart (139 ms)
+[ RUN      ] SubmittedAttemptProtectionTest.QuizAttemptSessionRefusesEveryActionAfterSubmit
+[       OK ] SubmittedAttemptProtectionTest.QuizAttemptSessionRefusesEveryActionAfterSubmit (88 ms)
+[----------] 3 tests from SubmittedAttemptProtectionTest (335 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (335 ms total)
+[  PASSED  ] 3 tests.
+</system-out>
+	</testcase>
+	<testcase name="no_fstream_outside_repository_or_logging" classname="no_fstream_outside_repository_or_logging" time="0.0736492" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

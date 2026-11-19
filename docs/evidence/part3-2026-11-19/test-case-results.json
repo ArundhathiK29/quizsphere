@@ -1,0 +1,942 @@
+[
+  {
+    "id": "IT-01",
+    "scenario": "Immutable transactional final grades",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress`](evidence/part3-2026-11-19/gtest/data_access_layer_tests.txt); [`DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges`](evidence/part3-2026-11-19/gtest/data_access_layer_tests.txt); [`GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping",
+      "DataAccessLayerTest.RejectsSavingSubmittedAttemptAsInProgress",
+      "DataAccessLayerTest.SubmittedAttemptAndReportSurviveRestartAndRejectChanges",
+      "GradingModuleTest.BlindRegradeWithNoFreshOpenAttemptIsStillAttemptAlreadySubmitted",
+      "GradingModuleTest.ARealDalFailureIsNeverMaskedAsAlreadySubmitted",
+      "QuizAttemptTest.StaleAttemptCopiesCannotModifySubmittedDatabaseRecords",
+      "TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline",
+      "ResultView.FlagsAutoSubmittedAttempts",
+      "SubmittedAttemptProtectionTest.SubmittedGradedAttemptCannotBeChangedOrDeletedThroughAnyApi",
+      "SubmittedAttemptProtectionTest.ProtectionHoldsAfterRestart",
+      "SubmittedAttemptProtectionTest.QuizAttemptSessionRefusesEveryActionAfterSubmit"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "MNT-01",
+    "scenario": "Independent layered module interfaces",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults",
+      "ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "PERF-01",
+    "scenario": "Load/start twenty questions within 2000 ms",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds`](evidence/part3-2026-11-19/gtest/part3_acceptance_tests.txt)",
+    "matched_tests": [
+      "Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "REL-01",
+    "scenario": "Manual and timeout grading parity",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices",
+      "TimedQuizTest.WallClockRollbackDoesNotResetRunningDeadline",
+      "TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation",
+      "TimedQuizTest.ExpiredRestartFinalizesBeforeReadingAnAnswer",
+      "TimedQuizTest.REL_01_FailedTimeoutGradeLocksAnswersAndCanRetryAfterRestart",
+      "TimedQuizTest.ManualAndTimeoutOnSeparateConnectionsFinalizeOnce",
+      "TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-ADM-01",
+    "scenario": "Admin lifecycle and non-Admin denial",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); `ST_ADM_01_AdminUserFlow` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "AdminUserMenuTest.FindsAccountsWithoutShowingPasswordHashes",
+      "AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter",
+      "AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter",
+      "AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits",
+      "AdminUserMenuTest.CreatesEveryRoleWithoutEchoingPasswords",
+      "AdminUserMenuTest.CreationRejectsBadNamesRolesPasswordsAndDuplicates",
+      "AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput",
+      "AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin",
+      "AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection",
+      "AdminUserMenuTest.DisablingBlocksLoginAndEnablingRestoresAccess",
+      "AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf",
+      "AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount",
+      "AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe",
+      "AdminUserMenuStorage.FailedActorLookupExitsWithoutOpeningTheMenu"
+    ],
+    "scripts": [
+      "ST_ADM_01_AdminUserFlow"
+    ]
+  },
+  {
+    "id": "ST-ADM-02",
+    "scenario": "Admin question-bank and report oversight",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`MenuFixture.ST_ADM_02_AdminCanImportAndExportThroughMenu`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "MenuFixture.ST_ADM_02_AdminCanImportAndExportThroughMenu"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-ANLY-01",
+    "scenario": "Itemised and weak-topic summary together",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest`](evidence/part3-2026-11-19/gtest/result_view_tests.txt); [`ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics`](evidence/part3-2026-11-19/gtest/result_view_tests.txt); `ST_PART3_StudentInstructorAdminReports` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors",
+      "ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest",
+      "ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics"
+    ],
+    "scripts": [
+      "ST_PART3_StudentInstructorAdminReports"
+    ]
+  },
+  {
+    "id": "ST-ANLY-02",
+    "scenario": "Instructor transcript export",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); `ST_PART3_StudentInstructorAdminReports` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting"
+    ],
+    "scripts": [
+      "ST_PART3_StudentInstructorAdminReports"
+    ]
+  },
+  {
+    "id": "ST-ANLY-03",
+    "scenario": "Admin item-analysis and topic display",
+    "status": "PARTIAL",
+    "actual": "Real Admin topic report and difficulty core API pass. A dedicated Admin item-analysis display is absent.",
+    "evidence": "[`AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice",
+      "AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic",
+      "AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone",
+      "AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors",
+      "TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart",
+      "TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-ANLY-04",
+    "scenario": "Admin transcript export",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); `ST_PART3_StudentInstructorAdminReports` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone"
+    ],
+    "scripts": [
+      "ST_PART3_StudentInstructorAdminReports"
+    ]
+  },
+  {
+    "id": "ST-GRADE-01",
+    "scenario": "Readable itemised selected/correct answers and marks",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt); [`ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText`](evidence/part3-2026-11-19/gtest/result_view_integration_tests.txt); [`ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase`](evidence/part3-2026-11-19/gtest/result_view_integration_tests.txt); [`ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit`](evidence/part3-2026-11-19/gtest/result_view_integration_tests.txt); `ST_PART3_StudentInstructorAdminReports` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport",
+      "ResultViewIntegrationTest.ResolvesOriginalOrderOptionIndexesToReadableText",
+      "ResultViewIntegrationTest.StillResolvesReadableTextAfterClosingAndReopeningTheDatabase",
+      "ResultViewIntegrationTest.FallsBackToIndexOnlyLineForAQuestionThatNoLongerExistsAndFlagsAutoSubmit",
+      "ResultView.ListsEveryQuestionWithAnswerCorrectAnswerAndMarks",
+      "ResultView.ShowsTheTotalScoreAgainstMaxScore",
+      "ResultView.FlagsAutoSubmittedAttempts",
+      "ResultView.HandlesAnEmptyBreakdownWithoutCrashing",
+      "ResultView.TopicSummaryListsEachTopicVsClassAverageAndNamesTheWeakest",
+      "ResultView.TopicSummaryPluralisesTiedWeakestTopicsAndIsEmptyForNoTopics"
+    ],
+    "scripts": [
+      "ST_PART3_StudentInstructorAdminReports"
+    ]
+  },
+  {
+    "id": "ST-QE-01",
+    "scenario": "Displayed choices map to original options",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizAttemptTest.ST_QE_01_DisplayedAnswersMapToOriginalOptions"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-QE-02",
+    "scenario": "Visible timer auto-submits during input",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-QE-03",
+    "scenario": "Navigate/flag without losing answers",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizAttemptTest.ST_QE_03_NavigationAndReviewKeepOptionsAndAnswersStable"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-QE-04",
+    "scenario": "Practice/graded mode selection",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist",
+      "TimedQuizTest.ManualSubmitAndUntimedPracticeKeepTheirExistingRules"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-QE-05",
+    "scenario": "Practice feedback with no persisted grade",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode`](evidence/part3-2026-11-19/gtest/web_application_tests.txt)",
+    "matched_tests": [
+      "QuizAttemptTest.ST_QE_04_PracticeFeedbackAndCompletionNeverPersist",
+      "QuizAttemptTest.ST_QE_05_GradedResumeKeepsQuestionOrderOptionsAnswersAndFlags",
+      "WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-QE-06",
+    "scenario": "Reject retake after restart",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake`](evidence/part3-2026-11-19/gtest/data_access_layer_tests.txt); [`GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase`](evidence/part3-2026-11-19/gtest/grading_module_sqlite_integration_tests.txt)",
+    "matched_tests": [
+      "DataAccessLayerTest.ST_QE_06_ConcurrentFinalizationAndNewAttemptCannotAllowARetake",
+      "GradingSqliteIntegrationTest.GradedResultSurvivesClosingAndReopeningTheDatabase"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-SEC-01",
+    "scenario": "No plaintext secrets in DB/log/output",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); `ST_PART3_StudentInstructorAdminReports` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2",
+      "ConsoleInput.PasswordUsesOneLineWithoutEchoingOrTrimmingTheSecret",
+      "InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix"
+    ],
+    "scripts": [
+      "ST_PART3_StudentInstructorAdminReports"
+    ]
+  },
+  {
+    "id": "ST-SEC-02",
+    "scenario": "Student cannot mutate questions/quizzes",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); [`QuestionBankFixture.ST_SEC_02_RoleDenialOnEveryFunction`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions",
+      "InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode",
+      "QuestionBankFixture.ST_SEC_02_RoleDenialOnEveryFunction"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-SEC-03",
+    "scenario": "Only current enabled Admin manages users",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt)",
+    "matched_tests": [
+      "AdminUserMenuTest.StudentsInstructorsAndForgedAdminSessionsCannotEnter",
+      "AdminUserMenuTest.DisabledDemotedDeletedAndMalformedAdminSessionsCannotEnter",
+      "Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword",
+      "InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret",
+      "QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-SEC-04",
+    "scenario": "Reject empty/oversized/malformed/injection input",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); [`InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); [`InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); [`InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); `ST_SEC_08_ActualConsoleValidation` ([CTest](evidence/part3-2026-11-19/ctest.txt)); `ST_SEC_09_TimedConfirmationControls` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "InputValidation.ST_SEC_01_BoundsDrainsAndDoesNotExecuteAnOversizedSuffix",
+      "InputValidation.ST_SEC_02_RejectsControlsAndInvalidUtf8PreservesValidUnicode",
+      "InputValidation.ST_SEC_03_PasswordBoundaryNeverReturnsAPartialSecret",
+      "InputValidation.ST_SEC_07_ImportExportRejectsMalformedPathsWithoutTruncation",
+      "SecurityMenus.ST_SEC_04_QuestionMenuRejectsMalformedAndOversizedDataBeforeStorage",
+      "SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers",
+      "SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands"
+    ],
+    "scripts": [
+      "ST_SEC_08_ActualConsoleValidation",
+      "ST_SEC_09_TimedConfirmationControls"
+    ]
+  },
+  {
+    "id": "ST-SEC-05",
+    "scenario": "Malformed CSV preserves bank",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers`](evidence/part3-2026-11-19/gtest/input_validation_tests.txt); [`Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank`](evidence/part3-2026-11-19/gtest/part3_acceptance_tests.txt); [`QuestionBankFixture.ST_SEC_05_StructuralCsvFailuresRejectWholeFileAndLeaveBankIdentical`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt); [`QuestionBankFixture.ST_SEC_05_ReadOnlyDirectoryKeepsOriginalFileByteIdentical`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "SecurityMenus.ST_SEC_05_QuizCreationValidatesDomainTextAndMenuNumbers",
+      "Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank",
+      "QuestionBankFixture.ST_SEC_05_StructuralCsvFailuresRejectWholeFileAndLeaveBankIdentical",
+      "QuestionBankFixture.ST_SEC_05_ReadOnlyDirectoryKeepsOriginalFileByteIdentical"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-SEC-06",
+    "scenario": "Safe timestamped failed-login log",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`AuthEventLog.FormatsUtcTimestamps`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_16_FailedLoginsAreLoggedWithTimestampButNeverThePassword",
+      "AuthEventLog.FormatsUtcTimestamps",
+      "AuthEventLog.UT_AUTH_16_WritesTimestampedLineWithoutAnyPassword",
+      "AuthEventLog.NeverWritesFreeFormTextFromTheUsernameField",
+      "AuthEventLog.AppendsRatherThanOverwrites",
+      "SecurityMenus.ST_SEC_06_AdminAndAnalyticsRejectOversizedCommands"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-UI-01",
+    "scenario": "Identity and role visible",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [actual identity/role display](evidence/part3-2026-11-19/identity-walkthrough.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_17_SessionCarriesIdentityRoleAndUtcTimestamp"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-UI-02",
+    "scenario": "Destructive confirmation",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt)",
+    "matched_tests": [
+      "AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput",
+      "AdminUserMenuTest.RoleChangesAreConfirmedAndAffectTheNextLogin",
+      "AdminUserMenuTest.StatusChangeNeedsValidInputAndConfirmationAndCannotDisableSelf",
+      "AdminUserMenuTest.RemovalRequiresExplicitConfirmationAndDeletesOnlyTheChosenAccount",
+      "QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation",
+      "MenuFixture.ST_UI_DeleteNeedsYesAndNoKeepsQuestion",
+      "MenuFixture.ST_UI_EnableDisableUsesExactWordsAndConfirmation",
+      "QuizAttemptTest.SubmissionRequiresConfirmationAndUnavailableGradingKeepsAttemptOpen",
+      "TimedQuizTest.ST_QE_02_ConsoleTimeoutAtQuestionOrSubmitConfirmation"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-UI-03",
+    "scenario": "Clear errors without silent defaults",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`MenuFixture.ST_UI_InvalidOptionThenExit`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt); [`MenuFixture.ST_UI_InvalidDifficultyCancelsInsteadOfDefaultingToEasy`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt); [`MenuFixture.ST_UI_CorrectOptionMustBeAWholeNumber`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "MenuFixture.ST_UI_InvalidOptionThenExit",
+      "MenuFixture.ST_UI_InvalidDifficultyCancelsInsteadOfDefaultingToEasy",
+      "MenuFixture.ST_UI_CorrectOptionMustBeAWholeNumber"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "ST-UI-04",
+    "scenario": "Back/EOF exits cleanly",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt); [`AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe`](evidence/part3-2026-11-19/gtest/admin_user_menu_tests.txt)",
+    "matched_tests": [
+      "AdminUserMenuTest.InvalidMissingAndCancelledLookupReturnToMenuAndEofExits",
+      "AdminUserMenuTest.CreationRequiresConfirmationAndStopsOnEndOfInput",
+      "AdminUserMenuTest.RoleChangeCancellationInvalidRoleMissingUserAndSelfProtection",
+      "AdminUserMenuTest.RemovalCancellationEofMissingUserAndSelfRemovalLeaveAccountsSafe",
+      "AnalyticsModuleTest.StudentRankingsRejectsOtherRolesAndExitsOnEndOfInput",
+      "ConsoleInput.EndOfInputDoesNotReuseAnEarlierPassword",
+      "MenuFixture.ST_UI_EndOfInputExitsCleanly",
+      "MenuFixture.ST_UI_InvalidDifficultyCancelsInsteadOfDefaultingToEasy",
+      "QuizAttemptTest.StudentConsolePracticesReviewsCancelsAndCompletesWithoutStorage",
+      "QuizAttemptTest.MenuCancellationInvalidCommandsAndEofNeverSubmit"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "USE-01",
+    "scenario": "New Student starts assigned quiz within three menu steps",
+    "status": "NOT ACCEPTED",
+    "actual": "Console presents Login, Attempt, Quiz and Mode choices (four decisions excluding credentials). Original three-step target is not established; formal human UAT remains pending.",
+    "evidence": "",
+    "matched_tests": [],
+    "scripts": []
+  },
+  {
+    "id": "UT-ANLY-01",
+    "scenario": "Three correct of four equals 75 percent",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.UT_ANLY_01_FourAttemptsThreeCorrectGivesSeventyFivePercent"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-ANLY-02",
+    "scenario": "Topic/class average and weakest topics",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.TopicBreakdownReturnsTheStudentsOwnGradedTopicsOrAttemptNotFound",
+      "AnalyticsModuleTest.TopicAnalyticsGivesStudentVsClassAverageWeakestFirstExcludingPractice",
+      "AnalyticsModuleTest.TopicAnalyticsFlagsEveryTiedWeakestTopic",
+      "AnalyticsModuleTest.TopicAnalyticsEnforcesStudentOwnOnlyAndInstructorAdminAnyone",
+      "AnalyticsModuleTest.AnalyticsConsoleShowsTopicAnalyticsForAStudentToInstructors",
+      "GradingModuleTest.GroupsTopicBreakdownBySubjectTag",
+      "TopicAnalyticsIntegrationTest.ResultScreenShowsTopicsVsClassAverageAndWeakestAfterRestart",
+      "TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-ANLY-03",
+    "scenario": "Descending quiz ranking with ties",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.LeaderboardRanksGradedAttemptsDescendingWithSharedTiesAndSkippedRanks"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-ANLY-04",
+    "scenario": "Topic/all-time totals exclude practice",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded",
+      "AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-ANLY-05",
+    "scenario": "Correct authorized CSV transcript",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.TranscriptListsSubmittedGradedAttemptsOldestFirstWithCsvEscaping",
+      "AnalyticsModuleTest.TranscriptNeutralisesSpreadsheetFormulasInTextCells",
+      "AnalyticsModuleTest.TranscriptForStudentWithNoGradedAttemptsIsHeaderOnly",
+      "AnalyticsModuleTest.TranscriptEnforcesStudentOwnOnlyAndInstructorAdminAnyone",
+      "AnalyticsModuleTest.ExportTranscriptWritesThroughTheFileRepositoryAndReportsPathProblems",
+      "AnalyticsModuleTest.AnalyticsConsoleExportsATranscriptAndAsksBeforeOverwriting",
+      "TranscriptExportIntegrationTest.WritesRereadsRefusesSilentOverwriteAndReportsBadPath",
+      "TranscriptExportIntegrationTest.StudentWithNoGradedAttemptsGetsAHeaderOnlyFile"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-ANLY-06",
+    "scenario": "Practice excluded from analytics",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt); [`LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart`](evidence/part3-2026-11-19/gtest/analytics_module_tests.txt)",
+    "matched_tests": [
+      "AnalyticsModuleTest.TopicLeaderboardSumsMarksAcrossQuizzesWithSharedTiesAndPracticeExcluded",
+      "AnalyticsModuleTest.AllTimeLeaderboardSumsScoreAcrossQuizzesWithSharedTiesAndPracticeExcluded",
+      "AnalyticsModuleTest.DifficultyIndexComputesPercentCorrectFromGradedAttemptsOnly",
+      "LeaderboardSqliteTest.TopicRankingIgnoresNewerPracticeReportsAndSurvivesRestart"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-01",
+    "scenario": "Valid login returns identity/role/time",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_01_ValidLoginReturnsIdAndRole"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-02",
+    "scenario": "Register Student and Instructor",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_02_RegistersStudentAndInstructor`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_02_RegistersStudentAndInstructor"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-03",
+    "scenario": "Reject duplicate usernames",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_03_DuplicateUsernameIsRejectedCaseInsensitively",
+      "SqliteUserRepository.UT_AUTH_03_UsernamesAreUniqueIgnoringCase"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-04",
+    "scenario": "Reject wrong password and unknown user",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_04_WrongPasswordAndUnknownUserBothReturnInvalidCredentials"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-05",
+    "scenario": "Salted PBKDF2 hash, no plaintext",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "PasswordHasher.UT_AUTH_05_EncodedFormatIsSaltedPbkdf2"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-06",
+    "scenario": "Reject disabled login",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_06_DisabledAccountIsRefusedOnlyAfterTheCorrectPassword"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-07",
+    "scenario": "Deny direct privilege escalation",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`QuizEngineTests.StudentCannotCreateQuiz`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt); [`TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan`](evidence/part3-2026-11-19/gtest/topic_analytics_integration_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_07_AdminFunctionsDenyNonAdminsEvenWhenCalledDirectly",
+      "AuthRoleBoundary.UT_AUTH_07_StudentCannotCallInstructorQuestionBankFunctions",
+      "QuizEngineTests.StudentCannotCreateQuiz",
+      "TopicAnalyticsIntegrationTest.StudentCannotReadAnotherStudentsTopicsButInstructorCan",
+      "WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-08",
+    "scenario": "Admin account/role lifecycle",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_08_AdminManagesUsers`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_08_AdminManagesUsers",
+      "Auth.UT_AUTH_08c_AdminCreatesUsersOfAnyRoleAndOthersCannot",
+      "Auth.UT_AUTH_08b_AdminCannotLockThemselvesOut"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-AUTH-09",
+    "scenario": "Deny public Admin registration",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected`](evidence/part3-2026-11-19/gtest/auth_tests.txt)",
+    "matched_tests": [
+      "Auth.UT_AUTH_09_SelfRegistrationAsAdminIsRejected"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-DAL-01",
+    "scenario": "Kill real app mid-save: no partial attempt/report",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState`](evidence/part3-2026-11-19/gtest/data_access_layer_tests.txt); `UT_DAL_01_ProcessKillAtomicity` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "DataAccessLayerTest.UT_DAL_01_FailedAnswerSaveRestoresOriginalState"
+    ],
+    "scripts": [
+      "UT_DAL_01_ProcessKillAtomicity"
+    ]
+  },
+  {
+    "id": "UT-DAL-02",
+    "scenario": "Flat-file versus SQLite parity",
+    "status": "PARTIAL",
+    "actual": "Question-repository round-trip parity passes. A complete alternative flat-file account/quiz/attempt DAL does not exist.",
+    "evidence": "[`DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity`](evidence/part3-2026-11-19/gtest/data_access_layer_tests.txt); [`Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite`](evidence/part3-2026-11-19/gtest/part3_acceptance_tests.txt); [`StorageParityTest.UT_DAL_02_FlatFileAndSqliteReturnIdenticalQuestions`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "DataAccessLayerTest.UT_DAL_02_FileAndSqliteQuestionStorageHaveParity",
+      "Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite",
+      "StorageParityTest.UT_DAL_02_FlatFileAndSqliteReturnIdenticalQuestions"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-DAL-03",
+    "scenario": "Storage access confined to repositories/logging",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults`](evidence/part3-2026-11-19/gtest/auth_tests.txt); [`ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether`](evidence/part3-2026-11-19/gtest/auth_tests.txt); `no_fstream_outside_repository_or_logging` ([CTest](evidence/part3-2026-11-19/ctest.txt))",
+    "matched_tests": [
+      "ModuleInterfaces.MNT_01_SharedStructsHaveTheAgreedDefaults",
+      "ModuleInterfaces.MNT_01_AllModulesCanBeWiredTogether"
+    ],
+    "scripts": [
+      "no_fstream_outside_repository_or_logging"
+    ]
+  },
+  {
+    "id": "UT-GRADE-01",
+    "scenario": "Grade correct/wrong/blank answers",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_01_ScoresCorrectWrongAndBlankAnswers"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-02",
+    "scenario": "Per-question zero floor",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt); [`GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_02_NegativeFloor_BR5_PenaltyExceedsMarks",
+      "GradingModuleTest.UT_GRADE_02B_PerQuestionFloorAppliesEvenWhenTotalWouldStayNonNegative"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-03",
+    "scenario": "No negative item score",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_03_NegativeMarkingNeverScoresAWrongAnswerBelowZero"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-04",
+    "scenario": "Reject repeat graded submission",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_04_SecondGradedAttemptRejected"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-06",
+    "scenario": "Retrieve exact stored itemised report",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_06_ItemisedResultPersistsAndIsRetrievableViaGetReport"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-07",
+    "scenario": "Reject tampered answers through core",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_07_TamperingRejectedByGradingModuleNotJustUI"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-08",
+    "scenario": "QUIZ_NOT_FOUND for missing quiz",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_08_UnknownQuizReturnsQuizNotFound"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-GRADE-09",
+    "scenario": "Persist expired grade as auto-submitted",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired`](evidence/part3-2026-11-19/gtest/grading_module_tests.txt)",
+    "matched_tests": [
+      "GradingModuleTest.UT_GRADE_09_LateSubmissionIsStillGradedAndFlaggedTimeExpired"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-01",
+    "scenario": "Add and persist MCQ",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_01_AddPersistReload`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_01_AddPersistReload"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-02",
+    "scenario": "Edit unused question",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_02_EditQuestion`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_02_EditQuestion"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-03",
+    "scenario": "Confirm/cancel deletion",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_03_DeleteWithAndWithoutConfirmation"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-04",
+    "scenario": "Reject invalid correct answer",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_04_InvalidOrMissingCorrectAnswer"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-05",
+    "scenario": "Reject missing subject",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_05_MissingSubjectTag`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_05_MissingSubjectTag"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-06",
+    "scenario": "Reject fewer than two options",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_06_FewerThanTwoOptions`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_06_FewerThanTwoOptions"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-07",
+    "scenario": "Import valid CSV",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_07_ValidCsvImport`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_07_ValidCsvImport"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-08",
+    "scenario": "Import eight valid rows and report two bad rows",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_08_CsvWithTwoInvalidRowsOfTen`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_08_CsvWithTwoInvalidRowsOfTen"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-09",
+    "scenario": "Export full/filtered CSV",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_09_ExportFullAndFiltered`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_09_ExportFullAndFiltered"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-10",
+    "scenario": "Disable and exclude from new quizzes",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_10_DisableViaSetAvailability`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_10_DisableViaSetAvailability"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QB-11",
+    "scenario": "Timestamp rejected-row logs",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuestionBankFixture.UT_QB_11_RejectedRowLoggingWithTimestampAndReason`](evidence/part3-2026-11-19/gtest/question_bank_tests.txt)",
+    "matched_tests": [
+      "QuestionBankFixture.UT_QB_11_RejectedRowLoggingWithTimestampAndReason"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-01",
+    "scenario": "Shuffle without losing answer identity",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizAttemptTest.UT_QE_01_ShuffledQuestionsKeepEveryIdentityExactlyOnce"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-02",
+    "scenario": "Apply subject/difficulty filters",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-03",
+    "scenario": "Reject insufficient pool without partial quiz",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizEngineSqliteTest.UT_QE_03_InvalidConfigurationNeverPersistsAPartialQuiz"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-04",
+    "scenario": "Persist scoring configuration",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizEngineSqliteTest.UT_QE_02_UT_QE_04_FilteredSelectionAndScoringSurviveRestart"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-05",
+    "scenario": "Zero penalty stays disabled",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizEngineSqliteTest.UT_QE_05_ZeroPenaltyRemainsDisabledAfterRestart"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-06",
+    "scenario": "Preserve graded deadline on restart",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "TimedQuizTest.UT_QE_06_DeadlineDecreasesSurvivesRestartAndGradesOriginalChoices"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-07",
+    "scenario": "Reject nonpositive count",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizEngineTests.RejectsNonPositiveQuestionCount`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizEngineTests.RejectsNonPositiveQuestionCount"
+    ],
+    "scripts": []
+  },
+  {
+    "id": "UT-QE-08",
+    "scenario": "Reject nonpositive duration",
+    "status": "PASS",
+    "actual": "Executable assertions passed; inputs and expected values are in the linked test source/log.",
+    "evidence": "[`QuizEngineTests.RejectsNonPositiveTimeLimit`](evidence/part3-2026-11-19/gtest/quiz_engine_tests.txt)",
+    "matched_tests": [
+      "QuizEngineTests.RejectsNonPositiveTimeLimit"
+    ],
+    "scripts": []
+  }
+]

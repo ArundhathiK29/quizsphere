@@ -1,0 +1,382 @@
+{
+  "tested_source_revision": "cce8549061143fab649eab618051becc6ffc06e7",
+  "report_date": "2026-11-19",
+  "source_files": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256_lf": "d54ef403139aba36d305e2fac101a8285b66722f34647e90fad09cdf92e939ec"
+    },
+    {
+      "path": "Dockerfile",
+      "sha256_lf": "705b4deae281dec8e6c54ce1fc26ea73734d5c1bc903ab596d1a6787aa9c48ed"
+    },
+    {
+      "path": "include/.gitkeep",
+      "sha256_lf": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "include/admin_user_menu.hpp",
+      "sha256_lf": "cc776624714b0df6486ce2c9be6fa76d0f53c7506c170ac328636ee3a6134248"
+    },
+    {
+      "path": "include/analytics_console.hpp",
+      "sha256_lf": "a1356f7509034f6ece7bca43717ee34ceb879af21d29bbe46948d86ce59b7ae4"
+    },
+    {
+      "path": "include/analytics_module.hpp",
+      "sha256_lf": "384e71c7cc0de7a5d300447bf614731d7bd5980a6ee1d5cc3d52acd13ace2d5a"
+    },
+    {
+      "path": "include/auth.hpp",
+      "sha256_lf": "88c4b55380bffe469caa528ab641e9bf1f4d114f7b1a8581870ba37eddac719b"
+    },
+    {
+      "path": "include/auth_event_log.hpp",
+      "sha256_lf": "fea9b49dd1aca9bd9a3afc5112ee06bff11106c69b59b593b8b11055ca45a1ce"
+    },
+    {
+      "path": "include/common_types.hpp",
+      "sha256_lf": "15c989b609626aa224d00db13dedd4d89d6c0ea629a172791ff57a428d2e74cd"
+    },
+    {
+      "path": "include/console_input.hpp",
+      "sha256_lf": "e000b405c8e55ee7b7fb967356fa775c72d54a9452596ec7dcf1afded7c5e0af"
+    },
+    {
+      "path": "include/console_menu.hpp",
+      "sha256_lf": "3536d22f817fa49e4a58cdbec69862eaa610bf416f815612e5c968e633724226"
+    },
+    {
+      "path": "include/csv_format.hpp",
+      "sha256_lf": "cf1ac34d6e277ddee76ae825a1300ec58bc2215d94f6ddb290e3c3cfb8cf9b81"
+    },
+    {
+      "path": "include/data_access_layer.hpp",
+      "sha256_lf": "1cb2c2f341be579fd643b7346e32285fc2e5ddb548b67222a9b60634a69fc1ef"
+    },
+    {
+      "path": "include/grading_module.hpp",
+      "sha256_lf": "77737fc648c7152dc4af7f712ba61d5e90d94dc2b910c912266d950424b55dfd"
+    },
+    {
+      "path": "include/import_logger.hpp",
+      "sha256_lf": "cf951039c243f6f27408827c53f92d8f9c282ae52f0c3963ba9a2765195d0b27"
+    },
+    {
+      "path": "include/input_validation.hpp",
+      "sha256_lf": "8548ba3d1fb38f597ff1b60f7d495e4a0efd39616d53660cf516d3dec959f822"
+    },
+    {
+      "path": "include/options_codec.hpp",
+      "sha256_lf": "b2861e12cd97f0e134f7b565688ea5941d42d7296518039b6e054846691c93cf"
+    },
+    {
+      "path": "include/password_hasher.hpp",
+      "sha256_lf": "eac8569c672cd20e73f72a4ee41168564decf2bd353c75a28c060180f2ff5334"
+    },
+    {
+      "path": "include/question_bank.hpp",
+      "sha256_lf": "4da206480b74f9cae47286c1076cdfe844b1aaaddbcd6f5509888d566d2030ba"
+    },
+    {
+      "path": "include/question_repository.hpp",
+      "sha256_lf": "c1ebfe225954b4d5448c42f68af304040d5c80780a7d27c952da10fd32e5d94d"
+    },
+    {
+      "path": "include/question_types.hpp",
+      "sha256_lf": "3e1ffdfcdfc9b3222bf7b68c8f7e914e9084557674891779a26d91b61ce43096"
+    },
+    {
+      "path": "include/quiz_attempt.hpp",
+      "sha256_lf": "5a96c3ac35269313a9f9bdb7eeefdf405171121933d80769e2af83733d7c5d78"
+    },
+    {
+      "path": "include/quiz_console.hpp",
+      "sha256_lf": "ff376e6d8156b7fee98c226c7153e8a0ed36e881b8e336d1ca5d311102da13b5"
+    },
+    {
+      "path": "include/quiz_engine.hpp",
+      "sha256_lf": "51f953620d113f1ab2e7ca47a815236aadbe1289e381b7fbad6b3db11e82837c"
+    },
+    {
+      "path": "include/quiz_types.hpp",
+      "sha256_lf": "873a49d6e79624210aef5929da4e8d11b33da22851af81d1109c1c876787fdaf"
+    },
+    {
+      "path": "include/result_view.hpp",
+      "sha256_lf": "920a20df309cd0e09dcde5cac8399298fe72a95cb467b6311c079bb4de37f376"
+    },
+    {
+      "path": "include/sqlite_user_repository.hpp",
+      "sha256_lf": "2e3a62cef5cd72cb0fbe1f0d9a49828868810f1318265feb3b924bb884e27bbb"
+    },
+    {
+      "path": "include/timed_console_input.hpp",
+      "sha256_lf": "b21db4496e7d039a4f62aecfd9f4f52d430ec52f54101d1cbf17c0012fdff7c5"
+    },
+    {
+      "path": "include/user_repository.hpp",
+      "sha256_lf": "0533edbce2f8ede6ef7bd62c0649e4bea970043d700e6e26243ace3a4da6b120"
+    },
+    {
+      "path": "include/web_application.hpp",
+      "sha256_lf": "f3ec70ff9ccbed0bb8f1277b74c65bd81d595b2f6c6a0da35f6cce7ccb277005"
+    },
+    {
+      "path": "src/.gitkeep",
+      "sha256_lf": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/admin_user_menu.cpp",
+      "sha256_lf": "0b8de3bdbdb06274c9d702463d259a549f2af23986dcb2dfb21b35e2be7126ba"
+    },
+    {
+      "path": "src/analytics_console.cpp",
+      "sha256_lf": "a64040e0d52667e43c24e6c27966bffce80230c7dae5be8e438f0d36f0b616be"
+    },
+    {
+      "path": "src/analytics_module.cpp",
+      "sha256_lf": "54db0811257e0eda3ed256f6f7c5ff849a256a992649c44fa9ce14fd4a9b6f81"
+    },
+    {
+      "path": "src/auth.cpp",
+      "sha256_lf": "bc5b3eabb82645cfc12b1923ed71f54e6ad94084c3e1f18da60489f9eee4b716"
+    },
+    {
+      "path": "src/auth_event_log.cpp",
+      "sha256_lf": "bb004020dc37773c303033b196eb4ccd16a3d017075d24c998751c1ab75d79a9"
+    },
+    {
+      "path": "src/common_types.cpp",
+      "sha256_lf": "e88d4736a1be64e221e4ff511e14fae35558abf96913f689e905d7aafd6f739d"
+    },
+    {
+      "path": "src/console_input.cpp",
+      "sha256_lf": "b5ca346856e0c231822709fbdbf4ad51ef68ff1b7637cfa273095a1f26568dd4"
+    },
+    {
+      "path": "src/console_menu.cpp",
+      "sha256_lf": "d073867400adaebb28ca91aedda6f3cb84f90782956353f0b0fa8374701abbaf"
+    },
+    {
+      "path": "src/data_access_layer.cpp",
+      "sha256_lf": "7644d6b8fae59966991558282eacdda92c7aeb9cb38d30beeff084c165695c31"
+    },
+    {
+      "path": "src/grading_module.cpp",
+      "sha256_lf": "f8e54c1e3fa9fea509ee681f19e8c4e4f605dd6b7e8131f2e06732416eeb16e9"
+    },
+    {
+      "path": "src/import_logger.cpp",
+      "sha256_lf": "6481ddf041898716dc8bbb37e7d494e309c686fa06a59d56568bb5912916f58e"
+    },
+    {
+      "path": "src/input_validation.cpp",
+      "sha256_lf": "a7599eae1204d07b9575a5da87cf0f80455eb0912e166a5b000cdf1d3640f647"
+    },
+    {
+      "path": "src/main.cpp",
+      "sha256_lf": "d3979a603449c32180597c26c90b484dadfad1b3f2d2e7e71e21fa2dd3be38e6"
+    },
+    {
+      "path": "src/password_hasher.cpp",
+      "sha256_lf": "9493836dfe7e68ee59a638e9708d5b1a59da4f3a7bf843c48439b6258ba0580e"
+    },
+    {
+      "path": "src/question_bank.cpp",
+      "sha256_lf": "8cf62cf007a270343d2c0046b90fb1979873b6d6df26d80ec5607d1675248d09"
+    },
+    {
+      "path": "src/question_repository_file.cpp",
+      "sha256_lf": "d2bb3cd744269c9624a39799ece2db06fb145844fd30e318e02fbc8280fffe45"
+    },
+    {
+      "path": "src/quiz_attempt.cpp",
+      "sha256_lf": "a70d4e0c14be42b080ddb6ae7003740f55027afe2db22e8a63f0f2775a2a23d0"
+    },
+    {
+      "path": "src/quiz_console.cpp",
+      "sha256_lf": "c4089a404e2b6bfa50e288279ab6f0fdbcd6dff7753ba0922ec5a1b85988b7ad"
+    },
+    {
+      "path": "src/quiz_engine.cpp",
+      "sha256_lf": "70baca5af5d9e4be5d76bdb279465135701f89f42c7018125bc3204938b04f9a"
+    },
+    {
+      "path": "src/result_view.cpp",
+      "sha256_lf": "db4940f3df06a3e57674d6ebd7581497203ada798d608698a503ef2fcb6b6305"
+    },
+    {
+      "path": "src/sqlite_user_repository.cpp",
+      "sha256_lf": "51e2145aa9642a65a04dc0f4826d6c7cd51e71c610e9527a476c613573cabf5e"
+    },
+    {
+      "path": "src/timed_console_input.cpp",
+      "sha256_lf": "b674398c351f9b931db736bb3aaa76180d3942dbf90bebe44d68e2c1b74c75f0"
+    },
+    {
+      "path": "src/web_application.cpp",
+      "sha256_lf": "7e0f37f6ab9f6bddaf8ce4373503f928e1c5d2baade060e99de08f37e1ea4996"
+    },
+    {
+      "path": "src/web_server.cpp",
+      "sha256_lf": "1d01e3302c0df78b770b4e8085cc294ce255e4e207239d0468f75d6ebc7763ee"
+    },
+    {
+      "path": "tests/.gitkeep",
+      "sha256_lf": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/admin_user_flow.cmake",
+      "sha256_lf": "e7306749c24d9f61c4b3e452a36f42e2f5a6f87b62d9cc020b5cc16c57433cef"
+    },
+    {
+      "path": "tests/admin_user_menu_tests.cpp",
+      "sha256_lf": "7a05e9cd72ed9a0249ebd587e339c2f01011c1c34537eb93ca3adf97a3578e42"
+    },
+    {
+      "path": "tests/analytics_module_sqlite_integration_tests.cpp",
+      "sha256_lf": "a02be5307369df8e52ce27094d6705a201c6d3ed914127a4e77627a7be0710df"
+    },
+    {
+      "path": "tests/analytics_module_tests.cpp",
+      "sha256_lf": "0dca7db3f2a367c633fd08b67441cf442cb9a6761158508b9aec307b1941fa53"
+    },
+    {
+      "path": "tests/auth_event_log_tests.cpp",
+      "sha256_lf": "7ace4ab2566ea900f5e2096bbc58eaf39865f2afbc8ac2700482f4e29331faa4"
+    },
+    {
+      "path": "tests/auth_role_boundary_tests.cpp",
+      "sha256_lf": "f4f0bc073729afe6205dc29cb248c2809d0e27e42282a90b9c1709430fd9606f"
+    },
+    {
+      "path": "tests/auth_tests.cpp",
+      "sha256_lf": "66167581a530eeb49287f1a17fff56e3a634d8c8767446d32b2fd1e00b456214"
+    },
+    {
+      "path": "tests/console_input_tests.cpp",
+      "sha256_lf": "5ea478e74770371ad23a76ae8899fb0351694d2ba14a6594dfd0a4bd63bdc3c5"
+    },
+    {
+      "path": "tests/data_access_layer_tests.cpp",
+      "sha256_lf": "4c9e9b910fdee2019fa9e9e6b2367bd0e6a48b2628521fc55dced2d871fc4512"
+    },
+    {
+      "path": "tests/grading_module_sqlite_integration_tests.cpp",
+      "sha256_lf": "e47928f73307c37c7b8e7ba5893f5f3adb2b6f394bf1f91c4e07bf543314f21d"
+    },
+    {
+      "path": "tests/grading_module_tests.cpp",
+      "sha256_lf": "746c86e3ae672163b8fd637794589e58a8ddc5a101c28b323bd23af14d388d84"
+    },
+    {
+      "path": "tests/input_validation_tests.cpp",
+      "sha256_lf": "8e79517c3a2e3a69b00506a0b397dd3d967cd2a54d923927e1ac5ee110f0231e"
+    },
+    {
+      "path": "tests/leaderboard_sqlite_tests.cpp",
+      "sha256_lf": "f0d836fe9faddbcfb776ede38d982902101eaed7601e7f0705886efb88984bd8"
+    },
+    {
+      "path": "tests/module_interfaces_tests.cpp",
+      "sha256_lf": "b5fd0944d346149c2c531e053a235f0e377fe51497bc2c9b9f5e8d85b986d34b"
+    },
+    {
+      "path": "tests/part3_acceptance_tests.cpp",
+      "sha256_lf": "315d13ff44ec8582988e537b16ee1c30afda8de6f78ec96804d9400fa027c36e"
+    },
+    {
+      "path": "tests/part3_system_flow.py",
+      "sha256_lf": "90d153f249d1e32ac6e6fb75f5720ebd682494c6a476a54abb62f1ee714a62e1"
+    },
+    {
+      "path": "tests/password_hasher_tests.cpp",
+      "sha256_lf": "6d77613ee30af8dc171dd9341e9d88cf5022a4d03f011fe9b6d56ab99901aa2f"
+    },
+    {
+      "path": "tests/process_kill_atomicity.py",
+      "sha256_lf": "4b7b4e12e55e4159c1eb1a68a982b7c370ea3f7212e293e67e20256eb00368a5"
+    },
+    {
+      "path": "tests/question_bank_tests.cpp",
+      "sha256_lf": "71237d6e6d9e2d47e802b949bba61d17e546362d26aa8f34b92656b7093ef337"
+    },
+    {
+      "path": "tests/quiz_attempt_tests.cpp",
+      "sha256_lf": "0c72d68aa5e2090244666e7cf22c51f33b6ae1842dbbefdb6f19e9acc9dc8a4c"
+    },
+    {
+      "path": "tests/quiz_engine_sqlite_tests.cpp",
+      "sha256_lf": "680c9d41b73c747d5506756ca09eb73bf736f271a06593889d0a976f1f4590ff"
+    },
+    {
+      "path": "tests/quiz_engine_tests.cpp",
+      "sha256_lf": "e21c214d5e6146b5fc2fea80a87545cec2155e51191d88a4ccd2bdbfc904c411"
+    },
+    {
+      "path": "tests/quiz_timer_tests.cpp",
+      "sha256_lf": "e3fe09627d739457a041841d9f68550f6c4cdf7811b7ec8308112f01c0bbacdd"
+    },
+    {
+      "path": "tests/result_view_integration_tests.cpp",
+      "sha256_lf": "0be841bd00532cf8913288ba84a6747d1e8bae869f754a5d6da6336c6f366026"
+    },
+    {
+      "path": "tests/result_view_tests.cpp",
+      "sha256_lf": "5c7011efcaeaf54a19e6dbfef77ad200a3b0a5b6fac2e311ee22e4331c4d0af4"
+    },
+    {
+      "path": "tests/security_console_flow.py",
+      "sha256_lf": "fc7d6a36e8fb3a837d3c9567938deb194ca6ce727487b5161e9b8c3d13405150"
+    },
+    {
+      "path": "tests/sqlite_user_repository_tests.cpp",
+      "sha256_lf": "dcb0535ddd4e0392b203b04a58dc7cb6a9cd41546ee73d3522b87369fc59c836"
+    },
+    {
+      "path": "tests/submitted_attempt_protection_tests.cpp",
+      "sha256_lf": "9f997c3d90455da206ecf43a1c529f0fbe4357cd1f90a5ea90deffbbc22ae775"
+    },
+    {
+      "path": "tests/timed_confirmation_flow.py",
+      "sha256_lf": "c859809d3b981fb229af76f9a26dc3fd6f031f762a762f6a54a71aa6b1bb48e6"
+    },
+    {
+      "path": "tests/topic_analytics_integration_tests.cpp",
+      "sha256_lf": "40858a7548c680a36831a7a4bcc08997e89e3a8a13e731157843a124fa636a83"
+    },
+    {
+      "path": "tests/transcript_export_integration_tests.cpp",
+      "sha256_lf": "3c30b9938543b30a39ac5400de780030b5fead238a1322e79dc98606f9122e62"
+    },
+    {
+      "path": "tests/web_application_tests.cpp",
+      "sha256_lf": "e6fa5d09b2c240f991e6110655203394e2f41c4892e85cce701a0b180d17f0e6"
+    },
+    {
+      "path": "tests/web_http_smoke.py",
+      "sha256_lf": "bb0b229d187fe1477ab8891f5f5075f7b37be99a7ce78b23b16609249e2b593e"
+    },
+    {
+      "path": "tests/web_timer_regression.py",
+      "sha256_lf": "9accdd96d25cbcde880ef69ba7ad312d17221fa9305d329a8e5f8d960811ba35"
+    },
+    {
+      "path": "web/app.css",
+      "sha256_lf": "005cfef1f77825f6b305e38f6fae18614d8f1f5c9f14d850114af8c045cfe3ca"
+    },
+    {
+      "path": "web/app.js",
+      "sha256_lf": "42cba324f1cc03b4799b61cd1589c41f4380ec896cd7c64a3acc7652bced86a4"
+    },
+    {
+      "path": "web/assets.hpp.in",
+      "sha256_lf": "c2ecf03ea7cdbf1270d3e822e3a636b82b484ae9af58a2e9e2f13cd9161bfbb3"
+    },
+    {
+      "path": "web/index.html",
+      "sha256_lf": "66c33de457bc89d91652eb8d9be2c76826081e1d81ae0dce46e8ec88ee1a9d68"
+    }
+  ]
+}

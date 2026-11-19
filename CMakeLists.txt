@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(QUIZSPHERE_BUILD_TESTS "Build QuizSphere tests" ON)
 option(QUIZSPHERE_COVERAGE "Enable coverage flags" OFF)
+option(QUIZSPHERE_BUILD_WEB "Build the optional local browser interface" ON)
 
 function(quizsphere_enable_warnings target_name)
     if(MSVC)
@@ -37,7 +38,10 @@ endif()
 find_package(OpenSSL REQUIRED)
 
 add_library(quizsphere_core
+    src/input_validation.cpp
     src/common_types.cpp
+    src/console_input.cpp
+    src/admin_user_menu.cpp
     src/question_bank.cpp
     src/question_repository_file.cpp
     src/console_menu.cpp
@@ -67,6 +71,27 @@ target_link_libraries(quizsphere PRIVATE quizsphere_core)
 quizsphere_enable_warnings(quizsphere)
 quizsphere_enable_coverage(quizsphere)
 
+if(QUIZSPHERE_BUILD_WEB)
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/web/index.html" WEB_HTML)
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/web/app.css" WEB_CSS)
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/web/app.js" WEB_JS)
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS web/index.html web/app.css web/app.js)
+    configure_file(web/assets.hpp.in generated/web_assets.hpp @ONLY)
+    add_library(quizsphere_web_adapter src/web_application.cpp)
+    target_link_libraries(quizsphere_web_adapter PUBLIC quizsphere_core)
+    target_include_directories(quizsphere_web_adapter PUBLIC include)
+    quizsphere_enable_warnings(quizsphere_web_adapter)
+    quizsphere_enable_coverage(quizsphere_web_adapter)
+    add_executable(quizsphere_web src/web_server.cpp)
+    target_include_directories(quizsphere_web PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
+    target_link_libraries(quizsphere_web PRIVATE quizsphere_web_adapter)
+    if(WIN32)
+        target_link_libraries(quizsphere_web PRIVATE ws2_32)
+    endif()
+    quizsphere_enable_warnings(quizsphere_web)
+    quizsphere_enable_coverage(quizsphere_web)
+endif()
+
 if(QUIZSPHERE_BUILD_TESTS)
     find_package(GTest QUIET)
     if(NOT GTest_FOUND)
@@ -80,6 +105,14 @@ if(QUIZSPHERE_BUILD_TESTS)
     enable_testing()
     include(GoogleTest)
 
+    if(QUIZSPHERE_BUILD_WEB)
+        add_executable(web_application_tests tests/web_application_tests.cpp)
+        target_link_libraries(web_application_tests PRIVATE quizsphere_web_adapter GTest::gtest GTest::gtest_main)
+        quizsphere_enable_warnings(web_application_tests)
+        quizsphere_enable_coverage(web_application_tests)
+        gtest_discover_tests(web_application_tests DISCOVERY_TIMEOUT 120)
+    endif()
+
     add_executable(question_bank_tests tests/question_bank_tests.cpp)
     target_link_libraries(question_bank_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
     quizsphere_enable_warnings(question_bank_tests)
@@ -89,7 +122,9 @@ if(QUIZSPHERE_BUILD_TESTS)
 
     add_executable(auth_tests
         tests/password_hasher_tests.cpp
+        tests/console_input_tests.cpp
         tests/auth_tests.cpp
+        tests/auth_role_boundary_tests.cpp
         tests/auth_event_log_tests.cpp
         tests/sqlite_user_repository_tests.cpp
         tests/module_interfaces_tests.cpp
@@ -98,6 +133,20 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(auth_tests)
     quizsphere_enable_coverage(auth_tests)
     gtest_discover_tests(auth_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(admin_user_menu_tests tests/admin_user_menu_tests.cpp)
+    target_link_libraries(admin_user_menu_tests PRIVATE quizsphere_core GTest::gtest GTest::gtest_main)
+    quizsphere_enable_warnings(admin_user_menu_tests)
+    quizsphere_enable_coverage(admin_user_menu_tests)
+    gtest_discover_tests(admin_user_menu_tests DISCOVERY_TIMEOUT 120)
+    add_test(
+        NAME ST_ADM_01_AdminUserFlow
+        COMMAND ${CMAKE_COMMAND}
+            "-DAPP=$<TARGET_FILE:quizsphere>"
+            "-DTEST_DIR=${CMAKE_CURRENT_BINARY_DIR}/admin-system-flow"
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/admin_user_flow.cmake
+    )
+    set_tests_properties(ST_ADM_01_AdminUserFlow PROPERTIES TIMEOUT 180)
 
     add_executable(data_access_layer_tests
         tests/data_access_layer_tests.cpp
@@ -109,6 +158,38 @@ if(QUIZSPHERE_BUILD_TESTS)
     quizsphere_enable_warnings(data_access_layer_tests)
     quizsphere_enable_coverage(data_access_layer_tests)
     gtest_discover_tests(data_access_layer_tests DISCOVERY_TIMEOUT 120)
+
+    add_executable(input_validation_tests tests/input_validation_tests.cpp)
+    target_link_libraries(input_validation_tests PRIVATE quizsphere_core GTest::gtest_main)
+    quizsphere_enable_warnings(input_validation_tests)
+    quizsphere_enable_coverage(input_validation_tests)
+    gtest_discover_tests(input_validation_tests DISCOVERY_TIMEOUT 120)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    add_test(NAME ST_SEC_08_ActualConsoleValidation
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/security_console_flow.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(ST_SEC_08_ActualConsoleValidation PROPERTIES TIMEOUT 90)
+    add_test(NAME ST_SEC_09_TimedConfirmationControls
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/timed_confirmation_flow.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(ST_SEC_09_TimedConfirmationControls PROPERTIES TIMEOUT 60)
+    add_test(NAME UT_DAL_01_ProcessKillAtomicity
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/process_kill_atomicity.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(UT_DAL_01_ProcessKillAtomicity PROPERTIES TIMEOUT 60)
+    add_test(NAME ST_PART3_StudentInstructorAdminReports
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/part3_system_flow.py $<TARGET_FILE:quizsphere>)
+    set_tests_properties(ST_PART3_StudentInstructorAdminReports PROPERTIES TIMEOUT 60)
+    add_executable(part3_acceptance_tests tests/part3_acceptance_tests.cpp)
+    target_link_libraries(part3_acceptance_tests PRIVATE quizsphere_core GTest::gtest_main)
+    quizsphere_enable_warnings(part3_acceptance_tests)
+    quizsphere_enable_coverage(part3_acceptance_tests)
+    gtest_discover_tests(part3_acceptance_tests DISCOVERY_TIMEOUT 120)
+    if(QUIZSPHERE_BUILD_WEB)
+        foreach(timer_case slow-header slow-body practice-switch cross-session-manual cross-session-auto)
+            add_test(NAME web_timer_${timer_case}
+                COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/web_timer_regression.py
+                    $<TARGET_FILE:quizsphere_web> ${timer_case})
+            set_tests_properties(web_timer_${timer_case} PROPERTIES TIMEOUT 45)
+        endforeach()
+    endif()
 
     add_executable(quiz_engine_tests
         tests/quiz_engine_tests.cpp

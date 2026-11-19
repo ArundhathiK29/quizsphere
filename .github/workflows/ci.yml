@@ -27,6 +27,9 @@ jobs:
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
 
+      - name: Browser HTTP integration smoke
+        run: python3 tests/web_http_smoke.py build/quizsphere_web
+
       - name: Static analysis (cppcheck)
         run: cppcheck --enable=warning,style,performance,portability --error-exitcode=1 -q -I include include src
 
@@ -38,6 +41,18 @@ jobs:
         with:
           name: coverage
           path: coverage.xml
+
+      # Run after the full-suite report: this resets counters for an auth-only measurement.
+      - name: Authentication line and branch coverage
+        run: |
+          python3 scripts/auth_coverage.py \
+            --source-dir . --build-dir build --output-dir auth-coverage \
+            --gcov gcov --revision "${{ github.sha }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: auth-coverage
+          path: auth-coverage
 
   docker:
     runs-on: ubuntu-24.04

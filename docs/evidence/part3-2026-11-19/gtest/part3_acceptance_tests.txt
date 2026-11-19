@@ -1,0 +1,20 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from Part3Acceptance
+[ RUN      ] Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds
+PERF-01 run 1: 13.7541 ms
+PERF-01 run 2: 13.0853 ms
+PERF-01 run 3: 14.9896 ms
+PERF-01 run 4: 12.9811 ms
+PERF-01 run 5: 13.0016 ms
+[       OK ] Part3Acceptance.PERF_01_LoadAndStartTwentyQuestionQuizWithinTwoSeconds (256 ms)
+[ RUN      ] Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite
+[       OK ] Part3Acceptance.UT_DAL_02_QuestionFallbackRoundTripMatchesSqlite (146 ms)
+[ RUN      ] Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank
+[       OK ] Part3Acceptance.SeededMalformedCsvFuzzPreservesTheQuestionBank (249 ms)
+[----------] 3 tests from Part3Acceptance (652 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (652 ms total)
+[  PASSED  ] 3 tests.

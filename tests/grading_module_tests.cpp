@@ -139,7 +139,17 @@ public:
         *report = it->second.second;
         return {ErrorCode::OK, "ok"};
     }
-        Result listGradedAttempts(const std::string& quiz_id, std::vector<Attempt>* attempts) const override {
+    Result findReportForAttempt(const std::string& id, GradeReport* report) const override {
+        if (forced_report_error_) return *forced_report_error_;
+        for (const auto& entry : graded_) {
+            if (entry.second.first.attempt_id == id) {
+                *report = entry.second.second;
+                return {ErrorCode::OK, "ok"};
+            }
+        }
+        return {ErrorCode::ATTEMPT_NOT_FOUND, "No exact report."};
+    }
+    Result listGradedAttempts(const std::string& quiz_id, std::vector<Attempt>* attempts) const override {
         if (forced_list_graded_error_.has_value()) {
             return *forced_list_graded_error_;
         }
@@ -173,6 +183,7 @@ public:
     void failNextSave() { fail_next_save_ = true; }
         void forceFindOpenError(Result error) { forced_find_open_error_ = error; }
     void forceListGradedError(Result error) { forced_list_graded_error_ = error; }
+    void forceReportError(Result error) { forced_report_error_ = error; }
 
 private:
     static std::string key(const std::string& quiz_id, const std::string& student_id) {
@@ -181,6 +192,7 @@ private:
     bool fail_next_save_ = false;
     std::optional<Result> forced_find_open_error_;
     std::optional<Result> forced_list_graded_error_;
+    std::optional<Result> forced_report_error_;
     std::unordered_map<std::string, Attempt> open_;
     std::unordered_map<std::string, std::pair<Attempt, GradeReport>> graded_;
 };
@@ -639,6 +651,25 @@ TEST_F(GradingModuleTest, DatabaseSaveFailureIsPropagatedAndNothingIsLeftHalfWri
 
     EXPECT_EQ(result.code, ErrorCode::IO_ERROR);
     EXPECT_EQ(attempts_.gradedAttempt("quiz-1", "student-1"), nullptr);
+}
+
+TEST_F(GradingModuleTest, ResultLookupPreservesListAndExactReportFailures) {
+    GradeReport report;
+    attempts_.forceListGradedError({ErrorCode::IO_ERROR, "list unavailable"});
+    EXPECT_EQ(grading_->getReport("quiz-1", "student-1", &report).code, ErrorCode::IO_ERROR);
+}
+
+TEST_F(GradingModuleTest, ResultLookupDoesNotFallBackWhenExactReportIsMissingOrFails) {
+    makeQuiz(1.0, 0.0);
+    makeOpenAttempt();
+    GradeReport report;
+    ASSERT_TRUE(grading_->gradeAttempt("quiz-1", "student-1", sampleAnswers(), &report).ok());
+    for (const auto code : {ErrorCode::IO_ERROR, ErrorCode::ATTEMPT_NOT_FOUND}) {
+        attempts_.forceReportError({code, "exact lookup failure"});
+        const auto result = grading_->getReport("quiz-1", "student-1", &report);
+        EXPECT_EQ(result.code, code);
+        EXPECT_EQ(result.message, "exact lookup failure");
+    }
 }
 
 }  // namespace

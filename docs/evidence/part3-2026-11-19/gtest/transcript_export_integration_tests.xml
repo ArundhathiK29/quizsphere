@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="2" failures="0" disabled="0" errors="0" time="0.205" timestamp="2026-11-18T18:40:36.699" name="AllTests">
+  <testsuite name="TranscriptExportIntegrationTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0.205" timestamp="2026-11-18T18:40:36.699">
+    <testcase name="WritesRereadsRefusesSilentOverwriteAndReportsBadPath" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/transcript_export_integration_tests.cpp" line="94" status="run" result="completed" time="0.151" timestamp="2026-11-18T18:40:36.699" classname="TranscriptExportIntegrationTest" />
+    <testcase name="StudentWithNoGradedAttemptsGetsAHeaderOnlyFile" file="/home/arundhathi_k/quizsphere-part3-20261118/source/tests/transcript_export_integration_tests.cpp" line="142" status="run" result="completed" time="0.054" timestamp="2026-11-18T18:40:36.850" classname="TranscriptExportIntegrationTest" />
+  </testsuite>
+</testsuites>

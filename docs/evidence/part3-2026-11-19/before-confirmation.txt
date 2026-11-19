@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\karib\Documents\Codex\2026-10-28\so\work\arundhathi-final\source\tests\timed_confirmation_flow.py", line 30, in <module>
+    assert connection.execute("SELECT count(*) FROM reports").fetchone()[0] == 0, malformed
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'y\res\n'

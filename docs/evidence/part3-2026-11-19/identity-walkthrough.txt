@@ -1,0 +1,28 @@
+
+First-run setup: no administrator account exists yet. Create one now.
+Admin username: Admin password: Repeat password: OK.
+
+=== QuizSphere ===
+1) Log in
+2) Register
+0) Exit
+Select: Choose a username: Role - (s)tudent or (i)nstructor: Choose a password: Repeat password: Account created. You can now log in.
+
+=== QuizSphere ===
+1) Log in
+2) Register
+0) Exit
+Select: Username: Password: 
+=== QuizSphere: Student Menu ===
+User: student (Student)
+1. Attempt a quiz
+2. View my result
+3. View rankings
+0. Log out
+Select: Logged out.
+
+=== QuizSphere ===
+1) Log in
+2) Register
+0) Exit
+Select: 

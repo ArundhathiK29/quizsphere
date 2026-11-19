@@ -1,3 +1,4 @@
+#include "console_input.hpp"
 #include "console_menu.hpp"
 
 #include <algorithm>
@@ -153,9 +154,13 @@ private:
     }
 
     bool readLine(std::string* line) {
-        if (!std::getline(input_, *line)) {
-            output_ << "\nInput ended. Exiting menu.\n";
-            return false;
+        ConsoleLineStatus status = ConsoleLineStatus::EndOfInput;
+        while (!readConsoleLine(input_, output_, *line, kMaxConsoleLineBytes, &status)) {
+            if (status == ConsoleLineStatus::EndOfInput) {
+                output_ << "\nInput ended. Exiting menu.\n";
+                return false;
+            }
+            output_ << "Please enter this value again: " << std::flush;
         }
         *line = trim(*line);
         return true;

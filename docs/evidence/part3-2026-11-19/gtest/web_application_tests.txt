@@ -1,0 +1,21 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from WebApplicationTest
+[ RUN      ] WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole
+[       OK ] WebApplicationTest.AuthRequiresRealSessionCsrfAndValidRegistrationRole (385 ms)
+[ RUN      ] WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent
+[       OK ] WebApplicationTest.StudentCannotReadAnswerKeysOrCreateInstructorContent (857 ms)
+[ RUN      ] WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart
+[       OK ] WebApplicationTest.GradedSubmissionPersistsAndRetakeIsRejectedAfterServerRestart (1326 ms)
+[ RUN      ] WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode
+[       OK ] WebApplicationTest.PracticeFeedbackDoesNotCreateAStoredReportOrBlockGradedMode (881 ms)
+[ RUN      ] WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected
+[       OK ] WebApplicationTest.MalformedFieldsAndReferencedQuestionMutationsAreRejected (427 ms)
+[ RUN      ] WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability
+[       OK ] WebApplicationTest.InvalidTextAndBooleanFieldsNeverMutateQuestionAvailability (436 ms)
+[----------] 6 tests from WebApplicationTest (4314 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (4314 ms total)
+[  PASSED  ] 6 tests.

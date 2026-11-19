@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\karib\Documents\Codex\2026-10-28\so\work\arundhathi-final\source\tests\web_timer_regression.py", line 88, in <module>
+    assert status == 409, ("Open graded attempt was replaced by practice", status, result)
+           ^^^^^^^^^^^^^
+AssertionError: ('Open graded attempt was replaced by practice', 200, {'completed': False, 'practice': True, 'quiz': 'quiz-8d0bb2f010f452eb', 'position': 0, 'total': 1, 'answered': 0, 'flagged': False, 'flags': [], 'remaining': 0, 'question': '2+2?', 'subject': 'Math', 'options': ['4', '3'], 'selected': -1, 'feedback': None, 'error': ''})

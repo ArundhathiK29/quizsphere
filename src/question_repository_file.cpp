@@ -1,4 +1,5 @@
 #include "question_repository.hpp"
+#include "input_validation.hpp"
 
 #include <algorithm>
 #include <filesystem>
@@ -293,6 +294,9 @@ public:
     }
 
     Result readTextFile(const std::string& path, std::string* content) const override {
+        if (content == nullptr || !validInputPath(path)) {
+            return {ErrorCode::VALIDATION_FAILED, "Invalid import path or output pointer."};
+        }
         std::error_code exists_ec;
         const bool exists = std::filesystem::exists(path, exists_ec);
         if (exists_ec) {
@@ -306,18 +310,24 @@ public:
         if (!in.is_open()) {
             return {ErrorCode::IO_ERROR, "Unable to open file."};
         }
-        std::ostringstream buffer;
-        buffer << in.rdbuf();
+        // Bound the actual read, including files that grow after opening.
+        std::string buffer(kMaxImportBytes + 1, '\0');
+        in.read(buffer.data(), static_cast<std::streamsize>(buffer.size()));
+        buffer.resize(static_cast<std::size_t>(in.gcount()));
         if (in.bad()) {
             return {ErrorCode::IO_ERROR, "Unable to read file."};
         }
-        *content = buffer.str();
+        if (buffer.size() > kMaxImportBytes) {
+            return {ErrorCode::VALIDATION_FAILED, "Import exceeds the 10 MiB limit."};
+        }
+        *content = std::move(buffer);
         return {ErrorCode::OK, "Read file."};
     }
 
     Result writeTextFileAtomic(const std::string& path,
                                const std::string& content,
                                bool overwrite) const override {
+        if (!validInputPath(path)) return {ErrorCode::VALIDATION_FAILED, "Invalid export path."};
         std::error_code exists_ec;
         const bool exists = std::filesystem::exists(path, exists_ec);
         if (exists_ec) {

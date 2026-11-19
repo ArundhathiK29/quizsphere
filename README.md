@@ -7,11 +7,13 @@ Console-based online quiz system in C++17 (SE Mini-Project, Team 12, UE24CS341A)
 | Area | Status |
 |------|--------|
 | Accounts: registration, login, roles (Student / Instructor / Admin), lockout, failed-login log | Done, tested |
-| Admin operations: enable/disable, change role, remove user (authorization enforced in code) | Done, tested (no console menu yet) |
+| Admin user menu: find/create accounts, change roles, enable/disable, confirmed removal | Implemented, with authorization and persisted CLI tests |
 | Question bank: add/edit/delete, enable/disable, CSV import/export, console menu | Done, tested |
 | Quiz creation and per-quiz scoring | Implemented, with SQLite restart tests |
 | Shuffled attempts, navigation, flags, practice feedback, Student/Instructor quiz menus | Implemented; graded answers persist |
-| Production grading, detailed results, leaderboard and analytics | Awaiting grading integration / assigned follow-up work |
+| Production grading | Merged, including per-question floor and real SQLite integration tests |
+| Results and analytics | Itemised graded results, quiz/topic/all-time rankings, difficulty API, topic/class summaries and CSV transcripts |
+| Optional browser UI | Local Student/Instructor workflow; console retains Admin and CSV/report screens |
 
 ## Build and run
 
@@ -34,9 +36,9 @@ On first launch there is no administrator, so the program asks you to create one
 |----------------------|---------|---------|
 | `QUIZSPHERE_DB` | `quizsphere.db` | SQLite accounts, questions, quizzes, attempts and results |
 | `QUIZSPHERE_IMPORT_QUESTIONS` | unset | One-time import of an existing questions TSV into an empty SQLite question bank |
-| `QUIZSPHERE_AUTH_LOG` | `quizsphere_auth.log` | Failed-login log (timestamp, username, reason; never passwords) |
+| `QUIZSPHERE_AUTH_LOG` | `quizsphere_auth.log` | Failed-login log (timestamp, safe account identifier, reason; never passwords) |
 
-Database and log files are ignored by git. See [DAL persistence](docs/DAL_PERSISTENCE.md) for question migration, transactional saves and reference protection. If you have a `.db` file from an older build, delete it: the schema changed and the program will tell you so.
+Database and log files are ignored by git. See [DAL persistence](docs/DAL_PERSISTENCE.md) for question migration, transactional saves and reference protection. Back up existing databases before upgrading. Use a separate `QUIZSPHERE_DB` path for a clean demonstration; do not delete real account/result data.
 
 ## Tests, static analysis, coverage
 
@@ -55,6 +57,13 @@ docker run --rm quizsphere
 ```
 
 GitHub Actions (`.github/workflows/ci.yml`) runs the same build, tests, cppcheck, coverage report and Docker build on every push and pull request.
+
+## Admin user management
+
+Log in as an Admin and choose **2. Manage users**. Find/create users, change roles,
+enable or disable accounts, or remove a user after typing **YES** to confirm.
+The signed-in Admin cannot change or remove their own account.
+See [Admin user management](docs/ADMIN_USER_MANAGEMENT.md) for the flow and test mapping.
 
 ## Question bank: CSV format, limits and rules
 
@@ -90,6 +99,16 @@ file and rename; application question/attempt writes use SQLite transactions.
 - Admin-only functions re-check the caller against the database on every call, and an admin cannot disable, demote or remove their own account.
 - Failed logins are logged without passwords; text typed into the username field is never written to the log.
 
+## Requirements and traceability
+
+The [editable SRS revision](docs/SRS.md), [complete traceability matrix](docs/REQUIREMENTS_TRACEABILITY.md),
+[implementation design references](docs/IMPLEMENTATION_DESIGN.md) and
+[deviation register](docs/REQUIREMENT_DEVIATIONS.md) are the BL-30 review draft.
+The [baseline](docs/REQUIREMENTS_BASELINE.md) separates merged code, pending PRs
+and unfinished obligations; [verification/handoff](docs/REQUIREMENTS_VERIFICATION.md)
+lists the evidence to refresh before final submission. The original combined PDF
+is retained as the historical source.
+
 ## Layout
 
 ```
@@ -107,6 +126,35 @@ Team 12 - see the project report for roles and responsibilities.
 
 Instructor/Admin sessions can create quizzes through `QuizEngine::createQuiz`. Titles and subject filters are trimmed; blank titles/explicit blank subjects, invalid difficulty values, and nonpositive counts or minute limits are rejected. Only available matching questions are pooled, without duplicate IDs; an insufficient pool fails without saving a smaller quiz. Marks must be finite and strictly positive; the penalty must be finite and nonnegative (zero disables negative marking). Both scoring values and selected questions persist on the quiz and are readable by grading through `QuizRepository`.
 
-The existing quiz tests are supplemented by real SQLite tests in `tests/quiz_engine_sqlite_tests.cpp`, covering filtered selection, authorization, invalid configurations, restart persistence, referenced-question protection and attempt/answer storage. Tests are registered by CMake and run through CTest. Sprint 1 attempts, navigation, modes and menu entry points are described in [Sprint 1 quiz attempts](docs/SPRINT1_QUIZ_ATTEMPTS.md). Production graded submission awaits BL-10 integration.
+The existing quiz tests are supplemented by real SQLite tests in `tests/quiz_engine_sqlite_tests.cpp`, covering filtered selection, authorization, invalid configurations, restart persistence, referenced-question protection and attempt/answer storage. Tests are registered by CMake and run through CTest. Sprint 1 attempts, navigation, modes and menu entry points are described in [Sprint 1 quiz attempts](docs/SPRINT1_QUIZ_ATTEMPTS.md). Production graded submission is integrated with real SQLite persistence and deadline handling.
 
-The grading-floor decision remains with Arundhathi and Chaturya: for +4 correct, -1 wrong and 0 blank, one correct and one wrong produce 4 under a per-question zero floor and 3 under an attempt-total floor. All-wrong answers can leave negative item/topic totals while the attempt total is floored to zero in PR #60. BL-08 stores the requested scoring configuration and does not select between these rules.
+BR-5 is implemented as a per-question zero floor: +4 correct and -1 wrong produce 4 overall. Wrong item scores are floored before aggregation.
+
+# Optional browser interface
+
+Build the additional `quizsphere_web` target and open `http://127.0.0.1:8765/`
+for the Student/Instructor browser workspace. See [browser build, usage and
+scope](docs/WEB_INTERFACE.md). The existing console executable is also available.
+
+
+## Review and final release
+
+This is the integrated Sprint 2 review candidate. [Known limitations](docs/LIMITATIONS.md) state scope/evidence boundaries and the remaining team submission tasks. [Input-validation evidence](docs/INPUT_VALIDATION.md) covers the new negative tests. The earlier [Sprint 1 demonstration](docs/demos/README.md) is included.
+
+Use the console for the complete Admin, question CSV and topic/transcript report workflows. For browser use, run `./build/quizsphere_web` and open `http://127.0.0.1:8765/`; runtime requires the same SQLite/OpenSSL libraries as the console. On Windows use `.exe` executables in the build output.
+
+The `v1.0` tag is reserved for reviewed final main after its CI passes and the final SAD/Sprint 2 demo are uploaded. To freeze that exact verified commit:
+
+```sh
+git switch main
+git pull --ff-only
+git tag -a v1.0 -m "QuizSphere final reviewed release"
+git push origin v1.0
+```
+
+Run those release commands only after the stated prerequisites; this branch does not claim the tag already exists. Contributors can extend the separate core interfaces and add a new adapter without rewriting auth, grading or persistence. See the [implementation design](docs/IMPLEMENTATION_DESIGN.md) and module tests first.
+
+
+## Part 3 testing submission
+
+The [Part 3 summary](docs/PART3_TEST_SUMMARY.md) links the updated Test Case Document, Unit Test Report, System Validation Report, Code Coverage Report and Branch Coverage Report. Raw XML/stdout, source hashes and environment are retained in `docs/evidence/part3-2026-11-19/`. The reports distinguish passing checks from unmet acceptance criteria and formal UAT; no above-90% whole-project branch coverage is claimed.
