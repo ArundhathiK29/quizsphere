@@ -7,12 +7,12 @@ the whole team reviews. Unfinished functions return `ErrorCode::NOT_IMPLEMENTED`
 
 | Module | Header / source | Owner (backlog) | Status |
 |--------|-----------------|-----------------|--------|
-| Auth | `auth.hpp`, `auth.cpp`, `password_hasher.*`, `auth_event_log.*`, `sqlite_user_repository.*` | Arundhathi (BL-03, 11-14, 27) | backend implemented; Admin user console pending #71 |
+| Auth | `auth.hpp`, `auth.cpp`, `password_hasher.*`, `auth_event_log.*`, `sqlite_user_repository.*` | Arundhathi (BL-03, 11-14, 27) | backend and Admin user console implemented in PR #82 candidate |
 | Question Bank | `question_bank.hpp`, `question_bank.cpp`, `question_repository*` | Aryan (BL-05) | implemented |
 | Console UI | `console_menu.hpp`, `console_menu.cpp`, `main.cpp` | Aryan (BL-04) | role menus, question bank and quiz entry points implemented |
-| Quiz Engine | `quiz_engine.hpp`, `quiz_engine.cpp` | Ashwin (BL-07, 08) | creation/scoring, shuffled attempts, navigation and modes implemented; manual production grading handoff merged; runtime timer/auto-submit remains BL-38 |
-| Grading | `grading_module.hpp`, `grading_module.cpp` | Chaturya (BL-10) | real grading, report persistence and per-question floor merged; readable result UI pending #61 |
-| Analytics | `analytics_module.hpp`, `analytics_module.cpp` | see backlog | **stub** |
+| Quiz Engine | `quiz_engine.hpp`, `quiz_engine.cpp` | Ashwin (BL-07, 08) | creation/scoring, shuffled attempts, navigation and modes implemented; production grading handoff and runtime countdown/auto-submit implemented |
+| Grading | `grading_module.hpp`, `grading_module.cpp` | Chaturya (BL-10) | real grading, report persistence and per-question floor merged; readable itemised results implemented |
+| Analytics | `analytics_module.hpp`, `analytics_module.cpp` | see backlog | rankings, difficulty core API, topic summaries and transcript export implemented; dedicated Admin item-analysis display absent |
 | Data Access Layer | `data_access_layer.hpp`, `data_access_layer.cpp` | Ashwin (BL-06) | users, questions, quizzes, attempts and results implemented; see DAL_PERSISTENCE.md |
 
 Shared structs live in `quiz_types.hpp` (`Quiz`, `QuizConfig`, `ScoringScheme`, `Attempt`, `Answer`, `GradeReport`,
@@ -41,8 +41,4 @@ Sprint 1 adds `QuizAttemptSession` (`quiz_attempt.hpp`) and narrow quiz console 
 
 ## Current requirements baseline
 
-Reviewed 15 November 2026 against main `0d9519ab9c93ff0ccb047ba6cee1a86893579855`.
-See [SRS](SRS.md) and [RTM](REQUIREMENTS_TRACEABILITY.md) for complete mappings and
-pending implementations. FR-017 is itemised results; FR-018 is leaderboards.
-Analytics remains a main-branch stub; #62/#70 and #63 contain pending rankings
-and difficulty work. FR-020/021 remain BL-41/42 obligations.
+Status refreshed 19 November 2026 for the PR #82 candidate; this is not a claim that the candidate is merged. FR-017 is itemised results; FR-018 is leaderboards. See [SRS](SRS.md), [RTM](REQUIREMENTS_TRACEABILITY.md) and [deviations](REQUIREMENT_DEVIATIONS.md) for scope and acceptance exceptions. The console is retained alongside an optional loopback browser adapter around the same core. Feature and test ownership remains as recorded in the backlog.

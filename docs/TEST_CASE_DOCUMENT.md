@@ -1,6 +1,6 @@
 # Updated Test Case Document - Part 3
 
-Report date: **2026-11-19 (Asia/Calcutta)**. Tested source: [`cce8549061143fab649eab618051becc6ffc06e7`](https://github.com/ArundhathiK29/quizsphere/commit/cce8549061143fab649eab618051becc6ffc06e7). Later report-only commits preserve the tested source/test hashes in [evidence/part3-2026-11-19/source-manifest.json](evidence/part3-2026-11-19/source-manifest.json).
+Report date: **2026-11-19 (Asia/Calcutta)**. Tested source: [`cce8549061143fab649eab618051becc6ffc06e7`](https://github.com/ArundhathiK29/quizsphere/commit/cce8549061143fab649eab618051becc6ffc06e7). This historical measurement is pinned to that source. A subsequent review follow-up changes console input handling and adds recovery tests; its validation is recorded separately in REVIEW_FOLLOWUP.md. These coverage figures are not remeasured for that follow-up. Original source/test hashes are in [evidence/part3-2026-11-19/source-manifest.json](evidence/part3-2026-11-19/source-manifest.json).
 
 Original STP identifiers are retained, including expanded ST-UI and ST-SEC ranges. The scenario column states the expected outcome; actual executable assertions and fixture inputs are retained in the linked source/logs. Expected password storage is corrected from the historical SHA-256-only wording to salted PBKDF2, matching the reviewed SRS revision. BR-5 remains the per-question zero floor.
 

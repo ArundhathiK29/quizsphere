@@ -1,6 +1,6 @@
 # Known limitations and release boundary
 
-Updated 18 November 2026. The team is freezing feature expansion for this review candidate.
+Updated 19 November 2026. The team is freezing feature expansion for this review candidate.
 
 ## Product limitations
 
@@ -9,12 +9,13 @@ Updated 18 November 2026. The team is freezing feature expansion for this review
 - Browser UI covers Student/Instructor auth, question management, quiz creation, attempts, results and rankings. Account administration, CSV question import/export, class-topic comparison and transcript export are available through the console/core rather than full browser screens. Dedicated difficulty-index presentation is not implemented; the tested core API is available.
 - Per-question zero floor follows retained BR-5: a wrong item's negative mark is floored to zero before summing. This limits the practical effect of a configured penalty; it is not conventional negative marking.
 - In-memory browser sessions expire and require login after restart. Submitted graded data remains in SQLite; practice sessions are deliberately not persisted.
+- Windows console input uses the console input code page; non-ASCII input may be rejected unless the terminal uses UTF-8 (chcp 65001). Rejected Question Bank lines are drained and re-prompted; Unicode terminal compatibility across code pages is not claimed.
 - Full Internet security hardening, independent penetration testing, broad accessibility certification and every OS/compiler combination are not claimed.
 
 ## Evidence limitations
 
 - Line and branch coverage are reported with compiler/scope. Coverage is not proof of correctness; above-90% whole-project branch coverage has not been established and is not claimed. A newly requested numerical target is not waived by this document.
-- Existing performance and usability evidence is retained, but this work does not invent a new formal target-machine PERF-01 result or a first-time-user study. The original SRS targets remain visible in the RTM.
+- PERF-01 has five measured 20-question load/start trials on the recorded local machine (see SYSTEM_VALIDATION_REPORT.md), satisfying the <2 second target in that scope. This does not establish performance on every target machine or multi-user load. USE-01 remains Not Accepted; no first-time-user study or formal UAT approval is claimed.
 - A green test suite proves the named checks at its tested revision; it is not equivalent to lecturer acceptance or a complete final submission.
 
 ## Before final release
@@ -28,4 +29,4 @@ Other limitations above are disclosure of scope/evidence, not a request to build
 
 ## Part 3 measured acceptance status (19 November 2026)
 
-The [updated Test Case Document](TEST_CASE_DOCUMENT.md) retains 73 original-plan IDs: 70 Pass, two Partial (complete alternative flat-file DAL parity and dedicated Admin item-analysis display), and one Not Accepted (original console three-step usability target). Formal team/instructor UAT approval is pending. Five measured 20-question load/start trials satisfy PERF-01 on the recorded machine. Fresh measured line coverage is 3874/4323 (89.61%); branch coverage is 5740/10914 (52.59%), including GCC exception/compiler paths. A separate 90% branch threshold, if imposed, is not met. These disclosures do not silently waive original exit criteria.
+The [updated Test Case Document](TEST_CASE_DOCUMENT.md) retains 73 original-plan IDs: 70 Pass, two Partial (complete alternative flat-file DAL parity and dedicated Admin item-analysis display), and one Not Accepted (original console three-step usability target). Formal team/instructor UAT approval is pending. Five measured 20-question load/start trials satisfy PERF-01 on the recorded machine. At measured source cce8549, line coverage is 3874/4323 (89.61%); branch coverage is 5740/10914 (52.59%), including GCC exception/compiler paths. A separate 90% branch threshold, if imposed, is not met. These disclosures do not silently waive original exit criteria.

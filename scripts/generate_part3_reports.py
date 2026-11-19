@@ -45,7 +45,7 @@ def select(patterns):
 def refs(tests):
     return '; '.join(f"[`{t['name']}`]({rel}/gtest/{t['binary']}.txt)" for t in tests[:4])
 
-stamp = f"Report date: **{a.date} (Asia/Calcutta)**. Tested source: [`{a.revision}`](https://github.com/ArundhathiK29/quizsphere/commit/{a.revision}). Later report-only commits preserve the tested source/test hashes in [{rel}/source-manifest.json]({rel}/source-manifest.json)."
+stamp = f"Report date: **{a.date} (Asia/Calcutta)**. Tested source: [`{a.revision}`](https://github.com/ArundhathiK29/quizsphere/commit/{a.revision}). This historical measurement is pinned to that source. A subsequent review follow-up changes console input handling and adds recovery tests; its validation is recorded separately in REVIEW_FOLLOWUP.md. These coverage figures are not remeasured for that follow-up. Original source/test hashes are in [{rel}/source-manifest.json]({rel}/source-manifest.json)."
 scenarios = {}
 def group(prefix, lines):
     for item in lines.split(';'):

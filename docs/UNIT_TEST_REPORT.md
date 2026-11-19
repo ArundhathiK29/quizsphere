@@ -1,6 +1,6 @@
 # Unit Test Report
 
-Report date: **2026-11-19 (Asia/Calcutta)**. Tested source: [`cce8549061143fab649eab618051becc6ffc06e7`](https://github.com/ArundhathiK29/quizsphere/commit/cce8549061143fab649eab618051becc6ffc06e7). Later report-only commits preserve the tested source/test hashes in [evidence/part3-2026-11-19/source-manifest.json](evidence/part3-2026-11-19/source-manifest.json).
+Report date: **2026-11-19 (Asia/Calcutta)**. Tested source: [`cce8549061143fab649eab618051becc6ffc06e7`](https://github.com/ArundhathiK29/quizsphere/commit/cce8549061143fab649eab618051becc6ffc06e7). This historical measurement is pinned to that source. A subsequent review follow-up changes console input handling and adds recovery tests; its validation is recorded separately in REVIEW_FOLLOWUP.md. These coverage figures are not remeasured for that follow-up. Original source/test hashes are in [evidence/part3-2026-11-19/source-manifest.json](evidence/part3-2026-11-19/source-manifest.json).
 
 Environment: Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39; 12th Gen Intel(R) Core(TM) i5-1235U; g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0. Module-level GoogleTest suites run without the interactive console. The inventory explicitly includes mixed unit/SQLite integration executables; it is not a claim that every individual case is a pure isolated unit test.
 
