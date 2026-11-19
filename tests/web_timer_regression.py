@@ -78,7 +78,12 @@ with tempfile.TemporaryDirectory(prefix="qs-web-timer-") as directory:
         process.wait(timeout=5)
         with closing(sqlite3.connect(db)) as connection:
             if case != "cross-session-manual":
-                connection.execute("UPDATE attempts SET started=strftime('%Y-%m-%dT%H:%M:%SZ','now','-58 seconds')")
+                # Cross-session setup includes another expensive password check.
+                # Leave time to attach both sessions before the real deadline.
+                age = 45 if case == "cross-session-auto" else 58
+                connection.execute(
+                    "UPDATE attempts SET started=strftime('%Y-%m-%dT%H:%M:%SZ','now',?)",
+                    (f"-{age} seconds",))
             connection.commit()
         process = start()
         student = login("student")
@@ -86,11 +91,19 @@ with tempfile.TemporaryDirectory(prefix="qs-web-timer-") as directory:
         assert not state["completed"], "Fixture expired before the test started"
         if case.startswith("cross-session-"):
             second = login("student")
-            ok("/api/attempt/start", {"quiz": quiz, "mode": "graded"}, second)
+            second_state, _ = ok("/api/attempt/start", {"quiz": quiz, "mode": "graded"}, second)
+            assert not second_state["completed"], "Fixture expired before both sessions attached"
             if case == "cross-session-manual":
                 ok("/api/attempt/action", {"action": "submit", "confirmed": "true"}, student)
             else:
-                time.sleep(3)
+                # Observe SQLite, not the HTTP API: polling HTTP could itself
+                # finalise the attempt and hide broken background ticking.
+                deadline = time.monotonic() + second_state["remaining"] / 1000 + 5
+                while time.monotonic() < deadline:
+                    if persisted() == ((1, 1), 1):
+                        break
+                    time.sleep(.05)
+                assert persisted() == ((1, 1), 1), ("Auto-submit missed its deadline", persisted())
             # Another session's completion must be reconciled before polling/actions/guarding.
             state, _ = ok("/api/attempt", identity=second)
             assert state.get("completed"), ("Other session retained an open attempt", state)
