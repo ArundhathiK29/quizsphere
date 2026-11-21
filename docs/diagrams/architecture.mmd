@@ -1,0 +1,25 @@
+flowchart TD
+  UI[Console presentation main console_menu quiz_console analytics_console result_view]
+  WEB[Loopback HTTP adapter and browser UI]
+  AUTH[Auth password_hasher auth_event_log]
+  QB[QuestionBank]
+  QE[QuizEngine and QuizAttemptSession]
+  G[GradingModule]
+  A[AnalyticsModule]
+  UR[IUserRepository and SQLiteUserRepository]
+  QR[QuestionRepository]
+  DAL[QuizRepository and AttemptRepository]
+  DB[(Local SQLite accounts questions options quizzes attempts answers reports topics)]
+  FILE[CSV and explicit legacy import files]
+  WEB --> AUTH
+  WEB --> QB
+  WEB --> QE
+  WEB --> A
+  UI --> AUTH --> UR --> DB
+  UI --> QB --> QR --> DB
+  UI --> QE --> G --> DAL --> DB
+  UI --> A --> DAL
+  QE --> QB
+  QE --> DAL
+  G --> QB
+  QR --> FILE

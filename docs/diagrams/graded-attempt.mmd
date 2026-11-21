@@ -1,0 +1,25 @@
+sequenceDiagram
+  actor Student
+  participant UI as Console timed input or browser adapter
+  participant QE as Engine and attempt session
+  participant DAL as AttemptRepository
+  participant G as GradingModule
+  Student->>UI: Choose quiz and graded mode
+  UI->>QE: start or resume
+  QE->>DAL: Load/create original attempt identity
+  DAL-->>QE: Saved start order answers flags
+  QE-->>UI: Shuffled question and remaining deadline
+  Student->>UI: Answer navigate flag
+  UI->>QE: Save displayed selection
+  QE->>DAL: Persist original option index
+  alt Manual confirmed submission
+    UI->>QE: submit confirmed
+  else Deadline at question or confirmation
+    UI->>QE: submitExpired
+    QE->>DAL: Latch expiry and reload saved answers
+  end
+  QE->>G: gradeAttempt using saved original indexes
+  G->>DAL: Atomic final report and locked attempt
+  DAL-->>G: Success or named failure
+  G-->>UI: Itemised result via engine
+  UI-->>Student: Score and answer breakdown

@@ -139,11 +139,11 @@ scope](docs/WEB_INTERFACE.md). The existing console executable is also available
 
 ## Review and final release
 
-This is the integrated Sprint 2 review candidate. [Known limitations](docs/LIMITATIONS.md) state scope/evidence boundaries and the remaining team submission tasks. [Input-validation evidence](docs/INPUT_VALIDATION.md) covers the new negative tests. The earlier [Sprint 1 demonstration](docs/demos/README.md) is included.
+The integrated Sprint 2 application includes the reviewed #82 implementation and #83 timer-test correction. [Known limitations](docs/LIMITATIONS.md) state scope/evidence boundaries and the remaining team submission tasks. [Input-validation evidence](docs/INPUT_VALIDATION.md) covers the new negative tests. The earlier [Sprint 1 demonstration](docs/demos/README.md) is included.
 
 Use the console for the complete Admin, question CSV and topic/transcript report workflows. For browser use, run `./build/quizsphere_web` and open `http://127.0.0.1:8765/`; runtime requires the same SQLite/OpenSSL libraries as the console. On Windows use `.exe` executables in the build output.
 
-The `v1.0` tag is reserved for reviewed final main after its CI passes and the final SAD/Sprint 2 demo are uploaded. To freeze that exact verified commit:
+The [editable SAD](docs/SAD.md), [Sprint 2 recordings and owner acceptance](docs/demos/README.md), and [final release checklist](docs/RELEASE_CHECKLIST.md) record the final deliverables. The `v1.0` tag is reserved for reviewed final main after the documentation PR is merged and its CI passes. To freeze that exact verified commit:
 
 ```sh
 git switch main
