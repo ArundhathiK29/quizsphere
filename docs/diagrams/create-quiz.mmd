@@ -1,0 +1,18 @@
+sequenceDiagram
+  actor Instructor
+  participant UI as Console or browser adapter
+  participant QE as QuizEngine
+  participant QB as QuestionBank
+  participant DAL as QuizRepository
+  Instructor->>UI: Title duration count filters scoring
+  UI->>QE: createQuiz with role session
+  QE->>QE: Validate role positive values finite scoring
+  QE->>QB: List available matching questions
+  QB-->>QE: Safe question pool
+  alt Sufficient valid pool
+    QE->>DAL: Save quiz and ordered pool atomically
+    DAL-->>QE: Quiz identity
+    QE-->>Instructor: Created quiz
+  else Invalid config or insufficient pool
+    QE-->>Instructor: Validation failure no partial quiz
+  end

@@ -1,0 +1,12 @@
+erDiagram
+  USERS ||--o{ ATTEMPTS : student_identity
+  QUESTIONS ||--o{ OPTIONS : ordered_options
+  QUIZZES ||--o{ QUIZ_Q : pool
+  QUESTIONS ||--o{ QUIZ_Q : referenced
+  QUIZZES ||--o{ ATTEMPTS : assessment
+  ATTEMPTS ||--o{ ATTEMPT_Q : order
+  QUESTIONS ||--o{ ATTEMPT_Q : historical_question
+  ATTEMPTS ||--o{ ANSWERS : selected_original_index
+  ATTEMPTS ||--o| REPORTS : finalized_grade
+  REPORTS ||--o{ ITEM_RESULTS : itemised
+  REPORTS ||--o{ TOPICS : per_subject
