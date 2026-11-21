@@ -1,0 +1,563 @@
+{
+  "date": "2026-11-21",
+  "baseline": "da6d70a6861b33169a24300bf7ae773af54f2813",
+  "ciRun": 44489269211,
+  "issues": [
+    {
+      "number": 37,
+      "title": "BL-37 Record Sprint 2 demo video",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-20T17:40:29Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/37"
+    },
+    {
+      "number": 31,
+      "title": "BL-31 Freeze: release tag and final README",
+      "state": "closed",
+      "state_reason": "not_planned",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T08:26:31Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/31"
+    },
+    {
+      "number": 36,
+      "title": "BL-36 Update SAD with deviations",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T07:23:36Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/36"
+    },
+    {
+      "number": 81,
+      "title": "Retrieve the graded result when newer retained practice reports exist",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T06:36:34Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/81"
+    },
+    {
+      "number": 79,
+      "title": "Browser UI for Student and Instructor flows",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T06:36:32Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/79"
+    },
+    {
+      "number": 30,
+      "title": "BL-30 Update SRS and traceability matrix",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T06:36:31Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/30"
+    },
+    {
+      "number": 29,
+      "title": "BL-29 Unit tests and coverage for auth",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T06:36:29Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/29"
+    },
+    {
+      "number": 28,
+      "title": "BL-28 Input validation across modules",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T06:36:27Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/28"
+    },
+    {
+      "number": 27,
+      "title": "BL-27 Admin manages users and roles",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-19T06:36:26Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/27"
+    },
+    {
+      "number": 44,
+      "title": "BL-44 Unit tests and coverage for grading and analytics",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-18T16:52:39Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/44"
+    },
+    {
+      "number": 42,
+      "title": "BL-42 CSV result transcript",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-18T16:52:31Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/42"
+    },
+    {
+      "number": 41,
+      "title": "BL-41 Per-topic breakdown and weak-topic summary",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-18T16:50:56Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/41"
+    },
+    {
+      "number": 43,
+      "title": "BL-43 Graded attempts cannot be edited",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-18T16:45:24Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/43"
+    },
+    {
+      "number": 34,
+      "title": "BL-34 Performance check",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-16T18:56:56Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/34"
+    },
+    {
+      "number": 33,
+      "title": "BL-33 Usability walkthrough",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-16T18:48:30Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/33"
+    },
+    {
+      "number": 22,
+      "title": "BL-22 Record Sprint 1 demo video",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-16T17:57:22Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/22"
+    },
+    {
+      "number": 40,
+      "title": "BL-40 Unit tests and coverage for quiz engine",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-16T17:44:08Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/40"
+    },
+    {
+      "number": 39,
+      "title": "BL-39 Single attempt lock for graded mode",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-16T17:43:55Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/39"
+    },
+    {
+      "number": 38,
+      "title": "BL-38 Timer and auto-submit",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-16T17:43:43Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/38"
+    },
+    {
+      "number": 26,
+      "title": "BL-26 Per-question difficulty index",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-15T19:06:05Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/26"
+    },
+    {
+      "number": 24,
+      "title": "BL-24 Leaderboard",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-15T19:01:24Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/24"
+    },
+    {
+      "number": 23,
+      "title": "BL-23 Itemised result screen",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-15T18:51:54Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/23"
+    },
+    {
+      "number": 25,
+      "title": "BL-25 Negative marking in grading",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-15T15:36:04Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/25"
+    },
+    {
+      "number": 18,
+      "title": "BL-18 Dockerfile for the build environment",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T11:37:30Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/18"
+    },
+    {
+      "number": 17,
+      "title": "BL-17 Import questions from CSV",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T10:17:42Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/17"
+    },
+    {
+      "number": 16,
+      "title": "BL-16 Export question bank to CSV",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T10:15:07Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/16"
+    },
+    {
+      "number": 15,
+      "title": "BL-15 Question validation",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T10:13:51Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/15"
+    },
+    {
+      "number": 21,
+      "title": "BL-21 Practice mode and graded mode",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T07:19:53Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/21"
+    },
+    {
+      "number": 20,
+      "title": "BL-20 Navigate and flag for review",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T07:19:33Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/20"
+    },
+    {
+      "number": 19,
+      "title": "BL-19 Attempt a quiz with shuffling",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-11-10T07:19:15Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/19"
+    },
+    {
+      "number": 10,
+      "title": "BL-10 Auto-grade a submitted attempt",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "chaturyaprabhakar"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-11-10T06:45:06Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/10"
+    },
+    {
+      "number": 5,
+      "title": "BL-05 Add, edit, delete questions with tags",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-11-01T14:10:05Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/5"
+    },
+    {
+      "number": 4,
+      "title": "BL-04 Console menu skeleton",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-11-01T14:09:12Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/4"
+    },
+    {
+      "number": 35,
+      "title": "BL-35 Unit tests and coverage for question bank",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-01T10:16:05Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/35"
+    },
+    {
+      "number": 32,
+      "title": "BL-32 Disable or enable a question",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "meyself"
+      ],
+      "milestone": "Sprint 2",
+      "closed_at": "2026-11-01T10:16:03Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/32"
+    },
+    {
+      "number": 8,
+      "title": "BL-08 Scoring scheme per quiz",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-11-01T09:07:19Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/8"
+    },
+    {
+      "number": 7,
+      "title": "BL-07 Create a quiz",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-11-01T09:06:59Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/7"
+    },
+    {
+      "number": 6,
+      "title": "BL-06 SQLite schema and data access layer",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "Ashwin-Venky"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-11-01T09:02:31Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/6"
+    },
+    {
+      "number": 2,
+      "title": "BL-02 PR template and review rule",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-10-31T04:22:39Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/2"
+    },
+    {
+      "number": 1,
+      "title": "BL-01 Module headers and interface stubs",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-10-28T15:40:09Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/1"
+    },
+    {
+      "number": 14,
+      "title": "BL-14 Failed login logging",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-10-27T06:47:14Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/14"
+    },
+    {
+      "number": 13,
+      "title": "BL-13 Enable or disable a user account",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-10-27T06:47:13Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/13"
+    },
+    {
+      "number": 12,
+      "title": "BL-12 Role based access checks",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-10-27T06:47:13Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/12"
+    },
+    {
+      "number": 11,
+      "title": "BL-11 Login with hashed passwords",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 1",
+      "closed_at": "2026-10-27T06:47:12Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/11"
+    },
+    {
+      "number": 9,
+      "title": "BL-09 GitHub Actions CI",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-10-27T06:47:11Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/9"
+    },
+    {
+      "number": 3,
+      "title": "BL-03 Register a new user",
+      "state": "closed",
+      "state_reason": "completed",
+      "assignees": [
+        "ArundhathiK29"
+      ],
+      "milestone": "Sprint 0",
+      "closed_at": "2026-10-27T06:47:11Z",
+      "url": "https://github.com/ArundhathiK29/quizsphere/issues/3"
+    }
+  ],
+  "demoLinks": {
+    "console": "https://github.com/user-attachments/assets/3520239e-5728-4251-9ae9-85c99cce6672",
+    "browser": "https://github.com/user-attachments/assets/6533ef92-61c7-42ff-b112-56eac896d83b"
+  }
+}
