@@ -1,6 +1,6 @@
 # Sprint tracking and acceptance snapshot
 
-Captured 21 November 2026 from GitHub. Baseline: da6d70a6861b33169a24300bf7ae773af54f2813. Raw snapshot: EVIDENCE_MANIFEST.json. Closed issue counts are tracking state; they are not an assertion of lecturer acceptance or final release.
+Captured 21 November 2026 from GitHub. Baseline: da6d70a6861b33169a24300bf7ae773af54f2813. Raw snapshot: EVIDENCE_MANIFEST.json. This snapshot was captured before the release audit reopened #31; the current live issue is the release gate. Closed issue counts are historical tracking state, not an assertion of lecturer acceptance or final release.
 
 | Sprint | Tracked | Closed | Open |
 | --- | --- | --- | --- |
