@@ -1,6 +1,6 @@
 # Known limitations and release boundary
 
-Updated 19 November 2026. The team is freezing feature expansion for this review candidate.
+Updated 21 November 2026. The team is freezing feature expansion for this release scope.
 
 ## Product limitations
 
@@ -20,8 +20,8 @@ Updated 19 November 2026. The team is freezing feature expansion for this review
 
 ## Before final release
 
-- A teammate must review this integration candidate. Preserve its existing commits when merging.
-- Aryan must finish/reconcile the final SAD/deviation document (BL-36) and upload the full Sprint 2 demo (BL-37). The earlier Sprint 1 video is included.
+- Production #82 and test correction #83 are merged, and main CI passed. The final documentation PR still needs teammate review and merge; preserve its commits.
+- The editable SAD/deviations/diagrams are integrated in this final documentation candidate for BL-36. Aryan uploaded two Sprint 2 clips to #37; their links and the owner's explicit acceptance of the omitted analytics/export recording are in demos/README.md. No lecturer waiver is claimed.
 - Merge the reviewed work, verify final main CI, then create the `v1.0` tag at that exact final main commit. BL-31 stays open until the tag exists; this candidate prepares its README but does not pretend the freeze has occurred.
 
 Other limitations above are disclosure of scope/evidence, not a request to build more features before this review.
